@@ -1,0 +1,14 @@
+.stack {
+  font-size: clamp(14px, 3vw, 20px);
+  .icon {
+    width: clamp(40px, 6.5vw, 150px);
+    height: clamp(25px, 6.5vw, 150px);
+    border-radius: 5px;
+    padding: 3px 7px;
+    display: flex;
+    transition: all 0.3s ease-in-out;
+    &--active {
+      background-color: #fff;
+    }
+  }
+}
