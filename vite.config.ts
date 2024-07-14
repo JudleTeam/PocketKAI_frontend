@@ -4,10 +4,14 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    port: 3000,
+  },
+
   plugins: [
     react(),
     VitePWA({
-      registerType: 'prompt',
+      registerType: 'autoUpdate',
       injectRegister: false,
 
       pwaAssets: {
@@ -16,8 +20,8 @@ export default defineConfig({
       },
 
       manifest: {
-        name: 'pocket-kai',
-        short_name: 'pocket-kai',
+        name: 'Pocket KAI',
+        short_name: 'Pocket KAI',
         description: 'A progressive web app for viewing schedules',
         theme_color: '#ffffff',
       },

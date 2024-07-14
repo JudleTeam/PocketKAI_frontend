@@ -1,7 +1,7 @@
 .navbar {
   position: absolute;
   bottom: 20px;
-  width: clamp(340px, 90%, 1000px);
+  width: 100%;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1;

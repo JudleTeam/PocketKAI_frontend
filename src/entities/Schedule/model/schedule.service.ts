@@ -29,7 +29,7 @@ export const scheduleService = {
   },
   getScheduleByGroupId: (
     id: number,
-    params: ScheduleParams
+    params?: ScheduleParams
   ): ApiResponse<Schedule> => {
     return apiClient.get<Schedule>(`group/by_id/${id}/schedule/`, {
       params,
