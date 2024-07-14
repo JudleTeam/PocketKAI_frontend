@@ -3,6 +3,8 @@ import styles from './schedule-layout.module.scss';
 import { DateTime } from 'luxon';
 import { useSchedule } from '../../model/schedule.store';
 import { useEffect } from 'react';
+import { DatebarActions } from '@/widgets';
+import { Datebar } from '@/shared/ui/ui-datebar/Datebar';
 export function ScheduleLayout() {
   const todayDate = DateTime.now().setLocale('ru').toFormat('d MMMM');
   const { weekSchedule, getWeekScheduleByName } = useSchedule();
@@ -21,9 +23,19 @@ export function ScheduleLayout() {
           <Text>{todayDate}</Text>
           <Text>Чётная неделя</Text>
         </VStack>
-        <Select w="40%" placeholder="Опции"></Select>
+        <Select 
+          w="50%"
+          placeholder="Опции"
+          className={styles['schedule__select']}
+        >
+          <option value="group">Добавить группу</option>
+          <option value="exams">Расписание экзаменов</option>
+          <option value="schedule">Полное расписание</option>
+        </Select>
       </div>
-      <div className={styles['schedule__navigation']}></div>
+      <div className={styles['schedule__navigation']}>
+        <Datebar datebarActions={DatebarActions}/>
+      </div>
       <div className={styles['schedule__content']}></div>
     </div>
   );
