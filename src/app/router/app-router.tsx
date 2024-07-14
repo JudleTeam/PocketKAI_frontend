@@ -1,3 +1,4 @@
+import { Schedule } from '@/pages';
 import { RootLayout } from '@/widgets';
 import {
   createBrowserRouter,
@@ -10,7 +11,7 @@ const routes = createRoutesFromElements([
   <Route>
     <Route path="/" element={<RootLayout />}>
       <Route index element={<Navigate to="/schedule" />} />
-      <Route path="schedule" element={<div>Schedule</div>} />
+      <Route path="schedule" element={<Schedule />} />
       <Route path="assignments" element={<div>Assignments</div>} />
       <Route path="teachers" element={<div>Teachers</div>} />
       <Route path="account" element={<div>Account</div>} />
