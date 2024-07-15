@@ -1,13 +1,32 @@
-import { Select, Text, VStack } from '@chakra-ui/react';
+import { Text, useDisclosure, VStack, 
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,Button,
+  Box,
+  Input,
+  Heading, 
+  HStack, Stack,Divider,
+  RadioGroup, Radio,
+} from '@chakra-ui/react';
 import styles from './schedule-layout.module.scss';
 import { DateTime } from 'luxon';
 import { useSchedule } from '../../model/schedule.store';
 import { useEffect } from 'react';
 import { DatebarActions } from '@/widgets';
 import { Datebar } from '@/shared/ui/ui-datebar/Datebar';
+import { Select } from '@/widgets';
+import { UiModal } from '@/shared/ui/ui-modal/UiModal';
+import { SelectGroupAction } from '@/widgets';
+
 export function ScheduleLayout() {
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const todayDate = DateTime.now().setLocale('ru').toFormat('d MMMM');
   const { weekSchedule, getWeekScheduleByName } = useSchedule();
+
   console.log(weekSchedule);
   useEffect(() => {
     getWeekScheduleByName('6210');
@@ -23,20 +42,13 @@ export function ScheduleLayout() {
           <Text>{todayDate}</Text>
           <Text>Чётная неделя</Text>
         </VStack>
-        <Select 
-          w="50%"
-          placeholder="Опции"
-          className={styles['schedule__select']}
-        >
-          <option value="group">Добавить группу</option>
-          <option value="exams">Расписание экзаменов</option>
-          <option value="schedule">Полное расписание</option>
-        </Select>
+        <Select isOpen={isOpen} onOpen={onOpen}></Select>
       </div>
       <div className={styles['schedule__navigation']}>
         <Datebar datebarActions={DatebarActions}/>
       </div>
       <div className={styles['schedule__content']}></div>
+      <UiModal isOpen={isOpen} onClose={onClose} modalActions={() => SelectGroupAction(onClose)} />
     </div>
   );
 }
