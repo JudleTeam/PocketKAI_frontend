@@ -1,6 +1,7 @@
 import { useSchedule } from '@/entities';
 import { Box, VStack } from '@chakra-ui/react';
 import { useEffect } from 'react';
+import { useState } from 'react';
 import styles from './DatebarContent.module.scss';
 
 function getDayOfWeek(date: string) {
@@ -14,10 +15,19 @@ function compareDay(date: string) {
 }
 export function DatebarContent() {
   const { schedule, getScheduleByName } = useSchedule();
+  const [currentGroup, setCurrentGroup] = useState<string | null>(null);
   const handleChangeDate = () => {};
   useEffect(() => {
-    getScheduleByName('6210');
+    const storedGroup = localStorage.getItem('currentGroup');
+    if (storedGroup) {
+      setCurrentGroup(JSON.parse(storedGroup))  ;
+    }
   }, []);
+  useEffect(() => {
+    if (currentGroup) {
+      getScheduleByName(currentGroup);
+    }
+  }, [currentGroup, getScheduleByName])
   return (
     <>
       {schedule?.days.map((day, index) => {

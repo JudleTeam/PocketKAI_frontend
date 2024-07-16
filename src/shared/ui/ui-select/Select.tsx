@@ -9,6 +9,8 @@ import {
   MenuDivider,
   Button,
 } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { useGroup } from '@/entities/Group/model/group.store';
 
 export function UiSelect({
   // isOpen,
@@ -17,6 +19,16 @@ export function UiSelect({
   isOpen: boolean;
   onOpen: () => void;
 }) {
+  const [favoriteGroups, setFavoriteGroups] = useState<string[]>([]);
+  useEffect(() => {
+    const storedGroups = localStorage.getItem('favoriteGroups');
+    if (storedGroups) {
+      setFavoriteGroups(JSON.parse(storedGroups));
+    }
+  }, [localStorage.getItem('favoriteGroups')]);
+  const handleOptionChange = (value: string) => {
+    localStorage.setItem('currentGroup', JSON.stringify(value))
+  };
   return (
     <Menu>
       <MenuButton
@@ -53,12 +65,11 @@ export function UiSelect({
           fontWeight={'500'}
           fontSize={'16px'}
         >
-          <MenuItemOption value="1" bg={'blue.500'}>
-            6210
-          </MenuItemOption>
-          <MenuItemOption value="2" bg={'blue.500'}>
-            6211
-          </MenuItemOption>
+          {favoriteGroups.map(group => (
+            <MenuItemOption key={group} value={group} bg={'blue.500'} onClick={() => handleOptionChange(group)} >
+              {group}
+            </MenuItemOption>
+          ))}
         </MenuOptionGroup>
       </MenuList>
     </Menu>
