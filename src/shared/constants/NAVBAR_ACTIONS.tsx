@@ -1,8 +1,7 @@
-import { AccountIcon } from '../assets/icons/AccountIcon';
-import { AssignmentIcon } from '../assets/icons/AssignmentIcon';
-
-import { ScheduleIcon } from '../assets/icons/ScheduleIcon';
-import { TeachersIcon } from '../assets/icons/TeachersIcon';
+import { AccountIcon } from '../assets/chakraIcons/AccountIcon';
+import { AssignmentIcon } from '../assets/chakraIcons/AssignmentIcon';
+import { ScheduleIcon } from '../assets/chakraIcons/ScheduleIcon';
+import { TeachersIcon } from '../assets/chakraIcons/TeachersIcon';
 
 export const NAVBAR_ACTIONS = [
   {

@@ -37,9 +37,7 @@ export function AppLayout() {
         {/* <a href={`#${currentDay}`}>Перейти</a> */}
       </div>
       {!isTeachers && <UiDatebar datebarContent={DatebarContent} />}
-      <div className={styles['app-layout__content']}>
-        <Outlet context={[currentDay, setCurrentDay] satisfies ContextType} />
-      </div>
+      <Outlet context={[currentDay, setCurrentDay] satisfies ContextType} />
       <UiModal
         isOpen={isOpen}
         onClose={onClose}

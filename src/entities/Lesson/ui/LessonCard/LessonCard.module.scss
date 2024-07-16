@@ -2,7 +2,16 @@
 
 .lesson-card {
   display: flex;
-  // justify-content: space-between;
+  cursor: pointer;
+  &::after {
+    content: url('../../../../shared/assets/icons/right-arrow.svg');
+    width: 10px;
+    height: 16px;
+    transition: transform 0.3s ease-in-out;
+  }
+  &:hover::after {
+    transform: translate(3px, 0);
+  }
   &__time {
     display: flex;
     flex-direction: column;
@@ -23,8 +32,21 @@
     }
   }
   &__timeline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    &::after {
+      width: 2px;
+      height: 75px;
+      background-color: $blue-light-transparent;
+      content: '';
+    }
   }
   &__info {
     text-align: left;
+    width: 65%;
+    font-size: clamp(14px, 4vw, 16px);
+    line-height: 1.4rem;
   }
 }

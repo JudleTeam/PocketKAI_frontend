@@ -22,43 +22,41 @@ export function UiSelect({
       <MenuButton
         w={'50%'}
         as={Button}
-        className={''}
         transition="all 0.2s"
         rightIcon={<ChevronDownIcon />}
-        bg={'#3182CE'}
+        bg={'blue.500'}
         color={'#ffffff'}
-        _hover={{ bg: '#3182CE', boxShadow: 'outline' }}
-        _focus={{ bg: '#3182CE' }}
-        fontFamily={'Montserrat'}
+        _hover={{ bg: 'blue.500', boxShadow: 'outline' }}
+        _focus={{ bg: 'blue.500' }}
         fontWeight={'500'}
         fontSize={'16px'}
       >
         Группа
       </MenuButton>
-      <MenuList color={'#ffffff'} bg={'#3182CE'} fontFamily={'Montserrat'}>
+      <MenuList color={'#ffffff'} bg={'blue.500'}>
         <MenuItem
           onClick={onOpen}
           color={'#ffffff'}
-          bg={'#3182CE'}
+          bg={'blue.500'}
           fontWeight={'400'}
           fontSize={'16px'}
           justifyContent={'center'}
         >
           Добавить группу
         </MenuItem>
-        <MenuDivider></MenuDivider>
+        <MenuDivider />
         <MenuOptionGroup
           title="Группа"
           type="radio"
           color={'#ffffff'}
-          bg={'#3182CE'}
+          bg={'blue.500'}
           fontWeight={'500'}
           fontSize={'16px'}
         >
-          <MenuItemOption value="1" bg={'#3182CE'}>
+          <MenuItemOption value="1" bg={'blue.500'}>
             6210
           </MenuItemOption>
-          <MenuItemOption value="2" bg={'#3182CE'}>
+          <MenuItemOption value="2" bg={'blue.500'}>
             6211
           </MenuItemOption>
         </MenuOptionGroup>

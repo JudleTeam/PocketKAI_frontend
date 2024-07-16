@@ -1,6 +1,6 @@
 export { UiSelect } from '../shared/ui/ui-select/Select';
 
-export { useToday } from './app-layout/lib/useToday';
+export { useCurrentDay } from './app-layout/lib/useCurrentDay';
 
 export { AppLayout } from './app-layout/ui/AppLayout';
 

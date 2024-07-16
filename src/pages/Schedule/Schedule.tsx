@@ -2,9 +2,9 @@ import { useSchedule, LessonCard } from '@/entities';
 import styles from './Schedule.module.scss';
 import { Text } from '@chakra-ui/react';
 import { getFormattedDate } from './lib/getFormattedDate';
-import { useToday } from '@/widgets';
+import { useCurrentDay } from '@/widgets';
 export function Schedule() {
-  const [currentDay, setCurrentDay] = useToday();
+  const [currentDay, setCurrentDay] = useCurrentDay();
   const { schedule } = useSchedule();
   return (
     <div className={styles['schedule']}>
@@ -15,7 +15,7 @@ export function Schedule() {
             {getFormattedDate(day.date)}
           </Text>
           {day.lessons.map((lesson) => (
-            <LessonCard lesson={lesson} key={lesson.id} />
+            <LessonCard lesson={lesson} dayDate={day.date} key={lesson.id} />
           ))}
         </div>
       ))}

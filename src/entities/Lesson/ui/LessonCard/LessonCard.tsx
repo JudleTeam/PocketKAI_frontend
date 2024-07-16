@@ -2,8 +2,16 @@ import { Lesson } from '@/shared';
 import { HStack, Text } from '@chakra-ui/react';
 import styles from './LessonCard.module.scss';
 import { DateTime } from 'luxon';
+import { lessonStateIcons } from '../../constants/lessonStateIcons';
+import { getLessonState } from '../../lib/getLessonState';
 
-export function LessonCard({ lesson }: { lesson: Lesson }) {
+export function LessonCard({
+  lesson,
+  dayDate,
+}: {
+  lesson: Lesson;
+  dayDate: string;
+}) {
   return (
     <HStack className={styles['lesson-card']} alignItems="flex-start">
       <div className={styles['lesson-card__time']}>
@@ -17,9 +25,16 @@ export function LessonCard({ lesson }: { lesson: Lesson }) {
             DateTime.fromISO(lesson.end_time).toFormat('HH:mm')}
         </p>
       </div>
-      <div className={styles['lesson-card__timeline']}></div>
+      <div className={styles['lesson-card__timeline']}>
+        {lessonStateIcons[getLessonState(lesson, dayDate)]}
+      </div>
       <div className={styles['lesson-card__info']}>
-        <Text color="blue.900" fontWeight="bold" lineHeight={1.3}>
+        <Text
+          color="blue.900"
+          fontWeight="bold"
+          lineHeight={1.3}
+          className={styles['lesson-card__name']}
+        >
           {lesson.discipline.name}
         </Text>
         <Text color="blue.900" fontWeight={'medium'}>
