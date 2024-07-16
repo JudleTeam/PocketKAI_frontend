@@ -1,3 +1,4 @@
+import { useGroup } from '@/entities';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
   Menu,
@@ -9,26 +10,15 @@ import {
   MenuDivider,
   Button,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-import { useGroup } from '@/entities/Group/model/group.store';
 
-export function UiSelect({
+export function SelectGroup({
   // isOpen,
   onOpen,
 }: {
   isOpen: boolean;
   onOpen: () => void;
 }) {
-  const [favoriteGroups, setFavoriteGroups] = useState<string[]>([]);
-  useEffect(() => {
-    const storedGroups = localStorage.getItem('favoriteGroups');
-    if (storedGroups) {
-      setFavoriteGroups(JSON.parse(storedGroups));
-    }
-  }, [localStorage.getItem('favoriteGroups')]);
-  const handleOptionChange = (value: string) => {
-    localStorage.setItem('currentGroup', JSON.stringify(value))
-  };
+  const { favouriteGroups, currentGroup, setCurrentGroup } = useGroup();
   return (
     <Menu>
       <MenuButton
@@ -43,7 +33,7 @@ export function UiSelect({
         fontWeight={'500'}
         fontSize={'16px'}
       >
-        Группа
+        {currentGroup ? currentGroup.group_name : 'Группа'}
       </MenuButton>
       <MenuList color={'#ffffff'} bg={'blue.500'}>
         <MenuItem
@@ -65,9 +55,14 @@ export function UiSelect({
           fontWeight={'500'}
           fontSize={'16px'}
         >
-          {favoriteGroups.map(group => (
-            <MenuItemOption key={group} value={group} bg={'blue.500'} onClick={() => handleOptionChange(group)} >
-              {group}
+          {favouriteGroups.map((group) => (
+            <MenuItemOption
+              key={group.id}
+              value={group.id}
+              bg={'blue.500'}
+              onClick={() => setCurrentGroup(group)}
+            >
+              {group.group_name}
             </MenuItemOption>
           ))}
         </MenuOptionGroup>

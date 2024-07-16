@@ -1,4 +1,6 @@
-export { SelectGroupAction } from './Group/ui/select-group/SelectGroupActions';
+export { useGroup } from './Group/model/group.store';
+
+export { AddGroupToFavourite } from '../features/add-group-to-favourite/AddGroupToFavourite';
 
 export { LessonCard } from './Lesson/ui/LessonCard/LessonCard';
 

@@ -1,5 +1,3 @@
-export { UiSelect } from '../shared/ui/ui-select/Select';
-
 export { useCurrentDay } from './app-layout/lib/useCurrentDay';
 
 export { AppLayout } from './app-layout/ui/AppLayout';

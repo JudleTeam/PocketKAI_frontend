@@ -1,3 +1,4 @@
-export type GroupNameParams = {
-    group_name: string;
-}
+export type GroupSearchParams = {
+  group_name: string;
+  limit?: number;
+};

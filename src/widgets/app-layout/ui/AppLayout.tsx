@@ -6,8 +6,9 @@ import { UiDatebar } from '@/shared/ui/ui-datebar/UiDatebar';
 import { DatebarContent } from '../datebar-content/DatebarContent';
 import styles from './AppLayout.module.scss';
 import { UiModal } from '@/shared/ui/ui-modal/UiModal';
-import { SelectGroupAction } from '@/entities';
-import { UiSelect } from '@/shared/ui/ui-select/Select';
+import { AddGroupToFavourite } from '@/features';
+import { SelectGroup } from '@/features';
+
 export type ContextType = [
   string,
   React.Dispatch<React.SetStateAction<string>>
@@ -33,7 +34,7 @@ export function AppLayout() {
           <Text fontSize={22}>{todayDate}</Text>
           <Text>Чётная неделя</Text>
         </VStack>
-        <UiSelect isOpen={isOpen} onOpen={onOpen} />
+        <SelectGroup isOpen={isOpen} onOpen={onOpen} />
         {/* <a href={`#${currentDay}`}>Перейти</a> */}
       </div>
       {!isTeachers && <UiDatebar datebarContent={DatebarContent} />}
@@ -41,7 +42,7 @@ export function AppLayout() {
       <UiModal
         isOpen={isOpen}
         onClose={onClose}
-        modalActions={() => SelectGroupAction(onClose)}
+        modalActions={() => AddGroupToFavourite(onClose)}
       />
     </div>
   );

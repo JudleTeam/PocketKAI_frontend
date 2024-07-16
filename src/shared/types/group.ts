@@ -12,11 +12,11 @@ export type Group = {
   educational_program_url: string;
 };
 
-export type GroupName = {
+export type GroupShort = {
   id: string;
   kai_id: number;
   group_name: string;
   is_verified: boolean;
   parsed_at: string | null;
   schedule_parsed_at: string | null;
-}
+};
