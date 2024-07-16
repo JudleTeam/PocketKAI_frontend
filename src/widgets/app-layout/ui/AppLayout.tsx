@@ -1,11 +1,13 @@
-import { Select, Text, VStack } from '@chakra-ui/react';
+import { Text, useDisclosure, VStack } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
 import { useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { UiDatebar } from '@/shared/ui/ui-datebar/UiDatebar';
 import { DatebarContent } from '../datebar-content/DatebarContent';
 import styles from './AppLayout.module.scss';
-
+import { UiModal } from '@/shared/ui/ui-modal/UiModal';
+import { SelectGroupAction } from '@/entities';
+import { UiSelect } from '@/shared/ui/ui-select/Select';
 export type ContextType = [
   string,
   React.Dispatch<React.SetStateAction<string>>
@@ -13,7 +15,7 @@ export type ContextType = [
 
 export function AppLayout() {
   const todayDate = DateTime.now().setLocale('ru').toFormat('d MMMM');
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [currentDay, setCurrentDay] = useState<string>(
     DateTime.now().toFormat('yyyy-LL-dd')
   );
@@ -31,21 +33,18 @@ export function AppLayout() {
           <Text fontSize={22}>{todayDate}</Text>
           <Text>Чётная неделя</Text>
         </VStack>
-        <Select
-          w="50%"
-          placeholder="Опции"
-          className={styles['app-layout__select']}
-        >
-          <option value="group">Добавить группу</option>
-          <option value="exams">Расписание экзаменов</option>
-          <option value="schedule">Полное расписание</option>
-        </Select>
+        <UiSelect isOpen={isOpen} onOpen={onOpen} />
         {/* <a href={`#${currentDay}`}>Перейти</a> */}
       </div>
       {!isTeachers && <UiDatebar datebarContent={DatebarContent} />}
       <div className={styles['app-layout__content']}>
         <Outlet context={[currentDay, setCurrentDay] satisfies ContextType} />
       </div>
+      <UiModal
+        isOpen={isOpen}
+        onClose={onClose}
+        modalActions={() => SelectGroupAction(onClose)}
+      />
     </div>
   );
 }

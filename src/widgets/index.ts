@@ -1,6 +1,4 @@
-export { SelectGroupAction } from './select-group/SelectGroupActions';
-
-export { Select } from './select/Select';
+export { UiSelect } from '../shared/ui/ui-select/Select';
 
 export { useToday } from './app-layout/lib/useToday';
 
