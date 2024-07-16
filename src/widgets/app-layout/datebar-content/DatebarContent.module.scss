@@ -1,0 +1,24 @@
+.datebar {
+  padding: 10px 0;
+  gap: 0px !important;
+}
+
+.date {
+  font-family: 'Montserrat';
+  font-weight: 500;
+  font-size: 18px;
+  color: #1a365d;
+  gap: 0 !important;
+  p:last-child {
+    color: rgba(26, 54, 93, 0.5);
+  }
+}
+.current {
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+  padding: 5px;
+  border-radius: 8px;
+  color: #3182ce;
+  p:last-child {
+    color: rgba(49, 130, 206, 0.5);
+  }
+}

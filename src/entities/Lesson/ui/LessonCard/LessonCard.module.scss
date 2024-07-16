@@ -1,0 +1,30 @@
+@import '../../../../app/styles/variables.scss';
+
+.lesson-card {
+  display: flex;
+  // justify-content: space-between;
+  &__time {
+    display: flex;
+    flex-direction: column;
+
+    p {
+      font-family: 'Chivo Mono', monospace;
+      line-height: 1.5rem;
+      font-weight: 600;
+    }
+    &--start {
+      font-size: 1.5rem;
+      color: $blue-heavy;
+    }
+    &--end {
+      font-size: 1.2rem;
+      text-align: right;
+      color: $blue-light-transparent;
+    }
+  }
+  &__timeline {
+  }
+  &__info {
+    text-align: left;
+  }
+}
