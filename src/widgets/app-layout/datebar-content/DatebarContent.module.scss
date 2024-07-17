@@ -1,9 +1,9 @@
-.datebar {
-  padding: 10px 0;
-  gap: 0px !important;
-}
 
 .date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   font-family: 'Montserrat';
   font-weight: 500;
   font-size: 18px;
@@ -21,4 +21,8 @@
   p:last-child {
     color: rgba(49, 130, 206, 0.5);
   }
+}
+
+.date-wrapper{
+  padding: 5px 0 !important;
 }

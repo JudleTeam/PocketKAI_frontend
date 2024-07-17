@@ -37,12 +37,6 @@
     flex-direction: column;
     align-items: center;
     gap: 3px;
-    &::after {
-      width: 2px;
-      height: 75px;
-      background-color: $blue-light-transparent;
-      content: '';
-    }
   }
   &__info {
     text-align: left;

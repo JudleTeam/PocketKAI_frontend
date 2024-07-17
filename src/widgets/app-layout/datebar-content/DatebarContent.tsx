@@ -1,6 +1,9 @@
 import { useSchedule } from '@/entities';
 import { Box, VStack } from '@chakra-ui/react';
 import styles from './DatebarContent.module.scss';
+import { Swiper, SwiperSlide } from 'swiper/react'
+import 'swiper/css';
+import { useState } from 'react';
 
 function getDayOfWeek(date: string) {
   const daysOfWeek = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
@@ -13,30 +16,31 @@ function compareDay(date: string) {
 }
 export function DatebarContent() {
   const { schedule } = useSchedule();
-  const handleChangeDate = () => {};
   return (
-    <>
+    <Swiper
+        slidesPerView={7}
+        spaceBetween={10}
+        pagination={{
+          clickable: true,
+        }}
+        className={`${styles['date-wrapper']}`}
+      >
       {schedule?.days.map((day, index) => {
         const dayOfWeek = getDayOfWeek(day.date);
         return (
+          <SwiperSlide className={`${styles['date-slide']}`}>
           <Box w={'100%'} key={index}>
-            {compareDay(day.date) ? (
-              <VStack className={`${styles['date']} ${styles['current']}`}>
-                <p>{day.date.slice(-2)}</p>
-                <p>{dayOfWeek}</p>
-              </VStack>
-            ) : (
-              <VStack
-                onClick={handleChangeDate}
-                className={`${styles['date']}`}
+              <a
+                href={`#${day.date}`}
+                className={`${styles['date']} ${compareDay(day.date) ? styles['current'] : ''}`}
               >
                 <p>{day.date.slice(-2)}</p>
                 <p>{dayOfWeek}</p>
-              </VStack>
-            )}
+              </a>
           </Box>
+          </SwiperSlide>
         );
       })}
-    </>
+    </Swiper>
   );
 }

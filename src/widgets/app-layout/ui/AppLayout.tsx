@@ -20,11 +20,18 @@ export function AppLayout() {
   const [currentDay, setCurrentDay] = useState<string>(
     DateTime.now().toFormat('yyyy-LL-dd')
   );
+  const currentDateBySchedule = () => {
+    const currentDate = DateTime.now()
+    const WeekAgo = currentDate.minus({ days: 0 });
+    return WeekAgo.toFormat('yyyy-LL-dd')
+  }
   const { currentGroup } = useGroup();
   const { getScheduleByName } = useSchedule();
   useEffect(() => {
+    const date_from = currentDateBySchedule()
+    const days_count = 14
     if (currentGroup) {
-      getScheduleByName(currentGroup.group_name);
+      getScheduleByName(currentGroup.group_name, {date_from, days_count} );
     }
   }, [currentGroup, getScheduleByName]);
   const location = useLocation();

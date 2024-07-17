@@ -4,6 +4,7 @@ import styles from './LessonCard.module.scss';
 import { DateTime } from 'luxon';
 import { lessonStateIcons } from '../../constants/lessonStateIcons';
 import { getLessonState } from '../../lib/getLessonState';
+import { lessonStateLine } from '../../constants/lessonStateLine';
 
 export function LessonCard({
   lesson,
@@ -12,6 +13,11 @@ export function LessonCard({
   lesson: Lesson;
   dayDate: string;
 }) {
+  const LessonTypes = {
+    "пр": <Text color='#2B6CB0'>Практика</Text>,
+    "лек": <Text color='#6B46C1'>Лекция</Text>,
+    "л.р.": <Text color='#2C7A7B'>Лаб. работа</Text>
+  }
   return (
     <HStack className={styles['lesson-card']} alignItems="flex-start">
       <div className={styles['lesson-card__time']}>
@@ -26,7 +32,8 @@ export function LessonCard({
         </p>
       </div>
       <div className={styles['lesson-card__timeline']}>
-        {lessonStateIcons[getLessonState(lesson, dayDate)]}
+        {lessonStateIcons[getLessonState(lesson, dayDate).state]}
+        {lessonStateLine(getLessonState(lesson, dayDate).color)}
       </div>
       <div className={styles['lesson-card__info']}>
         <Text
@@ -38,10 +45,15 @@ export function LessonCard({
           {lesson.discipline.name}
         </Text>
         <Text color="blue.900" fontWeight={'medium'}>
-          Здание: {lesson.building_number} Ауд: {lesson.audience_number}
+          {lesson.building_number === lesson.audience_number ? 
+          <>Здание: {lesson.building_number}</> :
+          <>Здание: {lesson.building_number} Ауд: {lesson.audience_number}</>}
         </Text>
         <Text color={'blue.600'} fontWeight={'light'}>
-          {lesson.original_lesson_type}
+          
+          {lesson.original_lesson_type &&
+          //@ts-ignore 
+          LessonTypes[lesson.original_lesson_type]}
         </Text>
       </div>
     </HStack>
