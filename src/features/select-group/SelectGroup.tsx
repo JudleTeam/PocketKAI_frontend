@@ -34,7 +34,7 @@ export function SelectGroup({
       >
         {currentGroup ? currentGroup.group_name : 'Группа'}
       </MenuButton>
-      <MenuList color={'#ffffff'} bg={'blue.500'}>
+      <MenuList color={'#ffffff'} bg={'blue.500'} zIndex={2}>
         <MenuItem
           onClick={onOpen}
           color={'#ffffff'}
