@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Chivo+Mono:ital,wght@0,100..900;1,100..900&display=swap');
 html,
 body {
   width: 100%;
@@ -7,9 +7,15 @@ body {
   margin: 0;
   padding: 0;
 }
+body * {
+  font-family: 'Montserrat';
+}
 #root {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
+}
+.chakra-radio__label {
+  width: 100%;
 }

@@ -1,0 +1,47 @@
+@import '../../../../app/styles/variables.scss';
+
+.lesson-card {
+  display: flex;
+  cursor: pointer;
+  &::after {
+    content: url('../../../../shared/assets/icons/right-arrow.svg');
+    width: 10px;
+    height: 16px;
+    padding-top: 5px;
+    transition: transform 0.3s ease-in-out;
+  }
+  &:hover::after {
+    transform: translate(3px, 0);
+  }
+  &__time {
+    display: flex;
+    flex-direction: column;
+
+    p {
+      font-family: 'Chivo Mono', monospace;
+      line-height: 1.5rem;
+      font-weight: 600;
+    }
+    &--start {
+      font-size: 1.5rem;
+      color: $blue-heavy;
+    }
+    &--end {
+      font-size: 1.2rem;
+      text-align: right;
+      color: $blue-light-transparent;
+    }
+  }
+  &__timeline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+  &__info {
+    text-align: left;
+    width: 65%;
+    font-size: clamp(14px, 4vw, 18px);
+    line-height: 1.4rem;
+  }
+}

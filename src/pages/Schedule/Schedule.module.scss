@@ -1,0 +1,14 @@
+.schedule {
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding: 10px 0 ;
+}
+
+.day {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

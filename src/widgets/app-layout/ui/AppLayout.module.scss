@@ -1,0 +1,16 @@
+.app-layout {
+  height: 100%;
+  scrollbar-width: none;
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &__navigation {
+  }
+  &__select {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+  }
+}

@@ -1,5 +1,5 @@
-import { Schedule } from '@/pages';
-import { RootLayout } from '@/widgets';
+import { Assignments, Schedule, Teachers } from '@/pages';
+import { RootLayout, AppLayout } from '@/widgets';
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -10,11 +10,16 @@ import {
 const routes = createRoutesFromElements([
   <Route>
     <Route path="/" element={<RootLayout />}>
-      <Route index element={<Navigate to="/schedule" />} />
-      <Route path="schedule" element={<Schedule />} />
-      <Route path="assignments" element={<div>Assignments</div>} />
-      <Route path="teachers" element={<div>Teachers</div>} />
-      <Route path="account" element={<div>Account</div>} />
+      <Route element={<AppLayout />}>
+        <Route index element={<Navigate to="/schedule" />} />
+        <Route path="schedule" element={<Schedule />} />
+        <Route path="assignments" element={<Assignments />} />
+        <Route path="teachers" element={<Teachers />} />
+      </Route>
+      <Route
+        path="account"
+        element={<div style={{ height: '100%' }}>Account</div>}
+      />
     </Route>
   </Route>,
 ]);

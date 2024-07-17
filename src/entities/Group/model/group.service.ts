@@ -1,4 +1,5 @@
-import { apiClient, ApiResponse, Group } from '@/shared';
+import { apiClient, ApiResponse, Group, GroupShort } from '@/shared';
+import { GroupSearchParams } from './types';
 
 export const groupService = {
   getAllGroups: (): ApiResponse<Group[]> => {
@@ -9,5 +10,12 @@ export const groupService = {
   },
   getGroupById: (id: number): ApiResponse<Group> => {
     return apiClient.get<Group>(`/group/by_id/${id}`);
+  },
+  suggestGroupByName: (
+    params: GroupSearchParams
+  ): ApiResponse<GroupShort[]> => {
+    return apiClient.get<GroupShort[]>(`/group/suggest`, {
+      params,
+    });
   },
 };
