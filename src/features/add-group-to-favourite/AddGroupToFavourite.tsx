@@ -9,132 +9,126 @@ import {
   ModalFooter,
   Button,
   Divider,
+  Checkbox,
+  RadioGroup,
+  Radio,
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
-import { useState, useEffect } from 'react';
+import React from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import Select from 'react-select';
 import { useGroup } from '@/entities';
+import { GroupShort, SelectItem } from '@/shared';
 type IFormInput = {
-  group_name: OptionType;
-};
-type OptionType = {
-  label: string;
-  value: string;
+  group: SelectItem<GroupShort>;
+  addToFavourite: boolean;
 };
 export function AddGroupToFavourite(onClose: () => void) {
-  const { searchedGroups, suggestGroupByName } = useGroup();
-  const [value, setValue] = useState('');
-  const [options, setOptions] = useState<OptionType[]>([]);
-  const { resetField, handleSubmit, control } = useForm<IFormInput>();
-  const [favoriteGroups, setFavoriteGroups] = useState<string[]>([]);
-  useEffect(() => {
-    suggestGroupByName({ group_name: value });
-    setOptions(
-      searchedGroups.map((group) => ({
-        label: group.group_name,
-        value: group.group_name,
-      }))
-    );
-  }, [value]);
-  useEffect(() => {
-    const storedGroups = localStorage.getItem('favoriteGroups');
-    if (storedGroups) {
-      setFavoriteGroups(JSON.parse(storedGroups));
-    }
-  }, []);
-  const addItem = (groupName: string) => {
-    if (!favoriteGroups.includes(groupName)) {
-      const newFavoriteGroups = [...favoriteGroups, groupName];
-      setFavoriteGroups(newFavoriteGroups);
-      localStorage.setItem('favoriteGroups', JSON.stringify(newFavoriteGroups));
-    }
-  };
+  const {
+    searchedGroups,
+    suggestGroupByName,
+    favouriteGroups,
+    removeGroupFromFavourite,
+    addGroupToFavourite,
+    setCurrentGroup,
+    getGroupByName,
+    currentGroup,
+  } = useGroup();
+  const { resetField, handleSubmit, control, register } = useForm<IFormInput>();
+
   const handleInputChange = (newValue: string) => {
-    setValue(newValue);
-    console.log(value);
+    suggestGroupByName({ group_name: newValue });
   };
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    addItem(data.group_name.value);
-    resetField('group_name');
+    if (data.addToFavourite) {
+      addGroupToFavourite(data.group.value);
+    }
+    setCurrentGroup(data.group.value);
+    resetField('group');
+    onClose();
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <ModalHeader
-        fontSize={'24px'}
-        fontWeight={'600'}
-        fontFamily={'Montserrat'}
-        color={'#1A365D'}
-      >
+      <ModalHeader fontSize={'24px'} fontWeight={'600'} color={'blue.900'}>
         Выбор группы
       </ModalHeader>
       <ModalCloseButton />
       <ModalBody>
         <Controller
-          name="group_name"
+          name="group"
           control={control}
           render={({ field }) => (
             <Select
               {...field}
               placeholder="Введите группу"
               onInputChange={handleInputChange}
-              options={options}
-              onChange={(selectedOption) => field.onChange(selectedOption)}
+              noOptionsMessage={() => 'Ничего не найдено'}
+              options={searchedGroups.map((group) => ({
+                label: group.group_name,
+                value: group,
+              }))}
             />
           )}
         />
+        <Checkbox
+          display={'flex'}
+          flexDir={'row-reverse'}
+          justifyContent={'space-between'}
+          spacing={0}
+          mt={2}
+          iconSize={'lg'}
+          {...register('addToFavourite')}
+        >
+          Добавить группу в избранное?
+        </Checkbox>
         <Box>
-          {favoriteGroups.length > 0 ? (
-            <Heading
-              padding={'15px 0'}
-              fontSize={'20px'}
-              fontWeight={'600'}
-              fontFamily={'Montserrat'}
-              color={'#1A365D'}
-            >
-              Избранные группы
-            </Heading>
-          ) : (
-            <></>
-          )}
-          <Stack
-            fontSize={'18px'}
-            fontWeight={'500'}
-            fontFamily={'Montserrat'}
-            color={'#1A365D'}
+          <Heading
+            py={'15px'}
+            fontSize={'20px'}
+            fontWeight={'600'}
+            color={'blue.900'}
           >
-            {favoriteGroups.map((group, index) => (
-              <>
-                <Box
-                  key={index}
-                  w={'100%'}
-                  display={'flex'}
-                  alignItems={'center'}
-                  justifyContent={'space-between'}
-                  padding={'5px 0;'}
-                >
-                  <Text>{group}</Text>
-                  <DeleteIcon
-                    w={'20px'}
-                    onClick={() => {
-                      const updatedGroups = favoriteGroups.filter(
-                        (item) => item !== group
-                      );
-                      setFavoriteGroups(updatedGroups);
-                      localStorage.setItem(
-                        'favoriteGroups',
-                        JSON.stringify(updatedGroups)
-                      );
-                    }}
-                  />
-                </Box>
-                <Divider />
-              </>
-            ))}
-          </Stack>
+            Избранные группы
+          </Heading>
+
+          <RadioGroup
+            onChange={(groupName) => getGroupByName(groupName)}
+            value={currentGroup?.group_name}
+          >
+            <Stack fontSize={'18px'} fontWeight={'500'} color={'blue.900'}>
+              {favouriteGroups.map((group) => (
+                <React.Fragment key={group.id}>
+                  <Radio
+                    key={group.id}
+                    value={group.group_name}
+                    py={'5px'}
+                    w={'100%'}
+                  >
+                    <Box
+                      display={'flex'}
+                      justifyContent={'space-between'}
+                      alignItems={'center'}
+                      w={'100%'}
+                    >
+                      <Text fontSize={'20px'} fontWeight={'normal'}>
+                        {group.group_name}
+                      </Text>
+                      <DeleteIcon
+                        w={'20px'}
+                        onClick={() => {
+                          removeGroupFromFavourite(group);
+                        }}
+                      />
+                    </Box>
+                  </Radio>
+                  <Divider />
+                </React.Fragment>
+              ))}
+            </Stack>
+          </RadioGroup>
         </Box>
       </ModalBody>
-      <ModalFooter fontFamily={'Montserrat'}>
+      <ModalFooter>
         <Button w="40%" colorScheme="blue" mr={3} type="submit">
           Сохранить
         </Button>

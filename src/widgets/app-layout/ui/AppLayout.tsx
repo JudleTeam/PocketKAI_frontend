@@ -1,6 +1,6 @@
 import { Text, useDisclosure, VStack } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { UiDatebar } from '@/shared/ui/ui-datebar/UiDatebar';
 import { DatebarContent } from '../datebar-content/DatebarContent';
@@ -8,6 +8,7 @@ import styles from './AppLayout.module.scss';
 import { UiModal } from '@/shared/ui/ui-modal/UiModal';
 import { AddGroupToFavourite } from '@/features';
 import { SelectGroup } from '@/features';
+import { useGroup, useSchedule } from '@/entities';
 
 export type ContextType = [
   string,
@@ -15,11 +16,17 @@ export type ContextType = [
 ];
 
 export function AppLayout() {
-  const todayDate = DateTime.now().setLocale('ru').toFormat('d MMMM');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [currentDay, setCurrentDay] = useState<string>(
     DateTime.now().toFormat('yyyy-LL-dd')
   );
+  const { currentGroup } = useGroup();
+  const { getScheduleByName } = useSchedule();
+  useEffect(() => {
+    if (currentGroup) {
+      getScheduleByName(currentGroup.group_name);
+    }
+  }, [currentGroup, getScheduleByName]);
   const location = useLocation();
   const isTeachers = location.pathname.includes('teachers');
   return (
@@ -31,7 +38,9 @@ export function AppLayout() {
           color={'blue.900'}
           gap={0.4}
         >
-          <Text fontSize={22}>{todayDate}</Text>
+          <Text fontSize={22}>
+            {DateTime.now().setLocale('ru').toFormat('d MMMM')}
+          </Text>
           <Text>Чётная неделя</Text>
         </VStack>
         <SelectGroup isOpen={isOpen} onOpen={onOpen} />

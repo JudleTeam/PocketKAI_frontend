@@ -16,3 +16,6 @@ body * {
   margin: 0;
   padding: 0;
 }
+.chakra-radio__label {
+  width: 100%;
+}

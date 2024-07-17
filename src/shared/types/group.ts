@@ -1,4 +1,5 @@
 export type Group = {
+  id: string;
   kai_id: bigint;
   group_leader_id: string;
   pinned_text: string;

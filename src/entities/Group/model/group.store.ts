@@ -19,7 +19,7 @@ type GroupActions = {
   setCurrentGroup: (group: Group | GroupShort) => void;
   removeCurrentGroup: () => void;
   addGroupToFavourite: (group: GroupShort) => void;
-  deleteGroupFromFavourite: (group: GroupShort) => void;
+  removeGroupFromFavourite: (group: GroupShort) => void;
 };
 
 export const useGroup = create<GroupState & GroupActions>()(
@@ -43,7 +43,9 @@ export const useGroup = create<GroupState & GroupActions>()(
       },
       suggestGroupByName: async (params: GroupSearchParams) => {
         const response = await groupService.suggestGroupByName(params);
-        set({ searchedGroups: response.data });
+        set({
+          searchedGroups: response.data,
+        });
       },
 
       setCurrentGroup: (group) => {
@@ -59,7 +61,7 @@ export const useGroup = create<GroupState & GroupActions>()(
           favouriteGroups: [...state.favouriteGroups, group],
         }));
       },
-      deleteGroupFromFavourite: (group: GroupShort) => {
+      removeGroupFromFavourite: (group: GroupShort) => {
         set((state) => ({
           favouriteGroups: state.favouriteGroups.filter(
             (favouriteGroup) => favouriteGroup.id !== group.id
@@ -69,7 +71,10 @@ export const useGroup = create<GroupState & GroupActions>()(
     }),
     {
       name: 'favourite-group-storage',
-      partialize: (state) => ({ favouriteGroups: state.favouriteGroups }),
+      partialize: (state) => ({
+        favouriteGroups: state.favouriteGroups,
+        currentGroup: state.currentGroup,
+      }),
     }
   )
 );

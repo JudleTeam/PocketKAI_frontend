@@ -12,7 +12,6 @@ import {
 } from '@chakra-ui/react';
 
 export function SelectGroup({
-  // isOpen,
   onOpen,
 }: {
   isOpen: boolean;
@@ -54,6 +53,7 @@ export function SelectGroup({
           bg={'blue.500'}
           fontWeight={'500'}
           fontSize={'16px'}
+          defaultValue={currentGroup?.id}
         >
           {favouriteGroups.map((group) => (
             <MenuItemOption

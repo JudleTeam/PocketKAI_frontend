@@ -16,7 +16,10 @@ const routes = createRoutesFromElements([
         <Route path="assignments" element={<Assignments />} />
         <Route path="teachers" element={<Teachers />} />
       </Route>
-      <Route path="account" element={<div>Account</div>} />
+      <Route
+        path="account"
+        element={<div style={{ height: '100%' }}>Account</div>}
+      />
     </Route>
   </Route>,
 ]);
