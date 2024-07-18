@@ -3,6 +3,7 @@ import { Box } from '@chakra-ui/react';
 import styles from './DatebarContent.module.scss';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
+import './Swiper.scss'
 
 function getDayOfWeek(date: string) {
   const daysOfWeek = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];

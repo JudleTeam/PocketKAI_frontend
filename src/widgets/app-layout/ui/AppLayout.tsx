@@ -21,17 +21,17 @@ export function AppLayout() {
     DateTime.now().toFormat('yyyy-LL-dd')
   );
   const currentDateBySchedule = () => {
-    const currentDate = DateTime.now()
+    const currentDate = DateTime.now();
     const WeekAgo = currentDate.minus({ days: 0 });
-    return WeekAgo.toFormat('yyyy-LL-dd')
-  }
+    return WeekAgo.toFormat('yyyy-LL-dd');
+  };
   const { currentGroup } = useGroup();
   const { getScheduleByName } = useSchedule();
   useEffect(() => {
-    const date_from = currentDateBySchedule()
-    const days_count = 14
+    const date_from = currentDateBySchedule();
+    const days_count = 14;
     if (currentGroup) {
-      getScheduleByName(currentGroup.group_name, {date_from, days_count} );
+      getScheduleByName(currentGroup.group_name, { date_from, days_count });
     }
   }, [currentGroup, getScheduleByName]);
   const location = useLocation();
@@ -51,7 +51,6 @@ export function AppLayout() {
           <Text>Чётная неделя</Text>
         </VStack>
         <SelectGroup isOpen={isOpen} onOpen={onOpen} />
-        {/* <a href={`#${currentDay}`}>Перейти</a> */}
       </div>
       {!isTeachers && <UiDatebar datebarContent={DatebarContent} />}
       <Outlet context={[currentDay, setCurrentDay] satisfies ContextType} />
