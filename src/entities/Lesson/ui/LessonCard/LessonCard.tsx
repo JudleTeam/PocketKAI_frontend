@@ -1,4 +1,4 @@
-import { Lesson, Nullable } from '@/shared';
+import { Lesson } from '@/shared';
 import { HStack, Text } from '@chakra-ui/react';
 import styles from './LessonCard.module.scss';
 import { DateTime } from 'luxon';
@@ -6,7 +6,7 @@ import { lessonStateIcons } from '../../constants/lessonStateIcons';
 import { getLessonState } from '../../lib/getLessonState';
 import { lessonStateLine } from '../../constants/lessonStateLine';
 import { LessonTypes } from '../../constants/lessonTypes';
-import { LessonBuildingType } from '../../constants/lessonTypes';
+import { getLessonBuilding } from '../../lib/getLessonBuilding';
 
 export function LessonCard({
   lesson,
@@ -15,7 +15,6 @@ export function LessonCard({
   lesson: Lesson;
   dayDate: string;
 }) {
-  
   return (
     <HStack className={styles['lesson-card']} alignItems="flex-start">
       <div className={styles['lesson-card__time']}>
@@ -43,12 +42,10 @@ export function LessonCard({
           {lesson.discipline.name}
         </Text>
         <Text color="blue.900" fontWeight={'medium'}>
-          {LessonBuildingType(lesson.building_number, lesson.audience_number)}
+          {getLessonBuilding(lesson.building_number, lesson.audience_number)}
         </Text>
         <Text fontWeight={'meduim'}>
-          {lesson.parsed_lesson_type &&
-            //@ts-expect-error will fix later
-            LessonTypes[lesson.parsed_lesson_type]}
+          {lesson.parsed_lesson_type && LessonTypes[lesson.parsed_lesson_type]}
         </Text>
       </div>
     </HStack>
