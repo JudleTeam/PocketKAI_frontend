@@ -1,10 +1,12 @@
-import { Lesson } from '@/shared';
+import { Lesson, Nullable } from '@/shared';
 import { HStack, Text } from '@chakra-ui/react';
 import styles from './LessonCard.module.scss';
 import { DateTime } from 'luxon';
 import { lessonStateIcons } from '../../constants/lessonStateIcons';
 import { getLessonState } from '../../lib/getLessonState';
 import { lessonStateLine } from '../../constants/lessonStateLine';
+import { LessonTypes } from '../../constants/lessonTypes';
+import { LessonBuildingType } from '../../constants/lessonTypes';
 
 export function LessonCard({
   lesson,
@@ -13,11 +15,7 @@ export function LessonCard({
   lesson: Lesson;
   dayDate: string;
 }) {
-  const LessonTypes = {
-    пр: <Text color="#2B6CB0">Практика</Text>,
-    лек: <Text color="#6B46C1">Лекция</Text>,
-    'л.р.': <Text color="#2C7A7B">Лаб. работа</Text>,
-  };
+  
   return (
     <HStack className={styles['lesson-card']} alignItems="flex-start">
       <div className={styles['lesson-card__time']}>
@@ -45,18 +43,12 @@ export function LessonCard({
           {lesson.discipline.name}
         </Text>
         <Text color="blue.900" fontWeight={'medium'}>
-          {lesson.building_number === lesson.audience_number ? (
-            <>Здание: {lesson.building_number}</>
-          ) : (
-            <>
-              Здание: {lesson.building_number} Ауд: {lesson.audience_number}
-            </>
-          )}
+          {LessonBuildingType(lesson.building_number, lesson.audience_number)}
         </Text>
-        <Text color={'blue.600'} fontWeight={'light'}>
-          {lesson.original_lesson_type &&
+        <Text fontWeight={'meduim'}>
+          {lesson.parsed_lesson_type &&
             //@ts-expect-error will fix later
-            LessonTypes[lesson.original_lesson_type]}
+            LessonTypes[lesson.parsed_lesson_type]}
         </Text>
       </div>
     </HStack>

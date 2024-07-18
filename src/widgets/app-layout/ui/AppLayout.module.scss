@@ -2,9 +2,17 @@
   height: 100%;
   scrollbar-width: none;
   &__header {
+    background-color: #ffffff;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    position: sticky;
+    padding: 20px 0 0 0;
+    top: 0px;
+    &-select{
+      display: flex;
+      justify-content: space-between ;
+      align-items: center;
+    }
   }
   &__navigation {
   }

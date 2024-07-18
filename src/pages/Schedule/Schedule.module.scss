@@ -11,4 +11,22 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  &__timeline{
+    display: flex;
+    gap: 0.5rem;
+    &-stub{
+      width: 72px;
+    }
+    &-part{
+      width: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &-line{
+        width: 2px;
+        height: 20px;
+      }
+    }
+  }
 }
+

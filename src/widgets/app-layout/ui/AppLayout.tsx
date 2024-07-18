@@ -1,4 +1,4 @@
-import { Text, useDisclosure, VStack } from '@chakra-ui/react';
+import { Text, useDisclosure, VStack,HStack } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
@@ -39,6 +39,7 @@ export function AppLayout() {
   return (
     <div className={styles['app-layout']}>
       <div className={styles['app-layout__header']}>
+        <HStack className={styles['app-layout__header-select']}>
         <VStack
           alignItems={'flex-start'}
           fontWeight={'medium'}
@@ -51,9 +52,10 @@ export function AppLayout() {
           <Text>Чётная неделя</Text>
         </VStack>
         <SelectGroup isOpen={isOpen} onOpen={onOpen} />
+        </HStack>
         {/* <a href={`#${currentDay}`}>Перейти</a> */}
+        {!isTeachers && <UiDatebar datebarContent={DatebarContent} />}
       </div>
-      {!isTeachers && <UiDatebar datebarContent={DatebarContent} />}
       <Outlet context={[currentDay, setCurrentDay] satisfies ContextType} />
       <UiModal
         isOpen={isOpen}
