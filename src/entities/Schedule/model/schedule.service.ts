@@ -1,5 +1,5 @@
-import { apiClient, ApiResponse, Schedule, WeekSchedule } from '@/shared';
-import { ScheduleParams, WeekScheduleParams } from './types';
+import { apiClient, ApiResponse, Schedule, WeekSchedule, WeekParity } from '@/shared';
+import { ParityParams, ScheduleParams, WeekScheduleParams } from './types';
 
 export const scheduleService = {
   getWeekScheduleByGroupName: (
@@ -35,4 +35,11 @@ export const scheduleService = {
       params,
     });
   },
+  getWeekParity: (
+    params?: ParityParams
+  ): ApiResponse<WeekParity> => {
+    return apiClient.get<WeekParity>(`week_parity`, {
+      params,
+    })
+  }
 };

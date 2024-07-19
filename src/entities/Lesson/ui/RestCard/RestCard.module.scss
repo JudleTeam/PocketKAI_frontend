@@ -1,22 +1,12 @@
 @import '../../../../app/styles/variables.scss';
 
-.lesson-card {
+.rest-card {
   display: flex;
-  cursor: pointer;
-  &::after {
-    content: url('../../../../shared/assets/icons/right-arrow.svg');
-    width: 10px;
-    height: 16px;
-    padding-top: 5px;
-    transition: transform 0.3s ease-in-out;
-  }
-  &:hover::after {
-    transform: translate(3px, 0);
-  }
   &__time {
     display: flex;
     flex-direction: column;
-    
+    cursor:auto;
+    opacity: 0;
     p {
       font-family: 'Chivo Mono', monospace;
       line-height: 1.5rem;
@@ -26,11 +16,6 @@
       font-size: 1.5rem;
       color: $blue-heavy;
     }
-    &--end {
-      font-size: 1.2rem;
-      text-align: right;
-      color: $blue-light-transparent;
-    }
   }
   &__timeline {
     height: 100%;
@@ -38,10 +23,14 @@
     flex-direction: column;
     align-items: center;
     gap: 3px;
+    &-line{
+      height: 24px;
+      width: 2px;
+    }
   }
   &__info {
     text-align: left;
-    width: 58%;
+    width: 60%;
     font-size: clamp(13px, 4vw, 18px);
     line-height: 1.6rem;
   }

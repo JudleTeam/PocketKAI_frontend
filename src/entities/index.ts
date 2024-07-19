@@ -1,3 +1,5 @@
+export { RestCard } from './Lesson/ui/RestCard/RestCard';
+
 export { useGroup } from './Group/model/group.store';
 
 export { AddGroupToFavourite } from '../features/add-group-to-favourite/AddGroupToFavourite';

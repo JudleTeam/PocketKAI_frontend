@@ -24,3 +24,9 @@ export type Schedule = {
   parsed_at: string;
   days: Day[];
 };
+
+export type WeekParity = {
+  date: string;
+  parity: 'odd' | 'even';
+  int_parity: number;
+}
