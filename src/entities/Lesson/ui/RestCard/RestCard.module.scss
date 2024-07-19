@@ -2,9 +2,20 @@
 
 .rest-card {
   display: flex;
-  cursor: pointer;
-  &__time-stub {
-    width: 72px;
+  &__time {
+    display: flex;
+    flex-direction: column;
+    cursor:auto;
+    opacity: 0;
+    p {
+      font-family: 'Chivo Mono', monospace;
+      line-height: 1.5rem;
+      font-weight: 600;
+    }
+    &--start {
+      font-size: 1.5rem;
+      color: $blue-heavy;
+    }
   }
   &__timeline {
     height: 100%;
@@ -12,10 +23,14 @@
     flex-direction: column;
     align-items: center;
     gap: 3px;
+    &-line{
+      height: 24px;
+      width: 2px;
+    }
   }
   &__info {
     text-align: left;
-    width: 70%;
+    width: 60%;
     font-size: clamp(13px, 4vw, 18px);
     line-height: 1.6rem;
   }

@@ -32,7 +32,7 @@ export function SelectGroup({
         fontWeight={'500'}
         fontSize={'16px'}
       >
-        {currentGroup ? currentGroup.group_name : 'Группа'}
+        {currentGroup ? `Гр. ${currentGroup.group_name}` : 'Группа'}
       </MenuButton>
       <MenuList color={'#ffffff'} bg={'blue.500'} zIndex={2}>
         <MenuItem

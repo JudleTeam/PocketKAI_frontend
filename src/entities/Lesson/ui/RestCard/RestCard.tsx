@@ -1,17 +1,20 @@
-import { HStack, Text } from "@chakra-ui/react"
+import { HStack, Text, Box } from "@chakra-ui/react"
 import styles from './RestCard.module.scss'
 import { getRestState } from "../../lib/getRestState"
-import { RestIcon } from "@/shared/assets/chakraIcons/RestIcon"
 import { lessonStateIcons } from "../../constants/lessonStateIcons"
-import { lessonStateLine } from "../../constants/lessonStateLine"
 
 export function RestCard({dayDate}:{dayDate:string}){
     return(
         <HStack className={styles["rest-card"]} alignItems="flex-start">
-      <div className={styles["rest-card__time-stub"]} ></div>
+      <div className={styles["rest-card__time"]} >
+        <p className={styles['rest-card__time--start']}>
+         13:30
+        </p>
+      </div>
       <div className={styles['rest-card__timeline']}>
         {lessonStateIcons[getRestState(dayDate).state]}
-        {lessonStateLine(getRestState(dayDate).color)}
+        {/* {lessonStateLine(getRestState(dayDate).color)} */}
+        <Box bgColor={getRestState(dayDate).color} className={styles['rest-card__timeline-line']}></Box>
       </div>
       <div className={styles['rest-card__info']}>
         <Text
@@ -20,20 +23,7 @@ export function RestCard({dayDate}:{dayDate:string}){
           lineHeight={1.3}
           className={styles['rest-card__name']}
         >
-            Выходной
-        </Text>
-        <Text color="blue.900" fontWeight={'medium'}>
-          Здание: Дом Ауд: Кровать
-        </Text>
-        <Text 
-        as={'span'}
-        color="#1FB725"
-        display="flex"
-        alignItems="center"
-        gap="5px"
-        fontWeight={'meduim'}>
-          <RestIcon/> 
-          Отдых
+            Время отдыхать
         </Text>
       </div>
     </HStack>

@@ -4,7 +4,10 @@ import { Text, Box } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
 import { getFormattedDate } from './lib/getFormattedDate';
 import { RestCard } from '@/entities/Lesson/ui/RestCard/RestCard';
+import { Lesson } from '@/shared';
 import { useEffect } from 'react';
+import React from 'react';
+
 //import { useCurrentDay } from '@/widgets';
 export function Schedule() {
   //const [currentDay, setCurrentDay] = useCurrentDay();
@@ -25,13 +28,17 @@ export function Schedule() {
           </div>
           {day.lessons.length > 0 ? 
             (day.lessons.map((lesson) => (
-              <LessonCard lesson={lesson} dayDate={day.date} key={lesson.id} />
+              <>
+                <LessonCard lesson={lesson} dayDate={day.date} key={lesson.id} />
+              </>
             )))
           :
             (<RestCard dayDate={day.date}/>)
           }
         </div>
       ))}
+      
     </div>
   );
 }
+
