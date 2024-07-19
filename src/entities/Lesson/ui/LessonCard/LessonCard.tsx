@@ -1,5 +1,5 @@
 import { Lesson } from '@/shared';
-import { HStack, Text, VStack } from '@chakra-ui/react';
+import { HStack, Text } from '@chakra-ui/react';
 import styles from './LessonCard.module.scss';
 import { DateTime } from 'luxon';
 import { lessonStateIcons } from '../../constants/lessonStateIcons';

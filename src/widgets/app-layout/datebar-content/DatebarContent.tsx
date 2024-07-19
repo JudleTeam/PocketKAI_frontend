@@ -42,16 +42,18 @@ export function DatebarContent({
         return (
           <SwiperSlide key={day.date}>
             <Box w={'100%'}>
-              <a
-                href={`#${day.date}`}
+              <button
                 className={`${styles['date']} ${
                   isToday(day.date) ? styles['current'] : ''
                 } ${currentDay === day.date ? styles['today'] : ''}`}
-                onClick={() => setCurrentDay(day.date)}
+                onClick={() => {
+                  document.getElementById(day.date)?.scrollIntoView();
+                  setCurrentDay(day.date);
+                }}
               >
                 <p>{day.date.slice(-2)}</p>
                 <p>{getDayOfWeek(day.date)}</p>
-              </a>
+              </button>
             </Box>
           </SwiperSlide>
         );

@@ -18,7 +18,6 @@ export function useScrollSpy(schedule: Nullable<Schedule>) {
           if (entry.isIntersecting) {
             const newDay = entry.target.id;
             setCurrentDay(newDay);
-            console.log(newDay);
             const dateIndex = days.findIndex((day) => day.date === newDay);
             if (swiperRef.current) {
               swiperRef.current.slideTo(dateIndex);

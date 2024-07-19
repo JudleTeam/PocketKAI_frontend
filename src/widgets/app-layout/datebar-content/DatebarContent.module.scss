@@ -6,7 +6,7 @@
   font-family: 'Montserrat';
   font-weight: 500;
   font-size: clamp(16px, 4vw, 18px);
-  padding-inline: 5px;
+  width: clamp(40px, 4.5vw, 50px);
   color: #1a365d;
   p:last-child {
     color: rgba(26, 54, 93, 0.5);
