@@ -26,14 +26,20 @@ export function AppLayout() {
     return WeekAgo.toFormat('yyyy-LL-dd');
   };
   const { currentGroup } = useGroup();
-  const { getScheduleByName } = useSchedule();
+  const { getScheduleByName, getWeekParity, parity } = useSchedule();
   useEffect(() => {
+    getWeekParity()
     const date_from = currentDateBySchedule();
     const days_count = 14;
     if (currentGroup) {
       getScheduleByName(currentGroup.group_name, { date_from, days_count });
     }
   }, [currentGroup, getScheduleByName]);
+  console.log(parity)
+  const parityTypes = {
+    odd: 'Нечётная неделя',
+    even: 'Чётная неделя',
+  }
   const location = useLocation();
   const isTeachers = location.pathname.includes('teachers');
   return (
@@ -48,7 +54,7 @@ export function AppLayout() {
           <Text fontSize={22}>
             {DateTime.now().setLocale('ru').toFormat('d MMMM')}
           </Text>
-          <Text>Чётная неделя</Text>
+          <Text>{parity && parityTypes[parity?.parity]}</Text>
         </VStack>
         <SelectGroup isOpen={isOpen} onOpen={onOpen} />
       </div>

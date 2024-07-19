@@ -1,0 +1,22 @@
+@import '../../../../app/styles/variables.scss';
+
+.rest-card {
+  display: flex;
+  cursor: pointer;
+  &__time-stub {
+    width: 72px;
+  }
+  &__timeline {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+  &__info {
+    text-align: left;
+    width: 70%;
+    font-size: clamp(13px, 4vw, 18px);
+    line-height: 1.6rem;
+  }
+}

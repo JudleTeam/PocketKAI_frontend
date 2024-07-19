@@ -3,6 +3,8 @@ import styles from './Schedule.module.scss';
 import { Text, Box } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
 import { getFormattedDate } from './lib/getFormattedDate';
+import { RestCard } from '@/entities/Lesson/ui/RestCard/RestCard';
+import { useEffect } from 'react';
 //import { useCurrentDay } from '@/widgets';
 export function Schedule() {
   //const [currentDay, setCurrentDay] = useCurrentDay();
@@ -21,9 +23,13 @@ export function Schedule() {
               <Box bgColor={currentDay === day.date ?  '#3182ce80' : '#3182CE'} className={styles['day__timeline-part-line']}></Box>
             </div>
           </div>
-          {day.lessons.map((lesson) => (
-            <LessonCard lesson={lesson} dayDate={day.date} key={lesson.id} />
-          ))}
+          {day.lessons.length > 0 ? 
+            (day.lessons.map((lesson) => (
+              <LessonCard lesson={lesson} dayDate={day.date} key={lesson.id} />
+            )))
+          :
+            (<RestCard dayDate={day.date}/>)
+          }
         </div>
       ))}
     </div>

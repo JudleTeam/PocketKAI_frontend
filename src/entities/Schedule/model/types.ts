@@ -6,3 +6,7 @@ export type ScheduleParams = {
   date_from: string;
   days_count: number;
 };
+
+export type ParityParams = {
+  date: string;
+}
