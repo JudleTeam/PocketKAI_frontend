@@ -1,6 +1,6 @@
 import { Text, useDisclosure, VStack } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
-import { useEffect, useState } from 'react';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { UiDatebar } from '@/shared/ui/ui-datebar/UiDatebar';
 import { DatebarContent } from '../datebar-content/DatebarContent';
@@ -12,7 +12,8 @@ import { useGroup, useSchedule } from '@/entities';
 
 export type ContextType = [
   string,
-  React.Dispatch<React.SetStateAction<string>>
+  React.Dispatch<React.SetStateAction<string>>,
+  MutableRefObject<any>
 ];
 
 export function AppLayout() {
@@ -27,19 +28,19 @@ export function AppLayout() {
   };
   const { currentGroup } = useGroup();
   const { getScheduleByName, getWeekParity, parity } = useSchedule();
+  const swiperRef = useRef(null);
   useEffect(() => {
-    getWeekParity()
+    getWeekParity();
     const date_from = currentDateBySchedule();
     const days_count = 14;
     if (currentGroup) {
       getScheduleByName(currentGroup.group_name, { date_from, days_count });
     }
-  }, [currentGroup, getScheduleByName]);
-  console.log(parity)
+  }, [currentGroup, getScheduleByName, getWeekParity]);
   const parityTypes = {
     odd: 'Нечётная неделя',
     even: 'Чётная неделя',
-  }
+  };
   const location = useLocation();
   const isTeachers = location.pathname.includes('teachers');
   return (
@@ -58,8 +59,18 @@ export function AppLayout() {
         </VStack>
         <SelectGroup isOpen={isOpen} onOpen={onOpen} />
       </div>
-      {!isTeachers && <UiDatebar datebarContent={DatebarContent} />}
-      <Outlet context={[currentDay, setCurrentDay] satisfies ContextType} />
+      {!isTeachers && (
+        <UiDatebar
+          datebarContent={DatebarContent({
+            currentDay,
+            setCurrentDay,
+            swiperRef,
+          })}
+        />
+      )}
+      <Outlet
+        context={[currentDay, setCurrentDay, swiperRef] satisfies ContextType}
+      />
       <UiModal
         isOpen={isOpen}
         onClose={onClose}
