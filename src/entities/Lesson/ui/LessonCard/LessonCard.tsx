@@ -1,5 +1,5 @@
 import { Lesson } from '@/shared';
-import { HStack, Text } from '@chakra-ui/react';
+import { HStack, Text, VStack } from '@chakra-ui/react';
 import styles from './LessonCard.module.scss';
 import { DateTime } from 'luxon';
 import { lessonStateIcons } from '../../constants/lessonStateIcons';
@@ -7,18 +7,8 @@ import { getLessonState } from '../../lib/getLessonState';
 import { lessonStateLine } from '../../constants/lessonStateLine';
 import { LessonTypes } from '../../constants/lessonTypes';
 import { getLessonBuilding } from '../../lib/getLessonBuilding';
-
-import { useRef } from 'react';
-
-import {
-  Drawer,
-  DrawerBody,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { LessonDrawer } from '../LessonDrawer/LessonDrawer';
+import { useDisclosure } from '@chakra-ui/react';
 
 export function LessonCard({
   lesson,
@@ -68,35 +58,12 @@ export function LessonCard({
           </Text>
         </div>
       </HStack>
-      <DrawerExample lesson={lesson} isOpen={isOpen} onClose={onClose} />
+      <LessonDrawer
+        dayDate={dayDate}
+        lesson={lesson}
+        isOpen={isOpen}
+        onClose={onClose}
+      />
     </>
-  );
-}
-
-function DrawerExample({
-  lesson,
-  isOpen,
-  onClose,
-}: {
-  lesson: Lesson;
-  isOpen: boolean;
-  onClose: () => void;
-}) {
-  const btnRef = useRef<HTMLButtonElement>(null);
-  return (
-    <Drawer
-      isOpen={isOpen}
-      placement="bottom"
-      onClose={onClose}
-      finalFocusRef={btnRef}
-    >
-      <DrawerOverlay />
-      <DrawerContent borderRadius="16px 16px 0 0">
-        <DrawerCloseButton />
-        <DrawerHeader>{lesson.discipline.name}</DrawerHeader>
-
-        <DrawerBody></DrawerBody>
-      </DrawerContent>
-    </Drawer>
   );
 }
