@@ -4,5 +4,6 @@ import { ScheduleLayout } from '@/widgets';
 export function Schedule() {
   const { schedule } = useSchedule();
   useScrollSpy(schedule);
+
   return <ScheduleLayout schedule={schedule} />;
 }

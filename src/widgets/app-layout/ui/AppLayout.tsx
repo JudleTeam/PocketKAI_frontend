@@ -9,6 +9,7 @@ import { UiModal } from '@/shared/ui/ui-modal/UiModal';
 import { AddGroupToFavourite } from '@/features';
 import { SelectGroup } from '@/features';
 import { useGroup, useSchedule } from '@/entities';
+import { getTodayDate } from '@/shared';
 
 export type ContextType = [
   string,
@@ -22,16 +23,21 @@ export function AppLayout() {
     DateTime.now().toFormat('yyyy-LL-dd')
   );
   const { currentGroup } = useGroup();
-  const { getScheduleByName, getWeekParity, parity } = useSchedule();
+  const { getScheduleByName, getWeekParity, parity, status } = useSchedule();
   const swiperRef = useRef(null);
+  const handleTodayDateClick = () => {
+    document.getElementById(getTodayDate())?.scrollIntoView();
+  };
+
   useEffect(() => {
     getWeekParity();
     const date_from = currentDateBySchedule();
-    const days_count = 28;
-    if (currentGroup) {
+    const days_count = 21;
+    if (currentGroup && status === 'idle') {
       getScheduleByName(currentGroup.group_name, { date_from, days_count });
     }
-  }, [currentGroup, getScheduleByName, getWeekParity]);
+  }, [currentGroup, getScheduleByName, getWeekParity, status]);
+
   const currentDateBySchedule = () => {
     const currentWeek = DateTime.now().startOf('week');
     const WeekAgo = currentWeek.minus({ days: 7 });
@@ -52,6 +58,7 @@ export function AppLayout() {
           fontWeight={'medium'}
           color={'blue.900'}
           gap={0.4}
+          onClick={handleTodayDateClick}
         >
           <Text fontSize={22}>
             {DateTime.now().setLocale('ru').toFormat('d MMMM')}
