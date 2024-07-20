@@ -1,20 +1,26 @@
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Skeleton, Text } from '@chakra-ui/react';
 import { LessonCard, RestCard } from '@/entities';
 import { getFormattedDate, Nullable, Schedule } from '@/shared';
-import { DateTime } from 'luxon';
-import styles from './ScheduleLayout.module.scss';
 import { useEffect } from 'react';
+import { useInfiniteScroll } from '../lib/useInfiniteScroll';
+import { useCurrentDay } from '@/widgets';
+import styles from './ScheduleLayout.module.scss';
+import { getTodayDate } from '@/shared';
 
 export function ScheduleLayout({ schedule }: { schedule: Nullable<Schedule> }) {
-  const today = DateTime.now().toFormat('yyyy-LL-dd');
+  const today = getTodayDate();
+  const [currentDay] = useCurrentDay();
+  const { upperRef, lowerRef } = useInfiniteScroll(schedule, currentDay);
+
   useEffect(() => {
     const todayBlock = document.getElementById(today);
     if (todayBlock) {
-      todayBlock.scrollIntoView({ behavior: 'smooth' });
+      todayBlock.scrollIntoView();
     }
-  }, [today, schedule]);
+  }, []);
   return (
     <div className={styles['schedule']}>
+      <Skeleton ref={upperRef} h={'100px'} />
       {schedule?.days.map((day) => (
         <div key={day.date} className={styles['day']} id={day.date}>
           <Text color="blue.900" fontWeight="medium" fontSize="18px" pt="5px">
@@ -38,6 +44,7 @@ export function ScheduleLayout({ schedule }: { schedule: Nullable<Schedule> }) {
           )}
         </div>
       ))}
+      <Skeleton ref={lowerRef} h={'100px'} />
     </div>
   );
 }

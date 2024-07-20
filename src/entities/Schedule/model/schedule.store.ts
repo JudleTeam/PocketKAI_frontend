@@ -10,21 +10,31 @@ import {
 } from '@/shared';
 
 type ScheduleStore = {
-  schedule: Nullable<Schedule>;
+  schedule: Schedule;
   weekSchedule: Nullable<WeekSchedule>;
   examsSchedule: null;
   parity: Nullable<WeekParity>;
   status: FetchStatus;
   error: Nullable<unknown>;
-  getWeekScheduleById: (id: number, params?: WeekScheduleParams) => void;
-  getWeekScheduleByName: (name: string, params?: WeekScheduleParams) => void;
-  geScheduleById: (id: number, params?: ScheduleParams) => void;
-  getScheduleByName: (name: string, params?: ScheduleParams) => void;
-  getWeekParity: (params?: WeekParity) => void;
+  getWeekScheduleById: (
+    id: number,
+    params?: WeekScheduleParams
+  ) => Promise<void>;
+  getWeekScheduleByName: (
+    name: string,
+    params?: WeekScheduleParams
+  ) => Promise<void>;
+  geScheduleById: (id: number, params?: ScheduleParams) => Promise<void>;
+  getScheduleByName: (
+    name: string,
+    params?: ScheduleParams,
+    isNextWeek?: boolean
+  ) => Promise<void>;
+  getWeekParity: (params?: WeekParity) => Promise<void>;
 };
 
-export const useSchedule = create<ScheduleStore>((set) => ({
-  schedule: null,
+export const useSchedule = create<ScheduleStore>((set, get) => ({
+  schedule: { parsed_at: '', days: [] },
   weekSchedule: null,
   examsSchedule: null,
   parity: null,
@@ -54,18 +64,26 @@ export const useSchedule = create<ScheduleStore>((set) => ({
       set({ error, status: 'error' });
     }
   },
-  getScheduleByName: async (name: string, params?: ScheduleParams) => {
+  getScheduleByName: async (
+    name: string,
+    params?: ScheduleParams,
+    isNextWeek = false
+  ) => {
     set({ status: 'loading' });
     try {
       const response = await scheduleService.getScheduleByGroupName(
         name,
         params
       );
-      set((state) => ({
-        ...state,
-        schedule: { ...state.schedule, ...response.data },
+      set({
+        schedule: {
+          parsed_at: response.data.parsed_at,
+          days: isNextWeek
+            ? [...get().schedule.days, ...response.data.days]
+            : [...response.data.days, ...get().schedule.days],
+        },
         status: 'success',
-      }));
+      });
     } catch (error) {
       set({ error, status: 'error' });
     }
