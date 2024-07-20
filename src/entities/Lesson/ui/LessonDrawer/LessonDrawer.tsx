@@ -3,6 +3,7 @@ import { DateTime } from "luxon"
 import { useRef } from "react"
 import { getLessonBuilding } from "../../lib/getLessonBuilding"
 import { LessonTypes } from "../../constants/lessonTypes"
+import { Avatar } from "@chakra-ui/react"
 import {
     Drawer,
     DrawerBody,
@@ -84,10 +85,15 @@ export function LessonDrawer({dayDate, lesson, isOpen, onClose}:{dayDate: string
               {
                 lesson.teacher && 
                 <Box 
-                  boxShadow='0px 0px 5px 5px #00000020'
+                  boxShadow='0px 0px 5px 0px #00000020'
                   borderRadius='16px'
                   padding='14px'
+                  display='flex'
+                  alignItems='center'
+                  gap='15px'
                 >
+                  <Avatar />
+                  <Box>
                   <Text 
                   fontSize='16px'
                   fontWeight='medium'
@@ -95,18 +101,22 @@ export function LessonDrawer({dayDate, lesson, isOpen, onClose}:{dayDate: string
                   <Text
                     fontSize='12px'
                     fontWeight='medium'
-                  >{lesson.department?.name}</Text>
-                  
+                  >{lesson.department?.name}</Text>   
+                  </Box>
                 </Box>
               }
             </DrawerHeader>
-            <DrawerBody>
-              <Tabs>
-                <TabList>
+            <DrawerBody >
+              <Tabs w='95%'>
+                <TabList w='100%'>
                   <Tab
+                    w='50%'
                     fontWeight='medium'
                   >Домашняя работа</Tab>
-                  <Tab>Важная информация</Tab>
+                  <Tab
+                    w='50%'
+                    fontWeight='medium'
+                  >Важная информация</Tab>
                 </TabList>
                 <TabPanels>
                   <TabPanel>

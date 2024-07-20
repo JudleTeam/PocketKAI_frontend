@@ -8,7 +8,7 @@ export function useScrollSpy(schedule: Nullable<Schedule>) {
   useEffect(() => {
     const options = {
       root: null,
-      rootMargin: '-50% 0px -50% 0px',
+      rootMargin: '-20% 0px -80% 0px',
       threshold: 0,
     };
 
