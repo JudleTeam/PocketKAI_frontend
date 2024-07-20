@@ -55,7 +55,7 @@ export function LessonDrawer({
         <MotionDrawerContent
           drag="y"
           dragConstraints={{ top: 0, bottom: 0 }}
-          onDragEnd={(event, info) => {
+          onDragEnd={(_, info) => {
             if (info.offset.y > 100) {
               onClose();
             }

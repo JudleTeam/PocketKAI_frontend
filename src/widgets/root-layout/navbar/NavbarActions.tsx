@@ -1,5 +1,12 @@
 import { NAVBAR_ACTIONS } from '@/shared/constants';
-import { Box, Menu, VStack, MenuButton, MenuList, MenuItem,  Divider} from '@chakra-ui/react';
+import {
+  Box,
+  Menu,
+  VStack,
+  MenuButton,
+  MenuList,
+  MenuItem,
+} from '@chakra-ui/react';
 import { Link, useLocation } from 'react-router-dom';
 import styles from './NavbarActions.module.scss';
 import { ArrowIcon } from '@/shared/assets/chakraIcons/ArrowIcon';
@@ -14,12 +21,11 @@ export function NavbarActions() {
         const Icon = action.icon;
         return (
           <Link to={action.path} key={action.label} style={{ height: '100%' }}>
-            {action.label === 'Расписание' && isCurrentOpened(action) ? 
-              (
+            {action.label === 'Расписание' && isCurrentOpened(action) ? (
               <Menu isLazy>
-                <MenuList bgColor='blue.500' color='#fff'>
-                  <MenuItem bgColor='blue.500'>Полное расписание</MenuItem>
-                  <MenuItem bgColor='blue.500'>Расписание экзаменов</MenuItem>
+                <MenuList bgColor="blue.500" color="#fff">
+                  <MenuItem bgColor="blue.500">Полное расписание</MenuItem>
+                  <MenuItem bgColor="blue.500">Расписание экзаменов</MenuItem>
                 </MenuList>
                 <MenuButton>
                   <VStack
@@ -34,16 +40,16 @@ export function NavbarActions() {
                         }`}
                         color={isCurrentOpened(action) ? '#3182ce' : '#fff'}
                       />
-                      <ArrowIcon color='#fff' ></ArrowIcon>
+                      <ArrowIcon color="#fff"></ArrowIcon>
                     </Box>
                     <Box color="#fff" fontFamily="Montserrat">
                       {action.label}
-                    </Box>  
+                    </Box>
                   </VStack>
                 </MenuButton>
-              </Menu>) 
-              :
-              (<VStack
+              </Menu>
+            ) : (
+              <VStack
                 gap={0.5}
                 justifyContent={'space-between'}
                 className={styles['stack']}
@@ -57,8 +63,8 @@ export function NavbarActions() {
                 <Box color="#fff" fontFamily="Montserrat">
                   {action.label}
                 </Box>
-              </VStack>)
-            }
+              </VStack>
+            )}
           </Link>
         );
       })}
