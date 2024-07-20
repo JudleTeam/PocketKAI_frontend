@@ -8,8 +8,11 @@ import { useEffect } from 'react';
 export function ScheduleLayout({ schedule }: { schedule: Nullable<Schedule> }) {
   const today = DateTime.now().toFormat('yyyy-LL-dd');
   useEffect(() => {
-    document.getElementById(today)?.scrollIntoView();
-  }, []);
+    const todayBlock = document.getElementById(today);
+    if (todayBlock) {
+      todayBlock.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [today, schedule]);
   return (
     <div className={styles['schedule']}>
       {schedule?.days.map((day) => (

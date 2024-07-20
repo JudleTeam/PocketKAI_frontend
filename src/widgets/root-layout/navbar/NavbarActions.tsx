@@ -6,13 +6,19 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  ComponentWithAs,
+  IconProps,
 } from '@chakra-ui/react';
 import { Link, useLocation } from 'react-router-dom';
 import styles from './NavbarActions.module.scss';
 import { ArrowIcon } from '@/shared/assets/chakraIcons/ArrowIcon';
 export function NavbarActions() {
   const location = useLocation();
-  const isCurrentOpened = (action: any) => {
+  const isCurrentOpened = (action: {
+    label: string;
+    path: string;
+    icon: ComponentWithAs<'svg', IconProps>;
+  }) => {
     return location.pathname === action.path;
   };
   return (
