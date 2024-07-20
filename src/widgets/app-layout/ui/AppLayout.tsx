@@ -27,14 +27,14 @@ export function AppLayout() {
   useEffect(() => {
     getWeekParity();
     const date_from = currentDateBySchedule();
-    const days_count = 14;
+    const days_count = 28;
     if (currentGroup) {
       getScheduleByName(currentGroup.group_name, { date_from, days_count });
     }
   }, [currentGroup, getScheduleByName, getWeekParity]);
   const currentDateBySchedule = () => {
-    const currentDate = DateTime.now();
-    const WeekAgo = currentDate.minus({ days: 0 });
+    const currentWeek = DateTime.now().startOf('week');
+    const WeekAgo = currentWeek.minus({ days: 7 });
     return WeekAgo.toFormat('yyyy-LL-dd');
   };
 

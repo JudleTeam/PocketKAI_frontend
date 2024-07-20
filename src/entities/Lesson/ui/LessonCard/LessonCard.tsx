@@ -1,6 +1,5 @@
 import { Lesson } from '@/shared';
 import { HStack, Text } from '@chakra-ui/react';
-import styles from './LessonCard.module.scss';
 import { DateTime } from 'luxon';
 import { lessonStateIcons } from '../../constants/lessonStateIcons';
 import { getLessonState } from '../../lib/getLessonState';
@@ -9,6 +8,7 @@ import { LessonTypes } from '../../constants/lessonTypes';
 import { getLessonBuilding } from '../../lib/getLessonBuilding';
 import { LessonDrawer } from '../LessonDrawer/LessonDrawer';
 import { useDisclosure } from '@chakra-ui/react';
+import styles from './LessonCard.module.scss';
 
 export function LessonCard({
   lesson,

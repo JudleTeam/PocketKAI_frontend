@@ -1,3 +1,5 @@
+export { ScheduleLayout } from './schedule-layout/ui/ScheduleLayout';
+
 export { useCurrentDay } from './app-layout/lib/useCurrentDay';
 
 export { AppLayout } from './app-layout/ui/AppLayout';

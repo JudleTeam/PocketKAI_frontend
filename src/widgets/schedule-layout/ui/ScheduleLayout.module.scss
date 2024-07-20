@@ -1,0 +1,32 @@
+.schedule {
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  overflow-y: auto;
+  scrollbar-width: none;
+  scroll-padding-top: 15px;
+  padding: 10px 0 35px 0;
+}
+
+.day {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  &__timeline {
+    display: flex;
+    gap: 0.5rem;
+    &-stub {
+      width: 72px;
+    }
+    &-part {
+      width: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &-line {
+        width: 2px;
+        height: 20px;
+      }
+    }
+  }
+}
