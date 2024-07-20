@@ -1,13 +1,21 @@
 import { create } from 'zustand';
 import { ScheduleParams, WeekScheduleParams } from './types';
 import { scheduleService } from './schedule.service';
-import { Nullable, Schedule, WeekSchedule, WeekParity} from '@/shared';
+import {
+  Nullable,
+  Schedule,
+  WeekSchedule,
+  WeekParity,
+  FetchStatus,
+} from '@/shared';
 
 type ScheduleStore = {
   schedule: Nullable<Schedule>;
   weekSchedule: Nullable<WeekSchedule>;
   examsSchedule: null;
   parity: Nullable<WeekParity>;
+  status: FetchStatus;
+  error: Nullable<unknown>;
   getWeekScheduleById: (id: number, params?: WeekScheduleParams) => void;
   getWeekScheduleByName: (name: string, params?: WeekScheduleParams) => void;
   geScheduleById: (id: number, params?: ScheduleParams) => void;
@@ -20,6 +28,8 @@ export const useSchedule = create<ScheduleStore>((set) => ({
   weekSchedule: null,
   examsSchedule: null,
   parity: null,
+  status: 'idle',
+  error: null,
   getWeekScheduleById: async (id: number, params?: WeekScheduleParams) => {
     const response = await scheduleService.getWeekScheduleByGroupId(id, params);
     set({ weekSchedule: response.data });
@@ -32,15 +42,36 @@ export const useSchedule = create<ScheduleStore>((set) => ({
     set({ weekSchedule: response.data });
   },
   geScheduleById: async (id: number, params?: ScheduleParams) => {
-    const response = await scheduleService.getScheduleByGroupId(id, params);
-    set({ schedule: response.data });
+    set({ status: 'loading' });
+    try {
+      const response = await scheduleService.getScheduleByGroupId(id, params);
+      set((state) => ({
+        ...state,
+        schedule: { ...state.schedule, ...response.data },
+        status: 'success',
+      }));
+    } catch (error) {
+      set({ error, status: 'error' });
+    }
   },
   getScheduleByName: async (name: string, params?: ScheduleParams) => {
-    const response = await scheduleService.getScheduleByGroupName(name, params);
-    set({ schedule: response.data });
+    set({ status: 'loading' });
+    try {
+      const response = await scheduleService.getScheduleByGroupName(
+        name,
+        params
+      );
+      set((state) => ({
+        ...state,
+        schedule: { ...state.schedule, ...response.data },
+        status: 'success',
+      }));
+    } catch (error) {
+      set({ error, status: 'error' });
+    }
   },
   getWeekParity: async (params?: WeekParity) => {
     const response = await scheduleService.getWeekParity(params);
-    set({ parity: response.data })
-  }
+    set({ parity: response.data });
+  },
 }));
