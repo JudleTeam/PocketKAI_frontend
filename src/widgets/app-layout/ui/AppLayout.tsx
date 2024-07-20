@@ -21,11 +21,6 @@ export function AppLayout() {
   const [currentDay, setCurrentDay] = useState<string>(
     DateTime.now().toFormat('yyyy-LL-dd')
   );
-  const currentDateBySchedule = () => {
-    const currentDate = DateTime.now();
-    const WeekAgo = currentDate.minus({ days: 0 });
-    return WeekAgo.toFormat('yyyy-LL-dd');
-  };
   const { currentGroup } = useGroup();
   const { getScheduleByName, getWeekParity, parity } = useSchedule();
   const swiperRef = useRef(null);
@@ -37,6 +32,12 @@ export function AppLayout() {
       getScheduleByName(currentGroup.group_name, { date_from, days_count });
     }
   }, [currentGroup, getScheduleByName, getWeekParity]);
+  const currentDateBySchedule = () => {
+    const currentDate = DateTime.now();
+    const WeekAgo = currentDate.minus({ days: 0 });
+    return WeekAgo.toFormat('yyyy-LL-dd');
+  };
+
   const parityTypes = {
     odd: 'Нечётная неделя',
     even: 'Чётная неделя',
@@ -59,15 +60,14 @@ export function AppLayout() {
         </VStack>
         <SelectGroup isOpen={isOpen} onOpen={onOpen} />
       </div>
-      {!isTeachers && (
-        <UiDatebar
-          datebarContent={DatebarContent({
-            currentDay,
-            setCurrentDay,
-            swiperRef,
-          })}
-        />
-      )}
+      <UiDatebar
+        isTeachers={isTeachers}
+        datebarContent={DatebarContent({
+          currentDay,
+          setCurrentDay,
+          swiperRef,
+        })}
+      />
       <Outlet
         context={[currentDay, setCurrentDay, swiperRef] satisfies ContextType}
       />
