@@ -21,16 +21,21 @@ export function NavbarActions() {
   }) => {
     return location.pathname === action.path;
   };
+  console.log(location.pathname)
   return (
     <>
       {NAVBAR_ACTIONS.map((action) => {
         const Icon = action.icon;
         return (
-          <Link to={action.path} key={action.label} style={{ height: '100%' }}>
-            {action.label === 'Расписание' && isCurrentOpened(action) ? (
+          <Link to={location.pathname === '/schedule/full' && action.path === '/schedule' ? location.pathname : action.path } key={action.label} style={{ height: '100%' }}>
+            {action.label === 'Расписание' && isCurrentOpened(action) || action.label === 'Расписание' && location.pathname === '/schedule/full' ? (
               <Menu isLazy>
                 <MenuList bgColor="blue.500" color="#fff">
-                  <MenuItem bgColor="blue.500">Полное расписание</MenuItem>
+                  {
+                    location.pathname === '/schedule/full' && action.path === '/schedule' ? 
+                    (<MenuItem as={Link} to='schedule' bgColor='blue.500'>Таймлайн</MenuItem>) :
+                    (<MenuItem as={Link} to='schedule/full' bgColor="blue.500">Полное расписание</MenuItem>)
+                  }
                   <MenuItem bgColor="blue.500">Расписание экзаменов</MenuItem>
                 </MenuList>
                 <MenuButton>
@@ -42,9 +47,13 @@ export function NavbarActions() {
                     <Box className={styles['icons']}>
                       <Icon
                         className={`${styles['icon']} ${
-                          isCurrentOpened(action) && styles['icon--active']
-                        }`}
-                        color={isCurrentOpened(action) ? '#3182ce' : '#fff'}
+                          isCurrentOpened(action) && styles['icon--active'] 
+                        } ${
+                          location.pathname === '/schedule/full' && styles['icon--active']
+                        }`
+
+                      }
+                        color={isCurrentOpened(action) || location.pathname === '/schedule/full' ? '#3182ce' : '#fff'}
                       />
                       <ArrowIcon color="#fff"></ArrowIcon>
                     </Box>

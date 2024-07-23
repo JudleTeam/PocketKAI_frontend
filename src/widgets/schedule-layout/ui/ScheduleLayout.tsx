@@ -30,7 +30,7 @@ export function ScheduleLayout({ schedule }: { schedule: Nullable<Schedule> }) {
             <div className={styles['day__timeline-stub']} />
             <div className={styles['day__timeline-part']}>
               <Box
-                bgColor={today === day.date ? '#3182ce80' : 'blue.500'}
+                bgColor={today >= day.date ? '#3182ce80' : 'blue.500'}
                 className={styles['day__timeline-part-line']}
               ></Box>
             </div>

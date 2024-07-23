@@ -3,16 +3,16 @@ import { ReactNode } from 'react';
 import styles from './UiDatebar.module.scss';
 export function UiDatebar({
   datebarContent,
-  isTeachers,
+  isNotDatebar,
 }: {
   datebarContent: ReactNode;
-  isTeachers: boolean;
+  isNotDatebar: boolean;
 }) {
   return (
     <HStack
       className={styles['datebar']}
       justifyContent={'space-around'}
-      display={isTeachers ? 'none' : 'flex'}
+      display={isNotDatebar ? 'none' : 'flex'}
     >
       {datebarContent}
     </HStack>

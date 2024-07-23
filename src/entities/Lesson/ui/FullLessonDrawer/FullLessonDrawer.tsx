@@ -1,51 +1,45 @@
-import { Lesson } from '@/shared';
-import { DateTime } from 'luxon';
+
+import {
+    Drawer,
+    DrawerBody,
+    DrawerHeader,
+    DrawerOverlay,
+    DrawerContent,
+    DrawerCloseButton,
+    Text,
+    VStack,
+    Button,
+    Box,
+    Link,
+    Tabs,
+    TabList,
+    TabPanels,
+    Tab,
+    TabPanel,
+    Avatar,
+} from '@chakra-ui/react';
 import { useRef } from 'react';
+import {motion} from 'framer-motion'
+import { Lesson } from '@/shared';
 import { getLessonBuilding } from '../../lib/getLessonBuilding';
 import { LessonTypes } from '../../constants/lessonTypes';
-import { Avatar } from '@chakra-ui/react';
-import {
-  Drawer,
-  DrawerBody,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  Text,
-  VStack,
-  Button,
-  Box,
-  Link,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-} from '@chakra-ui/react';
-import { motion } from 'framer-motion';
 const MotionDrawerContent = motion(DrawerContent);
-export function LessonDrawer({
-  dayDate,
-  lesson,
-  isOpen,
-  onClose,
-}: {
-  dayDate: string;
-  lesson: Lesson;
-  isOpen: boolean;
-  onClose: () => void;
-}) {
-  const specificDate = DateTime.fromISO(dayDate);
-  const formattedDate = specificDate.toFormat('d MMMM', { locale: 'ru' });
-  const parityTypes = {
-    odd: 'Нечётная неделя',
-    even: 'Чётная неделя',
-    any: 'Каждая неделя',
-  };
-  const btnRef = useRef<HTMLButtonElement>(null);
-  return (
-    <>
-      <Drawer
+export function FullLessonDrawer({  lesson,
+    isOpen,
+    onClose,}: {
+        lesson: Lesson,
+        isOpen: boolean,
+        onClose: () => void
+    }){
+
+        const parityTypes = {
+          odd: 'Нечётная неделя',
+          even: 'Чётная неделя',
+          any: 'Каждая неделя',
+        };
+    const btnRef = useRef<HTMLButtonElement>(null);
+    return(
+        <Drawer
         isOpen={isOpen}
         placement="bottom"
         onClose={onClose}
@@ -97,7 +91,6 @@ export function LessonDrawer({
                 gap="2px"
                 textAlign="start"
               >
-                <Text>{formattedDate}</Text>
                 <Text>{parityTypes[lesson.parsed_parity]}</Text>
               </VStack>
               <VStack
@@ -154,42 +147,7 @@ export function LessonDrawer({
               </Box>
             )}
           </DrawerHeader>
-          <DrawerBody w='100%'>
-            <Tabs w="100%" >
-              <TabList w="100%">
-                <Tab w="50%" fontWeight="medium">
-                  Домашняя работа
-                </Tab>
-                <Tab w="50%" fontWeight="medium">
-                  Важная информация
-                </Tab>
-              </TabList>
-              <TabPanels>
-                <TabPanel>
-                  <Button
-                    variant="outline"
-                    colorScheme="blue.600"
-                    color="blue.600"
-                    width="100%"
-                  >
-                    Добавить домашнюю работу
-                  </Button>
-                </TabPanel>
-                <TabPanel>
-                  <Button
-                    variant="outline"
-                    colorScheme="blue.600"
-                    color="blue.600"
-                    width="100%"
-                  >
-                    Добавить заметку
-                  </Button>
-                </TabPanel>
-              </TabPanels>
-            </Tabs>
-          </DrawerBody>
         </MotionDrawerContent>
       </Drawer>
-    </>
-  );
+    )
 }

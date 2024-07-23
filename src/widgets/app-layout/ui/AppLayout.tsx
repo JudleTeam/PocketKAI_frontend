@@ -28,7 +28,11 @@ export function AppLayout() {
   const handleTodayDateClick = () => {
     document.getElementById(getTodayDate())?.scrollIntoView();
   };
-
+  const currentDateBySchedule = () => {
+    const currentWeek = DateTime.now().startOf('week');
+    const WeekAgo = currentWeek.minus({ days: 7 });
+    return WeekAgo.toFormat('yyyy-LL-dd');
+  };
   useEffect(() => {
     getWeekParity();
     const date_from = currentDateBySchedule();
@@ -38,24 +42,19 @@ export function AppLayout() {
     }
   }, [currentGroup, getScheduleByName, getWeekParity, status]);
 
-  const currentDateBySchedule = () => {
-    const currentWeek = DateTime.now().startOf('week');
-    const WeekAgo = currentWeek.minus({ days: 7 });
-    return WeekAgo.toFormat('yyyy-LL-dd');
-  };
-
   const parityTypes = {
     odd: 'Нечётная неделя',
     even: 'Чётная неделя',
   };
   const location = useLocation();
-  const isTeachers = location.pathname.includes('teachers');
+  const isNotDatebar = location.pathname.includes('teachers') || location.pathname.includes('schedule/full');
+  console.log(isNotDatebar)
   return (
     <div className={styles['app-layout']}>
       <div className={styles['app-layout__header']}>
         <VStack
           alignItems={'flex-start'}
-          fontWeight={'medium'}
+          fontWeight={'medium'} 
           color={'blue.900'}
           gap={0.4}
           onClick={handleTodayDateClick}
@@ -68,7 +67,7 @@ export function AppLayout() {
         <SelectGroup isOpen={isOpen} onOpen={onOpen} />
       </div>
       <UiDatebar
-        isTeachers={isTeachers}
+        isNotDatebar={isNotDatebar}
         datebarContent={DatebarContent({
           currentDay,
           setCurrentDay,

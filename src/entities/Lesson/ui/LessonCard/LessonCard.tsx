@@ -9,6 +9,7 @@ import { getLessonBuilding } from '../../lib/getLessonBuilding';
 import { LessonDrawer } from '../LessonDrawer/LessonDrawer';
 import { useDisclosure } from '@chakra-ui/react';
 import styles from './LessonCard.module.scss';
+import { sliceLessonName } from '../../lib/sliceLessonName';
 
 export function LessonCard({
   lesson,
@@ -47,7 +48,7 @@ export function LessonCard({
             lineHeight={1.3}
             className={styles['lesson-card__name']}
           >
-            {lesson.discipline.name}
+            {sliceLessonName(lesson.discipline.name)}
           </Text>
           <Text color="blue.900" fontWeight={'medium'}>
             {getLessonBuilding(lesson.building_number, lesson.audience_number)}
