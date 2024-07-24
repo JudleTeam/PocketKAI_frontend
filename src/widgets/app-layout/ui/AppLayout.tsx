@@ -24,9 +24,14 @@ export function AppLayout() {
     DateTime.now().toFormat('yyyy-LL-dd')
   );
   const { currentGroup } = useGroup();
-  const { schedule, getScheduleByName, getWeekParity, parity, status } =
-    useSchedule();
-  const swiperRef = useScrollSpy(schedule);
+  const {
+    schedule,
+    getScheduleByName,
+    getWeekParity,
+    parity,
+    scheduleStatus: status,
+  } = useSchedule();
+  const swiperRef = useScrollSpy(schedule, setCurrentDay);
   const handleTodayDateClick = () => {
     document.getElementById(getTodayDate())?.scrollIntoView();
   };

@@ -18,7 +18,11 @@ import styles from './WeekSchedule.module.scss';
 
 export function WeekSchedule() {
   const [weekParity, setWeekParity] = useState<'odd' | 'even'>('even');
-  const { getFullWeekScheduleByName, weekSchedule, status } = useSchedule();
+  const {
+    getFullWeekScheduleByName,
+    weekSchedule,
+    weekScheduleStatus: status,
+  } = useSchedule();
   const { currentGroup } = useGroup();
   const dayIndex = DateTime.now().setLocale('en').weekdayLong.toLowerCase();
   useEffect(() => {
