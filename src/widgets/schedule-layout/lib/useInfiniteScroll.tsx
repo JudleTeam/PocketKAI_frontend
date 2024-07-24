@@ -9,7 +9,7 @@ export function useInfiniteScroll(
 ) {
   const observer = useRef<Nullable<IntersectionObserver>>(null);
   const { currentGroup } = useGroup();
-  const { getScheduleByName, status } = useSchedule();
+  const { getScheduleByName, scheduleStatus: status } = useSchedule();
   const upperRef = useRef<HTMLDivElement>(null);
   const lowerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {

@@ -1,30 +1,32 @@
 import { create } from 'zustand';
-import { ScheduleParams, WeekScheduleParams } from './types';
+import { ScheduleParams } from './types';
 import { scheduleService } from './schedule.service';
 import {
   Nullable,
   Schedule,
-  WeekSchedule,
   WeekParity,
   FetchStatus,
+  FullWeekSchedule,
 } from '@/shared';
 
 type ScheduleStore = {
   schedule: Schedule;
-  weekSchedule: Nullable<WeekSchedule>;
+  weekSchedule: Nullable<FullWeekSchedule>;
   examsSchedule: null;
   parity: Nullable<WeekParity>;
-  status: FetchStatus;
+  scheduleStatus: FetchStatus;
+  weekScheduleStatus: FetchStatus;
   error: Nullable<unknown>;
-  getWeekScheduleById: (
-    id: number,
-    params?: WeekScheduleParams
-  ) => Promise<void>;
-  getWeekScheduleByName: (
-    name: string,
-    params?: WeekScheduleParams
-  ) => Promise<void>;
-  geScheduleById: (id: number, params?: ScheduleParams) => Promise<void>;
+  // getWeekScheduleById: (
+  //   id: number,
+  //   params?: WeekScheduleParams
+  // ) => Promise<void>;
+  // getWeekScheduleByName: (
+  //   name: string,
+  //   params?: WeekScheduleParams
+  // ) => Promise<void>;
+  getFullWeekScheduleByName: (name: string) => Promise<void>;
+  getScheduleById: (id: number, params?: ScheduleParams) => Promise<void>;
   getScheduleByName: (
     name: string,
     params?: ScheduleParams,
@@ -38,21 +40,39 @@ export const useSchedule = create<ScheduleStore>((set, get) => ({
   weekSchedule: null,
   examsSchedule: null,
   parity: null,
-  status: 'idle',
+  scheduleStatus: 'idle',
+  weekScheduleStatus: 'idle',
   error: null,
-  getWeekScheduleById: async (id: number, params?: WeekScheduleParams) => {
-    const response = await scheduleService.getWeekScheduleByGroupId(id, params);
-    set({ weekSchedule: response.data });
+  // getWeekScheduleById: async (id: number, params?: WeekScheduleParams) => {
+  //   const response = await scheduleService.getWeekScheduleByGroupId(id, params);
+  //   set({ weekSchedule: response.data });
+  // },
+  // getWeekScheduleByName: async (name: string, params?: WeekScheduleParams) => {
+  //   const response = await scheduleService.getWeekScheduleByGroupName(
+  //     name,
+  //     params
+  //   );
+  //   set({ weekSchedule: response.data });
+  // },
+  getFullWeekScheduleByName: async (name) => {
+    set({ weekScheduleStatus: 'loading' });
+    try {
+      const oddWeek = await scheduleService.getWeekScheduleByGroupName(name, {
+        week_parity: 'odd',
+      });
+      const evenWeek = await scheduleService.getWeekScheduleByGroupName(name, {
+        week_parity: 'even',
+      });
+      set({
+        weekSchedule: { odd: oddWeek.data, even: evenWeek.data },
+        weekScheduleStatus: 'success',
+      });
+    } catch (error) {
+      set({ error, weekScheduleStatus: 'error' });
+    }
   },
-  getWeekScheduleByName: async (name: string, params?: WeekScheduleParams) => {
-    const response = await scheduleService.getWeekScheduleByGroupName(
-      name,
-      params
-    );
-    set({ weekSchedule: response.data });
-  },
-  geScheduleById: async (id: number, params?: ScheduleParams) => {
-    set({ status: 'loading' });
+  getScheduleById: async (id: number, params?: ScheduleParams) => {
+    set({ scheduleStatus: 'loading' });
     try {
       const response = await scheduleService.getScheduleByGroupId(id, params);
       set((state) => ({
@@ -61,7 +81,7 @@ export const useSchedule = create<ScheduleStore>((set, get) => ({
         status: 'success',
       }));
     } catch (error) {
-      set({ error, status: 'error' });
+      set({ error, scheduleStatus: 'error' });
     }
   },
   getScheduleByName: async (
@@ -69,7 +89,7 @@ export const useSchedule = create<ScheduleStore>((set, get) => ({
     params?: ScheduleParams,
     isNextWeek = false
   ) => {
-    set({ status: 'loading' });
+    set({ scheduleStatus: 'loading' });
     try {
       const response = await scheduleService.getScheduleByGroupName(
         name,
@@ -82,10 +102,10 @@ export const useSchedule = create<ScheduleStore>((set, get) => ({
             ? [...get().schedule.days, ...response.data.days]
             : [...response.data.days, ...get().schedule.days],
         },
-        status: 'success',
+        scheduleStatus: 'success',
       });
     } catch (error) {
-      set({ error, status: 'error' });
+      set({ error, scheduleStatus: 'error' });
     }
   },
   getWeekParity: async (params?: WeekParity) => {

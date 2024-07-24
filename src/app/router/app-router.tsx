@@ -1,21 +1,22 @@
-import { Assignments, FullSchedule, Schedule, Teachers, Account } from '@/pages';
+import { Assignments, WeekSchedule, Schedule, Teachers, Account } from '@/pages';
+
 import { RootLayout, AppLayout } from '@/widgets';
 import {
   createBrowserRouter,
   createRoutesFromElements,
-  Route,
   Navigate,
+  Route,
 } from 'react-router-dom';
 
 const routes = createRoutesFromElements([
   <Route>
     <Route path="/" element={<RootLayout />}>
       <Route element={<AppLayout />}>
-        <Route index element={<Navigate to="/schedule" />} />
+        <Route index element={<Navigate to="schedule" />} />
         <Route path="schedule" element={<Schedule />} />
+        <Route path="schedule/full" element={<WeekSchedule />} />
         <Route path="assignments" element={<Assignments />} />
         <Route path="teachers" element={<Teachers />} />
-        <Route path='schedule/full' element={<FullSchedule/>} />
       </Route>
       <Route
         path="account"

@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview --port 8080"
+    "preview": "vite preview --port 8080",
+    "generate-assets": "pwa-assets-generator"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
@@ -15,6 +16,7 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@types/luxon": "^3.4.2",
+    "@vite-pwa/assets-generator": "^0.2.4",
     "axios": "^1.7.2",
     "dotenv": "^16.4.5",
     "framer-motion": "^11.3.2",
@@ -34,7 +36,6 @@
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
-    "@vite-pwa/assets-generator": "^0.2.4",
     "@vitejs/plugin-react": "^4.2.1",
     "eslint": "^8.57.0",
     "eslint-import-resolver-typescript": "^3.6.1",
