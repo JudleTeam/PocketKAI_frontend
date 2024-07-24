@@ -22,8 +22,20 @@ export default defineConfig({
       manifest: {
         name: 'Pocket KAI',
         short_name: 'Pocket KAI',
-        description: 'A progressive web app for viewing schedules',
-        theme_color: '#ffffff',
+        description: 'Веб-приложение для просмотра расписания КНИТУ-КАИ',
+        theme_color: '#ded6d4',
+        icons: [
+          {
+            src: '/android-chrome-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: '/android-chrome-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+        ],
       },
 
       workbox: {
@@ -31,7 +43,6 @@ export default defineConfig({
         cleanupOutdatedCaches: true,
         clientsClaim: true,
       },
-
       devOptions: {
         enabled: false,
         navigateFallback: 'index.html',

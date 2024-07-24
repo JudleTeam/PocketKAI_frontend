@@ -1,4 +1,4 @@
-export { FullSchedule } from './FullSchedule/FullSchedule';
+export { WeekSchedule } from './WeekSchedule/WeekSchedule';
 
 export { Assignments } from './Assignments/Assignments';
 

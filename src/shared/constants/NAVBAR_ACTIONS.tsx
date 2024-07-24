@@ -1,7 +1,14 @@
+import { ComponentWithAs, IconProps } from '@chakra-ui/react';
 import { AccountIcon } from '../assets/chakraIcons/AccountIcon';
 import { AssignmentIcon } from '../assets/chakraIcons/AssignmentIcon';
 import { ScheduleIcon } from '../assets/chakraIcons/ScheduleIcon';
 import { TeachersIcon } from '../assets/chakraIcons/TeachersIcon';
+
+export type NavbarAction = {
+  label: string;
+  path: string;
+  icon: ComponentWithAs<'svg', IconProps>;
+};
 
 export const NAVBAR_ACTIONS = [
   {

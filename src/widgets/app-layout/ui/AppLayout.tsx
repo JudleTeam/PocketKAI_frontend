@@ -1,20 +1,21 @@
 import { Text, useDisclosure, VStack } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { UiDatebar } from '@/shared/ui/ui-datebar/UiDatebar';
-import { DatebarContent } from '../datebar-content/DatebarContent';
+import { DatebarContent } from '../datebar/DatebarContent';
 import styles from './AppLayout.module.scss';
 import { UiModal } from '@/shared/ui/ui-modal/UiModal';
 import { AddGroupToFavourite } from '@/features';
 import { SelectGroup } from '@/features';
 import { useGroup, useSchedule } from '@/entities';
 import { getTodayDate } from '@/shared';
+import { useScrollSpy } from '../lib/useScrollSpy';
+import { parityTypes } from '@/shared/constants';
 
 export type ContextType = [
   string,
-  React.Dispatch<React.SetStateAction<string>>,
-  MutableRefObject<any>
+  React.Dispatch<React.SetStateAction<string>>
 ];
 
 export function AppLayout() {
@@ -23,38 +24,37 @@ export function AppLayout() {
     DateTime.now().toFormat('yyyy-LL-dd')
   );
   const { currentGroup } = useGroup();
-  const { getScheduleByName, getWeekParity, parity, status } = useSchedule();
-  const swiperRef = useRef(null);
+  const { schedule, getScheduleByName, getWeekParity, parity, status } =
+    useSchedule();
+  const swiperRef = useScrollSpy(schedule);
   const handleTodayDateClick = () => {
     document.getElementById(getTodayDate())?.scrollIntoView();
   };
-  const currentDateBySchedule = () => {
-    const currentWeek = DateTime.now().startOf('week');
-    const WeekAgo = currentWeek.minus({ days: 7 });
-    return WeekAgo.toFormat('yyyy-LL-dd');
-  };
   useEffect(() => {
     getWeekParity();
-    const date_from = currentDateBySchedule();
+    const weekAgo = DateTime.now()
+      .startOf('week')
+      .minus({ days: 7 })
+      .toFormat('yyyy-LL-dd');
     const days_count = 21;
     if (currentGroup && status === 'idle') {
-      getScheduleByName(currentGroup.group_name, { date_from, days_count });
+      getScheduleByName(currentGroup.group_name, {
+        date_from: weekAgo,
+        days_count,
+      });
     }
   }, [currentGroup, getScheduleByName, getWeekParity, status]);
 
-  const parityTypes = {
-    odd: 'Нечётная неделя',
-    even: 'Чётная неделя',
-  };
   const location = useLocation();
-  const isNotDatebar = location.pathname.includes('teachers') || location.pathname.includes('schedule/full');
-  console.log(isNotDatebar)
+  const isNotDatebar =
+    location.pathname.includes('teachers') ||
+    location.pathname.includes('schedule/full');
   return (
     <div className={styles['app-layout']}>
       <div className={styles['app-layout__header']}>
         <VStack
           alignItems={'flex-start'}
-          fontWeight={'medium'} 
+          fontWeight={'medium'}
           color={'blue.900'}
           gap={0.4}
           onClick={handleTodayDateClick}
@@ -74,9 +74,7 @@ export function AppLayout() {
           swiperRef,
         })}
       />
-      <Outlet
-        context={[currentDay, setCurrentDay, swiperRef] satisfies ContextType}
-      />
+      <Outlet context={[currentDay, setCurrentDay] satisfies ContextType} />
       <UiModal
         isOpen={isOpen}
         onClose={onClose}

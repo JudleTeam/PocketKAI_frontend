@@ -14,6 +14,11 @@ export type WeekSchedule = {
   };
 };
 
+export type FullWeekSchedule = {
+  odd: WeekSchedule;
+  even: WeekSchedule;
+};
+
 type Day = {
   date: string;
   parity: 'odd' | 'even' | 'any';
@@ -29,4 +34,4 @@ export type WeekParity = {
   date: string;
   parity: 'odd' | 'even';
   int_parity: number;
-}
+};
