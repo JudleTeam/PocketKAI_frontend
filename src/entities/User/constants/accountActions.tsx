@@ -25,7 +25,7 @@ export function accountAcion({action, index, lastIndex}:{action:ActionType, inde
                     </Text>
                 <ArrowIcon transform='rotate(90deg)' color='gray.400' w='24px' h='24px'/>
             </HStack>
-            {lastIndex !== index ? <Divider></Divider> : null }
+            {lastIndex !== index ? <Divider w='90%' alignSelf='center'></Divider> : null }
         </>
     )
 }

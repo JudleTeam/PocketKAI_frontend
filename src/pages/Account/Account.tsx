@@ -13,12 +13,12 @@ import { ExitIcon } from "@/shared/assets/chakraIcons/ExitIcon"
 import { USER_ACTIONS } from "@/shared/constants"
 export function Account(){
     const {isOpen, onClose, onOpen} = useDisclosure();
-    const {user, logOutOfAccount} = useUser()
+    const {token, user, logOutOfAccount, getMeStudent} = useUser()
     const handleClick = () => {
         logOutOfAccount()
     }
-    useEffect(()=> {}, [user])
-    console.log(user)
+    useEffect(()=> {
+    }, [localStorage.getItem('user-token')])
     return(<>
         <Box h='300px'>
         <Box 
@@ -101,6 +101,7 @@ export function Account(){
             {ACCOUNT_ACTIONS.map((action, index) => accountAcion({action, index, lastIndex: ACCOUNT_ACTIONS.length-1}))}
             {user ? (
                 <>
+                <Divider w='90%' alignSelf='center'/>
                 <button onClick={() => handleClick()}><Text 
                     as={'span'} 
                     padding='15px 20px' 

@@ -23,8 +23,8 @@ export function Auth(onClose: () => void){
     const { resetField, handleSubmit, control } = useForm<IFormInput>();
     const {postAuthLogin, getMeStudent} = useUser();
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-        await postAuthLogin(data);
-        await getMeStudent();
+        const token = await postAuthLogin(data);
+        await getMeStudent(token)
         resetField('login');
         resetField('password');
         onClose();

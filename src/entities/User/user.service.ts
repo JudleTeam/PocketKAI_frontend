@@ -39,15 +39,6 @@ apiClient.interceptors.response.use(response => {
     return Promise.reject(error);
 });
 
-let access_token: string | undefined;
-
-const tokenString = localStorage.getItem('user-token');
-if (tokenString) {
-    const token = JSON.parse(tokenString);
-    access_token = token.state.token.access_token;
-}
-
-
 export const userService = {
     postAuth: (
         params: AuthParams
@@ -59,10 +50,10 @@ export const userService = {
         })
     },
     
-    getMeStudent: (): ApiResponse<any> => {
+    getMeStudent: (token:void): ApiResponse<any> => {
         return apiClient.get<any>('user/me/student', {
             headers: {
-                'Authorization': `Bearer ${access_token}`
+                'Authorization': `Bearer ${token}`
             }
         })
     }

@@ -8,7 +8,7 @@ type UserType = {
     user: Nullable<UserStudent>,
     token: string,
     postAuthLogin: (params:AuthParams) => void,
-    getMeStudent: () => void,
+    getMeStudent: (token:void) => void,
     logOutOfAccount: () => void
 }
 
@@ -20,9 +20,10 @@ export const useUser = create<UserType>()(
             postAuthLogin: async (params:AuthParams) => {
                 const response = await userService.postAuth(params);
                 set({token: response.data})
+                return response.data.access_token
             },
-            getMeStudent: async () => {
-                const response = await userService.getMeStudent();
+            getMeStudent: async (token) => {
+                const response = await userService.getMeStudent(token);
                 set({user: response.data});
             },
             logOutOfAccount: () => {
