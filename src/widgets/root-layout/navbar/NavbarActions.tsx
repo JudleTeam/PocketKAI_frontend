@@ -6,31 +6,57 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  ComponentWithAs,
-  IconProps,
 } from '@chakra-ui/react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from './NavbarActions.module.scss';
 import { ArrowIcon } from '@/shared/assets/chakraIcons/ArrowIcon';
+import { isCurrentLocation } from '../lib/isCurrentLocation';
+
 export function NavbarActions() {
   const location = useLocation();
-  const isCurrentOpened = (action: {
-    label: string;
-    path: string;
-    icon: ComponentWithAs<'svg', IconProps>;
-  }) => {
-    return location.pathname === action.path;
-  };
+  const isOnFullSchedulePath = location.pathname === '/schedule/full';
+  const navigate = useNavigate();
   return (
     <>
       {NAVBAR_ACTIONS.map((action) => {
         const Icon = action.icon;
         return (
-          <Link to={action.path} key={action.label} style={{ height: '100%' }}>
-            {action.label === 'Расписание' && isCurrentOpened(action) ? (
+          <Box
+            onClick={() => {
+              navigate(
+                isOnFullSchedulePath && action.path === '/schedule'
+                  ? location.pathname
+                  : action.path
+              );
+            }}
+            key={action.label}
+            style={{ height: '100%' }}
+          >
+            {(action.label === 'Расписание' && isCurrentLocation(action)) ||
+            (action.label === 'Расписание' && isOnFullSchedulePath) ? (
               <Menu isLazy>
                 <MenuList bgColor="blue.500" color="#fff">
-                  <MenuItem bgColor="blue.500">Полное расписание</MenuItem>
+                  {location.pathname === '/schedule/full' &&
+                  action.path === '/schedule' ? (
+                    <MenuItem
+                      as={Link}
+                      to="/schedule"
+                      onClick={(e) => e.stopPropagation()}
+                      bgColor="blue.500"
+                      display={'inline'}
+                    >
+                      Таймлайн
+                    </MenuItem>
+                  ) : (
+                    <MenuItem
+                      as={Link}
+                      to="/schedule/full"
+                      onClick={(e) => e.stopPropagation()}
+                      bgColor="blue.500"
+                    >
+                      Полное расписание
+                    </MenuItem>
+                  )}
                   <MenuItem bgColor="blue.500">Расписание экзаменов</MenuItem>
                 </MenuList>
                 <MenuButton>
@@ -42,11 +68,19 @@ export function NavbarActions() {
                     <Box className={styles['icons']}>
                       <Icon
                         className={`${styles['icon']} ${
-                          isCurrentOpened(action) && styles['icon--active']
+                          isCurrentLocation(action) && styles['icon--active']
+                        } ${
+                          location.pathname === '/schedule/full' &&
+                          styles['icon--active']
                         }`}
-                        color={isCurrentOpened(action) ? '#3182ce' : '#fff'}
+                        color={
+                          isCurrentLocation(action) ||
+                          location.pathname === '/schedule/full'
+                            ? '#3182ce'
+                            : '#fff'
+                        }
                       />
-                      <ArrowIcon color="#fff"></ArrowIcon>
+                      <ArrowIcon color="#fff" />
                     </Box>
                     <Box color="#fff" fontFamily="Montserrat">
                       {action.label}
@@ -61,9 +95,9 @@ export function NavbarActions() {
                 className={styles['stack']}
               >
                 <Icon
-                  color={isCurrentOpened(action) ? '#3182ce' : '#fff'}
+                  color={isCurrentLocation(action) ? '#3182ce' : '#fff'}
                   className={` ${styles['icon']} ${
-                    isCurrentOpened(action) && styles['icon--active']
+                    isCurrentLocation(action) && styles['icon--active']
                   } `}
                 />
                 <Box color="#fff" fontFamily="Montserrat">
@@ -71,7 +105,7 @@ export function NavbarActions() {
                 </Box>
               </VStack>
             )}
-          </Link>
+          </Box>
         );
       })}
     </>

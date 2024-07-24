@@ -1,3 +1,5 @@
+export { FullLessonCard } from './Lesson/ui/FullLessonCard/FullLessonCard';
+
 export { RestCard } from './Lesson/ui/RestCard/RestCard';
 
 export { useGroup } from './Group/model/group.store';

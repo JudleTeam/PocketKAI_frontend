@@ -4,6 +4,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import styles from './DatebarContent.module.scss';
 import { MutableRefObject } from 'react';
+import { Swiper as SwiperType } from 'swiper';
+import { Nullable } from '@/shared';
 
 function getDayOfWeek(date: string) {
   const daysOfWeek = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
@@ -22,7 +24,7 @@ export function DatebarContent({
 }: {
   currentDay: string;
   setCurrentDay: React.Dispatch<React.SetStateAction<string>>;
-  swiperRef: MutableRefObject<any>;
+  swiperRef: MutableRefObject<Nullable<SwiperType>>;
 }) {
   const { schedule } = useSchedule();
   return (

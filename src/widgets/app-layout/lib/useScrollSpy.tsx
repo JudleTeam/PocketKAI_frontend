@@ -1,9 +1,9 @@
 import { Nullable, Schedule } from '@/shared';
-import { useCurrentDay } from '@/widgets';
-import { useEffect, useRef } from 'react';
+import { MutableRefObject, useEffect, useRef } from 'react';
+import Swiper from 'swiper';
 
 export function useScrollSpy(schedule: Nullable<Schedule>) {
-  const [, setCurrentDay, swiperRef] = useCurrentDay();
+  const swiperRef: MutableRefObject<Nullable<Swiper>> = useRef(null);
   const observers = useRef<IntersectionObserver[] | undefined>([]);
   useEffect(() => {
     const options = {
@@ -17,7 +17,7 @@ export function useScrollSpy(schedule: Nullable<Schedule>) {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const newDay = entry.target.id;
-            setCurrentDay(newDay);
+
             const dateIndex = days.findIndex((day) => day.date === newDay);
             if (swiperRef.current) {
               swiperRef.current.slideTo(dateIndex);
@@ -33,5 +33,6 @@ export function useScrollSpy(schedule: Nullable<Schedule>) {
     return () => {
       observers.current?.forEach((observer) => observer.disconnect());
     };
-  }, [schedule, setCurrentDay, swiperRef]);
+  }, [schedule, swiperRef]);
+  return swiperRef;
 }
