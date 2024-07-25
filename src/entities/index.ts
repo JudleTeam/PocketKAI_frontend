@@ -1,3 +1,7 @@
+export { accountActions } from './User/ui/AccountActions';
+
+export { useUser } from './User/user.store';
+
 export { FullLessonCard } from './Lesson/ui/FullLessonCard/FullLessonCard';
 
 export { RestCard } from './Lesson/ui/RestCard/RestCard';

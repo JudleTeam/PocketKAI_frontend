@@ -1,0 +1,29 @@
+.account {
+  &__header {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 300px;
+  }
+  &__user-actions {
+    position: fixed;
+    top: 275px;
+    width: 90%;
+    background-color: #fff;
+    box-shadow: 0 0 5px 2px #00000020;
+    border-radius: 8px;
+  }
+  &__account-actions {
+    width: 90%;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 5px 2px #00000020;
+    border-radius: 8px;
+  }
+}

@@ -23,6 +23,7 @@ import {
   TabPanel,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
+import { useDrawerCloseEvent } from '@/shared/lib';
 const MotionDrawerContent = motion(DrawerContent);
 export function LessonDrawer({
   dayDate,
@@ -43,6 +44,8 @@ export function LessonDrawer({
     any: 'Каждая неделя',
   };
   const btnRef = useRef<HTMLButtonElement>(null);
+  useDrawerCloseEvent(onClose, isOpen);
+
   return (
     <>
       <Drawer
@@ -154,8 +157,8 @@ export function LessonDrawer({
               </Box>
             )}
           </DrawerHeader>
-          <DrawerBody w='100%'>
-            <Tabs w="100%" >
+          <DrawerBody w="100%">
+            <Tabs w="100%">
               <TabList w="100%">
                 <Tab w="50%" fontWeight="medium">
                   Домашняя работа

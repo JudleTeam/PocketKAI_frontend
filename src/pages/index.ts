@@ -6,4 +6,4 @@ export { Teachers } from './Teachers/Teachers';
 
 export { Schedule } from './Schedule/Schedule';
 
-export { Account } from './Account/Account';
+export { Account } from './Account/ui/Account';
