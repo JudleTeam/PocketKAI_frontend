@@ -7,6 +7,7 @@ import {
   DrawerBody,
   DrawerFooter,
   DrawerCloseButton,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 type IFormInput = {
@@ -24,12 +25,13 @@ export function Auth(onClose: () => void) {
     reset();
     onClose();
   };
+  const main_text = useColorModeValue('light.main_text', 'dark.main_text')
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <DrawerOverlay />
       <DrawerContent h="65%" borderRadius="16px 16px 0 0" padding="20px 0 0 0">
         <DrawerCloseButton />
-        <DrawerHeader fontSize={'24px'} fontWeight={'600'} color={'blue.900'}>
+        <DrawerHeader fontSize={'24px'} fontWeight={'600'} color={main_text}>
           Вход в аккаунт
         </DrawerHeader>
         <DrawerBody display="flex" flexDirection="column" gap="20px">

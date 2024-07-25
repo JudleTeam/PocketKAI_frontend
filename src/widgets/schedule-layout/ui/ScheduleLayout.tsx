@@ -1,4 +1,10 @@
-import { Box, Skeleton, Stack, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Skeleton,
+  Stack,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { LessonCard, RestCard } from '@/entities';
 import { getFormattedDate, Nullable, Schedule } from '@/shared';
 import { useEffect } from 'react';
@@ -11,7 +17,7 @@ export function ScheduleLayout({ schedule }: { schedule: Nullable<Schedule> }) {
   const today = getTodayDate();
   const [currentDay] = useCurrentDay();
   const { upperRef, lowerRef } = useInfiniteScroll(schedule, currentDay);
-
+  const main_text = useColorModeValue('light.main_text', 'dark.main_text');
   useEffect(() => {
     const todayBlock = document.getElementById(today);
     if (todayBlock) {
@@ -27,14 +33,14 @@ export function ScheduleLayout({ schedule }: { schedule: Nullable<Schedule> }) {
       </Stack>
       {schedule?.days.map((day) => (
         <div key={day.date} className={styles['day']} id={day.date}>
-          <Text color="blue.900" fontWeight="medium" fontSize="18px" pt="5px">
+          <Text color={main_text} fontWeight="medium" fontSize="18px" pt="5px">
             {getFormattedDate(day.date)}
           </Text>
           <div className={styles['day__timeline']}>
             <div className={styles['day__timeline-stub']} />
             <div className={styles['day__timeline-part']}>
               <Box
-                bgColor={today >= day.date ? '#3182ce80' : 'blue.500'}
+                bgColor={today >= day.date ? '#3182ce80' : '#3182ce'}
                 className={styles['day__timeline-part-line']}
               ></Box>
             </div>

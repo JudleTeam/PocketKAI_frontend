@@ -10,6 +10,7 @@ import { LessonDrawer } from '../LessonDrawer/LessonDrawer';
 import { useDisclosure } from '@chakra-ui/react';
 import styles from './LessonCard.module.scss';
 import { sliceLessonName } from '../../lib/sliceLessonName';
+import { useColorModeValue } from '@chakra-ui/react';
 
 export function LessonCard({
   lesson,
@@ -19,6 +20,11 @@ export function LessonCard({
   dayDate: string;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const main_text = useColorModeValue('light.main_text', 'dark.main_text');
+  const blue_light_element = useColorModeValue(
+    'light.blue_light_element',
+    'dark.blue_light_element'
+  );
   return (
     <>
       <HStack
@@ -27,15 +33,21 @@ export function LessonCard({
         alignItems="flex-start"
       >
         <div className={styles['lesson-card__time']}>
-          <p className={styles['lesson-card__time--start']}>
+          <Text
+            className={styles['lesson-card__time--start']}
+            color={main_text}
+          >
             {lesson.start_time
               ? DateTime.fromISO(lesson.start_time).toFormat('HH:mm')
               : 'Н/Д'}
-          </p>
-          <p className={styles['lesson-card__time--end']}>
+          </Text>
+          <Text
+            className={styles['lesson-card__time--end']}
+            color={blue_light_element}
+          >
             {lesson.end_time &&
               DateTime.fromISO(lesson.end_time).toFormat('HH:mm')}
-          </p>
+          </Text>
         </div>
         <div className={styles['lesson-card__timeline']}>
           {lessonStateIcons[getLessonState(lesson, dayDate).state]}
@@ -43,14 +55,14 @@ export function LessonCard({
         </div>
         <div className={styles['lesson-card__info']}>
           <Text
-            color="blue.900"
+            color={main_text}
             fontWeight="bold"
             lineHeight={1.3}
             className={styles['lesson-card__name']}
           >
             {sliceLessonName(lesson.discipline.name)}
           </Text>
-          <Text color="blue.900" fontWeight={'medium'}>
+          <Text color={main_text} fontWeight={'medium'}>
             {getLessonBuilding(lesson.building_number, lesson.audience_number)}
           </Text>
           <Text fontWeight={'meduim'}>

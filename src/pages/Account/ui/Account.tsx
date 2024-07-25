@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Box, Text, Divider, useDisclosure } from '@chakra-ui/react';
 import { useUser, accountActions } from '@/entities';
 import { Auth } from '@/features';
@@ -11,16 +11,31 @@ import {
 import { ACCOUNT_ACTIONS, USER_ACTIONS } from '@/shared/constants';
 import { UiDrawer } from '@/shared/ui/ui-drawer/UiDrawer';
 import styles from './Account.module.scss';
+import { useColorModeValue } from '@chakra-ui/react';
 export function Account() {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const { user, logout } = useUser();
+  const account_actions = useColorModeValue(
+    'light.account_actions',
+    'dark.account_actions'
+  );
+  const main_text = useColorModeValue('light.main_text', 'dark.main_text');
+  const tab = useColorModeValue('light.tab', 'dark.tab');
+  const main_element = useColorModeValue(
+    'light.main_element',
+    'dark.main_element'
+  );
+  const exit_button = useColorModeValue(
+    'light.exit_button',
+    'dark.exit_button'
+  );
   const handleClick = () => {
     logout();
   };
-  useEffect(() => {}, [localStorage.getItem('user-token')]);
+
   return (
     <Box className={styles['account']}>
-      <Box className={styles['account__header']} bgColor="blue.500">
+      <Box className={styles['account__header']} bgColor={main_element}>
         {user ? (
           <>
             <Text
@@ -49,12 +64,17 @@ export function Account() {
           </>
         )}
       </Box>
-      <Box className={styles['account__user-actions']}>
+      <Box
+        className={styles['account__user-actions']}
+        bgColor={account_actions}
+      >
         {user ? (
           <Box display="flex" flexDirection="column">
             {USER_ACTIONS.map((action, index) => (
               <React.Fragment key={action.label}>
                 {accountActions({
+                  tab,
+                  main_text,
                   action,
                   index,
                   lastIndex: USER_ACTIONS.length - 1,
@@ -70,7 +90,7 @@ export function Account() {
             padding="15px 20px"
             transition="0.2s"
             _active={{
-              bgColor: 'gray.100',
+              bgColor: tab,
               transition: '0.2s',
               borderRadius: '8px',
             }}
@@ -79,7 +99,7 @@ export function Account() {
               as={'span'}
               display="flex"
               gap="10px"
-              color="blue.900"
+              color={main_text}
               fontSize="16px"
               fontWeight="medium"
             >
@@ -98,11 +118,14 @@ export function Account() {
       <Box
         className={styles['account__account-actions']}
         position="fixed"
+        bgColor={account_actions}
         top={user ? '480px' : '400px'}
       >
         {ACCOUNT_ACTIONS.map((action, index) => (
           <React.Fragment key={action.label}>
             {accountActions({
+              tab,
+              main_text,
               action,
               index,
               lastIndex: ACCOUNT_ACTIONS.length - 1,
@@ -118,13 +141,13 @@ export function Account() {
                 padding="15px 20px"
                 display="flex"
                 gap="10px"
-                color="red.900"
+                color={exit_button}
                 fontSize="16px"
                 fontWeight="medium"
                 transition="0.2s"
                 _active={{
                   transition: '0.2s',
-                  bgColor: 'gray.100',
+                  bgColor: tab,
                   borderRadius: '0 0 8px 8px',
                 }}
               >

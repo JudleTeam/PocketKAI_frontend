@@ -7,21 +7,10 @@
   font-weight: 500;
   font-size: clamp(16px, 4vw, 18px);
   width: clamp(40px, 4.5vw, 50px);
-  color: #1a365d;
-  p:last-child {
-    color: rgba(26, 54, 93, 0.5);
-  }
-}
-.current {
-  color: #3182ce;
-
-  p:last-child {
-    color: rgba(49, 130, 206, 0.5);
-  }
 }
 
 .today {
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+
   border-radius: 8px;
 }
 

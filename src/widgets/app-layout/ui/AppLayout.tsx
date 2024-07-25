@@ -1,4 +1,10 @@
-import { Text, useDisclosure, VStack } from '@chakra-ui/react';
+import {
+  Text,
+  Box,
+  useColorModeValue,
+  useDisclosure,
+  VStack,
+} from '@chakra-ui/react';
 import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
@@ -58,18 +64,19 @@ export function AppLayout() {
     getFullWeekScheduleByName,
     status,
   ]);
-
+  const main_text = useColorModeValue('light.main_text', 'dark.main_text');
+  const main = useColorModeValue('light.main', 'dark.main');
   const location = useLocation();
   const isNotDatebar =
     location.pathname.includes('teachers') ||
     location.pathname.includes('schedule/full');
   return (
     <div className={styles['app-layout']}>
-      <div className={styles['app-layout__header']}>
+      <Box className={styles['app-layout__header']} bgColor={main}>
         <VStack
           alignItems={'flex-start'}
           fontWeight={'medium'}
-          color={'blue.900'}
+          color={main_text}
           gap={0.4}
           onClick={handleTodayDateClick}
         >
@@ -79,7 +86,7 @@ export function AppLayout() {
           <Text>{parity && parityTypes[parity?.parity]}</Text>
         </VStack>
         <SelectGroup isOpen={isOpen} onOpen={onOpen} />
-      </div>
+      </Box>
       <UiDatebar
         isNotDatebar={isNotDatebar}
         datebarContent={DatebarContent({

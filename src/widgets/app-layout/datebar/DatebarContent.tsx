@@ -1,5 +1,5 @@
 import { useSchedule } from '@/entities';
-import { Box } from '@chakra-ui/react';
+import { Box, useChakra, useColorModeValue , Text} from '@chakra-ui/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import styles from './DatebarContent.module.scss';
@@ -26,6 +26,12 @@ export function DatebarContent({
   setCurrentDay: React.Dispatch<React.SetStateAction<string>>;
   swiperRef: MutableRefObject<Nullable<SwiperType>>;
 }) {
+  const {theme} = useChakra()
+  const card = useColorModeValue(theme.colors.light.card, theme.colors.dark.card)
+  const second_element_light = useColorModeValue(theme.colors.light.second_element_light, theme.colors.dark.second_element_light)
+  const second_element = useColorModeValue(theme.colors.light.second_element, theme.colors.dark.second_element)
+  const blue_light_element = useColorModeValue(theme.colors.light.blue_light_element, theme.colors.dark.blue_light_element)
+  const black_light_element = useColorModeValue(theme.colors.light.black_light_element, theme.colors.dark.black_light_element)
   const { schedule } = useSchedule();
   return (
     <Swiper
@@ -45,6 +51,11 @@ export function DatebarContent({
           <SwiperSlide key={day.date}>
             <Box w={'100%'}>
               <button
+                style={currentDay === day.date ? {
+                  backgroundColor: card,
+                  boxShadow: `0px 0px 5px 0px ${card}`,
+                }: {}
+                }
                 className={`${styles['date']} ${
                   isToday(day.date) ? styles['current'] : ''
                 } ${currentDay === day.date ? styles['today'] : ''}`}
@@ -53,8 +64,8 @@ export function DatebarContent({
                   setCurrentDay(day.date);
                 }}
               >
-                <p>{day.date.slice(-2)}</p>
-                <p>{getDayOfWeek(day.date)}</p>
+                <Text color={isToday(day.date) ? second_element_light : second_element}>{day.date.slice(-2)}</Text>
+                <Text color={isToday(day.date) ? blue_light_element : black_light_element}>{getDayOfWeek(day.date)}</Text>
               </button>
             </Box>
           </SwiperSlide>

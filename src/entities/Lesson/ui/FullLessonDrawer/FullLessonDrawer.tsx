@@ -9,6 +9,7 @@ import {
   Box,
   Link,
   Avatar,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { useRef } from 'react';
 import { motion } from 'framer-motion';
@@ -25,6 +26,7 @@ export function FullLessonDrawer({
   isOpen: boolean;
   onClose: () => void;
 }) {
+  const main_text = useColorModeValue('light.main_text', 'dark.main_text');
   const parityTypes = {
     odd: 'Нечётная неделя',
     even: 'Чётная неделя',
@@ -59,7 +61,7 @@ export function FullLessonDrawer({
         <DrawerHeader
           w="95%"
           padding="40px 0 0 0"
-          color="blue.900"
+          color={main_text}
           display="flex"
           flexDirection="column"
           gap="5px"

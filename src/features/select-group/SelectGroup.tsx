@@ -9,6 +9,7 @@ import {
   MenuOptionGroup,
   MenuDivider,
   Button,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 export function SelectGroup({
@@ -17,6 +18,7 @@ export function SelectGroup({
   isOpen: boolean;
   onOpen: () => void;
 }) {
+  const main_element = useColorModeValue('light.main_element', 'dark.main_element')
   const { favouriteGroups, currentGroup, setCurrentGroup } = useGroup();
   return (
     <Menu>
@@ -25,20 +27,20 @@ export function SelectGroup({
         as={Button}
         transition="all 0.2s"
         rightIcon={<ChevronDownIcon />}
-        bg={'blue.500'}
+        bg={main_element}
         color={'#ffffff'}
-        _hover={{ bg: 'blue.500', boxShadow: 'outline' }}
-        _focus={{ bg: 'blue.500' }}
+        _hover={{ bg: main_element, boxShadow: 'outline' }}
+        _focus={{ bg: main_element }}
         fontWeight={'500'}
         fontSize={'16px'}
       >
         {currentGroup ? `Гр. ${currentGroup.group_name}` : 'Группа'}
       </MenuButton>
-      <MenuList color={'#ffffff'} bg={'blue.500'} zIndex={2}>
+      <MenuList color={'#ffffff'} bg={main_element} zIndex={2}>
         <MenuItem
           onClick={onOpen}
-          color={'#ffffff'}
-          bg={'blue.500'}
+          color={'#ffffff'} 
+          bg={main_element}
           fontWeight={'400'}
           fontSize={'16px'}
           justifyContent={'center'}
@@ -50,7 +52,7 @@ export function SelectGroup({
           title="Группа"
           type="radio"
           color={'#ffffff'}
-          bg={'blue.500'}
+          bg={main_element}
           fontWeight={'500'}
           fontSize={'16px'}
           defaultValue={currentGroup?.id}
@@ -59,7 +61,7 @@ export function SelectGroup({
             <MenuItemOption
               key={group.id}
               value={group.id}
-              bg={'blue.500'}
+              bg={main_element}
               onClick={() => setCurrentGroup(group)}
             >
               {group.group_name}

@@ -11,12 +11,12 @@ export const ACCOUNT_ACTIONS = [
   },
   {
     label: 'Частые вопросы',
-    path: '/assignments',
+    path: '/account',
     icon: QuestionIcon,
   },
   {
     label: 'О нас',
-    path: '/teachers',
+    path: '/account',
     icon: AboutUsIcon,
   },
   {

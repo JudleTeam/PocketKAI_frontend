@@ -6,21 +6,24 @@ import { ArrowIcon } from '@/shared/assets/chakraIcons/ArrowIcon';
 import { sliceLessonName } from '../../lib/sliceLessonName';
 import { FullLessonDrawer } from '../FullLessonDrawer/FullLessonDrawer';
 import { useDisclosure } from '@chakra-ui/react';
+import { useColorModeValue } from '@chakra-ui/react';
 export function FullLessonCard({ lesson }: { lesson: Lesson }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const main_text = useColorModeValue('light.main_text', 'dark.main_text');
+  const card = useColorModeValue('light.card', 'dark.card');
   return (
     <>
       <Box
         onClick={onOpen}
         w="100%"
-        bgColor="#FAFAFA"
+        bgColor={card}
         borderRadius="8px"
         padding="10px 15px"
         display="flex"
         justifyContent="space-between"
       >
         <VStack alignItems="start" gap="2px" w="60%">
-          <Text color="blue.900" fontWeight="bold" fontSize="18px">
+          <Text color={main_text} fontWeight="bold" fontSize="18px">
             {sliceLessonName(lesson.discipline.name)}
           </Text>
           <Text color="gray.400" fontWeight="medium" fontSize="22px">

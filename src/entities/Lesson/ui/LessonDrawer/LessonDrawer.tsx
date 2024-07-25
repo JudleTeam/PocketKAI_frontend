@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 import { useRef } from 'react';
 import { getLessonBuilding } from '../../lib/getLessonBuilding';
 import { LessonTypes } from '../../constants/lessonTypes';
-import { Avatar } from '@chakra-ui/react';
+import { Avatar, useColorModeValue } from '@chakra-ui/react';
 import {
   Drawer,
   DrawerBody,
@@ -45,7 +45,7 @@ export function LessonDrawer({
   };
   const btnRef = useRef<HTMLButtonElement>(null);
   useDrawerCloseEvent(onClose, isOpen);
-
+  const main_text = useColorModeValue('light.main_text', 'dark.main_text');
   return (
     <>
       <Drawer
@@ -75,7 +75,7 @@ export function LessonDrawer({
           <DrawerHeader
             w="95%"
             padding="40px 0 0 0"
-            color="blue.900"
+            color={main_text}
             display="flex"
             flexDirection="column"
             gap="5px"
