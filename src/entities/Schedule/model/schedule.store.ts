@@ -28,7 +28,8 @@ type ScheduleStore = {
   // ) => Promise<void>;
   // getScheduleById: (id: number, params?: ScheduleParams) => Promise<void>;
   getFullWeekScheduleByName: (name: string) => Promise<void>;
-  getSchedule: (params: ScheduleParams, isNextWeek?: boolean) => Promise<void>;
+  addToCurrentSchedule: (params: ScheduleParams, isNextWeek?: boolean) => void;
+  getSchedule: (params: ScheduleParams) => void;
   getWeekParity: (params?: WeekParity) => Promise<void>;
 };
 
@@ -81,7 +82,7 @@ export const useSchedule = create<ScheduleStore>((set, get) => ({
   //     set({ error, scheduleStatus: 'error' });
   //   }
   // },
-  getSchedule: async (params: ScheduleParams, isNextWeek = false) => {
+  addToCurrentSchedule: (params: ScheduleParams, isNextWeek = false) => {
     const response = generateDateSchedule(get().weekSchedule, params);
     set({
       schedule: {
@@ -89,6 +90,15 @@ export const useSchedule = create<ScheduleStore>((set, get) => ({
         days: isNextWeek
           ? [...get().schedule.days, ...response.days]
           : [...response.days, ...get().schedule.days],
+      },
+    });
+  },
+  getSchedule: (params: ScheduleParams) => {
+    const response = generateDateSchedule(get().weekSchedule, params);
+    set({
+      schedule: {
+        parsed_at: response.parsed_at,
+        days: response.days,
       },
     });
   },

@@ -9,7 +9,7 @@ export function useInfiniteScroll(
 ) {
   const observer = useRef<Nullable<IntersectionObserver>>(null);
   const { currentGroup } = useGroup();
-  const { getSchedule, scheduleStatus: status } = useSchedule();
+  const { addToCurrentSchedule, scheduleStatus: status } = useSchedule();
   const upperRef = useRef<HTMLDivElement>(null);
   const lowerRef = useRef<HTMLDivElement>(null);
   const scrollPosition = useRef<number>(0);
@@ -30,7 +30,7 @@ export function useInfiniteScroll(
             const dateFrom = DateTime.fromISO(schedule?.days[0].date)
               .minus({ days: 7 })
               .toFormat('yyyy-LL-dd');
-            getSchedule(
+            addToCurrentSchedule(
               {
                 date_from: dateFrom,
                 days_count: 7,
@@ -45,7 +45,7 @@ export function useInfiniteScroll(
             )
               .plus({ days: 1 })
               .toFormat('yyyy-LL-dd');
-            getSchedule(
+            addToCurrentSchedule(
               {
                 date_from: dateFrom,
                 days_count: 7,
@@ -64,6 +64,6 @@ export function useInfiniteScroll(
     return () => {
       if (observer.current) observer.current.disconnect();
     };
-  }, [schedule, currentGroup, getSchedule]);
+  }, [schedule, currentGroup, addToCurrentSchedule]);
   return { upperRef, lowerRef };
 }
