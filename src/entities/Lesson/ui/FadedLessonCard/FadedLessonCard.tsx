@@ -1,18 +1,16 @@
 import { Lesson } from '@/shared';
 import { HStack, Text } from '@chakra-ui/react';
-import { DateTime } from 'luxon';
 import { lessonStateIcons } from '../../constants/lessonStateIcons';
 import { getLessonState } from '../../lib/getLessonState';
 import { lessonStateLine } from '../../constants/lessonStateLine';
 import { LessonTypes } from '../../constants/lessonTypes';
-import { getLessonBuilding } from '../../lib/getLessonBuilding';
 import { LessonDrawer } from '../LessonDrawer/LessonDrawer';
 import { useDisclosure } from '@chakra-ui/react';
-import styles from './LessonCard.module.scss';
 import { sliceLessonName } from '../../lib/sliceLessonName';
 import { useColorModeValue } from '@chakra-ui/react';
+import styles from './FadedLessonCard.module.scss';
 
-export function LessonCard({
+export function FadedLessonCard({
   lesson,
   dayDate,
 }: {
@@ -21,10 +19,6 @@ export function LessonCard({
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
-  const blueLightElementColor = useColorModeValue(
-    'light.blue_light_element',
-    'dark.blue_light_element'
-  );
   return (
     <>
       <HStack
@@ -37,16 +31,7 @@ export function LessonCard({
             className={styles['lesson-card__time--start']}
             color={mainTextColor}
           >
-            {lesson.start_time
-              ? DateTime.fromISO(lesson.start_time).toFormat('HH:mm')
-              : 'Н/Д'}
-          </Text>
-          <Text
-            className={styles['lesson-card__time--end']}
-            color={blueLightElementColor}
-          >
-            {lesson.end_time &&
-              DateTime.fromISO(lesson.end_time).toFormat('HH:mm')}
+            00:00
           </Text>
         </div>
         <div className={styles['lesson-card__timeline']}>
@@ -62,9 +47,9 @@ export function LessonCard({
           >
             {sliceLessonName(lesson.discipline.name)}
           </Text>
-          <Text color={mainTextColor} fontWeight={'medium'}>
+          {/* <Text color={mainTextColor} fontWeight={'medium'}>
             {getLessonBuilding(lesson.building_number, lesson.audience_number)}
-          </Text>
+          </Text> */}
           <Text fontWeight={'meduim'}>
             {lesson.parsed_lesson_type &&
               LessonTypes[lesson.parsed_lesson_type]}

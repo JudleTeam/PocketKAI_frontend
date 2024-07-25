@@ -9,13 +9,13 @@ export function UiDatebar({
   isNotDatebar: boolean;
 }) {
   const { theme } = useChakra();
-  const main = useColorModeValue(
+  const mainColor = useColorModeValue(
     theme.colors.light.main,
     theme.colors.dark.main
   );
   return (
     <HStack
-      boxShadow={`0px 10px 10px 10px ${main}`}
+      boxShadow={`0px 10px 10px 10px ${mainColor}`}
       className={styles['datebar']}
       justifyContent={'space-around'}
       display={isNotDatebar ? 'none' : 'flex'}

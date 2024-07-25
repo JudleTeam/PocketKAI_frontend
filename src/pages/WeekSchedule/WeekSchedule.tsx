@@ -51,20 +51,20 @@ export function WeekSchedule() {
     sunday: 'Вс',
   };
   const { theme } = useChakra();
-  const main_text = useColorModeValue('light.main_text', 'dark.main_text');
-  const second_element_light = useColorModeValue(
+  const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
+  const secondElementLightColor = useColorModeValue(
     'light.second_element_light',
     'dark.second_element_light'
   );
-  const second_element = useColorModeValue(
+  const secondElementColor = useColorModeValue(
     'light.second_element',
     'dark.second_element'
   );
-  const card = useColorModeValue(
+  const cardColor = useColorModeValue(
     theme.colors.light.card,
     theme.colors.dark.card
   );
-  const main = useColorModeValue(
+  const mainColor = useColorModeValue(
     theme.colors.light.main,
     theme.colors.dark.main
   );
@@ -76,8 +76,8 @@ export function WeekSchedule() {
     <Tabs className={styles['full-schedule']} variant="unstyled">
       <Box
         className={styles['full-schedule__tab-list']}
-        bgColor={main}
-        boxShadow={`0 -25px 20px 50px ${main}`}
+        bgColor={mainColor}
+        boxShadow={`0 -25px 20px 50px ${mainColor}`}
       >
         <TabList
           display="flex"
@@ -88,13 +88,13 @@ export function WeekSchedule() {
         >
           <Tab
             _selected={{
-              color: second_element_light,
-              bgColor: card,
+              color: secondElementLightColor,
+              bgColor: cardColor,
               fontSize: '16px',
-              boxShadow: `0 0 5px 0px ${card}`,
+              boxShadow: `0 0 5px 0px ${cardColor}`,
               borderRadius: '4px',
             }}
-            color={second_element}
+            color={secondElementColor}
             fontWeight="medium"
             onClick={() => setWeekParity('even')}
           >
@@ -102,13 +102,13 @@ export function WeekSchedule() {
           </Tab>
           <Tab
             _selected={{
-              color: second_element_light,
-              bgColor: card,
+              color: secondElementLightColor,
+              bgColor: cardColor,
               fontSize: '16px',
-              boxShadow: `0 0 5px 0px ${card}`,
+              boxShadow: `0 0 5px 0px ${cardColor}`,
               borderRadius: '4px',
             }}
-            color={second_element}
+            color={secondElementColor}
             fontWeight="medium"
             onClick={() => setWeekParity('odd')}
           >
@@ -121,14 +121,14 @@ export function WeekSchedule() {
               key={day[0]}
               color={
                 currentDayOfWeek === day[0]
-                  ? second_element_light
-                  : second_element
+                  ? secondElementLightColor
+                  : secondElementColor
               }
               fontSize="18px"
               fontWeight="medium"
               borderRadius="8px"
-              bgColor={currentDay === day[0] ? card : ''}
-              boxShadow={currentDay === day[0] ? `0 0 5px 0 ${card}` : ''}
+              bgColor={currentDay === day[0] ? cardColor : ''}
+              boxShadow={currentDay === day[0] ? `0 0 5px 0 ${cardColor}` : ''}
               padding={currentDay === day[0] ? '10px' : ''}
             >
               <button
@@ -152,7 +152,7 @@ export function WeekSchedule() {
           const dayLessons = weekDay[1];
           return (
             <div id={dayName} key={dayName}>
-              <Text color={main_text} fontWeight="medium" fontSize="18px">
+              <Text color={mainTextColor} fontWeight="medium" fontSize="18px">
                 {dayName && weekDayName[dayName]}
               </Text>
               {dayLessons.length > 0 ? (
@@ -164,10 +164,10 @@ export function WeekSchedule() {
               ) : (
                 <Box
                   w="100%"
-                  bgColor={card}
+                  bgColor={cardColor}
                   borderRadius="8px"
                   padding="10px 15px"
-                  color={main_text}
+                  color={mainTextColor}
                   fontWeight="bold"
                   fontSize="18px"
                 >

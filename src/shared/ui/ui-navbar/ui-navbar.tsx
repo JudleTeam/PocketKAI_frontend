@@ -8,19 +8,19 @@ export function UiNavbar({
   navbarActions: () => ReactNode;
 }) {
   const { theme } = useChakra();
-  const bgColor = useColorModeValue(
+  const mainElement = useColorModeValue(
     theme.colors.light.main_element,
     theme.colors.dark.main_element
   );
-  const boxShadow = useColorModeValue(
+  const mainColor = useColorModeValue(
     theme.colors.light.main,
     theme.colors.dark.main
   );
   return (
     <HStack
-      bgColor={bgColor}
+      bgColor={mainElement}
       className={styles['navbar']}
-      boxShadow={`0px 15px 20px 30px ${boxShadow}`}
+      boxShadow={`0px 15px 20px 30px ${mainColor}`}
       justifyContent={'space-around'}
     >
       {navbarActions()}
