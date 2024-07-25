@@ -8,7 +8,7 @@ export const groupService = {
   getGroupByName: (name: string): ApiResponse<Group> => {
     return apiClient.get<Group>(`/group/by_name/${name}`);
   },
-  getGroupById: (id: number): ApiResponse<Group> => {
+  getGroupById: (id: string): ApiResponse<Group> => {
     return apiClient.get<Group>(`/group/by_id/${id}`);
   },
   suggestGroupByName: (

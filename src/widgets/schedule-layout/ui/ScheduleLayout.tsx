@@ -1,4 +1,4 @@
-import { Box, Skeleton, Text } from '@chakra-ui/react';
+import { Box, Skeleton, Stack, Text } from '@chakra-ui/react';
 import { LessonCard, RestCard } from '@/entities';
 import { getFormattedDate, Nullable, Schedule } from '@/shared';
 import { useEffect } from 'react';
@@ -17,10 +17,14 @@ export function ScheduleLayout({ schedule }: { schedule: Nullable<Schedule> }) {
     if (todayBlock) {
       todayBlock.scrollIntoView();
     }
-  }, []);
+  }, [today]);
   return (
     <div className={styles['schedule']}>
-      <Skeleton ref={upperRef} h={'100px'} />
+      <Stack ref={upperRef}>
+        <Skeleton height="20px" />
+        <Skeleton height="20px" />
+        <Skeleton height="20px" />
+      </Stack>
       {schedule?.days.map((day) => (
         <div key={day.date} className={styles['day']} id={day.date}>
           <Text color="blue.900" fontWeight="medium" fontSize="18px" pt="5px">
@@ -44,7 +48,11 @@ export function ScheduleLayout({ schedule }: { schedule: Nullable<Schedule> }) {
           )}
         </div>
       ))}
-      <Skeleton ref={lowerRef} h={'100px'} />
+      <Stack ref={lowerRef}>
+        <Skeleton height="20px" />
+        <Skeleton height="20px" />
+        <Skeleton height="20px" />
+      </Stack>
     </div>
   );
 }

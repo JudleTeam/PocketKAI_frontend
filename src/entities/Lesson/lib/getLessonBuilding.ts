@@ -14,7 +14,7 @@ export const getLessonBuilding = (
   if (!audience) {
     return `Здание: ${build}`;
   }
-  if (build === audience) {
+  if (build.toLocaleLowerCase() === audience.toLocaleLowerCase()) {
     return `Здание: ${build}`;
   }
   return `Здание: ${build} Ауд: ${audience}`;

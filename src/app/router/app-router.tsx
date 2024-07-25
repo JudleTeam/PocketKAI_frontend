@@ -1,4 +1,5 @@
-import { Assignments, WeekSchedule, Schedule, Teachers } from '@/pages';
+import { Assignments, WeekSchedule, Schedule, Teachers, Account, Settings } from '@/pages';
+
 import { RootLayout, AppLayout } from '@/widgets';
 import {
   createBrowserRouter,
@@ -19,7 +20,11 @@ const routes = createRoutesFromElements([
       </Route>
       <Route
         path="account"
-        element={<div style={{ height: '100%' }}>Account</div>}
+        element={<Account/>}
+      />
+      <Route
+        path="settings"
+        element={<Settings/>}
       />
     </Route>
   </Route>,

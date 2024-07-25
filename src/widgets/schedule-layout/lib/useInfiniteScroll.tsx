@@ -9,14 +9,15 @@ export function useInfiniteScroll(
 ) {
   const observer = useRef<Nullable<IntersectionObserver>>(null);
   const { currentGroup } = useGroup();
-  const { getScheduleByName, scheduleStatus: status } = useSchedule();
+  const { getSchedule, scheduleStatus: status } = useSchedule();
   const upperRef = useRef<HTMLDivElement>(null);
   const lowerRef = useRef<HTMLDivElement>(null);
+  const scrollPosition = useRef<number>(0);
   useEffect(() => {
     if (!schedule || !currentGroup || !schedule.days.length) return;
     const options = {
       root: null,
-      rootMargin: '0px',
+      rootMargin: '100px 0px 100px 0px',
       threshold: 1,
     };
     observer.current = new IntersectionObserver((entries, observerInstance) => {
@@ -24,19 +25,19 @@ export function useInfiniteScroll(
         if (entry.isIntersecting && status !== 'loading') {
           const loader = entry.target as HTMLDivElement;
           observerInstance.unobserve(loader);
-
+          scrollPosition.current = window.scrollY;
           if (loader === upperRef.current) {
             const dateFrom = DateTime.fromISO(schedule?.days[0].date)
               .minus({ days: 7 })
               .toFormat('yyyy-LL-dd');
-            getScheduleByName(
-              currentGroup.group_name,
+            getSchedule(
               {
                 date_from: dateFrom,
                 days_count: 7,
               },
               false
             );
+            // window.scrollTo(0, scrollPosition.current);
           }
           if (loader === lowerRef.current) {
             const dateFrom = DateTime.fromISO(
@@ -44,8 +45,7 @@ export function useInfiniteScroll(
             )
               .plus({ days: 1 })
               .toFormat('yyyy-LL-dd');
-            getScheduleByName(
-              currentGroup.group_name,
+            getSchedule(
               {
                 date_from: dateFrom,
                 days_count: 7,
@@ -64,6 +64,6 @@ export function useInfiniteScroll(
     return () => {
       if (observer.current) observer.current.disconnect();
     };
-  }, [schedule, currentGroup, getScheduleByName, status]);
+  }, [schedule, currentGroup, getSchedule]);
   return { upperRef, lowerRef };
 }

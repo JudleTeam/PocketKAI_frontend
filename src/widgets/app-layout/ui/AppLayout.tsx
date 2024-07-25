@@ -26,10 +26,11 @@ export function AppLayout() {
   const { currentGroup } = useGroup();
   const {
     schedule,
-    getScheduleByName,
+    getSchedule,
+    getFullWeekScheduleByName,
     getWeekParity,
     parity,
-    scheduleStatus: status,
+    weekScheduleStatus: status,
   } = useSchedule();
   const swiperRef = useScrollSpy(schedule, setCurrentDay);
   const handleTodayDateClick = () => {
@@ -43,12 +44,20 @@ export function AppLayout() {
       .toFormat('yyyy-LL-dd');
     const days_count = 21;
     if (currentGroup && status === 'idle') {
-      getScheduleByName(currentGroup.group_name, {
-        date_from: weekAgo,
-        days_count,
+      getFullWeekScheduleByName(currentGroup.group_name).then(() => {
+        getSchedule({
+          date_from: weekAgo,
+          days_count,
+        });
       });
     }
-  }, [currentGroup, getScheduleByName, getWeekParity, status]);
+  }, [
+    currentGroup,
+    getSchedule,
+    getWeekParity,
+    getFullWeekScheduleByName,
+    status,
+  ]);
 
   const location = useLocation();
   const isNotDatebar =
