@@ -7,7 +7,7 @@ export function UiNavbar({
   navbarActions: () => ReactNode;
 }) {
   return (
-    <HStack className={styles['navbar']} justifyContent={'space-around'}>
+    <HStack className={styles['navbar']} boxShadow={'0px 15px 20px 30px white'} justifyContent={'space-around'}>
       {navbarActions()}
     </HStack>
   );

@@ -1,3 +1,5 @@
+export { Settings } from './Settings/Settings';
+
 export { WeekSchedule } from './WeekSchedule/WeekSchedule';
 
 export { Assignments } from './Assignments/Assignments';

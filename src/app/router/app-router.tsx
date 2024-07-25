@@ -1,4 +1,4 @@
-import { Assignments, WeekSchedule, Schedule, Teachers, Account } from '@/pages';
+import { Assignments, WeekSchedule, Schedule, Teachers, Account, Settings } from '@/pages';
 
 import { RootLayout, AppLayout } from '@/widgets';
 import {
@@ -21,6 +21,10 @@ const routes = createRoutesFromElements([
       <Route
         path="account"
         element={<Account/>}
+      />
+      <Route
+        path="settings"
+        element={<Settings/>}
       />
     </Route>
   </Route>,

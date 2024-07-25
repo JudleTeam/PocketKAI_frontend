@@ -1,7 +1,8 @@
-import { Divider, Text, HStack } from "@chakra-ui/react";
+import { Divider, HStack, Text } from "@chakra-ui/react";
 import { ComponentWithAs } from "@chakra-ui/react";
 import { IconProps } from "@chakra-ui/react";
 import { ArrowIcon } from "@/shared/assets/chakraIcons/ArrowIcon";
+import { Link } from "react-router-dom";
 
 type ActionType = {
     label: string;
@@ -12,7 +13,9 @@ export function accountAcion({action, index, lastIndex}:{action:ActionType, inde
     const Icon = action.icon;
     return (
         <>
-            <HStack padding='15px 20px' display='flex' justifyContent='space-between' 
+            <HStack as={Link} 
+            to={action.path}
+            padding='15px 20px' display='flex' justifyContent='space-between' 
             transition='0.2s'
             _active={{
                 bgColor: 'gray.100',

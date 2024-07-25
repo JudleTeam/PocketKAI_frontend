@@ -1,4 +1,4 @@
-import { useUser } from "@/entities/User/user.store"
+import { useUser } from "@/entities"
 import { Box, Text, Divider } from "@chakra-ui/react"
 import { GraduationCapIcon } from "@/shared/assets/chakraIcons/GraduationCapIcon"
 import { AccountIcon } from "@/shared/assets/chakraIcons/AccountIcon"
@@ -6,14 +6,14 @@ import { ArrowIcon } from "@/shared/assets/chakraIcons/ArrowIcon"
 import { ACCOUNT_ACTIONS } from "@/shared/constants"
 import { useDisclosure } from "@chakra-ui/react"
 import { UiDrawer } from "@/shared/ui/ui-drawer/UiDrawer"
-import { Auth } from "@/features/auth/Auth"
+import { Auth } from "@/features"
 import { useEffect } from "react"
-import { accountAcion } from "@/entities/User/constants/accountActions"
+import { accountAcion } from "@/entities"
 import { ExitIcon } from "@/shared/assets/chakraIcons/ExitIcon"
 import { USER_ACTIONS } from "@/shared/constants"
 export function Account(){
     const {isOpen, onClose, onOpen} = useDisclosure();
-    const {token, user, logOutOfAccount, getMeStudent} = useUser()
+    const {user, logOutOfAccount} = useUser()
     const handleClick = () => {
         logOutOfAccount()
     }
