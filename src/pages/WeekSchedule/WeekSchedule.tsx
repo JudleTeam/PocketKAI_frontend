@@ -7,6 +7,8 @@ import {
   Text,
   VStack,
   HStack,
+  useColorModeValue,
+  useChakra,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { FullLessonCard } from '@/entities';
@@ -48,13 +50,35 @@ export function WeekSchedule() {
     saturday: 'Сб',
     sunday: 'Вс',
   };
+  const { theme } = useChakra();
+  const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
+  const secondElementLightColor = useColorModeValue(
+    'light.second_element_light',
+    'dark.second_element_light'
+  );
+  const secondElementColor = useColorModeValue(
+    'light.second_element',
+    'dark.second_element'
+  );
+  const cardColor = useColorModeValue(
+    theme.colors.light.card,
+    theme.colors.dark.card
+  );
+  const mainColor = useColorModeValue(
+    theme.colors.light.main,
+    theme.colors.dark.main
+  );
   const currentDayOfWeek = dayIndex;
   const longDaysOfWeek = Object.keys(weekShortDay);
   useScrollSpyFull(longDaysOfWeek);
   const [currentDay, setCurrentDay] = useCurrentWeekDay();
   return (
     <Tabs className={styles['full-schedule']} variant="unstyled">
-      <div className={styles['full-schedule__tab-list']}>
+      <Box
+        className={styles['full-schedule__tab-list']}
+        bgColor={mainColor}
+        boxShadow={`0 -25px 20px 50px ${mainColor}`}
+      >
         <TabList
           display="flex"
           justifyContent="space-between"
@@ -64,12 +88,13 @@ export function WeekSchedule() {
         >
           <Tab
             _selected={{
-              color: 'blue.500',
+              color: secondElementLightColor,
+              bgColor: cardColor,
               fontSize: '16px',
-              boxShadow: '0 0 5px 0px #00000020',
+              boxShadow: `0 0 5px 0px ${cardColor}`,
               borderRadius: '4px',
             }}
-            color="blue.900"
+            color={secondElementColor}
             fontWeight="medium"
             onClick={() => setWeekParity('even')}
           >
@@ -77,12 +102,13 @@ export function WeekSchedule() {
           </Tab>
           <Tab
             _selected={{
-              color: 'blue.500',
+              color: secondElementLightColor,
+              bgColor: cardColor,
               fontSize: '16px',
-              boxShadow: '0 0 5px 0px #00000020',
+              boxShadow: `0 0 5px 0px ${cardColor}`,
               borderRadius: '4px',
             }}
-            color="blue.900"
+            color={secondElementColor}
             fontWeight="medium"
             onClick={() => setWeekParity('odd')}
           >
@@ -93,11 +119,16 @@ export function WeekSchedule() {
           {Object.entries(weekShortDay).map((day) => (
             <Box
               key={day[0]}
-              color={currentDayOfWeek === day[0] ? '#3182CE' : '#1A365D'}
+              color={
+                currentDayOfWeek === day[0]
+                  ? secondElementLightColor
+                  : secondElementColor
+              }
               fontSize="18px"
               fontWeight="medium"
               borderRadius="8px"
-              boxShadow={currentDay === day[0] ? '0 0 5px 0 #00000020' : ''}
+              bgColor={currentDay === day[0] ? cardColor : ''}
+              boxShadow={currentDay === day[0] ? `0 0 5px 0 ${cardColor}` : ''}
               padding={currentDay === day[0] ? '10px' : ''}
             >
               <button
@@ -114,14 +145,14 @@ export function WeekSchedule() {
             </Box>
           ))}
         </HStack>
-      </div>
+      </Box>
       {weekSchedule &&
         Object.entries(weekSchedule[weekParity].week_days).map((weekDay) => {
           const dayName = weekDay[0] as keyof typeof weekShortDay;
           const dayLessons = weekDay[1];
           return (
             <div id={dayName} key={dayName}>
-              <Text color="blue.900" fontWeight="medium" fontSize="18px">
+              <Text color={mainTextColor} fontWeight="medium" fontSize="18px">
                 {dayName && weekDayName[dayName]}
               </Text>
               {dayLessons.length > 0 ? (
@@ -133,10 +164,10 @@ export function WeekSchedule() {
               ) : (
                 <Box
                   w="100%"
-                  bgColor="#FAFAFA"
+                  bgColor={cardColor}
                   borderRadius="8px"
                   padding="10px 15px"
-                  color="blue.900"
+                  color={mainTextColor}
                   fontWeight="bold"
                   fontSize="18px"
                 >

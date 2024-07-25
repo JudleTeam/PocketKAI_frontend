@@ -6,6 +6,9 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  useColorModeValue,
+  useChakra,
+  Divider,
 } from '@chakra-ui/react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from './NavbarActions.module.scss';
@@ -16,6 +19,11 @@ export function NavbarActions() {
   const location = useLocation();
   const isOnFullSchedulePath = location.pathname === '/schedule/full';
   const navigate = useNavigate();
+  const { theme } = useChakra();
+  const mainElement = useColorModeValue(
+    theme.colors.light.main_element,
+    theme.colors.dark.main_element
+  );
   return (
     <>
       {NAVBAR_ACTIONS.map((action) => {
@@ -35,15 +43,23 @@ export function NavbarActions() {
             {(action.label === 'Расписание' && isCurrentLocation(action)) ||
             (action.label === 'Расписание' && isOnFullSchedulePath) ? (
               <Menu isLazy>
-                <MenuList bgColor="blue.500" color="#fff">
+                <MenuList
+                  display="flex"
+                  flexDirection="column"
+                  gap="10px"
+                  w={'100%'}
+                  h={'100%'}
+                  bgColor={mainElement}
+                  color="#fff"
+                >
                   {location.pathname === '/schedule/full' &&
                   action.path === '/schedule' ? (
                     <MenuItem
                       as={Link}
                       to="/schedule"
+                      padding="5px 10px"
                       onClick={(e) => e.stopPropagation()}
-                      bgColor="blue.500"
-                      display={'inline'}
+                      bgColor={mainElement}
                     >
                       Таймлайн
                     </MenuItem>
@@ -51,13 +67,17 @@ export function NavbarActions() {
                     <MenuItem
                       as={Link}
                       to="/schedule/full"
+                      padding="5px 10px"
                       onClick={(e) => e.stopPropagation()}
-                      bgColor="blue.500"
+                      bgColor={mainElement}
                     >
                       Полное расписание
                     </MenuItem>
                   )}
-                  <MenuItem bgColor="blue.500">Расписание экзаменов</MenuItem>
+                  <Divider w={'90%'} alignSelf={'center'}></Divider>
+                  <MenuItem padding="5px 10px" bgColor={mainElement}>
+                    Расписание экзаменов
+                  </MenuItem>
                 </MenuList>
                 <MenuButton>
                   <VStack
@@ -76,7 +96,7 @@ export function NavbarActions() {
                         color={
                           isCurrentLocation(action) ||
                           location.pathname === '/schedule/full'
-                            ? '#3182ce'
+                            ? mainElement
                             : '#fff'
                         }
                       />
@@ -95,7 +115,7 @@ export function NavbarActions() {
                 className={styles['stack']}
               >
                 <Icon
-                  color={isCurrentLocation(action) ? '#3182ce' : '#fff'}
+                  color={isCurrentLocation(action) ? mainElement : '#fff'}
                   className={` ${styles['icon']} ${
                     isCurrentLocation(action) && styles['icon--active']
                   } `}

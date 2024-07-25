@@ -1,11 +1,12 @@
 import { useSchedule } from '@/entities';
-import { Box } from '@chakra-ui/react';
+import { Box, useChakra, useColorModeValue, Text } from '@chakra-ui/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import styles from './DatebarContent.module.scss';
 import { MutableRefObject } from 'react';
 import { Swiper as SwiperType } from 'swiper';
 import { Nullable } from '@/shared';
+import { DateTime } from 'luxon';
 
 function getDayOfWeek(date: string) {
   const daysOfWeek = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
@@ -13,7 +14,7 @@ function getDayOfWeek(date: string) {
   return daysOfWeek[dayIndex];
 }
 function isToday(date: string) {
-  const day = new Date().toISOString().slice(0, 10);
+  const day = DateTime.now().toFormat('yyyy-LL-dd');
   return day === date;
 }
 
@@ -26,6 +27,27 @@ export function DatebarContent({
   setCurrentDay: React.Dispatch<React.SetStateAction<string>>;
   swiperRef: MutableRefObject<Nullable<SwiperType>>;
 }) {
+  const { theme } = useChakra();
+  const cardColor = useColorModeValue(
+    theme.colors.light.card,
+    theme.colors.dark.card
+  );
+  const secondElementLightColor = useColorModeValue(
+    theme.colors.light.second_element_light,
+    theme.colors.dark.second_element_light
+  );
+  const secondElementColor = useColorModeValue(
+    theme.colors.light.second_element,
+    theme.colors.dark.second_element
+  );
+  const blueLightElementColor = useColorModeValue(
+    theme.colors.light.blue_light_element,
+    theme.colors.dark.blue_light_element
+  );
+  const blackLightElementColor = useColorModeValue(
+    theme.colors.light.black_light_element,
+    theme.colors.dark.black_light_element
+  );
   const { schedule } = useSchedule();
   return (
     <Swiper
@@ -45,6 +67,14 @@ export function DatebarContent({
           <SwiperSlide key={day.date}>
             <Box w={'100%'}>
               <button
+                style={
+                  currentDay === day.date
+                    ? {
+                        backgroundColor: cardColor,
+                        boxShadow: `0px 0px 5px 0px ${cardColor}`,
+                      }
+                    : {}
+                }
                 className={`${styles['date']} ${
                   isToday(day.date) ? styles['current'] : ''
                 } ${currentDay === day.date ? styles['today'] : ''}`}
@@ -53,8 +83,24 @@ export function DatebarContent({
                   setCurrentDay(day.date);
                 }}
               >
-                <p>{day.date.slice(-2)}</p>
-                <p>{getDayOfWeek(day.date)}</p>
+                <Text
+                  color={
+                    isToday(day.date)
+                      ? secondElementLightColor
+                      : secondElementColor
+                  }
+                >
+                  {day.date.slice(-2)}
+                </Text>
+                <Text
+                  color={
+                    isToday(day.date)
+                      ? blueLightElementColor
+                      : blackLightElementColor
+                  }
+                >
+                  {getDayOfWeek(day.date)}
+                </Text>
               </button>
             </Box>
           </SwiperSlide>

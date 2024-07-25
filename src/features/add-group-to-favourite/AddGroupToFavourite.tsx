@@ -12,12 +12,13 @@ import {
   Checkbox,
   RadioGroup,
   Radio,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 import React from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import Select from 'react-select';
-import { useGroup } from '@/entities';
+import { useGroup, useSchedule } from '@/entities';
 import { GroupShort, SelectItem } from '@/shared';
 type IFormInput = {
   group: SelectItem<GroupShort>;
@@ -34,6 +35,7 @@ export function AddGroupToFavourite(onClose: () => void) {
     getGroupByName,
     currentGroup,
   } = useGroup();
+  const { resetScheduleState } = useSchedule();
   const { resetField, handleSubmit, control, register } = useForm<IFormInput>();
 
   const handleInputChange = (newValue: string) => {
@@ -45,11 +47,21 @@ export function AddGroupToFavourite(onClose: () => void) {
     }
     setCurrentGroup(data.group.value);
     resetField('group');
+    resetScheduleState();
     onClose();
+  };
+  const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
+  const customStyles = {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-expect-error
+    option: (provided) => ({
+      ...provided,
+      color: '#000',
+    }),
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <ModalHeader fontSize={'24px'} fontWeight={'600'} color={'blue.900'}>
+      <ModalHeader fontSize={'24px'} fontWeight={'600'} color={mainTextColor}>
         Выбор группы
       </ModalHeader>
       <ModalCloseButton />
@@ -67,6 +79,7 @@ export function AddGroupToFavourite(onClose: () => void) {
                 label: group.group_name,
                 value: group,
               }))}
+              styles={customStyles}
             />
           )}
         />
@@ -86,7 +99,7 @@ export function AddGroupToFavourite(onClose: () => void) {
             py={'15px'}
             fontSize={'20px'}
             fontWeight={'600'}
-            color={'blue.900'}
+            color={mainTextColor}
           >
             Избранные группы
           </Heading>
@@ -95,7 +108,7 @@ export function AddGroupToFavourite(onClose: () => void) {
             onChange={(groupName) => getGroupByName(groupName)}
             value={currentGroup?.group_name}
           >
-            <Stack fontSize={'18px'} fontWeight={'500'} color={'blue.900'}>
+            <Stack fontSize={'18px'} fontWeight={'500'} color={mainTextColor}>
               {favouriteGroups.map((group) => (
                 <React.Fragment key={group.id}>
                   <Radio

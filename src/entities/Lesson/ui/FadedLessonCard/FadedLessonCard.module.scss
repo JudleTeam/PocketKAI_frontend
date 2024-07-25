@@ -3,6 +3,7 @@
 .lesson-card {
   display: flex;
   cursor: pointer;
+  opacity: 0.5;
   &::after {
     content: url('../../../../shared/assets/icons/right-arrow.svg');
     width: 10px;
@@ -16,7 +17,7 @@
   &__time {
     display: flex;
     flex-direction: column;
-    
+
     p {
       font-family: 'Chivo Mono', monospace;
       line-height: 1.5rem;
@@ -24,6 +25,7 @@
     }
     &--start {
       font-size: 1.5rem;
+      opacity: 0;
     }
     &--end {
       font-size: 1.2rem;

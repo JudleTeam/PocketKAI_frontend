@@ -1,3 +1,5 @@
+export { FadedLessonCard } from './Lesson/ui/FadedLessonCard/FadedLessonCard';
+
 export { accountActions } from './User/ui/AccountActions';
 
 export { useUser } from './User/user.store';

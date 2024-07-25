@@ -1,4 +1,5 @@
-import { useGroup } from '@/entities';
+import { useGroup, useSchedule } from '@/entities';
+import { GroupShort } from '@/shared';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
   Menu,
@@ -9,6 +10,7 @@ import {
   MenuOptionGroup,
   MenuDivider,
   Button,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 export function SelectGroup({
@@ -17,7 +19,16 @@ export function SelectGroup({
   isOpen: boolean;
   onOpen: () => void;
 }) {
+  const mainElementColor = useColorModeValue(
+    'light.main_element',
+    'dark.main_element'
+  );
   const { favouriteGroups, currentGroup, setCurrentGroup } = useGroup();
+  const { resetScheduleState } = useSchedule();
+  const handleGroupClick = (group: GroupShort) => {
+    setCurrentGroup(group);
+    resetScheduleState();
+  };
   return (
     <Menu>
       <MenuButton
@@ -25,20 +36,20 @@ export function SelectGroup({
         as={Button}
         transition="all 0.2s"
         rightIcon={<ChevronDownIcon />}
-        bg={'blue.500'}
+        bg={mainElementColor}
         color={'#ffffff'}
-        _hover={{ bg: 'blue.500', boxShadow: 'outline' }}
-        _focus={{ bg: 'blue.500' }}
+        _hover={{ bg: mainElementColor, boxShadow: 'outline' }}
+        _focus={{ bg: mainElementColor }}
         fontWeight={'500'}
         fontSize={'16px'}
       >
         {currentGroup ? `Гр. ${currentGroup.group_name}` : 'Группа'}
       </MenuButton>
-      <MenuList color={'#ffffff'} bg={'blue.500'} zIndex={2}>
+      <MenuList color={'#ffffff'} bg={mainElementColor} zIndex={2}>
         <MenuItem
           onClick={onOpen}
           color={'#ffffff'}
-          bg={'blue.500'}
+          bg={mainElementColor}
           fontWeight={'400'}
           fontSize={'16px'}
           justifyContent={'center'}
@@ -50,7 +61,7 @@ export function SelectGroup({
           title="Группа"
           type="radio"
           color={'#ffffff'}
-          bg={'blue.500'}
+          bg={mainElementColor}
           fontWeight={'500'}
           fontSize={'16px'}
           defaultValue={currentGroup?.id}
@@ -59,8 +70,8 @@ export function SelectGroup({
             <MenuItemOption
               key={group.id}
               value={group.id}
-              bg={'blue.500'}
-              onClick={() => setCurrentGroup(group)}
+              bg={mainElementColor}
+              onClick={() => handleGroupClick(group)}
             >
               {group.group_name}
             </MenuItemOption>

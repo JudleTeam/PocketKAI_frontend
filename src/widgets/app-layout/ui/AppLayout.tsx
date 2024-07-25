@@ -1,4 +1,10 @@
-import { Text, useDisclosure, VStack } from '@chakra-ui/react';
+import {
+  Text,
+  Box,
+  useColorModeValue,
+  useDisclosure,
+  VStack,
+} from '@chakra-ui/react';
 import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
@@ -26,11 +32,11 @@ export function AppLayout() {
   const { currentGroup } = useGroup();
   const {
     schedule,
+    parity,
+    weekScheduleStatus: status,
     getSchedule,
     getFullWeekScheduleByName,
     getWeekParity,
-    parity,
-    weekScheduleStatus: status,
   } = useSchedule();
   const swiperRef = useScrollSpy(schedule, setCurrentDay);
   const handleTodayDateClick = () => {
@@ -53,23 +59,24 @@ export function AppLayout() {
     }
   }, [
     currentGroup,
+    status,
     getSchedule,
     getWeekParity,
     getFullWeekScheduleByName,
-    status,
   ]);
-
+  const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
+  const mainColor = useColorModeValue('light.main', 'dark.main');
   const location = useLocation();
   const isNotDatebar =
     location.pathname.includes('teachers') ||
     location.pathname.includes('schedule/full');
   return (
     <div className={styles['app-layout']}>
-      <div className={styles['app-layout__header']}>
+      <Box className={styles['app-layout__header']} bgColor={mainColor}>
         <VStack
           alignItems={'flex-start'}
           fontWeight={'medium'}
-          color={'blue.900'}
+          color={mainTextColor}
           gap={0.4}
           onClick={handleTodayDateClick}
         >
@@ -79,7 +86,7 @@ export function AppLayout() {
           <Text>{parity && parityTypes[parity?.parity]}</Text>
         </VStack>
         <SelectGroup isOpen={isOpen} onOpen={onOpen} />
-      </div>
+      </Box>
       <UiDatebar
         isNotDatebar={isNotDatebar}
         datebarContent={DatebarContent({
