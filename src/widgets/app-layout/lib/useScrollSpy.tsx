@@ -1,5 +1,6 @@
 import { Nullable, Schedule } from '@/shared';
 import { MutableRefObject, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import Swiper from 'swiper';
 
 export function useScrollSpy(
@@ -8,6 +9,7 @@ export function useScrollSpy(
 ) {
   const swiperRef: MutableRefObject<Nullable<Swiper>> = useRef(null);
   const observers = useRef<IntersectionObserver[] | undefined>([]);
+  const location = useLocation();
   useEffect(() => {
     const options = {
       root: null,
@@ -36,6 +38,6 @@ export function useScrollSpy(
     return () => {
       observers.current?.forEach((observer) => observer.disconnect());
     };
-  }, [schedule, swiperRef, setCurrentDay]);
+  }, [schedule, swiperRef, setCurrentDay, location.pathname]);
   return swiperRef;
 }
