@@ -1,16 +1,52 @@
+import { Nullable } from "./common";
+
 export type Group = {
   id: string;
-  kai_id: bigint;
-  group_leader_id: string;
-  pinned_text: string;
+  kai_id: number;
+  group_leader_id: Nullable<string>;
+  pinned_text: Nullable<string>;
   group_name: string;
   is_verified: boolean;
-  verified_at: string;
+  verified_at: Nullable<string>;
   created_at: string;
-  parsed_at: string;
-  schedule_parsed_at: string;
-  syllabus_url: string;
-  educational_program_url: string;
+  parsed_at: Nullable<string>;
+  schedule_parsed_at: Nullable<string>;
+  syllabus_url: Nullable<string>;
+  educational_program_url: Nullable<string>;
+  study_schedule_url: Nullable<string>;
+  speciality: Nullable<SpecialityRead>;
+  profile: Nullable<ProfileRead>;
+  department: Nullable<DepartmentRead>;
+  institute: Nullable<InstituteRead>;
+};
+
+type SpecialityRead = {
+  name: string;
+  kai_id: number;
+  code: string;
+  id: string;
+  created_at: string;
+};
+
+type ProfileRead = {
+  kai_id: number;
+  name: string;
+  id: string;
+  created_at: string;
+};
+
+type DepartmentRead = {
+  kai_id: number;
+  name: string;
+  id: string;
+  created_at: string;
+};
+
+type InstituteRead = {
+  kai_id: number;
+  name: string;
+  id: string;
+  created_at: string;
 };
 
 export type GroupShort = {

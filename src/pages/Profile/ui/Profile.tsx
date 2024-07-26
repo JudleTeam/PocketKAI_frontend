@@ -38,6 +38,7 @@ export function Profile() {
   ];
   return (
     <Box display="flex" flexDirection="column" gap="20px">
+      <Text fontSize='24px' fontWeight='bold' color={main_text}>Профиль</Text>
       <Box
         w="100%"
         display="flex"
@@ -62,7 +63,7 @@ export function Profile() {
         {userDetails.map((detail, index) => (
           <Box key={index}>
             <Text color={second_element}>{detail.label}</Text>
-            <Text color={main_text} fontSize="20px">
+            <Text color={main_text} fontSize="18px">
               {detail.value}
             </Text>
           </Box>

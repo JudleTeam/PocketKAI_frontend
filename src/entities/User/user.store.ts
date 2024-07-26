@@ -38,7 +38,15 @@ export const useUser = create<UserType>()(
           set({ user: response.data });
       },
       logout: () => {
-        set({ user: null, token: '', userStatus: 'idle' });
+        const data = localStorage.getItem('favourite-group-storage');
+        if (data) {
+          const parsedData = JSON.parse(data);
+          parsedData.state.homeGroup = null;
+          parsedData.state.homeGroupStatus = 'idle';
+          const updatedData = JSON.stringify(parsedData);
+          localStorage.setItem('favourite-group-storage', updatedData);
+        }
+        set({ user: null, token: '', userStatus: 'idle'});
       },
     }),
     {

@@ -23,7 +23,7 @@ export function Account() {
   );
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const tab = useColorModeValue('light.tab', 'dark.tab');
-  const {homeGroup, getGroupById} = useGroup()
+  const {homeGroup, getGroupById, homeGroupStatus} = useGroup()
   const mainElementColor = useColorModeValue(
     'light.main_element',
     'dark.main_element'
@@ -36,10 +36,10 @@ export function Account() {
     logout();
   };
   useEffect(() => {
-    if(user?.group_id){
+    if(user?.group_id && homeGroupStatus === 'idle'){
       getGroupById(user?.group_id)
     } 
-  },[user?.group_id])
+  },[homeGroupStatus, getGroupById, user?.group_id])
   return (
     <Box className={styles['account']}>
       <Box className={styles['account__header']} bgColor={mainElementColor}>

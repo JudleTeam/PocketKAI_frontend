@@ -65,7 +65,7 @@ export function Auth(onClose: () => void) {
             gap="20px"
           >
             <Spinner size="xl" />
-            <Text>Крадём ваши данные...</Text>
+            <Text>Ловим связь с КАИ...</Text>
           </DrawerBody>
         ) : userStatus === 'success' ? (
           <DrawerBody
