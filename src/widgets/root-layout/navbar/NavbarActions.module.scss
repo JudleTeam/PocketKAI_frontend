@@ -4,7 +4,7 @@
     width: clamp(40px, 6.5vw, 150px);
     height: clamp(25px, 6.5vw, 150px);
     border-radius: 5px;
-    padding: 3px 7px;
+    padding: 3px;
     display: flex;
     transition: all 0.3s ease-in-out;
     &--active {

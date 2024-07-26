@@ -11,7 +11,8 @@ import { useDisclosure } from '@chakra-ui/react';
 import styles from './LessonCard.module.scss';
 import { sliceLessonName } from '../../lib/sliceLessonName';
 import { useColorModeValue } from '@chakra-ui/react';
-
+import { useRef } from 'react';
+import { UiDrawer } from '@/shared/ui/ui-drawer/UiDrawer';
 export function LessonCard({
   lesson,
   dayDate,
@@ -19,6 +20,7 @@ export function LessonCard({
   lesson: Lesson;
   dayDate: string;
 }) {
+  const btnRef = useRef<HTMLButtonElement>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const main_text = useColorModeValue('light.main_text', 'dark.main_text');
   const blue_light_element = useColorModeValue(
@@ -71,12 +73,7 @@ export function LessonCard({
           </Text>
         </div>
       </HStack>
-      <LessonDrawer
-        dayDate={dayDate}
-        lesson={lesson}
-        isOpen={isOpen}
-        onClose={onClose}
-      />
+      <UiDrawer isOpen={isOpen} onClose={onClose} btnRef={btnRef} drawerActions={() => LessonDrawer({dayDate, lesson, isOpen, onClose})} />
     </>
   );
 }

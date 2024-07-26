@@ -5,17 +5,17 @@ import { AccountIcon } from "../assets/chakraIcons/AccountIcon";
 export const USER_ACTIONS = [
     {
         label: 'Ваш профиль',
-        path: '/',
+        path: 'profile',
         icon: AccountIcon
     },
     {
         label: 'Ваша специальность',
-        path: '/',
+        path: 'speciality',
         icon: GraduationCapIcon
     },
     {
         label: 'Ваша группа',
-        path: '/',
+        path: 'group',
         icon: GroupsIcon
     },
 ]

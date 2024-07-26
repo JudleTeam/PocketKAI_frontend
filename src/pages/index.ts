@@ -1,3 +1,9 @@
+export { Speciality } from './Speciality/ui/Speciality';
+
+export { Group } from './Group/ui/Group';
+
+export { Profile } from './Profile/ui/Profile';
+
 export { Settings } from './Settings/Settings';
 
 export { WeekSchedule } from './WeekSchedule/WeekSchedule';

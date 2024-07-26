@@ -6,7 +6,7 @@ import { SettingsIcon } from "../assets/chakraIcons/SettingsIcon";
 export const ACCOUNT_ACTIONS = [
   {
     label: 'Настройки',
-    path: '/settings',
+    path: 'settings',
     icon: SettingsIcon,
   },
   {

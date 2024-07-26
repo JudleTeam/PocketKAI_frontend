@@ -7,6 +7,7 @@ import { persist } from 'zustand/middleware';
 
 type GroupState = {
   groups: Group[];
+  homeGroup: Nullable<Group>;
   searchedGroups: GroupShort[];
   favouriteGroups: GroupShort[];
   currentGroup: Nullable<Group | GroupShort>;
@@ -26,6 +27,7 @@ export const useGroup = create<GroupState & GroupActions>()(
   persist(
     (set) => ({
       currentGroup: null,
+      homeGroup: null,
       groups: [],
       searchedGroups: [],
       favouriteGroups: [],
@@ -39,7 +41,7 @@ export const useGroup = create<GroupState & GroupActions>()(
       },
       getGroupById: async (id) => {
         const response = await groupService.getGroupById(id);
-        set({ currentGroup: response.data });
+        set({ homeGroup: response.data });
       },
       suggestGroupByName: async (params: GroupSearchParams) => {
         const response = await groupService.suggestGroupByName(params);
@@ -57,9 +59,15 @@ export const useGroup = create<GroupState & GroupActions>()(
       },
 
       addGroupToFavourite: (group: GroupShort) => {
-        set((state) => ({
-          favouriteGroups: [...state.favouriteGroups, group],
-        }));
+        set((state) => {
+          const isAlreadyFavourite = state.favouriteGroups.some(favGroup => favGroup.id === group.id);
+          if (isAlreadyFavourite) {
+            return state;
+          }
+          return {
+            favouriteGroups: [...state.favouriteGroups, group],
+          };
+        });
       },
       removeGroupFromFavourite: (group: GroupShort) => {
         set((state) => ({
