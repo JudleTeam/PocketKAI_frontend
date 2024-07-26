@@ -20,7 +20,7 @@ export function NavbarActions() {
   const isOnFullSchedulePath = location.pathname === '/schedule/full';
   const navigate = useNavigate();
   const { theme } = useChakra();
-  const main_element = useColorModeValue(
+  const mainElement = useColorModeValue(
     theme.colors.light.main_element,
     theme.colors.dark.main_element
   );
@@ -49,7 +49,7 @@ export function NavbarActions() {
                   gap="10px"
                   w={'100%'}
                   h={'100%'}
-                  bgColor={main_element}
+                  bgColor={mainElement}
                   color="#fff"
                 >
                   {location.pathname === '/schedule/full' &&
@@ -59,7 +59,7 @@ export function NavbarActions() {
                       to="/schedule"
                       padding="5px 10px"
                       onClick={(e) => e.stopPropagation()}
-                      bgColor={main_element}
+                      bgColor={mainElement}
                     >
                       Таймлайн
                     </MenuItem>
@@ -69,13 +69,13 @@ export function NavbarActions() {
                       to="/schedule/full"
                       padding="5px 10px"
                       onClick={(e) => e.stopPropagation()}
-                      bgColor={main_element}
+                      bgColor={mainElement}
                     >
                       Полное расписание
                     </MenuItem>
                   )}
                   <Divider w={'90%'} alignSelf={'center'}></Divider>
-                  <MenuItem padding="5px 10px" bgColor={main_element}>
+                  <MenuItem padding="5px 10px" bgColor={mainElement}>
                     Расписание экзаменов
                   </MenuItem>
                 </MenuList>
@@ -96,7 +96,7 @@ export function NavbarActions() {
                         color={
                           isCurrentLocation(action) ||
                           location.pathname === '/schedule/full'
-                            ? main_element
+                            ? mainElement
                             : '#fff'
                         }
                       />
@@ -115,7 +115,7 @@ export function NavbarActions() {
                 className={styles['stack']}
               >
                 <Icon
-                  color={isCurrentLocation(action) ? main_element : '#fff'}
+                  color={isCurrentLocation(action) ? mainElement : '#fff'}
                   className={` ${styles['icon']} ${
                     isCurrentLocation(action) && styles['icon--active']
                   } `}

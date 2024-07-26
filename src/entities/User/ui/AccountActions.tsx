@@ -10,13 +10,13 @@ type ActionType = {
 };
 export function accountActions({
   tab,
-  main_text,
+  mainTextColor,
   action,
   index,
   lastIndex,
 }: {
   tab: string;
-  main_text: string;
+  mainTextColor: string;
   action: ActionType;
   index: number;
   lastIndex: number;
@@ -46,7 +46,7 @@ export function accountActions({
           as={'span'}
           display="flex"
           gap="10px"
-          color={main_text}
+          color={mainTextColor}
           fontSize="16px"
           fontWeight="medium"
         >

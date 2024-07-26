@@ -33,6 +33,7 @@ export function AppLayout() {
   const {
     schedule,
     parity,
+    weekScheduleStatus: status,
     getSchedule,
     getFullWeekScheduleByName,
     getWeekParity,
@@ -48,7 +49,7 @@ export function AppLayout() {
       .minus({ days: 7 })
       .toFormat('yyyy-LL-dd');
     const days_count = 21;
-    if (currentGroup) {
+    if (currentGroup && status === 'idle') {
       getFullWeekScheduleByName(currentGroup.group_name).then(() => {
         getSchedule({
           date_from: weekAgo,
@@ -56,20 +57,26 @@ export function AppLayout() {
         });
       });
     }
-  }, [currentGroup, getSchedule, getWeekParity, getFullWeekScheduleByName]);
-  const main_text = useColorModeValue('light.main_text', 'dark.main_text');
-  const main = useColorModeValue('light.main', 'dark.main');
+  }, [
+    currentGroup,
+    status,
+    getSchedule,
+    getWeekParity,
+    getFullWeekScheduleByName,
+  ]);
+  const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
+  const mainColor = useColorModeValue('light.main', 'dark.main');
   const location = useLocation();
   const isNotDatebar =
     location.pathname.includes('teachers') ||
     location.pathname.includes('schedule/full');
   return (
     <div className={styles['app-layout']}>
-      <Box className={styles['app-layout__header']} bgColor={main}>
+      <Box className={styles['app-layout__header']} bgColor={mainColor}>
         <VStack
           alignItems={'flex-start'}
           fontWeight={'medium'}
-          color={main_text}
+          color={mainTextColor}
           gap={0.4}
           onClick={handleTodayDateClick}
         >

@@ -26,7 +26,7 @@ export function FullLessonDrawer({
   isOpen: boolean;
   onClose: () => void;
 }) {
-  const main_text = useColorModeValue('light.main_text', 'dark.main_text');
+  const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const parityTypes = {
     odd: 'Нечётная неделя',
     even: 'Чётная неделя',
@@ -61,7 +61,7 @@ export function FullLessonDrawer({
         <DrawerHeader
           w="95%"
           padding="40px 0 0 0"
-          color={main_text}
+          color={mainTextColor}
           display="flex"
           flexDirection="column"
           gap="5px"

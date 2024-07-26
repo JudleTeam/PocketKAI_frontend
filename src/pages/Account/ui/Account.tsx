@@ -21,14 +21,14 @@ export function Account() {
     'light.account_actions',
     'dark.account_actions'
   );
-  const main_text = useColorModeValue('light.main_text', 'dark.main_text');
+  const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const tab = useColorModeValue('light.tab', 'dark.tab');
   const {homeGroup, getGroupById} = useGroup()
-  const main_element = useColorModeValue(
+  const mainElementColor = useColorModeValue(
     'light.main_element',
     'dark.main_element'
   );
-  const exit_button = useColorModeValue(
+  const exitButtonColor = useColorModeValue(
     'light.exit_button',
     'dark.exit_button'
   );
@@ -42,7 +42,7 @@ export function Account() {
   },[user?.group_id])
   return (
     <Box className={styles['account']}>
-      <Box className={styles['account__header']} bgColor={main_element}>
+      <Box className={styles['account__header']} bgColor={mainElementColor}>
         {user ? (
           <>
             <Text
@@ -83,7 +83,7 @@ export function Account() {
               <React.Fragment key={action.label}>
                 {accountActions({
                   tab,
-                  main_text,
+                  mainTextColor,
                   action,
                   index,
                   lastIndex: USER_ACTIONS.length - 1,
@@ -108,7 +108,7 @@ export function Account() {
               as={'span'}
               display="flex"
               gap="10px"
-              color={main_text}
+              color={mainTextColor}
               fontSize="16px"
               fontWeight="medium"
             >
@@ -134,7 +134,7 @@ export function Account() {
           <React.Fragment key={action.label}>
             {accountActions({
               tab,
-              main_text,
+              mainTextColor,
               action,
               index,
               lastIndex: ACCOUNT_ACTIONS.length - 1,
@@ -150,7 +150,7 @@ export function Account() {
                 padding="15px 20px"
                 display="flex"
                 gap="10px"
-                color={exit_button}
+                color={exitButtonColor}
                 fontSize="16px"
                 fontWeight="medium"
                 transition="0.2s"

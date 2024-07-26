@@ -24,8 +24,6 @@ export function Auth(onClose: () => void) {
   const { reset, handleSubmit, register } = useForm<IFormInput>();
   const { userStatus, login, getMe } = useUser();
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    console.log(data);
-
     await login(data);
     await getMe();
     reset();
@@ -34,7 +32,7 @@ export function Auth(onClose: () => void) {
   useEffect(() => {
     console.log(userStatus);
   }, [userStatus]);
-  const main_text = useColorModeValue('light.main_text', 'dark.main_text');
+  const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <MotionDrawerContent
@@ -51,7 +49,11 @@ export function Auth(onClose: () => void) {
         padding="20px 0"
       >
         <DrawerCloseButton />
-        <DrawerHeader fontSize={'24px'} fontWeight={'600'} color={main_text}>
+        <DrawerHeader
+          fontSize={'24px'}
+          fontWeight={'600'}
+          color={mainTextColor}
+        >
           Вход в аккаунт
         </DrawerHeader>
         {userStatus === 'loading' ? (

@@ -10,7 +10,7 @@ import {
 } from '@/shared';
 import { generateDateSchedule } from '../lib/generateDateSchedule';
 
-type ScheduleStore = {
+type StoreState = {
   schedule: Schedule;
   weekSchedule: Nullable<FullWeekSchedule>;
   examsSchedule: null;
@@ -18,22 +18,16 @@ type ScheduleStore = {
   scheduleStatus: FetchStatus;
   weekScheduleStatus: FetchStatus;
   error: Nullable<unknown>;
-  // getWeekScheduleById: (
-  //   id: number,
-  //   params?: WeekScheduleParams
-  // ) => Promise<void>;
-  // getWeekScheduleByName: (
-  //   name: string,
-  //   params?: WeekScheduleParams
-  // ) => Promise<void>;
-  // getScheduleById: (id: number, params?: ScheduleParams) => Promise<void>;
+};
+type StoreActions = {
   getFullWeekScheduleByName: (name: string) => Promise<void>;
   addToCurrentSchedule: (params: ScheduleParams, isNextWeek?: boolean) => void;
   getSchedule: (params: ScheduleParams) => void;
   getWeekParity: (params?: WeekParity) => Promise<void>;
+  resetScheduleState: () => void;
 };
 
-export const useSchedule = create<ScheduleStore>((set, get) => ({
+const initialState: StoreState = {
   schedule: { parsed_at: '', days: [] },
   weekSchedule: null,
   examsSchedule: null,
@@ -41,17 +35,10 @@ export const useSchedule = create<ScheduleStore>((set, get) => ({
   scheduleStatus: 'idle',
   weekScheduleStatus: 'idle',
   error: null,
-  // getWeekScheduleById: async (id: number, params?: WeekScheduleParams) => {
-  //   const response = await scheduleService.getWeekScheduleByGroupId(id, params);
-  //   set({ weekSchedule: response.data });
-  // },
-  // getWeekScheduleByName: async (name: string, params?: WeekScheduleParams) => {
-  //   const response = await scheduleService.getWeekScheduleByGroupName(
-  //     name,
-  //     params
-  //   );
-  //   set({ weekSchedule: response.data });
-  // },
+};
+
+export const useSchedule = create<StoreState & StoreActions>((set, get) => ({
+  ...initialState,
   getFullWeekScheduleByName: async (name) => {
     set({ weekScheduleStatus: 'loading' });
     try {
@@ -69,19 +56,6 @@ export const useSchedule = create<ScheduleStore>((set, get) => ({
       set({ error, weekScheduleStatus: 'error' });
     }
   },
-  // getScheduleById: async (id: number, params?: ScheduleParams) => {
-  //   set({ scheduleStatus: 'loading' });
-  //   try {
-  //     const response = await scheduleService.getScheduleByGroupId(id, params);
-  //     set((state) => ({
-  //       ...state,
-  //       schedule: { ...state.schedule, ...response.data },
-  //       status: 'success',
-  //     }));
-  //   } catch (error) {
-  //     set({ error, scheduleStatus: 'error' });
-  //   }
-  // },
   addToCurrentSchedule: (params: ScheduleParams, isNextWeek = false) => {
     const response = generateDateSchedule(get().weekSchedule, params);
     set({
@@ -106,4 +80,5 @@ export const useSchedule = create<ScheduleStore>((set, get) => ({
     const response = await scheduleService.getWeekParity(params);
     set({ parity: response.data });
   },
+  resetScheduleState: () => set(initialState),
 }));

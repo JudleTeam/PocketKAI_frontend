@@ -6,6 +6,7 @@ import styles from './DatebarContent.module.scss';
 import { MutableRefObject } from 'react';
 import { Swiper as SwiperType } from 'swiper';
 import { Nullable } from '@/shared';
+import { DateTime } from 'luxon';
 
 function getDayOfWeek(date: string) {
   const daysOfWeek = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
@@ -13,7 +14,7 @@ function getDayOfWeek(date: string) {
   return daysOfWeek[dayIndex];
 }
 function isToday(date: string) {
-  const day = new Date().toISOString().slice(0, 10);
+  const day = DateTime.now().toFormat('yyyy-LL-dd');
   return day === date;
 }
 
@@ -27,23 +28,23 @@ export function DatebarContent({
   swiperRef: MutableRefObject<Nullable<SwiperType>>;
 }) {
   const { theme } = useChakra();
-  const card = useColorModeValue(
+  const cardColor = useColorModeValue(
     theme.colors.light.card,
     theme.colors.dark.card
   );
-  const second_element_light = useColorModeValue(
+  const secondElementLightColor = useColorModeValue(
     theme.colors.light.second_element_light,
     theme.colors.dark.second_element_light
   );
-  const second_element = useColorModeValue(
+  const secondElementColor = useColorModeValue(
     theme.colors.light.second_element,
     theme.colors.dark.second_element
   );
-  const blue_light_element = useColorModeValue(
+  const blueLightElementColor = useColorModeValue(
     theme.colors.light.blue_light_element,
     theme.colors.dark.blue_light_element
   );
-  const black_light_element = useColorModeValue(
+  const blackLightElementColor = useColorModeValue(
     theme.colors.light.black_light_element,
     theme.colors.dark.black_light_element
   );
@@ -69,8 +70,8 @@ export function DatebarContent({
                 style={
                   currentDay === day.date
                     ? {
-                        backgroundColor: card,
-                        boxShadow: `0px 0px 5px 0px ${card}`,
+                        backgroundColor: cardColor,
+                        boxShadow: `0px 0px 5px 0px ${cardColor}`,
                       }
                     : {}
                 }
@@ -84,14 +85,18 @@ export function DatebarContent({
               >
                 <Text
                   color={
-                    isToday(day.date) ? second_element_light : second_element
+                    isToday(day.date)
+                      ? secondElementLightColor
+                      : secondElementColor
                   }
                 >
                   {day.date.slice(-2)}
                 </Text>
                 <Text
                   color={
-                    isToday(day.date) ? blue_light_element : black_light_element
+                    isToday(day.date)
+                      ? blueLightElementColor
+                      : blackLightElementColor
                   }
                 >
                   {getDayOfWeek(day.date)}

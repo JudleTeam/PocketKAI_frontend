@@ -4,7 +4,7 @@ import { getRestState } from '../../lib/getRestState';
 import { lessonStateIcons } from '../../constants/lessonStateIcons';
 
 export function RestCard({ dayDate }: { dayDate: string }) {
-  const main_text = useColorModeValue('light.main_text', 'dark.main_text');
+  const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   return (
     <HStack className={styles['rest-card']} alignItems="flex-start">
       <div className={styles['rest-card__time']}>
@@ -20,7 +20,7 @@ export function RestCard({ dayDate }: { dayDate: string }) {
       </div>
       <div className={styles['rest-card__info']}>
         <Text
-          color={main_text}
+          color={mainTextColor}
           fontWeight="bold"
           lineHeight={1.3}
           className={styles['rest-card__name']}
