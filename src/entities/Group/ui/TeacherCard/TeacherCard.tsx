@@ -50,7 +50,7 @@ export function TeacherCard({ lesson }: { lesson: Lesson }) {
       <UiDrawer
         isOpen={isOpen}
         onClose={onClose}
-        drawerActions={() => TeacherDrawer({ lesson })}
+        drawerActions={TeacherDrawer({lesson})}
       ></UiDrawer>
     </Box>
   );
