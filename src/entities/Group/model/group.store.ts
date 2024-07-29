@@ -1,4 +1,4 @@
-import { FetchStatus, Group } from '@/shared';
+import { FetchStatus, Group, Lesson } from '@/shared';
 import { Nullable, GroupShort } from '@/shared';
 import { create } from 'zustand';
 import { groupService } from './group.service';
@@ -13,12 +13,15 @@ type GroupState = {
   currentGroup: Nullable<Group | GroupShort>;
   error: Nullable<unknown>,
   homeGroupStatus: FetchStatus,
+  lessonsCurrentGroup: Lesson[]
+
 };
 type GroupActions = {
   getAllGroups: () => void;
   getGroupByName: (name: string) => void;
   getGroupById: (id: string) => void;
   suggestGroupByName: (params: GroupSearchParams) => void;
+  getLessonsGroupById: (id: string) => void,
   setCurrentGroup: (group: Group | GroupShort) => void;
   removeCurrentGroup: () => void;
   addGroupToFavourite: (group: GroupShort) => void;
@@ -35,6 +38,7 @@ export const useGroup = create<GroupState & GroupActions>()(
       favouriteGroups: [],
       error: null,
       homeGroupStatus: 'idle',
+      lessonsCurrentGroup: [],
       getAllGroups: async () => {
         const response = await groupService.getAllGroups();
         set({ groups: response.data });
@@ -60,6 +64,11 @@ export const useGroup = create<GroupState & GroupActions>()(
         set({
           searchedGroups: response.data,
         });
+      },
+
+      getLessonsGroupById: async (id) => {
+        const response = await groupService.getLessonsGroupById(id);
+        set({ lessonsCurrentGroup: response.data });
       },
 
       setCurrentGroup: (group) => {
@@ -96,6 +105,7 @@ export const useGroup = create<GroupState & GroupActions>()(
         currentGroup: state.currentGroup,
         homeGroup: state.homeGroup,
         homeGroupStatus: state.homeGroupStatus,
+        lessonsCurrentGroup: state.lessonsCurrentGroup
       }),
     }
   )

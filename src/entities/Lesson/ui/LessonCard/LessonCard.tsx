@@ -1,4 +1,4 @@
-import { memo, useRef } from 'react';
+import { memo } from 'react';
 import {
   HStack,
   Text,
@@ -19,7 +19,6 @@ import styles from './LessonCard.module.scss';
 
 const LessonCard = memo(
   ({ lesson, dayDate }: { lesson: Lesson; dayDate: string }) => {
-    const btnRef = useRef<HTMLButtonElement>(null);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const mainTextColor = useColorModeValue(
       'light.main_text',
@@ -82,13 +81,10 @@ const LessonCard = memo(
         <UiDrawer
           isOpen={isOpen}
           onClose={onClose}
-          btnRef={btnRef}
           drawerActions={
             <LessonDrawer
               dayDate={dayDate}
               lesson={lesson}
-              isOpen={isOpen}
-              onClose={onClose}
             />
           }
         />
@@ -97,3 +93,4 @@ const LessonCard = memo(
   }
 );
 export default LessonCard;
+

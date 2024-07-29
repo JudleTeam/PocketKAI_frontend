@@ -1,0 +1,9 @@
+.teachers{
+    display: flex !important;
+    flex-direction: column;
+    gap: 20px;
+    height: 90%;
+    overflow-y: auto;
+    scrollbar-width: none;
+    padding: 0px 0px 35px 0px;
+}

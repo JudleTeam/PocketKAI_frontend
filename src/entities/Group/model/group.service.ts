@@ -1,4 +1,4 @@
-import { apiClient, ApiResponse, Group, GroupShort } from '@/shared';
+import { apiClient, ApiResponse, Group, GroupShort, Lesson } from '@/shared';
 import { GroupSearchParams } from './types';
 
 export const groupService = {
@@ -18,4 +18,9 @@ export const groupService = {
       params,
     });
   },
+  getLessonsGroupById: (
+    id: string
+  ): ApiResponse<Lesson[]> => {
+    return apiClient.get<Lesson[]>(`/group/by_id/${id}/lesson`)
+  }
 };

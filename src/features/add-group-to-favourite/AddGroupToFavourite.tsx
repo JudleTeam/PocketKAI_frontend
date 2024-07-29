@@ -34,6 +34,7 @@ export function AddGroupToFavourite(onClose: () => void) {
     setCurrentGroup,
     getGroupByName,
     currentGroup,
+    getLessonsGroupById
   } = useGroup();
   const { resetScheduleState } = useSchedule();
   const { resetField, handleSubmit, control, register } = useForm<IFormInput>();
@@ -46,6 +47,7 @@ export function AddGroupToFavourite(onClose: () => void) {
       addGroupToFavourite(data.group.value);
     }
     setCurrentGroup(data.group.value);
+    getLessonsGroupById(data.group.value.id);
     resetField('group');
     resetScheduleState();
     onClose();
