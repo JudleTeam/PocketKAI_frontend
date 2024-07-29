@@ -3,6 +3,7 @@ import { DateTime } from 'luxon';
 import { getLessonBuilding } from '../../lib/getLessonBuilding';
 import { LessonTypes } from '../../constants/lessonTypes';
 import { Avatar, useColorModeValue } from '@chakra-ui/react';
+import { parityTypes } from '@/shared/constants';
 import {
   DrawerBody,
   DrawerHeader,
@@ -19,21 +20,15 @@ import {
   Tab,
   TabPanel,
 } from '@chakra-ui/react';
-export function LessonDrawer({
+const LessonDrawer = ({
   dayDate,
   lesson,
 }: {
   dayDate: string;
   lesson: Lesson;
-}) {
+}) => {
   const specificDate = DateTime.fromISO(dayDate);
   const formattedDate = specificDate.toFormat('d MMMM', { locale: 'ru' });
-  const parityTypes = {
-    odd: 'Нечётная неделя',
-    even: 'Чётная неделя',
-    any: 'Каждая неделя',
-  };
-
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   return (
     <DrawerContent
@@ -172,4 +167,6 @@ export function LessonDrawer({
       </DrawerBody>
     </DrawerContent>
   );
-}
+};
+
+export default LessonDrawer;

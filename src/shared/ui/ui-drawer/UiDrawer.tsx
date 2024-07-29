@@ -7,15 +7,19 @@ export function UiDrawer({
   isOpen,
   onClose,
 }: {
-  drawerActions: () => ReactNode;
+  drawerActions: ReactNode;
   isOpen: boolean;
   onClose: () => void;
 }) {
   useDrawerCloseEvent(onClose, isOpen);
   return (
-    <Drawer placement="bottom" isOpen={isOpen} onClose={onClose}>
-      <DrawerOverlay/>
-      {drawerActions()}
+    <Drawer
+      placement="bottom"
+      isOpen={isOpen}
+      onClose={onClose}
+    >
+      <DrawerOverlay />
+      {drawerActions}
     </Drawer>
   );
 }

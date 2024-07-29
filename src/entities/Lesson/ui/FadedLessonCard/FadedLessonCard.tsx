@@ -4,7 +4,7 @@ import { lessonStateIcons } from '../../constants/lessonStateIcons';
 import { getLessonState } from '../../lib/getLessonState';
 import { lessonStateLine } from '../../constants/lessonStateLine';
 import { LessonTypes } from '../../constants/lessonTypes';
-import { LessonDrawer } from '../LessonDrawer/LessonDrawer';
+import LessonDrawer from '../LessonDrawer/LessonDrawer';
 import { useDisclosure } from '@chakra-ui/react';
 import { sliceLessonName } from '../../lib/sliceLessonName';
 import { useColorModeValue } from '@chakra-ui/react';

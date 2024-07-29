@@ -45,7 +45,11 @@ export function FullLessonCard({ lesson }: { lesson: Lesson }) {
           <ArrowIcon transform="rotate(90deg)" color="gray.400"></ArrowIcon>
         </VStack>
       </Box>
-      <UiDrawer isOpen={isOpen} onClose={onClose} drawerActions={() => FullLessonDrawer({lesson})} />
+      <UiDrawer
+        isOpen={isOpen}
+        onClose={onClose}
+        drawerActions={FullLessonDrawer({lesson})}
+      />
     </>
   );
 }

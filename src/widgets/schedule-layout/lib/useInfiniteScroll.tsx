@@ -1,10 +1,11 @@
 import { useGroup, useSchedule } from '@/entities';
 import { Nullable, Schedule } from '@/shared';
 import { DateTime } from 'luxon';
-import { useEffect, useRef } from 'react';
+import { MutableRefObject, useEffect, useRef } from 'react';
 
 export function useInfiniteScroll(
   schedule: Nullable<Schedule>,
+  scheduleContainerRef: MutableRefObject<Nullable<HTMLDivElement>>,
   currentDay: string
 ) {
   const observer = useRef<Nullable<IntersectionObserver>>(null);
@@ -13,6 +14,7 @@ export function useInfiniteScroll(
   const upperRef = useRef<HTMLDivElement>(null);
   const lowerRef = useRef<HTMLDivElement>(null);
   const scrollPosition = useRef<number>(0);
+
   useEffect(() => {
     if (!schedule || !currentGroup || !schedule.days.length) return;
     const options = {
@@ -25,8 +27,10 @@ export function useInfiniteScroll(
         if (entry.isIntersecting && status !== 'loading') {
           const loader = entry.target as HTMLDivElement;
           observerInstance.unobserve(loader);
-          scrollPosition.current = window.scrollY;
           if (loader === upperRef.current) {
+            scrollPosition.current =
+              scheduleContainerRef.current?.scrollTop ?? 0;
+
             const dateFrom = DateTime.fromISO(schedule?.days[0].date)
               .minus({ days: 7 })
               .toFormat('yyyy-LL-dd');
@@ -37,9 +41,10 @@ export function useInfiniteScroll(
               },
               false
             );
-            // window.scrollTo(0, scrollPosition.current);
           }
           if (loader === lowerRef.current) {
+            scrollPosition.current =
+              scheduleContainerRef.current?.scrollTop ?? 0;
             const dateFrom = DateTime.fromISO(
               schedule?.days[schedule.days.length - 1].date
             )
@@ -53,6 +58,7 @@ export function useInfiniteScroll(
               true
             );
           }
+          scheduleContainerRef.current?.scrollTo(0, scrollPosition.current);
         }
       });
     }, options);
@@ -64,6 +70,12 @@ export function useInfiniteScroll(
     return () => {
       if (observer.current) observer.current.disconnect();
     };
-  }, [schedule, currentGroup, addToCurrentSchedule]);
+  }, [
+    schedule,
+    currentGroup,
+    addToCurrentSchedule,
+    scheduleContainerRef,
+    status,
+  ]);
   return { upperRef, lowerRef };
 }

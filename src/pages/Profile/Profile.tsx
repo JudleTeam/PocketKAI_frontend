@@ -6,12 +6,15 @@ import {
   useColorModeValue,
   Avatar,
 } from '@chakra-ui/react';
-import { DateTime } from 'luxon';
+import { getUserDetails } from './lib/getUserDetails';
+import { AccountTabHeader } from '@/shared/lib';
+
 export function Profile() {
   const { user } = useUser();
+  const userDetails = getUserDetails(user);
   const { theme } = useChakra();
-  const main_text = useColorModeValue('light.main_text', 'dark.main_text');
-  const second_element = useColorModeValue(
+  const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
+  const secondElementColor = useColorModeValue(
     'light.second_element',
     'dark.second_element'
   );
@@ -19,26 +22,9 @@ export function Profile() {
     theme.colors.light.card,
     theme.colors.dark.card
   );
-  let getFormattedDate;
-  if (user?.birthday) {
-    getFormattedDate = DateTime.fromISO(user?.birthday)
-      .setLocale('ru')
-      .toFormat('dd MMMM yyyy');
-  }
-  const userDetails = [
-    { label: 'Статус', value: user?.status },
-    { label: 'Номер зачётки', value: user?.zach_number },
-    { label: 'Пол', value: user?.sex },
-    { label: 'Год рождения', value: getFormattedDate },
-    { label: 'Тип обучения', value: user?.competition_type },
-    { label: 'Ступень образования', value: user?.edu_level },
-    { label: 'Степень', value: user?.edu_qualification },
-    { label: 'Электронная почта', value: user?.email },
-    { label: 'Форма обучения', value: user?.program_form },
-  ];
   return (
     <Box display="flex" flexDirection="column" gap="20px">
-      <Text fontSize='24px' fontWeight='bold' color={main_text}>Профиль</Text>
+      <AccountTabHeader color={mainTextColor}>Профиль</AccountTabHeader>
       <Box
         w="100%"
         display="flex"
@@ -47,23 +33,23 @@ export function Profile() {
         alignItems="center"
       >
         <Avatar />
-        <Text color={main_text} fontSize="20px" fontWeight="bold">
+        <Text color={mainTextColor} fontSize="20px" fontWeight="bold">
           {user?.full_name}
         </Text>
       </Box>
       <Box
         bgColor={card}
         borderRadius="8px"
-        padding="10px"
+        padding="15px 20px"
         display="flex"
         flexDirection="column"
-        gap="10px"
+        gap="15px"
         fontWeight="medium"
       >
-        {userDetails.map((detail, index) => (
-          <Box key={index}>
-            <Text color={second_element}>{detail.label}</Text>
-            <Text color={main_text} fontSize="18px">
+        {userDetails.map((detail) => (
+          <Box key={detail.label}>
+            <Text color={secondElementColor}>{detail.label}</Text>
+            <Text color={mainTextColor} fontSize="18px">
               {detail.value}
             </Text>
           </Box>
