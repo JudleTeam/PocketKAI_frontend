@@ -1,4 +1,4 @@
-import { Group } from '@/shared';
+import { FetchStatus, Group } from '@/shared';
 import { Nullable, GroupShort } from '@/shared';
 import { create } from 'zustand';
 import { groupService } from './group.service';
@@ -7,9 +7,12 @@ import { persist } from 'zustand/middleware';
 
 type GroupState = {
   groups: Group[];
+  homeGroup: Nullable<Group>;
   searchedGroups: GroupShort[];
   favouriteGroups: GroupShort[];
   currentGroup: Nullable<Group | GroupShort>;
+  error: Nullable<unknown>,
+  homeGroupStatus: FetchStatus,
 };
 type GroupActions = {
   getAllGroups: () => void;
@@ -26,9 +29,12 @@ export const useGroup = create<GroupState & GroupActions>()(
   persist(
     (set) => ({
       currentGroup: null,
+      homeGroup: null,
       groups: [],
       searchedGroups: [],
       favouriteGroups: [],
+      error: null,
+      homeGroupStatus: 'idle',
       getAllGroups: async () => {
         const response = await groupService.getAllGroups();
         set({ groups: response.data });
@@ -38,8 +44,16 @@ export const useGroup = create<GroupState & GroupActions>()(
         set({ currentGroup: response.data });
       },
       getGroupById: async (id) => {
-        const response = await groupService.getGroupById(id);
-        set({ currentGroup: response.data });
+        set({ homeGroupStatus: 'loading' })
+        try{
+          const response = await groupService.getGroupById(id);
+          set({
+            homeGroup: response.data,
+            homeGroupStatus: 'success'
+          });
+        } catch(error){
+          set({error, homeGroupStatus: 'error'})
+        }
       },
       suggestGroupByName: async (params: GroupSearchParams) => {
         const response = await groupService.suggestGroupByName(params);
@@ -57,9 +71,15 @@ export const useGroup = create<GroupState & GroupActions>()(
       },
 
       addGroupToFavourite: (group: GroupShort) => {
-        set((state) => ({
-          favouriteGroups: [...state.favouriteGroups, group],
-        }));
+        set((state) => {
+          const isAlreadyFavourite = state.favouriteGroups.some(favGroup => favGroup.id === group.id);
+          if (isAlreadyFavourite) {
+            return state;
+          }
+          return {
+            favouriteGroups: [...state.favouriteGroups, group],
+          };
+        });
       },
       removeGroupFromFavourite: (group: GroupShort) => {
         set((state) => ({
@@ -74,6 +94,8 @@ export const useGroup = create<GroupState & GroupActions>()(
       partialize: (state) => ({
         favouriteGroups: state.favouriteGroups,
         currentGroup: state.currentGroup,
+        homeGroup: state.homeGroup,
+        homeGroupStatus: state.homeGroupStatus,
       }),
     }
   )

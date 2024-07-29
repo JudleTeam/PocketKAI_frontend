@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Text, Divider, useDisclosure } from '@chakra-ui/react';
-import { useUser, accountActions } from '@/entities';
+import { useUser, accountActions, useGroup } from '@/entities';
 import { Auth } from '@/features';
 import {
   GraduationCapIcon,
@@ -8,11 +8,13 @@ import {
   ArrowIcon,
   ExitIcon,
 } from '@/shared/assets';
+import { useRef } from 'react';
 import { ACCOUNT_ACTIONS, USER_ACTIONS } from '@/shared/constants';
 import { UiDrawer } from '@/shared/ui/ui-drawer/UiDrawer';
 import styles from './Account.module.scss';
 import { useColorModeValue } from '@chakra-ui/react';
 export function Account() {
+  const btnRef = useRef<HTMLButtonElement>(null);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const { user, logout } = useUser();
   const account_actions = useColorModeValue(
@@ -21,6 +23,7 @@ export function Account() {
   );
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const tab = useColorModeValue('light.tab', 'dark.tab');
+  const { homeGroup, getGroupById, homeGroupStatus } = useGroup();
   const mainElementColor = useColorModeValue(
     'light.main_element',
     'dark.main_element'
@@ -32,7 +35,11 @@ export function Account() {
   const handleClick = () => {
     logout();
   };
-
+  useEffect(() => {
+    if (user?.group_id && homeGroupStatus === 'idle') {
+      getGroupById(user?.group_id);
+    }
+  }, [homeGroupStatus, getGroupById, user?.group_id]);
   return (
     <Box className={styles['account']}>
       <Box className={styles['account__header']} bgColor={mainElementColor}>
@@ -43,16 +50,18 @@ export function Account() {
               fontSize="24px"
               fontWeight="bold"
               color="#fff"
+              w="65%"
             >
               {user.full_name}
             </Text>
             <Text
+              w="65%"
               fontSize="18px"
               fontWeight="medium"
               color="#fff"
               textAlign="center"
             >
-              {user.status}
+              {user.status}, {homeGroup?.group_name}
             </Text>
           </>
         ) : (
@@ -161,7 +170,8 @@ export function Account() {
       <UiDrawer
         isOpen={isOpen}
         onClose={onClose}
-        drawerActions={() => Auth(onClose)}
+        drawerActions={Auth(onClose)}
+        btnRef={btnRef}
       />
     </Box>
   );

@@ -72,6 +72,7 @@ export function WeekSchedule() {
   const longDaysOfWeek = Object.keys(weekShortDay);
   useScrollSpyFull(longDaysOfWeek);
   const [currentDay, setCurrentDay] = useCurrentWeekDay();
+
   return (
     <Tabs className={styles['full-schedule']} variant="unstyled">
       <Box
