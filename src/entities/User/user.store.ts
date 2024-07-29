@@ -43,6 +43,7 @@ export const useUser = create<UserType>()(
           const parsedData = JSON.parse(data);
           parsedData.state.homeGroup = null;
           parsedData.state.homeGroupStatus = 'idle';
+          parsedData.state.lessonsHomeGroup = [];
           const updatedData = JSON.stringify(parsedData);
           localStorage.setItem('favourite-group-storage', updatedData);
         }

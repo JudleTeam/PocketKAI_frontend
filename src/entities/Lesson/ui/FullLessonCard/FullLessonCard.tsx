@@ -7,11 +7,9 @@ import { sliceLessonName } from '../../lib/sliceLessonName';
 import { FullLessonDrawer } from '../FullLessonDrawer/FullLessonDrawer';
 import { useDisclosure } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/react';
-import { useRef } from 'react';
 import { UiDrawer } from '@/shared/ui/ui-drawer/UiDrawer';
 export function FullLessonCard({ lesson }: { lesson: Lesson }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = useRef<HTMLButtonElement>(null);
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const cardColor = useColorModeValue('light.card', 'dark.card');
   return (
@@ -26,10 +24,10 @@ export function FullLessonCard({ lesson }: { lesson: Lesson }) {
         justifyContent="space-between"
       >
         <VStack alignItems="start" gap="2px" w="60%">
-          <Text color={mainTextColor} fontWeight="bold" fontSize="18px">
+          <Text color={mainTextColor} fontWeight="bold" fontSize="16px">
             {sliceLessonName(lesson.discipline.name)}
           </Text>
-          <Text color="gray.400" fontWeight="medium" fontSize="22px">
+          <Text color="gray.400" fontWeight="medium" fontSize="20px">
             {lesson.start_time?.slice(0, 5)} {lesson.end_time && '-'}{' '}
             {lesson.end_time?.slice(0, 5)}
           </Text>
@@ -47,7 +45,7 @@ export function FullLessonCard({ lesson }: { lesson: Lesson }) {
           <ArrowIcon transform="rotate(90deg)" color="gray.400"></ArrowIcon>
         </VStack>
       </Box>
-      <UiDrawer isOpen={isOpen} onClose={onClose} btnRef={btnRef} drawerActions={() => FullLessonDrawer({lesson, isOpen, onClose})} />
+      <UiDrawer isOpen={isOpen} onClose={onClose} drawerActions={() => FullLessonDrawer({lesson})} />
     </>
   );
 }

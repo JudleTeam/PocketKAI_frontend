@@ -1,8 +1,8 @@
-export { Speciality } from './Speciality/ui/Speciality';
+export { Speciality } from './Speciality/Speciality';
 
-export { Group } from './Group/ui/Group';
+export { Group } from './Group/Group';
 
-export { Profile } from './Profile/ui/Profile';
+export { Profile } from './Profile/Profile';
 
 export { Settings } from './Settings/Settings';
 
@@ -14,4 +14,4 @@ export { Teachers } from './Teachers/Teachers';
 
 export { Schedule } from './Schedule/Schedule';
 
-export { Account } from './Account/ui/Account';
+export { Account } from './Account/Account';

@@ -1,3 +1,11 @@
+export { sliceLessonName } from './Lesson/lib/sliceLessonName';
+
+export { getLessonBuilding } from './Lesson/lib/getLessonBuilding';
+
+export { TeacherCard } from './Group/ui/TeacherCard/TeacherCard';
+
+export { LessonTypes } from './Lesson/constants/lessonTypes';
+
 export { FadedLessonCard } from './Lesson/ui/FadedLessonCard/FadedLessonCard';
 
 export { accountActions } from './User/ui/AccountActions';
@@ -15,3 +23,4 @@ export { AddGroupToFavourite } from '../features/add-group-to-favourite/AddGroup
 export { LessonCard } from './Lesson/ui/LessonCard/LessonCard';
 
 export { useSchedule } from './Schedule/model/schedule.store';
+
