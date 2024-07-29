@@ -170,7 +170,7 @@ export function Account() {
       <UiDrawer
         isOpen={isOpen}
         onClose={onClose}
-        drawerActions={() => Auth(onClose)}
+        drawerActions={Auth(onClose)}
         btnRef={btnRef}
       />
     </Box>
