@@ -40,10 +40,10 @@ export function Profile() {
       <Box
         bgColor={card}
         borderRadius="8px"
-        padding="15px 20px"
+        padding="10px"
         display="flex"
         flexDirection="column"
-        gap="15px"
+        gap="10px"
         fontWeight="medium"
       >
         {userDetails.map((detail) => (
