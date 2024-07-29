@@ -46,11 +46,14 @@ const router = createBrowserRouter([
       },
       {
         path: 'account',
-        lazy: async () => {
-          const { Account } = await import('@/pages/Account/Account');
-          return { Component: Account };
-        },
         children: [
+          {
+            index: true,
+            lazy: async () => {
+              const { Account } = await import('@/pages/Account/Account');
+              return { Component: Account };
+            },
+          },
           {
             path: 'settings',
             lazy: async () => {
