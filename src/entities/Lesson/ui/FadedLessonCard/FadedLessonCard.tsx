@@ -57,7 +57,7 @@ export function FadedLessonCard({
           </Text>
         </div>
       </HStack>
-      <UiDrawer isOpen={isOpen} onClose={onClose} drawerActions={() => LessonDrawer({dayDate, lesson})}/>
+      <UiDrawer isOpen={isOpen} onClose={onClose} drawerActions={LessonDrawer({dayDate, lesson})}/>
     </>
   );
 }
