@@ -12,10 +12,6 @@ export function Speciality() {
     theme.colors.light.main,
     theme.colors.dark.main
   );
-  const secondElementColor = useColorModeValue(
-    'light.second_element',
-    'dark.second_element'
-  );
   const card = useColorModeValue(
     theme.colors.light.card,
     theme.colors.dark.card
@@ -58,7 +54,7 @@ export function Speciality() {
         </Text>
         {specialityDetails.map((detail) => (
           <Box key={detail.label}>
-            <Text color={secondElementColor}>{detail.label}</Text>
+            <Text color={'gray.500'}>{detail.label}</Text>
             <Text color={mainTextColor} fontSize="18px">
               {detail.value}
             </Text>
@@ -80,7 +76,7 @@ export function Speciality() {
           (url) =>
             url.label && (
               <Box fontWeight="medium" key={url.label}>
-                <Text color={secondElementColor}>{url.value}</Text>
+                <Text color={'gray.500'}>{url.value}</Text>
                 <a
                   style={{ color: mainTextColor, textDecoration: 'underline' }}
                   href={url.label}

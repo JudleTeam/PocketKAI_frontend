@@ -53,7 +53,7 @@ export function NavbarActions() {
                   color="#fff"
                 >
                   {location.pathname === '/schedule/full' &&
-                  action.path === '/schedule' ? (
+                    action.path === '/schedule' ? (
                     <MenuItem
                       as={Link}
                       to="/schedule"

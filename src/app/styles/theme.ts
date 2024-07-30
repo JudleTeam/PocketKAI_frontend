@@ -18,7 +18,7 @@ const theme = extendTheme({
             main: '#fff', // white - gray.800
             account_actions: '#fff', // white - gray.700
             exit_button: '#63171B', // red.900 - red.500
-            tab: '#EDF2F7' // gray.100 - gray.800
+            tab: '#EDF2F7', // gray.100 - gray.800
         },
         dark: {
             main_text: '#fff', // white

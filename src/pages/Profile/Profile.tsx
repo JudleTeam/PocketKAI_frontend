@@ -19,10 +19,6 @@ export function Profile() {
     theme.colors.light.main,
     theme.colors.dark.main
   );
-  const secondElementColor = useColorModeValue(
-    'light.second_element',
-    'dark.second_element'
-  );
   const card = useColorModeValue(
     theme.colors.light.card,
     theme.colors.dark.card
@@ -62,7 +58,7 @@ export function Profile() {
       >
         {userDetails.map((detail) => (
           <Box key={detail.label}>
-            <Text color={secondElementColor}>{detail.label}</Text>
+            <Text color={'gray.500'}>{detail.label}</Text>
             <Text color={mainTextColor} fontSize="18px">
               {detail.value}
             </Text>

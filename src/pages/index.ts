@@ -15,3 +15,9 @@ export { Teachers } from './Teachers/Teachers';
 export { Schedule } from './Schedule/Schedule';
 
 export { Account } from './Account/Account';
+
+export { Report } from './Report/Report';
+
+export { FrequentQuestions } from './FrequentQuestions/FrequentQuestions';
+
+export { AboutUs } from './AboutUs/AboutUs';
