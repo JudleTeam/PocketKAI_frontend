@@ -12,7 +12,6 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { FullLessonCard } from '@/entities';
-import { useCurrentWeekDay } from './lib/useCurrentWeekDay';
 import { useGroup } from '@/entities';
 import { DateTime } from 'luxon';
 import { useScrollSpyFull } from './lib/useScrollSpyFull';
@@ -50,6 +49,7 @@ export function WeekSchedule() {
     saturday: 'Сб',
     sunday: 'Вс',
   };
+  const [currentDay, setCurrentDay] = useState<string>('');
   const { theme } = useChakra();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const secondElementLightColor = useColorModeValue(
@@ -70,8 +70,7 @@ export function WeekSchedule() {
   );
   const currentDayOfWeek = dayIndex;
   const longDaysOfWeek = Object.keys(weekShortDay);
-  useScrollSpyFull(longDaysOfWeek);
-  const [currentDay, setCurrentDay] = useCurrentWeekDay();
+  useScrollSpyFull(longDaysOfWeek, currentDay, setCurrentDay);
 
   return (
     <Tabs className={styles['full-schedule']} variant="unstyled">

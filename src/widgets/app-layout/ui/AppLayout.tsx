@@ -54,6 +54,8 @@ export function AppLayout() {
         getSchedule({
           date_from: weekAgo,
           days_count,
+        }).then(() => {
+          handleTodayDateClick();
         });
       });
     }
@@ -64,6 +66,7 @@ export function AppLayout() {
     getWeekParity,
     getFullWeekScheduleByName,
   ]);
+
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const mainColor = useColorModeValue('light.main', 'dark.main');
   const location = useLocation();

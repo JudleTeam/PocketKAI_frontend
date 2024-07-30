@@ -1,8 +1,10 @@
 import { useEffect, useRef } from 'react';
-import { useCurrentWeekDay } from './useCurrentWeekDay';
 
-export function useScrollSpyFull(longDaysOfWeek: string[]) {
-  const [currentDay, setCurrentDay] = useCurrentWeekDay();
+export function useScrollSpyFull(
+  longDaysOfWeek: string[],
+  currentDay: string,
+  setCurrentDay: React.Dispatch<React.SetStateAction<string>>
+) {
   const observers = useRef<IntersectionObserver[] | undefined>([]);
 
   useEffect(() => {
@@ -16,8 +18,7 @@ export function useScrollSpyFull(longDaysOfWeek: string[]) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            //@ts-ignore
-            setCurrentDay(day); 
+            setCurrentDay(day);
           }
         });
       }, options);
@@ -31,5 +32,5 @@ export function useScrollSpyFull(longDaysOfWeek: string[]) {
     };
   }, [longDaysOfWeek, setCurrentDay]);
 
-  return currentDay;  // Return current day if needed
+  return currentDay; // Return current day if needed
 }

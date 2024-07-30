@@ -56,9 +56,6 @@ export function DatebarContent({
       }}
       slidesPerView={7}
       spaceBetween={10}
-      pagination={{
-        clickable: true,
-      }}
       slidesPerGroup={7}
       className={`${styles['date-wrapper']}`}
     >

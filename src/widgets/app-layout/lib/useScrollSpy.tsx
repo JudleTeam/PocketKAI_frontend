@@ -34,7 +34,6 @@ export function useScrollSpy(
       if (target) observer.observe(target);
       return observer;
     });
-
     return () => {
       observers.current?.forEach((observer) => observer.disconnect());
     };

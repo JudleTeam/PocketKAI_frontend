@@ -10,10 +10,10 @@ type WeekDays =
   | 'saturday'
   | 'sunday';
 
-export function generateDateSchedule(
+export async function generateDateSchedule(
   fullSchedule: Nullable<FullWeekSchedule>,
   params: ScheduleParams
-): Schedule {
+): Promise<Schedule> {
   if (!fullSchedule || !params.date_from)
     return {
       parsed_at: '',
