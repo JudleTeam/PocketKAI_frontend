@@ -9,6 +9,7 @@ import { useDisclosure } from '@chakra-ui/react';
 import { sliceLessonName } from '../../lib/sliceLessonName';
 import { useColorModeValue } from '@chakra-ui/react';
 import styles from './FadedLessonCard.module.scss';
+import { UiDrawer } from '@/shared/ui/ui-drawer/UiDrawer';
 
 export function FadedLessonCard({
   lesson,
@@ -56,12 +57,7 @@ export function FadedLessonCard({
           </Text>
         </div>
       </HStack>
-      <LessonDrawer
-        dayDate={dayDate}
-        lesson={lesson}
-        isOpen={isOpen}
-        onClose={onClose}
-      />
+      <UiDrawer isOpen={isOpen} onClose={onClose} drawerActions={LessonDrawer({dayDate, lesson})}/>
     </>
   );
 }

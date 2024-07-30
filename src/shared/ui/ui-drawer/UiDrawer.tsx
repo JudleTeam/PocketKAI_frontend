@@ -6,12 +6,10 @@ export function UiDrawer({
   drawerActions,
   isOpen,
   onClose,
-  btnRef,
 }: {
   drawerActions: ReactNode;
   isOpen: boolean;
   onClose: () => void;
-  btnRef: React.RefObject<HTMLButtonElement>;
 }) {
   useDrawerCloseEvent(onClose, isOpen);
   return (
@@ -19,7 +17,6 @@ export function UiDrawer({
       placement="bottom"
       isOpen={isOpen}
       onClose={onClose}
-      finalFocusRef={btnRef}
     >
       <DrawerOverlay />
       {drawerActions}

@@ -8,6 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { getUserDetails } from './lib/getUserDetails';
 import { AccountTabHeader } from '@/shared/lib';
+
 export function Profile() {
   const { user } = useUser();
   const userDetails = getUserDetails(user);
@@ -21,7 +22,6 @@ export function Profile() {
     theme.colors.light.card,
     theme.colors.dark.card
   );
-
   return (
     <Box display="flex" flexDirection="column" gap="20px">
       <AccountTabHeader color={mainTextColor}>Профиль</AccountTabHeader>
@@ -40,10 +40,10 @@ export function Profile() {
       <Box
         bgColor={card}
         borderRadius="8px"
-        padding="15px 20px"
+        padding="10px"
         display="flex"
         flexDirection="column"
-        gap="15px"
+        gap="10px"
         fontWeight="medium"
       >
         {userDetails.map((detail) => (

@@ -157,9 +157,18 @@ export function WeekSchedule() {
               </Text>
               {dayLessons.length > 0 ? (
                 <VStack gap="10px">
-                  {dayLessons.map((lesson) => (
-                    <FullLessonCard lesson={lesson} />
-                  ))}
+                  {dayLessons.map((lesson) => {
+                    if (
+                      lesson.parsed_dates 
+                    ) {
+                      return (
+                        <div className={styles['faded']}>
+                          <FullLessonCard lesson={lesson} />
+                        </div>
+                      );
+                    }
+                    return (<FullLessonCard lesson={lesson} />)
+                  })}
                 </VStack>
               ) : (
                 <Box

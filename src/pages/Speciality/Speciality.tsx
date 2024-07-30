@@ -15,7 +15,6 @@ export function Speciality() {
     theme.colors.light.card,
     theme.colors.dark.card
   );
-
   const specialityDetails = getSpecialtyDetails(homeGroup);
   return (
     <Box display="flex" flexDirection="column" gap="20px">

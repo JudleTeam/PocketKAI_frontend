@@ -8,13 +8,11 @@ import {
   ArrowIcon,
   ExitIcon,
 } from '@/shared/assets';
-import { useRef } from 'react';
 import { ACCOUNT_ACTIONS, USER_ACTIONS } from '@/shared/constants';
 import { UiDrawer } from '@/shared/ui/ui-drawer/UiDrawer';
 import styles from './Account.module.scss';
 import { useColorModeValue } from '@chakra-ui/react';
 export function Account() {
-  const btnRef = useRef<HTMLButtonElement>(null);
   const { homeGroup, getGroupById, homeGroupStatus } = useGroup();
   const { isOpen, onClose, onOpen } = useDisclosure();
   const { user, logout } = useUser();
@@ -171,7 +169,6 @@ export function Account() {
         isOpen={isOpen}
         onClose={onClose}
         drawerActions={Auth(onClose)}
-        btnRef={btnRef}
       />
     </Box>
   );
