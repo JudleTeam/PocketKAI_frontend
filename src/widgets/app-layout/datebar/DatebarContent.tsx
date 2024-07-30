@@ -57,6 +57,12 @@ export function DatebarContent({
       slidesPerView={7}
       spaceBetween={10}
       slidesPerGroup={7}
+      onSlideNextTransitionStart={(swiper) => {
+        swiper.swipeDirection = 'next';
+      }}
+      onSlidePrevTransitionStart={(swiper) => {
+        swiper.swipeDirection = 'prev';
+      }}
       className={`${styles['date-wrapper']}`}
     >
       {schedule?.days.map((day) => {

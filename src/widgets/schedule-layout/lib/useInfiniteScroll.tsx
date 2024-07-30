@@ -71,8 +71,6 @@ export function useInfiniteScroll() {
               scheduleContainerRef.current?.scrollTo(0, scrollPosition.current);
             });
           }
-
-          // document.getElementById(currentDay)?.scrollIntoView();
         }
       });
     }, options);

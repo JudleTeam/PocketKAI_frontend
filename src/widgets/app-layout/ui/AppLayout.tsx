@@ -39,9 +39,8 @@ export function AppLayout() {
     getWeekParity,
   } = useSchedule();
   const swiperRef = useScrollSpy(schedule, setCurrentDay);
-  const handleTodayDateClick = () => {
-    document.getElementById(getTodayDate())?.scrollIntoView();
-  };
+  const location = useLocation();
+
   useEffect(() => {
     getWeekParity();
     const weekAgo = DateTime.now()
@@ -66,10 +65,15 @@ export function AppLayout() {
     getWeekParity,
     getFullWeekScheduleByName,
   ]);
+  useEffect(() => {
+    document.getElementById(currentDay)?.scrollIntoView();
+  }, [location]);
 
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const mainColor = useColorModeValue('light.main', 'dark.main');
-  const location = useLocation();
+  const handleTodayDateClick = () => {
+    document.getElementById(getTodayDate())?.scrollIntoView();
+  };
   const isNotDatebar =
     location.pathname.includes('teachers') ||
     location.pathname.includes('schedule/full');

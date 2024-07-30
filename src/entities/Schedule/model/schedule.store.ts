@@ -60,15 +60,21 @@ export const useSchedule = create<StoreState & StoreActions>((set, get) => ({
     }
   },
   addToCurrentSchedule: async (params: ScheduleParams, isNextWeek = false) => {
-    const response = await generateDateSchedule(get().weekSchedule, params);
-    set({
-      schedule: {
-        parsed_at: response.parsed_at,
-        days: isNextWeek
-          ? [...get().schedule.days, ...response.days]
-          : [...response.days, ...get().schedule.days],
-      },
-    });
+    set({ scheduleStatus: 'loading' });
+    try {
+      const response = await generateDateSchedule(get().weekSchedule, params);
+      set({
+        schedule: {
+          parsed_at: response.parsed_at,
+          days: isNextWeek
+            ? [...get().schedule.days, ...response.days]
+            : [...response.days, ...get().schedule.days],
+        },
+        scheduleStatus: 'idle',
+      });
+    } catch (error) {
+      set({ error, scheduleStatus: 'error' });
+    }
   },
   getSchedule: async (params: ScheduleParams) => {
     const response = await generateDateSchedule(get().weekSchedule, params);
