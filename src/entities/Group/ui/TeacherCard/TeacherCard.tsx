@@ -31,7 +31,7 @@ export function TeacherCard({ lesson }: { lesson: Lesson }) {
         <Box display="flex" gap="10px" alignItems="center">
           <Avatar></Avatar>
           <Box>
-            <Text color={mainTextColor} fontWeight="bold" fontSize="16px">
+            <Text color={mainTextColor} fontWeight="bold" fontSize="14px">
               {sliceLessonName(lesson.discipline.name)}
             </Text>
             <Text color={mainTextColor} fontWeight="medium" fontSize="14px">

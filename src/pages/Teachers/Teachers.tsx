@@ -5,7 +5,7 @@ import styles from './Teachers.module.scss';
 import { TeacherCard } from '@/entities';
 export function Teachers() {
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
-  const { lessonsCurrentGroup } = useGroup();
+  const { lessonsCurrentGroup, currentGroup } = useGroup();
   return (
     <Box
       className={styles['teachers']}
@@ -14,7 +14,7 @@ export function Teachers() {
       gap="10px"
     >
       <Text fontSize="24px" fontWeight="bold" color={mainTextColor}>
-        Ваши преподаватели
+        Преподаватели гр. {currentGroup?.group_name}
       </Text>
       {lessonsCurrentGroup &&
         lessonsCurrentGroup.map((lesson) => (

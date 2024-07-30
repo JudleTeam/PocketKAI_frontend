@@ -8,12 +8,17 @@ import {
 } from '@chakra-ui/react';
 import { getUserDetails } from './lib/getUserDetails';
 import { AccountTabHeader } from '@/shared/lib';
+import styles from './Profile.module.scss';
 
 export function Profile() {
   const { user } = useUser();
   const userDetails = getUserDetails(user);
   const { theme } = useChakra();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
+  const mainColor = useColorModeValue(
+    theme.colors.light.main,
+    theme.colors.dark.main
+  );
   const secondElementColor = useColorModeValue(
     'light.second_element',
     'dark.second_element'
@@ -23,8 +28,17 @@ export function Profile() {
     theme.colors.dark.card
   );
   return (
-    <Box display="flex" flexDirection="column" gap="20px">
-      <AccountTabHeader color={mainTextColor}>Профиль</AccountTabHeader>
+    <Box className={styles['profile']}>
+      <Box
+        padding="20px 0 0 0"
+        position={'sticky'}
+        top={'0px'}
+        bgColor={mainColor}
+        zIndex={'1'}
+        boxShadow={`0px 0px 10px 10px ${mainColor}`}
+      >
+        <AccountTabHeader color={mainTextColor}>Профиль</AccountTabHeader>
+      </Box>
       <Box
         w="100%"
         display="flex"

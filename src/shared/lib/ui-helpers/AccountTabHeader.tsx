@@ -6,10 +6,10 @@ import { useNavigate } from 'react-router-dom';
 export const AccountTabHeader = ({
   color,
   children,
-}: PropsWithChildren<{ color: string }>) => {
+}: PropsWithChildren<{ color: string}>) => {
   const navigate = useNavigate();
   return (
-    <Flex alignItems={'center'} gap="5px">
+    <Flex  zIndex={'1'} position={'sticky'} top={'0px'} alignItems={'center'} gap="5px">
       <ChevronLeftIcon
         fontSize={'24px'}
         color={color}

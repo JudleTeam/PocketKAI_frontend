@@ -124,7 +124,6 @@ export function Account() {
       </Box>
       <Box
         className={styles['account__account-actions']}
-        position="fixed"
         bgColor={account_actions}
         top={user ? '480px' : '400px'}
       >
@@ -165,6 +164,7 @@ export function Account() {
           </>
         )}
       </Box>
+      <Box h='10px' w='100%' position='absolute' top={user ? '755px' : '630px'}></Box>
       <UiDrawer
         isOpen={isOpen}
         onClose={onClose}
