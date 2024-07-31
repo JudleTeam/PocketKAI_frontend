@@ -5,11 +5,11 @@ import {
   Text,
   VStack,
   Box,
-  Link,
   Avatar,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { Lesson } from '@/shared';
+import { Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import { getLessonBuilding } from '../../lib/getLessonBuilding';
 import { LessonTypes } from '../../constants/lessonTypes';
@@ -83,18 +83,19 @@ export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
               .map((date) =>
                 DateTime.fromISO(date).setLocale('ru').toFormat('dd MMMM')
               )
-              .join(',')}
+              .join(', ')}
           </Text>
         )}
-        <Link
+        <Text
+          as={Link}
           padding="10px 0"
           fontSize="14px"
           fontWeight="medium"
           color="orange.300"
-          href="#"
+          to="/account/report"
         >
           Сообщить об ошибке
-        </Link>
+        </Text>
         {lesson.teacher && (
           <Box
             boxShadow="0px 0px 5px 0px #00000020"

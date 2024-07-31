@@ -152,19 +152,19 @@ export function WeekSchedule() {
           const dayLessons = weekDay[1];
           return (
             <div id={dayName} key={dayName}>
-              <Text color={mainTextColor} fontWeight="medium" fontSize="18px">
+              <Text color={mainTextColor} fontWeight="medium" fontSize="18px" paddingBottom='10px'>
                 {dayName && weekDayName[dayName]}
               </Text>
               {dayLessons.length > 0 ? (
                 <VStack gap="10px">
                   {dayLessons.map((lesson) => {
-                    if (
-                      lesson.parsed_dates 
+                    if (  
+                      lesson.parsed_dates
                     ) {
                       return (
-                        <div className={styles['faded']}>
+                        <Box className={styles['faded']}>
                           <FullLessonCard lesson={lesson} />
-                        </div>
+                        </Box>
                       );
                     }
                     return (<FullLessonCard lesson={lesson} />)

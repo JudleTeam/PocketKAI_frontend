@@ -11,10 +11,10 @@ export function Teachers() {
       className={styles['teachers']}
       display="flex"
       flexDirection="column"
-      gap="10px"
+      gap="5px"
     >
-      <Text fontSize="24px" fontWeight="bold" color={mainTextColor}>
-        Преподаватели гр. {currentGroup?.group_name}
+      <Text fontSize="20px" fontWeight="bold" color={mainTextColor}>
+     Преподаватели гр. {currentGroup?.group_name}
       </Text>
       {lessonsCurrentGroup &&
         lessonsCurrentGroup.map((lesson) => (

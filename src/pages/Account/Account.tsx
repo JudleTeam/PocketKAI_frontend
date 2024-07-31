@@ -16,7 +16,7 @@ export function Account() {
   const { homeGroup, getGroupById, homeGroupStatus } = useGroup();
   const { isOpen, onClose, onOpen } = useDisclosure();
   const { user, logout } = useUser();
-  const account_actions = useColorModeValue(
+  const accountActionsColor = useColorModeValue(
     'light.account_actions',
     'dark.account_actions'
   );
@@ -73,7 +73,7 @@ export function Account() {
       </Box>
       <Box
         className={styles['account__user-actions']}
-        bgColor={account_actions}
+        bgColor={accountActionsColor}
       >
         {user ? (
           <Box display="flex" flexDirection="column">
@@ -124,7 +124,7 @@ export function Account() {
       </Box>
       <Box
         className={styles['account__account-actions']}
-        bgColor={account_actions}
+        bgColor={accountActionsColor}
         top={user ? '480px' : '400px'}
       >
         {ACCOUNT_ACTIONS.map((action, index) => (

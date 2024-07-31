@@ -15,10 +15,6 @@ import { sliceLessonName } from '@/entities';
 export function TeacherCard({ lesson }: { lesson: Lesson }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
-  const blueLightColor = useColorModeValue(
-    'light.blue_light_element',
-    'dark.blue_light_element'
-  );
   return (
     <Box>
       <Box
@@ -31,17 +27,16 @@ export function TeacherCard({ lesson }: { lesson: Lesson }) {
         <Box display="flex" gap="10px" alignItems="center">
           <Avatar></Avatar>
           <Box>
-            <Text color={mainTextColor} fontWeight="bold" fontSize="14px">
-              {sliceLessonName(lesson.discipline.name)}
-            </Text>
-            <Text color={mainTextColor} fontWeight="medium" fontSize="14px">
+          <Text color={mainTextColor} fontWeight="bold" fontSize="14px">
               {lesson.teacher?.name}
             </Text>
+            <Text color={mainTextColor} fontWeight="medium" fontSize="14px">
+              {sliceLessonName(lesson.discipline.name)}
+            </Text>
+            <Box fontSize='14px'>
             {lesson.parsed_lesson_type &&
               LessonTypes[lesson.parsed_lesson_type]}
-            <Text color={blueLightColor} fontWeight="medium" fontSize="12px">
-              {lesson.department?.name}
-            </Text>
+            </Box>
           </Box>
         </Box>
         <ArrowIcon transform="rotate(90deg)"></ArrowIcon>

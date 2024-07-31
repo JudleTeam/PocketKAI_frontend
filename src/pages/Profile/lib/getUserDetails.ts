@@ -1,4 +1,12 @@
-import { getFormattedDate, Nullable, UserStudent } from '@/shared';
+import { Nullable, UserStudent } from '@/shared';
+import { DateTime } from 'luxon';
+
+const getFormattedDate = (date:string) => {
+  const formattedDate = DateTime.fromISO(date)
+  .setLocale('ru')
+  .toFormat('dd MMMM yyyy');
+return formattedDate
+}
 
 export const getUserDetails = (user: Nullable<UserStudent>) => {
   if (!user) {
@@ -9,7 +17,7 @@ export const getUserDetails = (user: Nullable<UserStudent>) => {
     { label: 'Номер зачётки', value: user?.zach_number },
     { label: 'Пол', value: user?.sex },
     {
-      label: 'Год рождения',
+      label: 'День рождения',
       value: user.birthday ? getFormattedDate(user.birthday) : '',
     },
     { label: 'Тип обучения', value: user?.competition_type },
