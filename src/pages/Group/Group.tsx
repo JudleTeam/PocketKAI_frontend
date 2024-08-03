@@ -1,58 +1,30 @@
 import { useGroup } from '@/entities';
-import { Box, Text, useColorModeValue } from '@chakra-ui/react';
+import { Box, Text, useChakra, useColorModeValue } from '@chakra-ui/react';
 import { AccountTabHeader } from '@/shared/lib';
+import styles from './Group.module.scss';
 export function Group() {
+  const { theme } = useChakra();
   const { homeGroup } = useGroup();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
-  const secondElementColor = useColorModeValue(
-    'light.second_element',
-    'dark.second_element'
+  const mainColor = useColorModeValue(
+    theme.colors.light.main,
+    theme.colors.dark.main
   );
-  const card = useColorModeValue('light.card', 'dark.card');
-  const urls = [
-    { value: 'Учебный план ', label: homeGroup?.syllabus_url },
-    {
-      value: 'Календарный учебный график',
-      label: homeGroup?.study_schedule_url,
-    },
-    {
-      value: 'Образовательная программа',
-      label: homeGroup?.educational_program_url,
-    },
-  ];
   return (
-    <Box display="flex" flexDirection="column" gap="20px">
-      <AccountTabHeader color={mainTextColor}>
-        Группа {homeGroup?.group_name}
-      </AccountTabHeader>
+    <Box className={styles['group']}>
       <Box
-        bgColor={card}
-        padding="10px"
-        borderRadius="8px"
-        display="flex"
-        flexDirection="column"
-        gap="10px"
+        padding="20px 0 0 0"
+        position={'sticky'}
+        top={'0px'}
+        bgColor={mainColor}
+        zIndex={'1'}
+        boxShadow={`0px 0px 10px 10px ${mainColor}`}
       >
-        <Text color={mainTextColor} fontSize="22px" fontWeight="bold">
-          Документы
-        </Text>
-        {urls.map(
-          (url) =>
-            url.label && (
-              <Box fontWeight="medium" key={url.label}>
-                <Text color={secondElementColor}>{url.value}</Text>
-                <a
-                  style={{ color: mainTextColor, textDecoration: 'underline' }}
-                  href={url.label}
-                  target="_blank"
-                  download
-                >
-                  {url.label}
-                </a>
-              </Box>
-            )
-        )}
+        <AccountTabHeader color={mainTextColor}>
+          Группа {homeGroup?.group_name}
+        </AccountTabHeader>
       </Box>
+      <Text>Здесь будут ваши одногруппники</Text>
     </Box>
   );
 }

@@ -4,6 +4,7 @@ import { getLessonBuilding } from '../../lib/getLessonBuilding';
 import { LessonTypes } from '../../constants/lessonTypes';
 import { Avatar, useColorModeValue } from '@chakra-ui/react';
 import { parityTypes } from '@/shared/constants';
+import { Link } from 'react-router-dom';
 import {
   DrawerBody,
   DrawerHeader,
@@ -13,7 +14,6 @@ import {
   VStack,
   Button,
   Box,
-  Link,
   Tabs,
   TabList,
   TabPanels,
@@ -30,6 +30,7 @@ const LessonDrawer = ({
   const specificDate = DateTime.fromISO(dayDate);
   const formattedDate = specificDate.toFormat('d MMMM', { locale: 'ru' });
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
+  console.log(lesson);
   return (
     <DrawerContent
       minH="70vh"
@@ -91,7 +92,7 @@ const LessonDrawer = ({
             </Text>
           </VStack>
         </Box>
-        {lesson.parsed_dates && (
+        {lesson.parsed_dates && lesson.parsed_dates_status === 'good' ? (
           <Text fontWeight="medium" fontSize="18px">
             Даты проведения пары:{' '}
             {lesson.parsed_dates
@@ -100,16 +101,21 @@ const LessonDrawer = ({
               )
               .join(', ')}
           </Text>
-        )}
-        <Link
+        ) : lesson.parsed_dates_status === 'need_check' ? (
+          <Text fontWeight="medium" fontSize="18px">
+            Даты проведения пары: {lesson.original_dates}
+          </Text>
+        ) : null}
+        <Text
+          as={Link}
           padding="10px 0"
           fontSize="14px"
           fontWeight="medium"
           color="orange.300"
-          href="#"
+          to="/account/report"
         >
           Сообщить об ошибке
-        </Link>
+        </Text>
         {lesson.teacher && (
           <Box
             boxShadow="0px 0px 5px 0px #00000020"

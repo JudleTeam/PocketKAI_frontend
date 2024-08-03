@@ -28,7 +28,6 @@ const LessonCard = memo(
       'light.blue_light_element',
       'dark.blue_light_element'
     );
-    console.log('lesson card rendered!');
     return (
       <>
         <HStack

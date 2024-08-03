@@ -84,6 +84,27 @@ const router = createBrowserRouter([
               return { Component: Speciality };
             },
           },
+          {
+            path: 'faq',
+            lazy: async () => {
+              const {FrequentQuestions} = await import('@/pages');
+              return {Component: FrequentQuestions}
+            }
+          },
+          {
+            path: 'about',
+            lazy: async () => {
+              const {AboutUs} = await import('@/pages');
+              return {Component: AboutUs}
+            }
+          },
+          {
+            path: 'report',
+            lazy: async () => {
+              const {Report} = await import('@/pages');
+              return {Component: Report}
+            }
+          },
         ],
       },
     ],

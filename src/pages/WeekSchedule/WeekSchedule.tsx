@@ -12,7 +12,6 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { FullLessonCard } from '@/entities';
-import { useCurrentWeekDay } from './lib/useCurrentWeekDay';
 import { useGroup } from '@/entities';
 import { DateTime } from 'luxon';
 import { useScrollSpyFull } from './lib/useScrollSpyFull';
@@ -50,6 +49,7 @@ export function WeekSchedule() {
     saturday: 'Сб',
     sunday: 'Вс',
   };
+  const [currentDay, setCurrentDay] = useState<string>('');
   const { theme } = useChakra();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const secondElementLightColor = useColorModeValue(
@@ -70,8 +70,7 @@ export function WeekSchedule() {
   );
   const currentDayOfWeek = dayIndex;
   const longDaysOfWeek = Object.keys(weekShortDay);
-  useScrollSpyFull(longDaysOfWeek);
-  const [currentDay, setCurrentDay] = useCurrentWeekDay();
+  useScrollSpyFull(longDaysOfWeek, currentDay, setCurrentDay);
 
   return (
     <Tabs className={styles['full-schedule']} variant="unstyled">
@@ -153,19 +152,19 @@ export function WeekSchedule() {
           const dayLessons = weekDay[1];
           return (
             <div id={dayName} key={dayName}>
-              <Text color={mainTextColor} fontWeight="medium" fontSize="18px">
+              <Text color={mainTextColor} fontWeight="medium" fontSize="18px" paddingBottom='10px'>
                 {dayName && weekDayName[dayName]}
               </Text>
               {dayLessons.length > 0 ? (
                 <VStack gap="10px">
                   {dayLessons.map((lesson) => {
-                    if (
-                      lesson.parsed_dates 
+                    if (  
+                      lesson.parsed_dates
                     ) {
                       return (
-                        <div className={styles['faded']}>
+                        <Box className={styles['faded']}>
                           <FullLessonCard lesson={lesson} />
-                        </div>
+                        </Box>
                       );
                     }
                     return (<FullLessonCard lesson={lesson} />)

@@ -1,18 +1,19 @@
 import { useGroup, useSchedule } from '@/entities';
-import { Nullable, Schedule } from '@/shared';
+import { Nullable } from '@/shared';
 import { DateTime } from 'luxon';
-import { MutableRefObject, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
-export function useInfiniteScroll(
-  schedule: Nullable<Schedule>,
-  scheduleContainerRef: MutableRefObject<Nullable<HTMLDivElement>>,
-  currentDay: string
-) {
+export function useInfiniteScroll() {
   const observer = useRef<Nullable<IntersectionObserver>>(null);
   const { currentGroup } = useGroup();
-  const { addToCurrentSchedule, scheduleStatus: status } = useSchedule();
+  const {
+    schedule,
+    addToCurrentSchedule,
+    weekScheduleStatus: status,
+  } = useSchedule();
   const upperRef = useRef<HTMLDivElement>(null);
   const lowerRef = useRef<HTMLDivElement>(null);
+  const scheduleContainerRef = useRef<HTMLDivElement>(null);
   const scrollPosition = useRef<number>(0);
 
   useEffect(() => {
@@ -28,8 +29,8 @@ export function useInfiniteScroll(
           const loader = entry.target as HTMLDivElement;
           observerInstance.unobserve(loader);
           if (loader === upperRef.current) {
-            scrollPosition.current =
-              scheduleContainerRef.current?.scrollTop ?? 0;
+            const previousScrollHeight =
+              scheduleContainerRef.current?.scrollHeight;
 
             const dateFrom = DateTime.fromISO(schedule?.days[0].date)
               .minus({ days: 7 })
@@ -40,7 +41,17 @@ export function useInfiniteScroll(
                 days_count: 7,
               },
               false
-            );
+            ).then(() => {
+              if (
+                !previousScrollHeight ||
+                !scheduleContainerRef.current?.scrollHeight
+              )
+                return;
+              scrollPosition.current =
+                scheduleContainerRef.current?.scrollHeight -
+                previousScrollHeight;
+              scheduleContainerRef.current?.scrollTo(0, scrollPosition.current);
+            });
           }
           if (loader === lowerRef.current) {
             scrollPosition.current =
@@ -56,26 +67,25 @@ export function useInfiniteScroll(
                 days_count: 7,
               },
               true
-            );
+            ).then(() => {
+              scheduleContainerRef.current?.scrollTo(0, scrollPosition.current);
+            });
           }
-          scheduleContainerRef.current?.scrollTo(0, scrollPosition.current);
         }
       });
     }, options);
-    document.getElementById(currentDay)?.scrollIntoView();
 
     if (upperRef.current) observer.current.observe(upperRef.current);
     if (lowerRef.current) observer.current.observe(lowerRef.current);
-
     return () => {
       if (observer.current) observer.current.disconnect();
     };
   }, [
     schedule,
     currentGroup,
+    status,
     addToCurrentSchedule,
     scheduleContainerRef,
-    status,
   ]);
-  return { upperRef, lowerRef };
+  return { upperRef, lowerRef, scheduleContainerRef };
 }

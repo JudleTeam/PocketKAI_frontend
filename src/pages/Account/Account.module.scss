@@ -1,6 +1,12 @@
 .account {
+  position: relative;
+  display: flex;
+  height: 92%;
+  flex-direction: column;
+  overflow-y: auto;
+  scrollbar-width: none;
   &__header {
-    position: fixed;
+    position: absolute;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -11,14 +17,19 @@
     height: 300px;
   }
   &__user-actions {
-    position: fixed;
+    position: absolute;
     top: 275px;
+    left: 50%;
+    transform: translate(-50%);
     width: 90%;
     box-shadow: 0 0 5px 2px #00000020;
     border-radius: 8px;
   }
   &__account-actions {
+    position: absolute;
     width: 90%;
+    left: 50%;
+    transform: translate(-50%);
     display: flex;
     flex-direction: column;
     box-shadow: 0 0 5px 2px #00000020;

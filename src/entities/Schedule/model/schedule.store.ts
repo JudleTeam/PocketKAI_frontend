@@ -21,8 +21,11 @@ type StoreState = {
 };
 type StoreActions = {
   getFullWeekScheduleByName: (name: string) => Promise<void>;
-  addToCurrentSchedule: (params: ScheduleParams, isNextWeek?: boolean) => void;
-  getSchedule: (params: ScheduleParams) => void;
+  addToCurrentSchedule: (
+    params: ScheduleParams,
+    isNextWeek?: boolean
+  ) => Promise<void>;
+  getSchedule: (params: ScheduleParams) => Promise<void>;
   getWeekParity: (params?: WeekParity) => Promise<void>;
   resetScheduleState: () => void;
 };
@@ -56,19 +59,25 @@ export const useSchedule = create<StoreState & StoreActions>((set, get) => ({
       set({ error, weekScheduleStatus: 'error' });
     }
   },
-  addToCurrentSchedule: (params: ScheduleParams, isNextWeek = false) => {
-    const response = generateDateSchedule(get().weekSchedule, params);
-    set({
-      schedule: {
-        parsed_at: response.parsed_at,
-        days: isNextWeek
-          ? [...get().schedule.days, ...response.days]
-          : [...response.days, ...get().schedule.days],
-      },
-    });
+  addToCurrentSchedule: async (params: ScheduleParams, isNextWeek = false) => {
+    set({ scheduleStatus: 'loading' });
+    try {
+      const response = await generateDateSchedule(get().weekSchedule, params);
+      set({
+        schedule: {
+          parsed_at: response.parsed_at,
+          days: isNextWeek
+            ? [...get().schedule.days, ...response.days]
+            : [...response.days, ...get().schedule.days],
+        },
+        scheduleStatus: 'idle',
+      });
+    } catch (error) {
+      set({ error, scheduleStatus: 'error' });
+    }
   },
-  getSchedule: (params: ScheduleParams) => {
-    const response = generateDateSchedule(get().weekSchedule, params);
+  getSchedule: async (params: ScheduleParams) => {
+    const response = await generateDateSchedule(get().weekSchedule, params);
     set({
       schedule: {
         parsed_at: response.parsed_at,

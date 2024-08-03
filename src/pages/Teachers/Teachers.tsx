@@ -5,16 +5,16 @@ import styles from './Teachers.module.scss';
 import { TeacherCard } from '@/entities';
 export function Teachers() {
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
-  const { lessonsCurrentGroup } = useGroup();
+  const { lessonsCurrentGroup, currentGroup } = useGroup();
   return (
     <Box
       className={styles['teachers']}
       display="flex"
       flexDirection="column"
-      gap="10px"
+      gap="5px"
     >
-      <Text fontSize="24px" fontWeight="bold" color={mainTextColor}>
-        Ваши преподаватели
+      <Text fontSize="20px" fontWeight="bold" color={mainTextColor}>
+     Преподаватели гр. {currentGroup?.group_name}
       </Text>
       {lessonsCurrentGroup &&
         lessonsCurrentGroup.map((lesson) => (

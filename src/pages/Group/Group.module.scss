@@ -1,0 +1,10 @@
+.group{
+    width: 90%;
+    margin: 0 auto;
+    height: 92%;
+    overflow-y: auto;
+    scrollbar-width: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
