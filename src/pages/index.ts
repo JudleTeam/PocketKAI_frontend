@@ -21,3 +21,5 @@ export { Report } from './Report/Report';
 export { FrequentQuestions } from './FrequentQuestions/FrequentQuestions';
 
 export { AboutUs } from './AboutUs/AboutUs';
+
+export { Exams } from './Exams/Exams';

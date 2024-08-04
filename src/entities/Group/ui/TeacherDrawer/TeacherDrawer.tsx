@@ -7,7 +7,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-import { LessonTypes } from '@/entities';
+import { LessonTypes } from '@/shared/constants';
 import { DisciplineTypes } from '@/shared';
 export function TeacherDrawer({
   disciplineType,

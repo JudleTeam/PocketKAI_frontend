@@ -77,7 +77,8 @@ export function AppLayout() {
   };
   const isNotDatebar =
     location.pathname.includes('teachers') ||
-    location.pathname.includes('schedule/full');
+    location.pathname.includes('schedule/full') || 
+    location.pathname.includes('schedule/exams');
   return (
     <div className={styles['app-layout']}>
       <Box className={styles['app-layout__header']} bgColor={mainColor}>

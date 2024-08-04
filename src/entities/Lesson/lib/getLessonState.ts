@@ -6,6 +6,9 @@ type LessonState = {
 };
 export function getLessonState(lesson: Lesson, lessonDay: string): LessonState {
   const currentTime = DateTime.now();
+  if (lesson.parsed_dates || lesson.parsed_dates_status === 'need_check'){
+    return {state: 'unknown', color: '#3182ce'}
+  }
   const hasDayPassed =
     DateTime.fromISO(lessonDay).startOf('day') < currentTime.startOf('day');
 
@@ -13,6 +16,9 @@ export function getLessonState(lesson: Lesson, lessonDay: string): LessonState {
     DateTime.fromISO(lessonDay).startOf('day') > currentTime.startOf('day');
   if (hasDayPassed) return { state: 'past', color: '#3182ce80' };
   if (isNextDay) return { state: 'upcoming', color: '#3182CE' };
+  if (lesson.parsed_lesson_type === 'military'){
+    return {state: 'upcoming', color: '#3182ce'}
+  }
   if (!lesson.end_time || !lesson.start_time)
     return { state: 'unknown', color: '#3182CE' };
   if (

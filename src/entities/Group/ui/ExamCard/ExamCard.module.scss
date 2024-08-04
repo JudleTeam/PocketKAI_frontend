@@ -1,0 +1,35 @@
+.exam-card {
+    display: flex;
+    cursor: pointer;
+    &__time {
+      display: flex;
+      flex-direction: column;
+      
+      p {
+        font-family: 'Chivo Mono', monospace;
+        line-height: 1.5rem;
+        font-weight: 600;
+      }
+      &--start {
+        font-size: 1.5rem;
+      }
+      &--end {
+        font-size: 1.2rem;
+        text-align: right;
+      }
+    }
+    &__timeline {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+    }
+    &__info {
+      text-align: left;
+      width: 58%;
+      font-size: clamp(13px, 4vw, 18px);
+      line-height: 1.6rem;
+    }
+  }
+  

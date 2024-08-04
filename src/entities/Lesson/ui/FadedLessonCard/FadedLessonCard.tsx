@@ -1,9 +1,9 @@
 import { Lesson } from '@/shared';
 import { HStack, Text } from '@chakra-ui/react';
-import { lessonStateIcons } from '../../constants/lessonStateIcons';
+import { lessonStateIcons } from '../../../../shared/constants/lessonStateIcons';
 import { getLessonState } from '../../lib/getLessonState';
 import { lessonStateLine } from '../../constants/lessonStateLine';
-import { LessonTypes } from '../../constants/lessonTypes';
+import { LessonTypes } from '../../../../shared/constants/lessonTypes';
 import LessonDrawer from '../LessonDrawer/LessonDrawer';
 import { useDisclosure } from '@chakra-ui/react';
 import { sliceLessonName } from '../../lib/sliceLessonName';

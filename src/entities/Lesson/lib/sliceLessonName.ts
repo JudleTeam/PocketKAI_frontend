@@ -1,5 +1,4 @@
 
-
 export function sliceLessonName(lesson_name: string):string{
     const maxLength = 40;
     if(lesson_name.length < maxLength){
