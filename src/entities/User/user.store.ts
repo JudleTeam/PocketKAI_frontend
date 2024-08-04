@@ -2,15 +2,17 @@ import { userService } from './user.service';
 import { create } from 'zustand';
 import { AuthParams } from './types';
 import { persist } from 'zustand/middleware';
-import { FetchStatus, UserStudent } from '@/shared';
+import { FetchStatus, UserStudent, UserGroupMember } from '@/shared';
 import { Nullable } from '@/shared';
 type UserType = {
   userStatus: FetchStatus,
   user: Nullable<UserStudent>;
+  userGroupMembers: UserGroupMember[],
   token: string;
   error: Nullable<unknown>,
   login: (params: AuthParams) => Promise<void>;
   getMe: () => Promise<void>;
+  getGroupMembers: () => Promise<void>;
   logout: () => void;
 };
 
@@ -19,6 +21,7 @@ export const useUser = create<UserType>()(
     (set, get) => ({
       userStatus: 'idle',
       user: null,
+      userGroupMembers: [],
       token: '',
       error: null,
       login: async (params: AuthParams) => {
@@ -37,6 +40,10 @@ export const useUser = create<UserType>()(
           const response = await userService.getMeStudent(get().token);
           set({ user: response.data });
       },
+      getGroupMembers: async () => {
+        const response = await userService.getGroupMembers(get().token);
+        set({ userGroupMembers: response.data })
+      },
       logout: () => {
         const data = localStorage.getItem('favourite-group-storage');
         if (data) {
@@ -47,7 +54,7 @@ export const useUser = create<UserType>()(
           const updatedData = JSON.stringify(parsedData);
           localStorage.setItem('favourite-group-storage', updatedData);
         }
-        set({ user: null, token: '', userStatus: 'idle'});
+        set({ user: null, token: '', userStatus: 'idle', userGroupMembers: []});
       },
     }),
     {
@@ -55,6 +62,7 @@ export const useUser = create<UserType>()(
       partialize: (state) => ({
         token: state.token,
         user: state.user,
+        userGroupMembers: state.userGroupMembers,
       }),
     }
   )

@@ -57,3 +57,23 @@ export type GroupShort = {
   parsed_at: string | null;
   schedule_parsed_at: string | null;
 };
+
+export type GroupDisciplines = {
+  id: string;
+  kai_id: number;
+  name: string;
+  types: DisciplineTypes[];
+}
+
+export type DisciplineTypes = {
+  parsed_type: string;
+  original_type: string;
+  teacher: TeacherRead | null;
+}
+
+type TeacherRead = {
+  login: string;
+  name: string;
+  id: string;
+  created_at: string;
+}

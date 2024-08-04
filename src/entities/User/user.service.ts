@@ -1,4 +1,4 @@
-import { apiClient, ApiResponse, UserStudent } from '@/shared';
+import { apiClient, ApiResponse, UserStudent, UserGroupMember } from '@/shared';
 import { AuthParams, TokenResponse } from './types';
 
 export const userService = {
@@ -17,4 +17,12 @@ export const userService = {
       },
     });
   },
+
+  getGroupMembers: (token: string): ApiResponse<UserGroupMember[]> => {
+    return apiClient.get<UserGroupMember[]>('user/me/student/group_members', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+  }
 };

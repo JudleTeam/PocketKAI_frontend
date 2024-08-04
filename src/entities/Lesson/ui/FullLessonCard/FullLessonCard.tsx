@@ -24,7 +24,7 @@ export function FullLessonCard({ lesson }: { lesson: Lesson }) {
         justifyContent="space-between"
       >
         <VStack alignItems="start" gap="2px" w="60%">
-          <Text color={mainTextColor} fontWeight="bold" fontSize="16px">
+          <Text color={mainTextColor} w='95%' fontWeight="bold" fontSize="16px">
             {sliceLessonName(lesson.discipline.name)}
           </Text>
           <Text color="gray.400" fontWeight="medium" fontSize="20px">

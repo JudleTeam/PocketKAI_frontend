@@ -4,6 +4,7 @@ import {
   useColorModeValue,
   useDisclosure,
   VStack,
+  useChakra,
 } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
@@ -68,9 +69,9 @@ export function AppLayout() {
   useEffect(() => {
     document.getElementById(currentDay)?.scrollIntoView();
   }, [location]);
-
+  const {theme} = useChakra()
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
-  const mainColor = useColorModeValue('light.main', 'dark.main');
+  const mainColor = useColorModeValue(theme.colors.light.main, theme.colors.dark.main);
   const handleTodayDateClick = () => {
     document.getElementById(getTodayDate())?.scrollIntoView();
   };
