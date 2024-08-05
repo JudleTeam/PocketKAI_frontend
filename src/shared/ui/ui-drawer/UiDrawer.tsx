@@ -47,7 +47,7 @@ export function UiDrawer({
         drag="y"
         dragConstraints={{ bottom: 0, top: 0 }}
         dragElastic={0.1}
-        onDragEnd={(event, info) => {
+        onDragEnd={(_, info) => {
           if (info.offset.y > 100) {
             onClose();
           }
