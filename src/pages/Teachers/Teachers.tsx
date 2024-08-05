@@ -20,25 +20,27 @@ export function Teachers() {
   }, [getGroupDisciplines, currentGroup]);
   return (
     <Box className={styles['teachers']}>
-      <Text
-        position="fixed"
-        w="100%"
-        zIndex="1"
-        boxShadow={`0px 0px 10px 10px ${mainColor}`}
-        bgColor={mainColor}
-        fontSize="20px"
-        fontWeight="bold"
-        color={mainTextColor}
-      >
-        Преподаватели гр. {currentGroup?.group_name}
-      </Text>
+      {currentGroup ? (
+        <Text
+          position="fixed"
+          w="100%"
+          zIndex="1"
+          boxShadow={`0px 0px 10px 10px ${mainColor}`}
+          bgColor={mainColor}
+          fontSize="20px"
+          fontWeight="bold"
+          color={mainTextColor}
+        >
+          Преподаватели гр. {currentGroup?.group_name}
+        </Text>
+      ) : null}
       <Box
         padding="40px 0 10px 0"
         display="flex"
         flexDirection="column"
         gap="10px"
       >
-        {groupDisciplines &&
+        {groupDisciplines ? (
           groupDisciplines.map((discipline) => (
             <Box key={discipline.id}>
               <Text color={mainTextColor} fontWeight="medium" fontSize="16px">
@@ -52,7 +54,21 @@ export function Teachers() {
                 />
               ))}
             </Box>
-          ))}
+          ))
+        ) : (
+          <Box
+            position="absolute"
+            top="50%"
+            left="50%"
+            zIndex="2"
+            transform="translate(-50%, -50%)"
+            fontSize="18px"
+            fontWeight="medium"
+            color={mainTextColor}
+          >
+            Выберите группу!
+          </Box>
+        )}
       </Box>
     </Box>
   );

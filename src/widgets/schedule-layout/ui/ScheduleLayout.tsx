@@ -18,7 +18,7 @@ export function ScheduleLayout({ schedule }: { schedule: Nullable<Schedule> }) {
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   return (
     <div className={styles['schedule']} ref={scheduleContainerRef}>
-      <Stack ref={upperRef}>
+      <Stack ref={upperRef} display={schedule ? 'none' : 'block'}>
         <Skeleton height="20px" />
         <Skeleton height="20px" />
         <Skeleton height="20px" />
@@ -63,7 +63,7 @@ export function ScheduleLayout({ schedule }: { schedule: Nullable<Schedule> }) {
           })}
         </div>
       ))}
-      <Stack ref={lowerRef}>
+      <Stack ref={lowerRef} display={schedule ? 'none' : 'block'}>
         <Skeleton height="20px" />
         <Skeleton height="20px" />
         <Skeleton height="20px" />

@@ -53,10 +53,23 @@ export function Exams() {
             <ExamCard key={exam.id} exam={exam} />
           </Box>
         ))
-      ) : (
+      ) : currentGroup ? (
         <Text fontWeight="medium" textAlign="center" color={mainTextColor}>
           Список экзаменов ещё не обновили!
         </Text>
+      ) : (
+        <Box
+          position="absolute"
+          top="50%"
+          left="50%"
+          zIndex="2"
+          transform="translate(-50%, -50%)"
+          fontSize="18px"
+          fontWeight="medium"
+          color={mainTextColor}
+        >
+          Выберите группу!
+        </Box>
       )}
     </Box>
   );
