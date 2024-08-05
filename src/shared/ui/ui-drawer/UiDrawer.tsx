@@ -40,7 +40,7 @@ export function UiDrawer({
         animate={{ y: 0 }}
         exit={{ y: '100%' }}
         transition={{
-          duration: 0.5,
+          duration: 0.3,
           ease: 'easeInOut',
           bounce: 0.25,
         }}

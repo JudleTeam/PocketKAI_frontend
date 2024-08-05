@@ -68,7 +68,8 @@ export function AppLayout() {
   ]);
   useEffect(() => {
     document.getElementById(currentDay)?.scrollIntoView();
-  }, [location]);
+    console.log(location);
+  }, [location.pathname]);
   const { theme } = useChakra();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const mainColor = useColorModeValue(
@@ -80,7 +81,7 @@ export function AppLayout() {
   };
   const isNotDatebar =
     location.pathname.includes('teachers') ||
-    location.pathname.includes('schedule/full') || 
+    location.pathname.includes('schedule/full') ||
     location.pathname.includes('schedule/exams');
   return (
     <div className={styles['app-layout']}>
