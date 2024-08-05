@@ -8,11 +8,11 @@ import {
 import { DateTime } from 'luxon';
 import { Lesson } from '@/shared';
 import LessonDrawer from '../LessonDrawer/LessonDrawer';
-import { lessonStateIcons } from '../../constants/lessonStateIcons';
+import { lessonStateIcons } from '@/shared/constants';
 import { lessonStateLine } from '../../constants/lessonStateLine';
-import { LessonTypes } from '../../constants/lessonTypes';
+import { LessonTypes } from '@/shared/constants';
 import { getLessonState } from '../../lib/getLessonState';
-import { getLessonBuilding } from '../../lib/getLessonBuilding';
+import { getLessonBuilding } from '@/shared/lib';
 import { sliceLessonName } from '../../lib/sliceLessonName';
 import { UiDrawer } from '@/shared/ui/ui-drawer/UiDrawer';
 import styles from './LessonCard.module.scss';

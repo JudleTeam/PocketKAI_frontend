@@ -6,7 +6,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { ArrowIcon } from '@/shared/assets';
-import { LessonTypes } from '@/entities';
+import { LessonTypes } from '@/shared/constants';
 import { DisciplineTypes } from '@/shared';
 import { UiDrawer } from '@/shared/ui/ui-drawer/UiDrawer';
 import { useDisclosure } from '@chakra-ui/react';

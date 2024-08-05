@@ -1,7 +1,7 @@
 import { HStack, Text, Box, useColorModeValue } from '@chakra-ui/react';
 import styles from './RestCard.module.scss';
 import { getRestState } from '../../lib/getRestState';
-import { lessonStateIcons } from '../../constants/lessonStateIcons';
+import { lessonStateIcons } from '../../../../shared/constants/lessonStateIcons';
 
 export function RestCard({ dayDate }: { dayDate: string }) {
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');

@@ -1,11 +1,12 @@
+export { ExamCard } from './Group/ui/ExamCard/ExamCard';
 
 export { sliceLessonName } from './Lesson/lib/sliceLessonName';
 
-export { getLessonBuilding } from './Lesson/lib/getLessonBuilding';
+export { getLessonBuilding } from '../shared/lib/helpers/getLessonBuilding';
 
 export { TeacherCard } from './Group/ui/TeacherCard/TeacherCard';
 
-export { LessonTypes } from './Lesson/constants/lessonTypes';
+export { LessonTypes } from '../shared/constants/lessonTypes';
 
 export { default as LessonCard } from './Lesson/ui/LessonCard/LessonCard';
 

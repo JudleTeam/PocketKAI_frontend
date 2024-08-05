@@ -9,8 +9,8 @@ import {
 import { Lesson } from '@/shared';
 import { Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
-import { getLessonBuilding } from '../../lib/getLessonBuilding';
-import { LessonTypes } from '../../constants/lessonTypes';
+import { getLessonBuilding } from '../../../../shared/lib/helpers/getLessonBuilding';
+import { LessonTypes } from '../../../../shared/constants/lessonTypes';
 import { parityTypes } from '@/shared/constants';
 export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');

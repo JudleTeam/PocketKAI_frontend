@@ -1,7 +1,7 @@
 import { Lesson } from '@/shared';
 import { Box, VStack, Text } from '@chakra-ui/react';
-import { LessonTypes } from '../../constants/lessonTypes';
-import { getLessonBuilding } from '../../lib/getLessonBuilding';
+import { LessonTypes } from '@/shared/constants';
+import { getLessonBuilding } from '@/shared/lib';
 import { ArrowIcon } from '@/shared/assets/chakraIcons/ArrowIcon';
 import { sliceLessonName } from '../../lib/sliceLessonName';
 import { FullLessonDrawer } from '../FullLessonDrawer/FullLessonDrawer';

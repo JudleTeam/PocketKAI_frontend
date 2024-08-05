@@ -1,7 +1,7 @@
 import { Lesson } from '@/shared';
 import { DateTime } from 'luxon';
-import { getLessonBuilding } from '../../lib/getLessonBuilding';
-import { LessonTypes } from '../../constants/lessonTypes';
+import { getLessonBuilding } from '@/shared/lib';
+import { LessonTypes } from '@/shared/constants';
 import { Avatar, useColorModeValue } from '@chakra-ui/react';
 import { parityTypes } from '@/shared/constants';
 import { Link } from 'react-router-dom';

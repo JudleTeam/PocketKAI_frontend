@@ -1,3 +1,6 @@
+export { LessonTypes } from './lessonTypes';
+
+export { lessonStateIcons } from './lessonStateIcons';
 
 export { parityTypes } from './PARITY_TYPES';
 

@@ -1,9 +1,10 @@
 import { FetchStatus, Group, Lesson,GroupDisciplines } from '@/shared';
-import { Nullable, GroupShort } from '@/shared';
+import { Nullable, GroupShort, ExamType } from '@/shared';
 import { create } from 'zustand';
 import { groupService } from './group.service';
 import { GroupSearchParams } from './types';
 import { persist } from 'zustand/middleware';
+import { ExamParams } from './types';
 
 type GroupState = {
   groups: Group[];
@@ -15,6 +16,7 @@ type GroupState = {
   homeGroupStatus: FetchStatus,
   lessonsCurrentGroup: Lesson[],
   groupDisciplines: Nullable<GroupDisciplines[]>;
+  exams: ExamType[];
 };
 type GroupActions = {
   getAllGroups: () => void;
@@ -27,6 +29,7 @@ type GroupActions = {
   removeCurrentGroup: () => void;
   addGroupToFavourite: (group: GroupShort | Group) => void;
   removeGroupFromFavourite: (group: GroupShort) => void;
+  getExamsByGroupId: (group_id: string, params: ExamParams) => Promise<void>;
 };
 
 export const useGroup = create<GroupState & GroupActions>()(
@@ -41,6 +44,7 @@ export const useGroup = create<GroupState & GroupActions>()(
       homeGroupStatus: 'idle',
       lessonsCurrentGroup: [],
       groupDisciplines: null,
+      exams: [],
       getAllGroups: async () => {
         const response = await groupService.getAllGroups();
         set({ groups: response.data });
@@ -65,6 +69,12 @@ export const useGroup = create<GroupState & GroupActions>()(
         const response = await groupService.getGroupDisciplines(group_id);
         set({
           groupDisciplines: response.data
+        })
+      },
+      getExamsByGroupId: async (group_id: string, params:ExamParams) => {
+        const response = await groupService.getExamsByGroupId(group_id, params);
+        set({
+          exams: response.data
         })
       },
       suggestGroupByName: async (params: GroupSearchParams) => {
@@ -113,7 +123,8 @@ export const useGroup = create<GroupState & GroupActions>()(
         currentGroup: state.currentGroup,
         homeGroup: state.homeGroup,
         homeGroupStatus: state.homeGroupStatus,
-        lessonsCurrentGroup: state.lessonsCurrentGroup
+        lessonsCurrentGroup: state.lessonsCurrentGroup,
+        exams: state.exams,
       }),
     }
   )
