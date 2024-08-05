@@ -81,10 +81,7 @@ const LessonCard = memo(
           isOpen={isOpen}
           onClose={onClose}
           drawerActions={
-            <LessonDrawer
-              dayDate={dayDate}
-              lesson={lesson}
-            />
+            <LessonDrawer dayDate={dayDate} lesson={lesson} onClose={onClose} />
           }
         />
       </>
@@ -92,4 +89,3 @@ const LessonCard = memo(
   }
 );
 export default LessonCard;
-

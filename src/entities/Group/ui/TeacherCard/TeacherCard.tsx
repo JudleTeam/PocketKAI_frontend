@@ -11,7 +11,9 @@ import { DisciplineTypes } from '@/shared';
 import { UiDrawer } from '@/shared/ui/ui-drawer/UiDrawer';
 import { useDisclosure } from '@chakra-ui/react';
 import { TeacherDrawer } from '../TeacherDrawer/TeacherDrawer';
-export function TeacherCard({
+import { memo } from 'react';
+
+export const TeacherCard = memo(function TeacherCard({
   disciplineType,
   disciplineName,
 }: {
@@ -30,12 +32,10 @@ export function TeacherCard({
         padding="10px 0"
       >
         <Box display="flex" gap="10px" alignItems="center">
-          <Avatar></Avatar>
+          <Avatar />
           <Box>
             <Text color={mainTextColor} fontWeight="bold" fontSize="14px">
-              {disciplineType.teacher?.name
-                ? disciplineType.teacher?.name
-                : 'Преподаватель кафедры'}
+              {disciplineType.teacher?.name ?? 'Преподаватель кафедры'}
             </Text>
             <Text color={mainTextColor} fontWeight="medium" fontSize="14px">
               {disciplineType.parsed_type
@@ -60,4 +60,4 @@ export function TeacherCard({
       />
     </Box>
   );
-}
+});

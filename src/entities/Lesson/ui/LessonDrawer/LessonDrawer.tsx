@@ -8,8 +8,6 @@ import { Link } from 'react-router-dom';
 import {
   DrawerBody,
   DrawerHeader,
-  DrawerContent,
-  DrawerCloseButton,
   Text,
   VStack,
   Button,
@@ -26,22 +24,14 @@ const LessonDrawer = ({
 }: {
   dayDate: string;
   lesson: Lesson;
+  onClose: () => void;
 }) => {
   const specificDate = DateTime.fromISO(dayDate);
   const formattedDate = specificDate.toFormat('d MMMM', { locale: 'ru' });
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
-  console.log(lesson);
+
   return (
-    <DrawerContent
-      minH="70vh"
-      maxH="100%"
-      borderRadius="16px 16px 0 0"
-      display="flex"
-      flex={1}
-      flexDirection="column"
-      alignItems="center"
-    >
-      <DrawerCloseButton />
+    <>
       <DrawerHeader
         w="95%"
         padding="40px 0 0 0"
@@ -171,7 +161,7 @@ const LessonDrawer = ({
           </TabPanels>
         </Tabs>
       </DrawerBody>
-    </DrawerContent>
+    </>
   );
 };
 
