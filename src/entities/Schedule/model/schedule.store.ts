@@ -45,12 +45,15 @@ export const useSchedule = create<StoreState & StoreActions>((set, get) => ({
   getFullWeekScheduleByName: async (name) => {
     set({ weekScheduleStatus: 'loading' });
     try {
-      const oddWeek = await scheduleService.getWeekScheduleByGroupName(name, {
-        week_parity: 'odd',
-      });
-      const evenWeek = await scheduleService.getWeekScheduleByGroupName(name, {
-        week_parity: 'even',
-      });
+      const [oddWeek, evenWeek] = await Promise.all([
+        scheduleService.getWeekScheduleByGroupName(name, {
+          week_parity: 'odd',
+        }),
+        scheduleService.getWeekScheduleByGroupName(name, {
+          week_parity: 'even',
+        }),
+      ]);
+
       set({
         weekSchedule: { odd: oddWeek.data, even: evenWeek.data },
         weekScheduleStatus: 'success',

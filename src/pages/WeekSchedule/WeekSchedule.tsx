@@ -18,12 +18,14 @@ import { useScrollSpyFull } from './lib/useScrollSpyFull';
 import styles from './WeekSchedule.module.scss';
 
 export function WeekSchedule() {
-  const [weekParity, setWeekParity] = useState<'odd' | 'even'>('even');
   const {
     getFullWeekScheduleByName,
     weekSchedule,
     weekScheduleStatus: status,
   } = useSchedule();
+  const weekNumber = DateTime.now().weekNumber
+  const currentParity = weekNumber%2 === 0 ? 'even' : 'odd';
+  const [weekParity, setWeekParity] = useState<'odd' | 'even'>(currentParity);
   const { currentGroup } = useGroup();
   const dayIndex = DateTime.now().setLocale('en').weekdayLong.toLowerCase();
   useEffect(() => {
@@ -73,7 +75,7 @@ export function WeekSchedule() {
   useScrollSpyFull(longDaysOfWeek, currentDay, setCurrentDay);
 
   return (
-    <Tabs className={styles['full-schedule']} variant="unstyled">
+    <Tabs className={styles['full-schedule']} defaultIndex={weekNumber%2} variant="unstyled">
       <Box
         className={styles['full-schedule__tab-list']}
         bgColor={mainColor}

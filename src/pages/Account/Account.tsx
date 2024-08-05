@@ -13,9 +13,9 @@ import { UiDrawer } from '@/shared/ui/ui-drawer/UiDrawer';
 import styles from './Account.module.scss';
 import { useColorModeValue } from '@chakra-ui/react';
 export function Account() {
-  const { homeGroup, getGroupById, homeGroupStatus } = useGroup();
+  const { homeGroup, getGroupById, homeGroupStatus, addGroupToFavourite, setCurrentGroup} = useGroup();
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const { user, logout } = useUser();
+  const { user, logout, getGroupMembers} = useUser();
   const accountActionsColor = useColorModeValue(
     'light.account_actions',
     'dark.account_actions'
@@ -33,11 +33,19 @@ export function Account() {
   const handleClick = () => {
     logout();
   };
+  
   useEffect(() => {
     if (user?.group_id && homeGroupStatus === 'idle') {
       getGroupById(user?.group_id);
     }
-  }, [homeGroupStatus, getGroupById, user?.group_id]);
+    if(user && homeGroupStatus === 'idle'){
+      getGroupMembers()
+    }
+    if(homeGroup){
+      addGroupToFavourite(homeGroup)
+      setCurrentGroup(homeGroup)
+    }
+  }, [homeGroupStatus,homeGroup, setCurrentGroup, addGroupToFavourite, getGroupById, user?.group_id, getGroupMembers, user]);
   return (
     <Box className={styles['account']}>
       <Box className={styles['account__header']} bgColor={mainElementColor}>

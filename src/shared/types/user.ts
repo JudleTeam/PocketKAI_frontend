@@ -31,3 +31,12 @@ export type UserPocket = {
     id: string;
     created_at: string;
 }
+
+export type UserGroupMember = {
+    id: string;
+    kai_id: Nullable<number>;
+    position: Nullable<number>;
+    is_leader: boolean;
+    full_name: string;
+    email: string;
+}

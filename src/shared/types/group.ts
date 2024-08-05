@@ -57,3 +57,48 @@ export type GroupShort = {
   parsed_at: string | null;
   schedule_parsed_at: string | null;
 };
+
+export type GroupDisciplines = {
+  id: string;
+  kai_id: number;
+  name: string;
+  types: DisciplineTypes[];
+}
+
+export type DisciplineTypes = {
+  parsed_type: string;
+  original_type: string;
+  teacher: TeacherRead | null;
+}
+
+type TeacherRead = {
+  login: string;
+  name: string;
+  id: string;
+  created_at: string;
+}
+
+type DisciplineRead = {
+  kai_id: number;
+  name: string;
+  id: string;
+  created_at: string
+}
+
+export type ExamType = {
+  original_date: string;
+  time: string;
+  audience_number: Nullable<string>;
+  building_number: Nullable<string>;
+  parsed_date: Nullable<string>;
+  academic_year: string;
+  academic_year_half: number;
+  semester: Nullable<number>;
+  discipline_id: string;
+  teacher_id: Nullable<string>;
+  group_id: string;
+  id: string;
+  created_at: string;
+  teacher: TeacherRead;
+  discipline: DisciplineRead;
+}

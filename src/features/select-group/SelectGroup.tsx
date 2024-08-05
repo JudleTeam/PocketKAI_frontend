@@ -23,11 +23,10 @@ export function SelectGroup({
     'light.main_element',
     'dark.main_element'
   );
-  const { favouriteGroups, currentGroup, setCurrentGroup,getLessonsGroupById} = useGroup();
+  const { favouriteGroups, currentGroup, setCurrentGroup } = useGroup();
   const { resetScheduleState } = useSchedule();
   const handleGroupClick = (group: GroupShort) => {
     setCurrentGroup(group);
-    getLessonsGroupById(group.id)
     resetScheduleState();
   };
   return (

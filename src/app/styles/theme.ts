@@ -19,6 +19,7 @@ const theme = extendTheme({
             account_actions: '#fff', // white - gray.700
             exit_button: '#63171B', // red.900 - red.500
             tab: '#EDF2F7', // gray.100 - gray.800
+            blue_element: '#2B6CB0' // blue.500 - gray.500
         },
         dark: {
             main_text: '#fff', // white
@@ -31,7 +32,8 @@ const theme = extendTheme({
             main: '#1A202C', // gray.800
             account_actions: '#2D3748', //gray.700
             exit_button: '#E53E3E', // red.500
-            tab: '#1A202C' // gray.800
+            tab: '#1A202C', // gray.800
+            blue_element: '#53A6E7' //gray.500
         }
     },
     config

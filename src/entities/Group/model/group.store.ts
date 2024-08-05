@@ -1,9 +1,10 @@
-import { FetchStatus, Group, Lesson } from '@/shared';
-import { Nullable, GroupShort } from '@/shared';
+import { FetchStatus, Group, Lesson,GroupDisciplines } from '@/shared';
+import { Nullable, GroupShort, ExamType } from '@/shared';
 import { create } from 'zustand';
 import { groupService } from './group.service';
 import { GroupSearchParams } from './types';
 import { persist } from 'zustand/middleware';
+import { ExamParams } from './types';
 
 type GroupState = {
   groups: Group[];
@@ -13,19 +14,22 @@ type GroupState = {
   currentGroup: Nullable<Group | GroupShort>;
   error: Nullable<unknown>,
   homeGroupStatus: FetchStatus,
-  lessonsCurrentGroup: Lesson[]
-
+  lessonsCurrentGroup: Lesson[],
+  groupDisciplines: Nullable<GroupDisciplines[]>;
+  exams: ExamType[];
 };
 type GroupActions = {
   getAllGroups: () => void;
   getGroupByName: (name: string) => void;
   getGroupById: (id: string) => void;
+  getGroupDisciplines: (group_id: string) => void,
   suggestGroupByName: (params: GroupSearchParams) => void;
   getLessonsGroupById: (id: string) => void,
   setCurrentGroup: (group: Group | GroupShort) => void;
   removeCurrentGroup: () => void;
-  addGroupToFavourite: (group: GroupShort) => void;
+  addGroupToFavourite: (group: GroupShort | Group) => void;
   removeGroupFromFavourite: (group: GroupShort) => void;
+  getExamsByGroupId: (group_id: string, params: ExamParams) => Promise<void>;
 };
 
 export const useGroup = create<GroupState & GroupActions>()(
@@ -39,6 +43,8 @@ export const useGroup = create<GroupState & GroupActions>()(
       error: null,
       homeGroupStatus: 'idle',
       lessonsCurrentGroup: [],
+      groupDisciplines: null,
+      exams: [],
       getAllGroups: async () => {
         const response = await groupService.getAllGroups();
         set({ groups: response.data });
@@ -53,11 +59,23 @@ export const useGroup = create<GroupState & GroupActions>()(
           const response = await groupService.getGroupById(id);
           set({
             homeGroup: response.data,
-            homeGroupStatus: 'success'
+            homeGroupStatus: 'success',
           });
         } catch(error){
           set({error, homeGroupStatus: 'error'})
         }
+      },
+      getGroupDisciplines: async (group_id: string) => {
+        const response = await groupService.getGroupDisciplines(group_id);
+        set({
+          groupDisciplines: response.data
+        })
+      },
+      getExamsByGroupId: async (group_id: string, params:ExamParams) => {
+        const response = await groupService.getExamsByGroupId(group_id, params);
+        set({
+          exams: response.data
+        })
       },
       suggestGroupByName: async (params: GroupSearchParams) => {
         const response = await groupService.suggestGroupByName(params);
@@ -79,7 +97,7 @@ export const useGroup = create<GroupState & GroupActions>()(
         set({ currentGroup: null });
       },
 
-      addGroupToFavourite: (group: GroupShort) => {
+      addGroupToFavourite: (group: GroupShort | Group) => {
         set((state) => {
           const isAlreadyFavourite = state.favouriteGroups.some(favGroup => favGroup.id === group.id);
           if (isAlreadyFavourite) {
@@ -105,7 +123,8 @@ export const useGroup = create<GroupState & GroupActions>()(
         currentGroup: state.currentGroup,
         homeGroup: state.homeGroup,
         homeGroupStatus: state.homeGroupStatus,
-        lessonsCurrentGroup: state.lessonsCurrentGroup
+        lessonsCurrentGroup: state.lessonsCurrentGroup,
+        exams: state.exams,
       }),
     }
   )

@@ -1,9 +1,9 @@
 import { Lesson } from '@/shared';
 import { HStack, Text } from '@chakra-ui/react';
-import { lessonStateIcons } from '../../constants/lessonStateIcons';
+import { lessonStateIcons } from '../../../../shared/constants/lessonStateIcons';
 import { getLessonState } from '../../lib/getLessonState';
 import { lessonStateLine } from '../../constants/lessonStateLine';
-import { LessonTypes } from '../../constants/lessonTypes';
+import { LessonTypes } from '../../../../shared/constants/lessonTypes';
 import LessonDrawer from '../LessonDrawer/LessonDrawer';
 import { useDisclosure } from '@chakra-ui/react';
 import { sliceLessonName } from '../../lib/sliceLessonName';
@@ -57,7 +57,13 @@ export function FadedLessonCard({
           </Text>
         </div>
       </HStack>
-      <UiDrawer isOpen={isOpen} onClose={onClose} drawerActions={LessonDrawer({dayDate, lesson})}/>
+      <UiDrawer
+        isOpen={isOpen}
+        onClose={onClose}
+        drawerActions={
+          <LessonDrawer dayDate={dayDate} lesson={lesson} onClose={onClose} />
+        }
+      />
     </>
   );
 }

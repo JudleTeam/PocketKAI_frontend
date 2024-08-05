@@ -1,5 +1,5 @@
 import { RootLayout, AppLayout } from '@/widgets';
-import { Schedule, WeekSchedule } from '@/pages';
+import { Schedule, WeekSchedule, Exams } from '@/pages';
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 const router = createBrowserRouter([
@@ -25,6 +25,12 @@ const router = createBrowserRouter([
             lazy: async () => {
               return { Component: WeekSchedule };
             },
+          },
+          {
+            path: 'schedule/exams',
+            lazy: async () => {
+              return { Component: Exams }
+            }
           },
           {
             path: 'assignments',
