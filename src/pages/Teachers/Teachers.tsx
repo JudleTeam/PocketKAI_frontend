@@ -6,6 +6,7 @@ import { TeacherCard } from '@/entities';
 import { useEffect, useRef, useState } from 'react';
 import { sliceLessonName } from '@/entities';
 import { ArrowIcon } from '@/shared/assets';
+import { Loader } from '@/shared/ui/loader/Loader';
 export function Teachers() {
   const { theme } = useChakra();
   const mainTextColor = useColorModeValue(
@@ -37,7 +38,6 @@ export function Teachers() {
         setShowButton(false);
       }
     };
-    console.log(teacherRef.current);
     if (currentRef) {
       currentRef.addEventListener('scroll', handleScroll);
     }
@@ -54,73 +54,75 @@ export function Teachers() {
     }
   }, [currentGroup, groupDisciplinesStatus, getGroupDisciplines]);
   return (
-    <Box id="teacher" ref={teacherRef} className={styles['teachers']}>
-      {currentGroup ? (
-        <Text
-          position="fixed"
-          w="100%"
-          zIndex="1"
-          boxShadow={`0px 0px 10px 10px ${mainColor}`}
-          bgColor={mainColor}
-          fontSize="20px"
-          fontWeight="bold"
-          color={mainTextColor}
-        >
-          Преподаватели гр. {currentGroup?.group_name}
-        </Text>
-      ) : null}
-      <Box
-        padding="40px 0 10px 0"
-        display="flex"
-        flexDirection="column"
-        gap="10px"
-      >
-        {groupDisciplines ? (
-          groupDisciplines.map((discipline) => (
-            <Box key={discipline.id}>
-              <Text color={mainTextColor} fontWeight="bold" fontSize="16px">
-                {sliceLessonName(discipline.name)}
-              </Text>
-              {discipline.types.map((disciplineType, index) => (
-                <TeacherCard
-                  disciplineType={disciplineType}
-                  disciplineName={discipline.name}
-                  key={index}
-                />
-              ))}
-            </Box>
-          ))
-        ) : (
-          <Box
-            position="absolute"
-            top="50%"
-            left="50%"
-            zIndex="2"
-            transform="translate(-50%, -50%)"
-            fontSize="18px"
-            fontWeight="medium"
+    <Loader status={groupDisciplinesStatus} idleMessage="Выберите группу">
+      <Box id="teacher" ref={teacherRef} className={styles['teachers']}>
+        {currentGroup ? (
+          <Text
+            position="fixed"
+            w="100%"
+            zIndex="1"
+            boxShadow={`0px 0px 10px 10px ${mainColor}`}
+            bgColor={mainColor}
+            fontSize="20px"
+            fontWeight="bold"
             color={mainTextColor}
           >
-            Выберите группу!
+            Преподаватели гр. {currentGroup?.group_name}
+          </Text>
+        ) : null}
+        <Box
+          padding="40px 0 10px 0"
+          display="flex"
+          flexDirection="column"
+          gap="10px"
+        >
+          {groupDisciplines ? (
+            groupDisciplines.map((discipline) => (
+              <Box key={discipline.id}>
+                <Text color={mainTextColor} fontWeight="bold" fontSize="16px">
+                  {sliceLessonName(discipline.name)}
+                </Text>
+                {discipline.types.map((disciplineType, index) => (
+                  <TeacherCard
+                    disciplineType={disciplineType}
+                    disciplineName={discipline.name}
+                    key={index}
+                  />
+                ))}
+              </Box>
+            ))
+          ) : (
+            <Box
+              position="absolute"
+              top="50%"
+              left="50%"
+              zIndex="2"
+              transform="translate(-50%, -50%)"
+              fontSize="18px"
+              fontWeight="medium"
+              color={mainTextColor}
+            >
+              Выберите группу!
+            </Box>
+          )}
+        </Box>
+        {showButton && (
+          <Box
+            as="button"
+            onClick={() => teacherRef.current?.scrollTo(0, 0)}
+            w="40px"
+            h="40px"
+            borderRadius="8px"
+            position="fixed"
+            bottom="80px"
+            right="5%"
+            bgColor={mainElementColor}
+            zIndex={'50'}
+          >
+            <ArrowIcon w="20px" h="20px" color="white"></ArrowIcon>
           </Box>
         )}
       </Box>
-      {showButton && (
-        <Box
-          as="button"
-          onClick={() => teacherRef.current?.scrollTo(0, 0)}
-          w="40px"
-          h="40px"
-          borderRadius="8px"
-          position="fixed"
-          bottom="80px"
-          right="5%"
-          bgColor={mainElementColor}
-          zIndex={'50'}
-        >
-          <ArrowIcon w="20px" h="20px" color="white"></ArrowIcon>
-        </Box>
-      )}
-    </Box>
+    </Loader>
   );
 }

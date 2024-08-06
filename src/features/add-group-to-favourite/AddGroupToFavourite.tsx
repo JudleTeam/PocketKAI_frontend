@@ -17,7 +17,7 @@ import {
 import { DeleteIcon } from '@chakra-ui/icons';
 import React from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import Select from 'react-select';
+import Select, { StylesConfig } from 'react-select';
 import { useGroup, useSchedule } from '@/entities';
 import { GroupShort, SelectItem } from '@/shared';
 type IFormInput = {
@@ -34,7 +34,6 @@ export function AddGroupToFavourite(onClose: () => void) {
     setCurrentGroup,
     getGroupByName,
     currentGroup,
-    getLessonsGroupById
   } = useGroup();
   const { resetScheduleState } = useSchedule();
   const { resetField, handleSubmit, control, register } = useForm<IFormInput>();
@@ -47,15 +46,12 @@ export function AddGroupToFavourite(onClose: () => void) {
       addGroupToFavourite(data.group.value);
     }
     setCurrentGroup(data.group.value);
-    getLessonsGroupById(data.group.value.id);
     resetField('group');
     resetScheduleState();
     onClose();
   };
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
-  const customStyles = {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //@ts-expect-error
+  const customStyles: StylesConfig = {
     option: (provided) => ({
       ...provided,
       color: '#000',

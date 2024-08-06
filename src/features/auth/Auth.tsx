@@ -7,6 +7,7 @@ import {
   useColorModeValue,
   Spinner,
   Text,
+  Box,
 } from '@chakra-ui/react';
 import { CheckCircleIcon } from '@chakra-ui/icons';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -15,19 +16,24 @@ type IFormInput = {
   password: string;
 };
 import { useGroup, useUser } from '@/entities';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getRandomPhrase } from './lib/getRandomPhrase';
 export function Auth(onClose: () => void) {
-  const { reset, handleSubmit, register } = useForm<IFormInput>();
+  const {
+    reset,
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<IFormInput>();
   const { userAuthStatus, login, getMe } = useUser();
-  const [phrase] = useState(getRandomPhrase());
+  const [phrase, setPhrase] = useState(getRandomPhrase());
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setPhrase(getRandomPhrase());
-  //   }, 1000);
-  //   return () => clearInterval(interval);
-  // }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPhrase(getRandomPhrase());
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   const {
     getGroupById,
@@ -51,7 +57,13 @@ export function Auth(onClose: () => void) {
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <DrawerHeader fontSize={'24px'} fontWeight={'600'} color={mainTextColor}>
+      <DrawerHeader
+        fontSize={'24px'}
+        fontWeight={'600'}
+        color={mainTextColor}
+        margin={'0 auto'}
+        textAlign={'center'}
+      >
         Вход в аккаунт
       </DrawerHeader>
       {userAuthStatus === 'loading' && (
@@ -63,7 +75,9 @@ export function Auth(onClose: () => void) {
           gap="20px"
         >
           <Spinner size="xl" />
-          <Text>{phrase}...</Text>
+          <Box maxW="250px" textAlign={'center'}>
+            <Text>{phrase}...</Text>
+          </Box>
         </DrawerBody>
       )}
 
@@ -83,12 +97,29 @@ export function Auth(onClose: () => void) {
       {userAuthStatus === 'idle' && (
         <>
           <DrawerBody display="flex" flexDirection="column" gap="20px">
-            <Input {...register('login')} placeholder="Введите логин" />
-            <Input
-              {...register('password')}
-              type="password"
-              placeholder="Введите пароль"
-            />
+            <Box>
+              <Input
+                {...register('login', { required: 'Это поле обязательно' })}
+                placeholder="Введите логин"
+              />
+              {errors.login && (
+                <Text fontSize={'14px'} color={'red.500'}>
+                  {errors.login.message}
+                </Text>
+              )}
+            </Box>
+            <Box>
+              <Input
+                {...register('password', { required: 'Это поле обязательно' })}
+                type="password"
+                placeholder="Введите пароль"
+              />
+              {errors.login && (
+                <Text fontSize={'14px'} color={'red.500'}>
+                  {errors.login.message}
+                </Text>
+              )}
+            </Box>
           </DrawerBody>
           <DrawerFooter w="100%" display="flex" justifyContent="center">
             <Button w="50%" colorScheme="blue" mr={3} type="submit">

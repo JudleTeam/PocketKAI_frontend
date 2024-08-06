@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, Text, Divider, useDisclosure } from '@chakra-ui/react';
+import { Box, Text, Divider } from '@chakra-ui/react';
 import { useUser, accountActions, useGroup } from '@/entities';
 import { Auth } from '@/features';
 import {
@@ -12,10 +12,11 @@ import { ACCOUNT_ACTIONS, USER_ACTIONS } from '@/shared/constants';
 import { UiDrawer } from '@/shared/ui/ui-drawer/UiDrawer';
 import styles from './Account.module.scss';
 import { useColorModeValue } from '@chakra-ui/react';
+import { useDrawerDisclosure } from '@/shared/ui/ui-drawer/lib/useDrawerDisclosure';
 export function Account() {
-  const { homeGroup, getGroupById, homeGroupStatus} = useGroup();
-  const { isOpen, onClose, onOpen } = useDisclosure();
-  const { user, logout, getGroupMembers} = useUser();
+  const { homeGroup, getGroupById } = useGroup();
+  const { isOpen, onClose, onOpen } = useDrawerDisclosure();
+  const { user, userGroupMembersStatus, logout, getGroupMembers } = useUser();
   const accountActionsColor = useColorModeValue(
     'light.account_actions',
     'dark.account_actions'
@@ -30,15 +31,12 @@ export function Account() {
     'light.exit_button',
     'dark.exit_button'
   );
-  const handleClick = () => {
-    logout();
-  };
-  
+
   useEffect(() => {
-    if(user && homeGroupStatus === 'idle'){
-      getGroupMembers()
+    if (user && userGroupMembersStatus === 'idle') {
+      getGroupMembers();
     }
-  }, [homeGroupStatus,homeGroup, getGroupById, user?.group_id, getGroupMembers, user]);
+  }, [user, userGroupMembersStatus, getGroupById, getGroupMembers]);
   return (
     <Box className={styles['account']}>
       <Box className={styles['account__header']} bgColor={mainElementColor}>
@@ -142,7 +140,7 @@ export function Account() {
         {user && (
           <>
             <Divider w="90%" alignSelf="center" />
-            <button onClick={() => handleClick()}>
+            <button onClick={() => logout()}>
               <Text
                 as={'span'}
                 padding="15px 20px"
@@ -165,7 +163,12 @@ export function Account() {
           </>
         )}
       </Box>
-      <Box h='10px' w='100%' position='absolute' top={user ? '755px' : '630px'}></Box>
+      <Box
+        h="10px"
+        w="100%"
+        position="absolute"
+        top={user ? '755px' : '630px'}
+      ></Box>
       <UiDrawer
         isOpen={isOpen}
         onClose={onClose}

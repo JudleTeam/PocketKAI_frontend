@@ -34,7 +34,7 @@ export function AppLayout() {
   const {
     schedule,
     parity,
-    weekScheduleStatus: status,
+    weekScheduleStatus,
     getSchedule,
     getFullWeekScheduleByName,
     getWeekParity,
@@ -49,33 +49,33 @@ export function AppLayout() {
       .toFormat('yyyy-LL-dd');
     const days_count = 21;
 
-    if (currentGroup && status === 'idle') {
+    if (currentGroup && weekScheduleStatus === 'idle') {
       getFullWeekScheduleByName(currentGroup.group_name).then(() => {
         getSchedule({
           date_from: weekAgo,
           days_count,
         }).then(() => {
-          handleTodayDateClick();
+          ScrollToToday();
         });
       });
     }
   }, [
     currentGroup,
-    status,
+    weekScheduleStatus,
     getSchedule,
     getWeekParity,
     getFullWeekScheduleByName,
   ]);
   useEffect(() => {
     document.getElementById(currentDay)?.scrollIntoView();
-  }, [location.pathname, currentDay]);
+  }, [location.pathname]);
   const { theme } = useChakra();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const mainColor = useColorModeValue(
     theme.colors.light.main,
     theme.colors.dark.main
   );
-  const handleTodayDateClick = () => {
+  const ScrollToToday = () => {
     document.getElementById(getTodayDate())?.scrollIntoView();
   };
   const isNotDatebar =
@@ -90,14 +90,14 @@ export function AppLayout() {
           fontWeight={'medium'}
           color={mainTextColor}
           gap={0.4}
-          onClick={handleTodayDateClick}
+          onClick={ScrollToToday}
         >
           <Text fontSize={22}>
             {DateTime.now().setLocale('ru').toFormat('d MMMM')}
           </Text>
           <Text>{parity && parityTypes[parity?.parity]}</Text>
         </VStack>
-        <SelectGroup isOpen={isOpen} onOpen={onOpen} />
+        <SelectGroup onOpen={onOpen} />
       </Box>
       <UiDatebar
         isNotDatebar={isNotDatebar}

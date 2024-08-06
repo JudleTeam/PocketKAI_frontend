@@ -29,8 +29,8 @@ const router = createBrowserRouter([
           {
             path: 'schedule/exams',
             lazy: async () => {
-              return { Component: Exams }
-            }
+              return { Component: Exams };
+            },
           },
           {
             path: 'assignments',
@@ -93,23 +93,23 @@ const router = createBrowserRouter([
           {
             path: 'faq',
             lazy: async () => {
-              const {FrequentQuestions} = await import('@/pages');
-              return {Component: FrequentQuestions}
-            }
+              const { FrequentQuestions } = await import('@/pages');
+              return { Component: FrequentQuestions };
+            },
           },
           {
             path: 'about',
             lazy: async () => {
-              const {AboutUs} = await import('@/pages');
-              return {Component: AboutUs}
-            }
+              const { AboutUs } = await import('@/pages');
+              return { Component: AboutUs };
+            },
           },
           {
             path: 'report',
             lazy: async () => {
-              const {Report} = await import('@/pages');
-              return {Component: Report}
-            }
+              const { Report } = await import('@/pages');
+              return { Component: Report };
+            },
           },
         ],
       },

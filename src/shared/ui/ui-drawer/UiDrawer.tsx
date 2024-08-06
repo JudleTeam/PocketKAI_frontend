@@ -1,4 +1,4 @@
-import { useDrawerCloseEvent } from '@/shared/lib';
+import { useDrawerCloseEvent } from './lib/useDrawerCloseEvent';
 import {
   Box,
   Drawer,
@@ -7,20 +7,20 @@ import {
   DrawerOverlay,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { memo, ReactNode } from 'react';
+import { ReactNode, useMemo } from 'react';
 
 export function UiDrawer({
   drawerActions,
   isOpen,
-  onClose,
+  onClose, // THIS SHOULD ALWAYS BE MEMOIZED!!! use the useDrawerDisclosure hook
 }: {
   drawerActions: ReactNode;
   isOpen: boolean;
   onClose: () => void;
 }) {
-  useDrawerCloseEvent(onClose, isOpen); // this hook must be here to prevent closing the drawer on back button press
-  const MotionDrawerContent = motion(memo(DrawerContent));
-  const MotionBox = motion(memo(Box));
+  useDrawerCloseEvent(onClose, isOpen); // this hook must be here to prevent router mess on back button press
+  const MotionDrawerContent = useMemo(() => motion(DrawerContent), []);
+  const MotionBox = useMemo(() => motion(Box), []);
   return (
     <Drawer placement="bottom" isOpen={isOpen} onClose={onClose}>
       <DrawerOverlay />
