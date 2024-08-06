@@ -5,66 +5,72 @@ import { persist } from 'zustand/middleware';
 import { FetchStatus, UserStudent, UserGroupMember } from '@/shared';
 import { Nullable } from '@/shared';
 type UserType = {
-  userStatus: FetchStatus,
+  userAuthStatus: FetchStatus;
   user: Nullable<UserStudent>;
-  userGroupMembers: UserGroupMember[],
+  userGroupMembers: UserGroupMember[];
+  userGroupMembersStatus: FetchStatus;
   token: string;
-  error: Nullable<unknown>,
+  error: Nullable<unknown>;
   login: (params: AuthParams) => Promise<void>;
-  getMe: () => Promise<void>;
+  getMe: () => Promise<UserStudent>;
   getGroupMembers: () => Promise<void>;
   logout: () => void;
 };
 
 export const useUser = create<UserType>()(
   persist(
-    (set, get) => ({
-      userStatus: 'idle',
+    (set) => ({
+      userAuthStatus: 'idle',
       user: null,
       userGroupMembers: [],
+      userGroupMembersStatus: 'idle',
       token: '',
       error: null,
       login: async (params: AuthParams) => {
-        set({userStatus: 'loading'});
-        try{
+        set({ userAuthStatus: 'loading' });
+        try {
           const response = await userService.postAuth(params);
-          set({ 
+          set({
             token: response.data.access_token,
-            userStatus: 'success'
+            userAuthStatus: 'success',
           });
-        } catch(error){
-          set({error, userStatus: 'error'});
+          localStorage.setItem('token', response.data.access_token);
+        } catch (error) {
+          set({ error, userAuthStatus: 'error' });
         }
       },
       getMe: async () => {
-          const response = await userService.getMeStudent(get().token);
-          set({ user: response.data });
+        const response = await userService.getMeStudent();
+        set({ user: response.data });
+        return response.data;
       },
       getGroupMembers: async () => {
-        const response = await userService.getGroupMembers(get().token);
-        set({ userGroupMembers: response.data })
+        set({ userGroupMembersStatus: 'loading' });
+        try {
+          const response = await userService.getGroupMembers();
+          set({
+            userGroupMembers: response.data,
+            userGroupMembersStatus: 'success',
+          });
+        } catch (error) {
+          set({ error, userGroupMembersStatus: 'error' });
+        }
       },
       logout: () => {
-        const data = localStorage.getItem('favourite-group-storage');
-        if (data) {
-          const parsedData = JSON.parse(data);
-          parsedData.state.homeGroup = null;
-          parsedData.state.homeGroupStatus = 'idle';
-          parsedData.state.lessonsHomeGroup = [];
-          const updatedData = JSON.stringify(parsedData);
-          localStorage.setItem('favourite-group-storage', updatedData);
-        }
-        set({ user: null, token: '', userStatus: 'idle', userGroupMembers: []});
+        localStorage.removeItem('token');
+        set({
+          user: null,
+          token: '',
+          userAuthStatus: 'idle',
+          userGroupMembers: [],
+        });
       },
     }),
     {
-      name: 'user-token',
+      name: 'user',
       partialize: (state) => ({
-        token: state.token,
         user: state.user,
-        userGroupMembers: state.userGroupMembers,
       }),
     }
   )
 );
-

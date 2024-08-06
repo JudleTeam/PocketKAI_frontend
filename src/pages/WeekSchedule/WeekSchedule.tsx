@@ -23,8 +23,8 @@ export function WeekSchedule() {
     weekSchedule,
     weekScheduleStatus: status,
   } = useSchedule();
-  const weekNumber = DateTime.now().weekNumber
-  const currentParity = weekNumber%2 === 0 ? 'even' : 'odd';
+  const weekNumber = DateTime.now().weekNumber;
+  const currentParity = weekNumber % 2 === 0 ? 'even' : 'odd';
   const [weekParity, setWeekParity] = useState<'odd' | 'even'>(currentParity);
   const { currentGroup } = useGroup();
   const dayIndex = DateTime.now().setLocale('en').weekdayLong.toLowerCase();
@@ -75,7 +75,11 @@ export function WeekSchedule() {
   useScrollSpyFull(longDaysOfWeek, currentDay, setCurrentDay);
 
   return (
-    <Tabs className={styles['full-schedule']} defaultIndex={weekNumber%2} variant="unstyled">
+    <Tabs
+      className={styles['full-schedule']}
+      defaultIndex={weekNumber % 2}
+      variant="unstyled"
+    >
       <Box
         className={styles['full-schedule__tab-list']}
         bgColor={mainColor}
@@ -148,28 +152,31 @@ export function WeekSchedule() {
           ))}
         </HStack>
       </Box>
-      {weekSchedule &&
+      {weekSchedule ? (
         Object.entries(weekSchedule[weekParity].week_days).map((weekDay) => {
           const dayName = weekDay[0] as keyof typeof weekShortDay;
           const dayLessons = weekDay[1];
           return (
             <div id={dayName} key={dayName}>
-              <Text color={mainTextColor} fontWeight="medium" fontSize="18px" paddingBottom='10px'>
+              <Text
+                color={mainTextColor}
+                fontWeight="medium"
+                fontSize="18px"
+                paddingBottom="10px"
+              >
                 {dayName && weekDayName[dayName]}
               </Text>
               {dayLessons.length > 0 ? (
                 <VStack gap="10px">
                   {dayLessons.map((lesson) => {
-                    if (  
-                      lesson.parsed_dates
-                    ) {
+                    if (lesson.parsed_dates || lesson.parsed_dates_status === 'need_check') {
                       return (
-                        <Box className={styles['faded']}>
+                        <Box className={styles['faded']} key={lesson.id}>
                           <FullLessonCard lesson={lesson} />
                         </Box>
                       );
                     }
-                    return (<FullLessonCard lesson={lesson} />)
+                    return <FullLessonCard lesson={lesson} key={lesson.id} />;
                   })}
                 </VStack>
               ) : (
@@ -187,7 +194,21 @@ export function WeekSchedule() {
               )}
             </div>
           );
-        })}
+        })
+      ) : (
+        <Box
+          position="absolute"
+          top="50%"
+          left="50%"
+          zIndex="2"
+          transform="translate(-50%, -50%)"
+          fontSize="18px"
+          fontWeight="medium"
+          color={mainTextColor}
+        >
+          Выберите группу!
+        </Box>
+      )}
     </Tabs>
   );
 }

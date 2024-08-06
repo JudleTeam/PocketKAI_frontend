@@ -13,12 +13,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
-export function SelectGroup({
-  onOpen,
-}: {
-  isOpen: boolean;
-  onOpen: () => void;
-}) {
+export function SelectGroup({ onOpen }: { onOpen: () => void }) {
   const mainElementColor = useColorModeValue(
     'light.main_element',
     'dark.main_element'
@@ -29,6 +24,7 @@ export function SelectGroup({
     setCurrentGroup(group);
     resetScheduleState();
   };
+
   return (
     <Menu>
       <MenuButton
@@ -64,7 +60,7 @@ export function SelectGroup({
           bg={mainElementColor}
           fontWeight={'500'}
           fontSize={'16px'}
-          defaultValue={currentGroup?.id}
+          value={currentGroup?.id}
         >
           {favouriteGroups.map((group) => (
             <MenuItemOption

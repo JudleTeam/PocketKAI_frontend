@@ -9,10 +9,19 @@ import {
 import { AccountTabHeader } from '@/shared/lib';
 import styles from './Group.module.scss';
 import { CrownIcon } from '@/shared/assets/chakraIcons/CrownIcon';
+import React, { useEffect } from 'react';
 export function Group() {
   const { theme } = useChakra();
   const { homeGroup } = useGroup();
-  const { userGroupMembers, user } = useUser();
+  const { userGroupMembers, userGroupMembersStatus, user, getGroupMembers } =
+    useUser();
+
+  useEffect(() => {
+    if (userGroupMembersStatus === 'idle') {
+      getGroupMembers();
+    }
+  }, [userGroupMembersStatus, getGroupMembers]);
+
   const mainTextColor = useColorModeValue(
     theme.colors.light.main_text,
     theme.colors.dark.main_text
@@ -41,7 +50,7 @@ export function Group() {
       </Box>
       <Box display="flex" flexDirection="column" gap="10px">
         {userGroupMembers.map((groupMember) => (
-          <>
+          <React.Fragment key={groupMember.id}>
             <Box
               position="relative"
               display="flex"
@@ -98,8 +107,8 @@ export function Group() {
                 </Text>
               </Box>
             </Box>
-            <Divider></Divider>
-          </>
+            <Divider />
+          </React.Fragment>
         ))}
       </Box>
     </Box>

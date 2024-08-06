@@ -49,13 +49,13 @@ export function Speciality() {
         gap="10px"
         fontWeight="medium"
       >
-        <Text color={mainTextColor} fontSize="22px" fontWeight="bold">
+        <Text color={mainTextColor} fontSize="20px" fontWeight="bold">
           Информация
         </Text>
         {specialityDetails.map((detail) => (
           <Box key={detail.label}>
-            <Text color={'gray.500'}>{detail.label}</Text>
-            <Text color={mainTextColor} fontSize="18px">
+            <Text fontSize='14px' color={'gray.500'}>{detail.label}</Text>
+            <Text color={mainTextColor} fontSize="16px">
               {detail.value}
             </Text>
           </Box>
@@ -69,16 +69,16 @@ export function Speciality() {
         flexDirection="column"
         gap="10px"
       >
-        <Text color={mainTextColor} fontSize="22px" fontWeight="bold">
+        <Text color={mainTextColor} fontSize="20px" fontWeight="bold">
           Документы
         </Text>
         {urls.map(
           (url) =>
             url.label && (
               <Box fontWeight="medium" key={url.label}>
-                <Text color={'gray.500'}>{url.value}</Text>
+                <Text color={'gray.500'} fontSize='14px'>{url.value}</Text>
                 <a
-                  style={{ color: mainTextColor, textDecoration: 'underline' }}
+                  style={{ color: mainTextColor, textDecoration: 'underline', fontSize: '16px' }}
                   href={url.label}
                   target="_blank"
                   download

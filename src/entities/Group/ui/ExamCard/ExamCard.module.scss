@@ -1,6 +1,16 @@
 .exam-card {
     display: flex;
     cursor: pointer;
+    &::after {
+      content: url('../../../../shared/assets/icons/right-arrow.svg');
+      width: 10px;
+      height: 16px;
+      padding-top: 5px;
+      transition: transform 0.3s ease-in-out;
+    }
+    &:hover::after {
+      transform: translate(3px, 0);
+    }
     &__time {
       display: flex;
       flex-direction: column;

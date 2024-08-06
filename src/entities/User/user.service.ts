@@ -10,19 +10,11 @@ export const userService = {
     });
   },
 
-  getMeStudent: (token: string): ApiResponse<UserStudent> => {
-    return apiClient.get<UserStudent>('user/me/student', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  getMeStudent: (): ApiResponse<UserStudent> => {
+    return apiClient.get<UserStudent>('user/me/student');
   },
 
-  getGroupMembers: (token: string): ApiResponse<UserGroupMember[]> => {
-    return apiClient.get<UserGroupMember[]>('user/me/student/group_members', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-  }
+  getGroupMembers: (): ApiResponse<UserGroupMember[]> => {
+    return apiClient.get<UserGroupMember[]>('user/me/student/group_members');
+  },
 };
