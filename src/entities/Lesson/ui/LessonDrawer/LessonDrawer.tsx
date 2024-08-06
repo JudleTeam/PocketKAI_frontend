@@ -2,7 +2,7 @@ import { Lesson } from '@/shared';
 import { DateTime } from 'luxon';
 import { getLessonBuilding } from '@/shared/lib';
 import { LessonTypes } from '@/shared/constants';
-import { Avatar, useColorModeValue } from '@chakra-ui/react';
+import { Avatar, useChakra, useColorModeValue } from '@chakra-ui/react';
 import { parityTypes } from '@/shared/constants';
 import { Link } from 'react-router-dom';
 import {
@@ -28,8 +28,11 @@ const LessonDrawer = ({
 }) => {
   const specificDate = DateTime.fromISO(dayDate);
   const formattedDate = specificDate.toFormat('d MMMM', { locale: 'ru' });
+  const {theme} = useChakra()
+  const tab = useColorModeValue(theme.colors.light.tab, theme.colors.dark.tab)
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
-
+  const mainElementColor = useColorModeValue('light.main_element', 'dark.main_element')
+  const tabTeacherColor = useColorModeValue('light.tab_teacher', 'dark.tab_teacher')
   return (
     <>
       <DrawerHeader
@@ -108,14 +111,18 @@ const LessonDrawer = ({
         </Text>
         {lesson.teacher && (
           <Box
-            boxShadow="0px 0px 5px 0px #00000020"
+            as={Link}
+            to={'/teachers'}
+            boxShadow={`0px 0px 5px 0px ${tab}`}
+            bgColor={tab}
             borderRadius="16px"
             padding="14px"
             display="flex"
             alignItems="center"
             gap="15px"
+            _active={{bgColor: tabTeacherColor}}
           >
-            <Avatar />
+            <Avatar bg={mainElementColor}/>
             <Box>
               <Text fontSize="16px" fontWeight="medium">
                 {lesson?.teacher?.name}

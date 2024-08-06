@@ -13,11 +13,9 @@ import styles from './ScheduleLayout.module.scss';
 import { getTodayDate } from '@/shared';
 export function ScheduleLayout({ schedule }: { schedule: Nullable<Schedule> }) {
   const today = getTodayDate();
-
   const { upperRef, lowerRef, scheduleContainerRef } = useInfiniteScroll();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
-  return (
-    <div className={styles['schedule']} ref={scheduleContainerRef}>
+   return <div id='schedule' className={styles['schedule']} ref={scheduleContainerRef}>
       <Stack ref={upperRef}>
         <Skeleton height="20px" />
         <Skeleton height="20px" />
@@ -69,5 +67,5 @@ export function ScheduleLayout({ schedule }: { schedule: Nullable<Schedule> }) {
         <Skeleton height="20px" />
       </Stack>
     </div>
-  );
+  ;
 }

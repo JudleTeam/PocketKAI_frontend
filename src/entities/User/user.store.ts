@@ -12,7 +12,7 @@ type UserType = {
   token: string;
   error: Nullable<unknown>;
   login: (params: AuthParams) => Promise<void>;
-  getMe: () => Promise<void>;
+  getMe: () => Promise<UserStudent>;
   getGroupMembers: () => Promise<void>;
   logout: () => void;
 };
@@ -42,6 +42,7 @@ export const useUser = create<UserType>()(
       getMe: async () => {
         const response = await userService.getMeStudent();
         set({ user: response.data });
+        return response.data;
       },
       getGroupMembers: async () => {
         set({ userGroupMembersStatus: 'loading' });

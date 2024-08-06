@@ -163,6 +163,8 @@ export function NavbarActions() {
                 className={styles['stack']}
               >
                 <Icon
+                w='100px'
+                h='100px'
                   color={isCurrentLocation(action) ? mainElement : '#fff'}
                   className={` ${styles['icon']} ${
                     isCurrentLocation(action) && styles['icon--active']

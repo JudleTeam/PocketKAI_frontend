@@ -14,13 +14,13 @@ type IFormInput = {
   login: string;
   password: string;
 };
-import { useUser } from '@/entities';
-import { useEffect, useState } from 'react';
+import { useGroup, useUser } from '@/entities';
+import { useState } from 'react';
 import { getRandomPhrase } from './lib/getRandomPhrase';
 export function Auth(onClose: () => void) {
   const { reset, handleSubmit, register } = useForm<IFormInput>();
   const { userAuthStatus, login, getMe } = useUser();
-  const [phrase, setPhrase] = useState(getRandomPhrase());
+  const [phrase] = useState(getRandomPhrase());
 
   // useEffect(() => {
   //   const interval = setInterval(() => {
@@ -29,9 +29,22 @@ export function Auth(onClose: () => void) {
   //   return () => clearInterval(interval);
   // }, []);
 
+  const {
+    getGroupById,
+    homeGroupStatus,
+    addGroupToFavourite,
+    setCurrentGroup,
+  } = useGroup();
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     await login(data);
-    await getMe();
+    const user = await getMe();
+    if (user.group_id && homeGroupStatus === 'idle') {
+      const group = await getGroupById(user.group_id);
+      if (group) {
+        addGroupToFavourite(group);
+        setCurrentGroup(group);
+      }
+    }
     reset();
     onClose();
   };

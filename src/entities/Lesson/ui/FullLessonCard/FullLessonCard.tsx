@@ -32,7 +32,7 @@ export function FullLessonCard({ lesson }: { lesson: Lesson }) {
             {lesson.end_time?.slice(0, 5)}
           </Text>
         </VStack>
-        <VStack w="40%" alignItems="center" gap="0">
+        <VStack w="40%" alignItems='center' gap="0">
           <Text fontWeight="medium" fontSize="14px">
             {lesson.parsed_lesson_type &&
               LessonTypes[lesson.parsed_lesson_type]}

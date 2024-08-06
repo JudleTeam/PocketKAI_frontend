@@ -19,6 +19,7 @@ export function Exams() {
       .toFormat('d MMMM yyyy');
     return newDate;
   };
+
   useEffect(() => {
     if (currentGroup?.id) {
       getExamsByGroupId(currentGroup?.id, {
@@ -31,7 +32,7 @@ export function Exams() {
     <Box className={styles['exams']}>
       {exams.length > 0 ? (
         exams.map((exam) => (
-          <Box display="flex" flexDirection="column" gap="3px">
+          <Box key={exam.id} display="flex" flexDirection="column" gap="3px">
             <Text color={mainTextColor} fontWeight="regular" fontSize="18px">
               {exam.parsed_date
                 ? getFormattedDate(exam.parsed_date)
@@ -53,10 +54,23 @@ export function Exams() {
             <ExamCard key={exam.id} exam={exam} />
           </Box>
         ))
-      ) : (
+      ) : currentGroup ? (
         <Text fontWeight="medium" textAlign="center" color={mainTextColor}>
           Список экзаменов ещё не обновили!
         </Text>
+      ) : (
+        <Box
+          position="absolute"
+          top="50%"
+          left="50%"
+          zIndex="2"
+          transform="translate(-50%, -50%)"
+          fontSize="18px"
+          fontWeight="medium"
+          color={mainTextColor}
+        >
+          Выберите группу!
+        </Box>
       )}
     </Box>
   );
