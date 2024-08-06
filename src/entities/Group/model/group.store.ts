@@ -33,20 +33,24 @@ type GroupActions = {
   getExamsByGroupId: (group_id: string, params?: ExamParams) => Promise<void>;
 };
 
+const initialState: GroupState = {
+  groups: [],
+  searchedGroups: [],
+  favouriteGroups: [],
+  homeGroup: null,
+  homeGroupStatus: 'idle',
+  currentGroup: null,
+  lessonsCurrentGroup: [],
+  groupDisciplines: null,
+  groupDisciplinesStatus: 'idle',
+  exams: [],
+  error: null,
+};
+
 export const useGroup = create<GroupState & GroupActions>()(
   persist(
     (set) => ({
-      currentGroup: null,
-      homeGroup: null,
-      homeGroupStatus: 'idle',
-      groups: [],
-      searchedGroups: [],
-      favouriteGroups: [],
-      lessonsCurrentGroup: [],
-      groupDisciplines: null,
-      groupDisciplinesStatus: 'idle',
-      exams: [],
-      error: null,
+      ...initialState,
       getAllGroups: async () => {
         const response = await groupService.getAllGroups();
         set({ groups: response.data });
@@ -100,7 +104,7 @@ export const useGroup = create<GroupState & GroupActions>()(
       },
 
       setCurrentGroup: (group) => {
-        set({ currentGroup: group });
+        set({ currentGroup: group, groupDisciplinesStatus: 'idle' });
       },
 
       removeCurrentGroup: () => {
@@ -127,6 +131,7 @@ export const useGroup = create<GroupState & GroupActions>()(
           ),
         }));
       },
+      resetGroupState: () => set(initialState),
     }),
     {
       name: 'favourite-group-storage',

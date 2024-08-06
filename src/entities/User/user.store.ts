@@ -57,6 +57,7 @@ export const useUser = create<UserType>()(
         }
       },
       logout: () => {
+        localStorage.removeItem('token');
         set({
           user: null,
           token: '',
