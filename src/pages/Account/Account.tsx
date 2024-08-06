@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Box, Text, Divider } from '@chakra-ui/react';
 import { useUser, accountActions, useGroup } from '@/entities';
 import { Auth } from '@/features';
@@ -14,9 +14,9 @@ import styles from './Account.module.scss';
 import { useColorModeValue } from '@chakra-ui/react';
 import { useDrawerDisclosure } from '@/shared/ui/ui-drawer/lib/useDrawerDisclosure';
 export function Account() {
-  const { homeGroup, getGroupById } = useGroup();
+  const { homeGroup } = useGroup();
   const { isOpen, onClose, onOpen } = useDrawerDisclosure();
-  const { user, userGroupMembersStatus, logout, getGroupMembers } = useUser();
+  const { user, logout } = useUser();
   const accountActionsColor = useColorModeValue(
     'light.account_actions',
     'dark.account_actions'
@@ -31,12 +31,6 @@ export function Account() {
     'light.exit_button',
     'dark.exit_button'
   );
-
-  useEffect(() => {
-    if (user && userGroupMembersStatus === 'idle') {
-      getGroupMembers();
-    }
-  }, [user, userGroupMembersStatus, getGroupById, getGroupMembers]);
   return (
     <Box className={styles['account']}>
       <Box className={styles['account__header']} bgColor={mainElementColor}>

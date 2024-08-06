@@ -18,14 +18,14 @@ export function Speciality() {
   );
   const specialityDetails = getSpecialtyDetails(homeGroup);
   const urls = [
-    { value: 'Учебный план ', label: homeGroup?.syllabus_url },
+    { label: 'Учебный план ', value: homeGroup?.syllabus_url },
     {
-      value: 'Календарный учебный график',
-      label: homeGroup?.study_schedule_url,
+      label: 'Календарный учебный график',
+      value: homeGroup?.study_schedule_url,
     },
     {
-      value: 'Образовательная программа',
-      label: homeGroup?.educational_program_url,
+      label: 'Образовательная программа',
+      value: homeGroup?.educational_program_url,
     },
   ];
   return (
@@ -54,7 +54,9 @@ export function Speciality() {
         </Text>
         {specialityDetails.map((detail) => (
           <Box key={detail.label}>
-            <Text fontSize='14px' color={'gray.500'}>{detail.label}</Text>
+            <Text fontSize="14px" color={'gray.500'}>
+              {detail.label}
+            </Text>
             <Text color={mainTextColor} fontSize="16px">
               {detail.value}
             </Text>
@@ -74,16 +76,26 @@ export function Speciality() {
         </Text>
         {urls.map(
           (url) =>
-            url.label && (
+            url.value && (
               <Box fontWeight="medium" key={url.label}>
-                <Text color={'gray.500'} fontSize='14px'>{url.value}</Text>
-                <a
-                  style={{ color: mainTextColor, textDecoration: 'underline', fontSize: '16px' }}
-                  href={url.label}
-                  target="_blank"
-                  download
-                >
+                <Text color={'gray.500'} fontSize="14px">
                   {url.label}
+                </Text>
+                <a
+                  style={{
+                    color: mainTextColor,
+                    textDecoration: 'underline',
+                    fontSize: '16px',
+                  }}
+                  target="_blank"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (url.value) {
+                      window.open(url.value, '_blank', 'download');
+                    }
+                  }}
+                >
+                  {url.value}
                 </a>
               </Box>
             )
