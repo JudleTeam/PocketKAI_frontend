@@ -15,26 +15,33 @@ type IFormInput = {
   password: string;
 };
 import { useUser } from '@/entities';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { getRandomPhrase } from './lib/getRandomPhrase';
 export function Auth(onClose: () => void) {
   const { reset, handleSubmit, register } = useForm<IFormInput>();
-  const { userStatus, login, getMe } = useUser();
+  const { userAuthStatus, login, getMe } = useUser();
+  const [phrase, setPhrase] = useState(getRandomPhrase());
+
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setPhrase(getRandomPhrase());
+  //   }, 1000);
+  //   return () => clearInterval(interval);
+  // }, []);
+
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     await login(data);
     await getMe();
     reset();
     onClose();
   };
-  useEffect(() => {
-    console.log(userStatus);
-  }, [userStatus]);
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <DrawerHeader fontSize={'24px'} fontWeight={'600'} color={mainTextColor}>
         Вход в аккаунт
       </DrawerHeader>
-      {userStatus === 'loading' ? (
+      {userAuthStatus === 'loading' && (
         <DrawerBody
           display="flex"
           flexDirection="column"
@@ -43,9 +50,11 @@ export function Auth(onClose: () => void) {
           gap="20px"
         >
           <Spinner size="xl" />
-          <Text>Ловим связь с КАИ...</Text>
+          <Text>{phrase}...</Text>
         </DrawerBody>
-      ) : userStatus === 'success' ? (
+      )}
+
+      {userAuthStatus === 'success' && (
         <DrawerBody
           display="flex"
           flexDirection="column"
@@ -56,7 +65,9 @@ export function Auth(onClose: () => void) {
           <CheckCircleIcon w="80px" h="80px" color="green.500" />
           <Text>Успешно</Text>
         </DrawerBody>
-      ) : (
+      )}
+
+      {userAuthStatus === 'idle' && (
         <>
           <DrawerBody display="flex" flexDirection="column" gap="20px">
             <Input {...register('login')} placeholder="Введите логин" />

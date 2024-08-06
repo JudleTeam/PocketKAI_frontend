@@ -7,7 +7,7 @@ import {
   DrawerOverlay,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { ReactNode } from 'react';
+import { memo, ReactNode } from 'react';
 
 export function UiDrawer({
   drawerActions,
@@ -19,8 +19,8 @@ export function UiDrawer({
   onClose: () => void;
 }) {
   useDrawerCloseEvent(onClose, isOpen); // this hook must be here to prevent closing the drawer on back button press
-  const MotionDrawerContent = motion(DrawerContent);
-  const MotionBox = motion(Box);
+  const MotionDrawerContent = motion(memo(DrawerContent));
+  const MotionBox = motion(memo(Box));
   return (
     <Drawer placement="bottom" isOpen={isOpen} onClose={onClose}>
       <DrawerOverlay />

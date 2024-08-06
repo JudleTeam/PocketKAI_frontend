@@ -12,12 +12,17 @@ export function Teachers() {
     theme.colors.light.main,
     theme.colors.dark.main
   );
-  const { currentGroup, groupDisciplines, getGroupDisciplines } = useGroup();
+  const {
+    currentGroup,
+    groupDisciplines,
+    groupDisciplinesStatus,
+    getGroupDisciplines,
+  } = useGroup();
   useEffect(() => {
-    if (currentGroup) {
+    if (currentGroup && groupDisciplinesStatus === 'idle') {
       getGroupDisciplines(currentGroup.id);
     }
-  }, [getGroupDisciplines, currentGroup]);
+  }, [currentGroup, groupDisciplinesStatus, getGroupDisciplines]);
   return (
     <Box className={styles['teachers']}>
       <Text
