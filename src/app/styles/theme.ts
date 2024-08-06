@@ -16,7 +16,7 @@ const theme = extendTheme({
             black_light_element: '#1a365d80', // blue.900 + 80% - gray.500 + 80%
             card: '#EDF2F7', // gray.100 - gray.700
             main: '#fff', // white - gray.800
-            account_actions: '#fff', // white - gray.700
+            account_actions: '#ffffff', // white - gray.700
             exit_button: '#63171B', // red.900 - red.500
             tab: '#EDF2F7', // gray.100 - gray.800
             blue_element: '#2B6CB0', // blue.500 - gray.500
