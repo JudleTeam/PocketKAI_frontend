@@ -169,14 +169,14 @@ export function WeekSchedule() {
               {dayLessons.length > 0 ? (
                 <VStack gap="10px">
                   {dayLessons.map((lesson) => {
-                    if (lesson.parsed_dates) {
+                    if (lesson.parsed_dates || lesson.parsed_dates_status === 'need_check') {
                       return (
-                        <Box className={styles['faded']}>
+                        <Box className={styles['faded']} key={lesson.id}>
                           <FullLessonCard lesson={lesson} />
                         </Box>
                       );
                     }
-                    return <FullLessonCard lesson={lesson} />;
+                    return <FullLessonCard lesson={lesson} key={lesson.id} />;
                   })}
                 </VStack>
               ) : (

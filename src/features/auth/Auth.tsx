@@ -14,14 +14,22 @@ type IFormInput = {
   login: string;
   password: string;
 };
-import { useUser } from '@/entities';
+import { useGroup, useUser } from '@/entities';
 import { useEffect } from 'react';
 export function Auth(onClose: () => void) {
   const { reset, handleSubmit, register } = useForm<IFormInput>();
-  const { userStatus, login, getMe } = useUser();
+  const { userStatus, login, getMe} = useUser();
+  const {getGroupById, homeGroupStatus, addGroupToFavourite, setCurrentGroup} = useGroup()
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     await login(data);
-    await getMe();
+    const user = await getMe();
+    if(user.group_id && homeGroupStatus === 'idle'){
+      const group = await getGroupById(user.group_id);
+      if(group){
+        addGroupToFavourite(group)
+        setCurrentGroup(group)
+      }
+    }
     reset();
     onClose();
   };

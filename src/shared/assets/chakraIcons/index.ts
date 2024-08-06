@@ -1,5 +1,5 @@
 export * from './AboutUsIcon';
-export * from './AccountIcon';
+export * from './ProfileIcon';
 export * from './ArrowIcon';
 export * from './ArrowIcon';
 export * from './AssignmentIcon';

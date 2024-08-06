@@ -1,12 +1,12 @@
 import {GroupsIcon} from '../assets/chakraIcons/GroupsIcon'
 import { GraduationCapIcon } from "../assets/chakraIcons/GraduationCapIcon";
-import { AccountIcon } from "../assets/chakraIcons/AccountIcon";
+import { ProfileIcon } from "../assets/chakraIcons/ProfileIcon";
 
 export const USER_ACTIONS = [
     {
         label: 'Ваш профиль',
         path: 'profile',
-        icon: AccountIcon
+        icon: ProfileIcon
     },
     {
         label: 'Ваша специальность',

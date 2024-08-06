@@ -22,6 +22,7 @@ export const TeacherCard = memo(function TeacherCard({
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
+  const mainElementColor = useColorModeValue('light.main_element', 'dark.main_element')
   return (
     <Box>
       <Box
@@ -32,9 +33,9 @@ export const TeacherCard = memo(function TeacherCard({
         padding="10px 0"
       >
         <Box display="flex" gap="10px" alignItems="center">
-          <Avatar />
+          <Avatar bg={mainElementColor} />
           <Box>
-            <Text color={mainTextColor} fontWeight="bold" fontSize="14px">
+            <Text color={mainTextColor} fontWeight="medium" fontSize="14px">
               {disciplineType.teacher?.name ?? 'Преподаватель кафедры'}
             </Text>
             <Text color={mainTextColor} fontWeight="medium" fontSize="14px">

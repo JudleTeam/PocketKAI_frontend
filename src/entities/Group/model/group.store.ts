@@ -21,7 +21,7 @@ type GroupState = {
 type GroupActions = {
   getAllGroups: () => void;
   getGroupByName: (name: string) => void;
-  getGroupById: (id: string) => void;
+  getGroupById: (id: string) => Promise<Nullable<Group>>;
   getGroupDisciplines: (group_id: string) => void,
   suggestGroupByName: (params: GroupSearchParams) => void;
   getLessonsGroupById: (id: string) => void,
@@ -29,7 +29,7 @@ type GroupActions = {
   removeCurrentGroup: () => void;
   addGroupToFavourite: (group: GroupShort | Group) => void;
   removeGroupFromFavourite: (group: GroupShort) => void;
-  getExamsByGroupId: (group_id: string, params: ExamParams) => Promise<void>;
+  getExamsByGroupId: (group_id: string, params?: ExamParams) => Promise<void>;
 };
 
 export const useGroup = create<GroupState & GroupActions>()(
@@ -61,9 +61,11 @@ export const useGroup = create<GroupState & GroupActions>()(
             homeGroup: response.data,
             homeGroupStatus: 'success',
           });
+          return response.data
         } catch(error){
           set({error, homeGroupStatus: 'error'})
         }
+        return null
       },
       getGroupDisciplines: async (group_id: string) => {
         const response = await groupService.getGroupDisciplines(group_id);
@@ -71,7 +73,7 @@ export const useGroup = create<GroupState & GroupActions>()(
           groupDisciplines: response.data
         })
       },
-      getExamsByGroupId: async (group_id: string, params:ExamParams) => {
+      getExamsByGroupId: async (group_id: string, params?: ExamParams) => {
         const response = await groupService.getExamsByGroupId(group_id, params);
         set({
           exams: response.data

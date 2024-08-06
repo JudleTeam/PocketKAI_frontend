@@ -58,12 +58,17 @@ export function Profile() {
           bgColor={mainElement}
           borderRadius="8px 8px 0 0"
         ></Box>
-        <Avatar
+        <Box
           position="absolute"
           top="35%"
           left="50%"
+          bgColor={card}
+          borderRadius="50%"
+          padding="5px"
           transform="translate(-50%, -50%)"
-        />
+        >
+          <Avatar bgColor={mainElement} />
+        </Box>
         <Box
           w="100%"
           h="60%"
@@ -105,7 +110,7 @@ export function Profile() {
                 justifyContent="space-between"
               >
                 <Box display="flex" gap="5px" alignItems="center">
-                  <Icon color={'gray.500'}/>
+                  <Icon color={'gray.500'} />
                   <Text color={'gray.500'} fontSize="14px">
                     {detail.label}
                   </Text>

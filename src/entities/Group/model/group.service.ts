@@ -30,7 +30,7 @@ export const groupService = {
   },
   getExamsByGroupId: (
     group_id: string,
-    params: ExamParams,
+    params?: ExamParams,
   ): ApiResponse<ExamType[]> => {
     return apiClient.get<ExamType[]>(`/group/by_id/${group_id}/exam`, {params})
   }

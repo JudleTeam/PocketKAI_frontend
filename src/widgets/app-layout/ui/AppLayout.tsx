@@ -68,8 +68,7 @@ export function AppLayout() {
   ]);
   useEffect(() => {
     document.getElementById(currentDay)?.scrollIntoView();
-    console.log(location);
-  }, [location.pathname]);
+  }, [location.pathname, currentDay]);
   const { theme } = useChakra();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const mainColor = useColorModeValue(

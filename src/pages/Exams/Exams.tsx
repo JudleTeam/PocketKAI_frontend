@@ -19,6 +19,7 @@ export function Exams() {
       .toFormat('d MMMM yyyy');
     return newDate;
   };
+
   useEffect(() => {
     if (currentGroup?.id) {
       getExamsByGroupId(currentGroup?.id, {
@@ -31,7 +32,7 @@ export function Exams() {
     <Box className={styles['exams']}>
       {exams.length > 0 ? (
         exams.map((exam) => (
-          <Box display="flex" flexDirection="column" gap="3px">
+          <Box key={exam.id} display="flex" flexDirection="column" gap="3px">
             <Text color={mainTextColor} fontWeight="regular" fontSize="18px">
               {exam.parsed_date
                 ? getFormattedDate(exam.parsed_date)
