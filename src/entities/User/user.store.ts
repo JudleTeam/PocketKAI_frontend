@@ -55,6 +55,7 @@ export const useUser = create<UserType>()(
           set({
             userGroupMembers: response.data,
             userGroupMembersStatus: 'success',
+            error: null,
           });
         } catch (error: any) {
           set({ error, userGroupMembersStatus: 'error' });
