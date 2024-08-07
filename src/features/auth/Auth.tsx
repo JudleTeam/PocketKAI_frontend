@@ -19,6 +19,7 @@ import { useGroup, useUser } from '@/entities';
 import { useEffect, useState } from 'react';
 import { getRandomPhrase } from './lib/getRandomPhrase';
 import { useNavigate } from 'react-router-dom';
+import { getErrorText } from './lib/getErrorText';
 export function Auth(onClose: () => void) {
   const {
     reset,
@@ -26,7 +27,7 @@ export function Auth(onClose: () => void) {
     register,
     formState: { errors },
   } = useForm<IFormInput>();
-  const { userAuthStatus, login, getMe } = useUser();
+  const { userAuthStatus, error, login, getMe } = useUser();
   const navigate = useNavigate();
   const [phrase, setPhrase] = useState(getRandomPhrase());
   useEffect(() => {
@@ -43,18 +44,20 @@ export function Auth(onClose: () => void) {
     setCurrentGroup,
   } = useGroup();
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    await login(data);
-    const user = await getMe();
-    if (user.group_id && homeGroupStatus === 'idle') {
-      const group = await getGroupById(user.group_id);
-      if (group) {
-        addGroupToFavourite(group);
-        setCurrentGroup(group);
+    const status = await login(data);
+    if (status === 200) {
+      const user = await getMe();
+      if (user.group_id && homeGroupStatus === 'idle') {
+        const group = await getGroupById(user.group_id);
+        if (group) {
+          addGroupToFavourite(group);
+          setCurrentGroup(group);
+        }
       }
+      reset();
+      onClose();
+      navigate('/account', { replace: true });
     }
-    reset();
-    onClose();
-    navigate('/account', { replace: true });
   };
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   return (
@@ -96,9 +99,10 @@ export function Auth(onClose: () => void) {
         </DrawerBody>
       )}
 
-      {userAuthStatus === 'idle' && (
+      {(userAuthStatus === 'idle' || userAuthStatus === 'error') && (
         <>
           <DrawerBody display="flex" flexDirection="column" gap="20px">
+            {<Text>{!!error && getErrorText(error)}</Text>}
             <Box>
               <Input
                 {...register('login', { required: 'Это поле обязательно' })}

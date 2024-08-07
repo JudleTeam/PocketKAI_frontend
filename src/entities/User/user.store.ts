@@ -4,14 +4,15 @@ import { AuthParams } from './types';
 import { persist } from 'zustand/middleware';
 import { FetchStatus, UserStudent, UserGroupMember } from '@/shared';
 import { Nullable } from '@/shared';
+import { AxiosError } from 'axios';
 type UserType = {
   userAuthStatus: FetchStatus;
   user: Nullable<UserStudent>;
   userGroupMembers: UserGroupMember[];
   userGroupMembersStatus: FetchStatus;
   token: string;
-  error: Nullable<unknown>;
-  login: (params: AuthParams) => Promise<void>;
+  error: Nullable<AxiosError>;
+  login: (params: AuthParams) => Promise<number>;
   getMe: () => Promise<UserStudent>;
   getGroupMembers: () => Promise<void>;
   logout: () => void;
@@ -35,8 +36,10 @@ export const useUser = create<UserType>()(
             userAuthStatus: 'success',
           });
           localStorage.setItem('token', response.data.access_token);
-        } catch (error) {
+          return response.status;
+        } catch (error: any) {
           set({ error, userAuthStatus: 'error' });
+          return 400;
         }
       },
       getMe: async () => {
@@ -52,7 +55,7 @@ export const useUser = create<UserType>()(
             userGroupMembers: response.data,
             userGroupMembersStatus: 'success',
           });
-        } catch (error) {
+        } catch (error: any) {
           set({ error, userGroupMembersStatus: 'error' });
         }
       },
@@ -62,6 +65,7 @@ export const useUser = create<UserType>()(
           user: null,
           token: '',
           userAuthStatus: 'idle',
+          userGroupMembersStatus: 'idle',
           userGroupMembers: [],
         });
       },

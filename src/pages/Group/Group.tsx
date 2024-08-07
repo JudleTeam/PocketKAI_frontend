@@ -16,7 +16,7 @@ export function Group() {
   const { homeGroup } = useGroup();
   const { userGroupMembers, userGroupMembersStatus, user, getGroupMembers } =
     useUser();
-
+  console.log(userGroupMembersStatus);
   useEffect(() => {
     if (
       userGroupMembersStatus === 'idle' ||
