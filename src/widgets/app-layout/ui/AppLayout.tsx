@@ -76,7 +76,9 @@ export function AppLayout() {
     theme.colors.dark.main
   );
   const ScrollToToday = () => {
-    document.getElementById(getTodayDate())?.scrollIntoView();
+    document
+      .getElementById(getTodayDate())
+      ?.scrollIntoView({ behavior: 'smooth' });
   };
   const isNotDatebar =
     location.pathname.includes('teachers') ||
