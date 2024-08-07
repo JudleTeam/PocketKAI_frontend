@@ -75,6 +75,18 @@ export function AppLayout() {
     theme.colors.light.main,
     theme.colors.dark.main
   );
+  const themeColor = useColorModeValue('#858585', '#0E1117');
+  useEffect(() => {
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) {
+      if (isOpen) {
+        metaThemeColor.setAttribute('content', themeColor);
+      } else {
+        metaThemeColor.setAttribute('content', mainColor);
+      }
+      console.log(metaThemeColor.getAttribute('content'));
+    }
+  }, [themeColor, mainColor, isOpen]);
   const isNotDatebar =
     location.pathname.includes('teachers') ||
     location.pathname.includes('schedule/full') ||
