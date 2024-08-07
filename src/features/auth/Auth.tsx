@@ -8,6 +8,7 @@ import {
   Spinner,
   Text,
   Box,
+  useColorMode,
 } from '@chakra-ui/react';
 import { CheckCircleIcon } from '@chakra-ui/icons';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -18,7 +19,7 @@ type IFormInput = {
 import { useGroup, useUser } from '@/entities';
 import { useEffect, useState } from 'react';
 import { getRandomPhrase } from './lib/getRandomPhrase';
-export function Auth(onClose: () => void) {
+export function Auth(isOpen: boolean, onClose: () => void) {
   const {
     reset,
     handleSubmit,
@@ -27,7 +28,16 @@ export function Auth(onClose: () => void) {
   } = useForm<IFormInput>();
   const { userAuthStatus, login, getMe } = useUser();
   const [phrase, setPhrase] = useState(getRandomPhrase());
-
+  const {colorMode} = useColorMode()
+  const themeColor = useColorModeValue('#1A446B','#122033')
+  useEffect(() => {
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    console.log(colorMode)
+    if (metaThemeColor && isOpen) {
+     metaThemeColor.setAttribute('content', themeColor); 
+     console.log(metaThemeColor.getAttribute('content'))
+   }
+  }, [themeColor,colorMode,isOpen]);
   useEffect(() => {
     const interval = setInterval(() => {
       setPhrase(getRandomPhrase());

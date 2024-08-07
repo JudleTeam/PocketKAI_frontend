@@ -51,7 +51,7 @@ export function ExamCard({ exam }: { exam: ExamType }) {
       <UiDrawer
         isOpen={isOpen}
         onClose={onClose}
-        drawerActions={ExamDrawer({ exam })}
+        drawerActions={ExamDrawer({ exam, isOpen })}
       />
     </>
   );

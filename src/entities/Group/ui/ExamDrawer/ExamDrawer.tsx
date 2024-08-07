@@ -10,12 +10,21 @@ import {
   import { Link } from 'react-router-dom';
   import { DateTime } from 'luxon';
   import { getLessonBuilding } from '@/shared/lib';
-  export function ExamDrawer({ exam }: { exam: ExamType }) {
+import { useEffect } from 'react';
+  export function ExamDrawer({ exam, isOpen }: { exam: ExamType, isOpen:boolean }) {
     const {theme} = useChakra()
     const tab = useColorModeValue(theme.colors.light.tab, theme.colors.dark.tab)
     const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
     const mainElementColor = useColorModeValue('light.main_element', 'dark.main_element')
     const tabTeacherColor = useColorModeValue('light.tab_teacher', 'dark.tab_teacher')
+    const themeColor = useColorModeValue( '#858585','#0E1117')
+    useEffect(() => {
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+      if (metaThemeColor && isOpen) {
+        metaThemeColor.setAttribute('content', themeColor);
+        console.log(metaThemeColor.getAttribute('content'))
+      }
+    }, [themeColor, isOpen]);
     return (
       <DrawerHeader
         w="95%"
