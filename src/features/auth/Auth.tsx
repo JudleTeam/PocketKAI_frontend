@@ -28,16 +28,14 @@ export function Auth(isOpen: boolean, onClose: () => void) {
   } = useForm<IFormInput>();
   const { userAuthStatus, login, getMe } = useUser();
   const [phrase, setPhrase] = useState(getRandomPhrase());
-  const {colorMode} = useColorMode()
-  const themeColor = useColorModeValue('#1A446B','#122033')
+  const { colorMode } = useColorMode();
+  const themeColor = useColorModeValue('#1A446B', '#122033');
   useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    console.log(colorMode)
     if (metaThemeColor && isOpen) {
-     metaThemeColor.setAttribute('content', themeColor); 
-     console.log(metaThemeColor.getAttribute('content'))
-   }
-  }, [themeColor,colorMode,isOpen]);
+      metaThemeColor.setAttribute('content', themeColor);
+    }
+  }, [themeColor, colorMode, isOpen]);
   useEffect(() => {
     const interval = setInterval(() => {
       setPhrase(getRandomPhrase());
