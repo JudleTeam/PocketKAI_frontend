@@ -48,7 +48,7 @@ export function FullLessonCard({ lesson }: { lesson: Lesson }) {
       <UiDrawer
         isOpen={isOpen}
         onClose={onClose}
-        drawerActions={FullLessonDrawer({lesson})}
+        drawerActions={FullLessonDrawer({lesson, isOpen})}
       />
     </>
   );

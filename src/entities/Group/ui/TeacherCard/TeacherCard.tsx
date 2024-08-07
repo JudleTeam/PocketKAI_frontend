@@ -56,6 +56,7 @@ export const TeacherCard = memo(function TeacherCard({
           <TeacherDrawer
             disciplineName={disciplineName}
             disciplineType={disciplineType}
+            isOpen={isOpen}
           />
         }
       />
