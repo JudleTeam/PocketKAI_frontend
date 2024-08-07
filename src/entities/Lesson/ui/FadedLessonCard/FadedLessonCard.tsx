@@ -61,7 +61,7 @@ export function FadedLessonCard({
         isOpen={isOpen}
         onClose={onClose}
         drawerActions={
-          <LessonDrawer dayDate={dayDate} lesson={lesson} onClose={onClose} />
+          <LessonDrawer dayDate={dayDate} lesson={lesson} isOpen={isOpen} />
         }
       />
     </>

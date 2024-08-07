@@ -1,5 +1,5 @@
-import React from 'react';
-import { Box, Text, Divider } from '@chakra-ui/react';
+import React, { useEffect } from 'react';
+import { Box, Text, Divider, useColorMode, useChakra } from '@chakra-ui/react';
 import { useUser, accountActions, useGroup } from '@/entities';
 import { Auth } from '@/features';
 import {
@@ -16,6 +16,7 @@ import { useDrawerDisclosure } from '@/shared/ui/ui-drawer/lib/useDrawerDisclosu
 export function Account() {
   const { homeGroup } = useGroup();
   const { isOpen, onClose, onOpen } = useDrawerDisclosure();
+  const { theme } = useChakra();
   const { user, logout } = useUser();
   const accountActionsColor = useColorModeValue(
     'light.account_actions',
@@ -24,13 +25,21 @@ export function Account() {
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const tab = useColorModeValue('light.tab', 'dark.tab');
   const mainElementColor = useColorModeValue(
-    'light.main_element',
-    'dark.main_element'
+    theme.colors.light.main_element,
+    theme.colors.dark.main_element
   );
   const exitButtonColor = useColorModeValue(
     'light.exit_button',
     'dark.exit_button'
   );
+  const { colorMode } = useColorMode();
+  useEffect(() => {
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    console.log(colorMode);
+    if (metaThemeColor) {
+      metaThemeColor.setAttribute('content', mainElementColor);
+    }
+  }, [mainElementColor, colorMode]);
   return (
     <Box className={styles['account']}>
       <Box className={styles['account__header']} bgColor={mainElementColor}>
@@ -166,7 +175,7 @@ export function Account() {
       <UiDrawer
         isOpen={isOpen}
         onClose={onClose}
-        drawerActions={Auth(onClose)}
+        drawerActions={Auth(isOpen, onClose)}
       />
     </Box>
   );
