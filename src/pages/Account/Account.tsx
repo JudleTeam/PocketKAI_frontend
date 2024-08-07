@@ -14,10 +14,10 @@ import styles from './Account.module.scss';
 import { useColorModeValue } from '@chakra-ui/react';
 import { useDrawerDisclosure } from '@/shared/ui/ui-drawer/lib/useDrawerDisclosure';
 export function Account() {
-  const { homeGroup, getGroupById } = useGroup();
+  const { homeGroup } = useGroup();
   const { isOpen, onClose, onOpen } = useDrawerDisclosure();
-  const { user, userGroupMembersStatus, logout, getGroupMembers } = useUser();
   const { theme } = useChakra();
+  const { user, logout } = useUser();
   const accountActionsColor = useColorModeValue(
     'light.account_actions',
     'dark.account_actions'
@@ -40,11 +40,6 @@ export function Account() {
       metaThemeColor.setAttribute('content', mainElementColor);
     }
   }, [mainElementColor, colorMode]);
-  useEffect(() => {
-    if (user && userGroupMembersStatus === 'idle') {
-      getGroupMembers();
-    }
-  }, [user, userGroupMembersStatus, getGroupById, getGroupMembers]);
   return (
     <Box className={styles['account']}>
       <Box className={styles['account__header']} bgColor={mainElementColor}>
