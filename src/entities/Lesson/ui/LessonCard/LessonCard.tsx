@@ -1,9 +1,10 @@
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import {
   HStack,
   Text,
   useDisclosure,
   useColorModeValue,
+  useChakra,
 } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
 import { Lesson } from '@/shared';
@@ -28,6 +29,24 @@ const LessonCard = memo(
       'light.blue_light_element',
       'dark.blue_light_element'
     );
+    const themeColor = useColorModeValue('#858585', '#0E1117');
+    const { theme } = useChakra();
+    const mainColor = useColorModeValue(
+      theme.colors.light.main,
+      theme.colors.dark.main
+    );
+    useEffect(() => {
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+      if (metaThemeColor) {
+        if (isOpen) {
+          metaThemeColor.setAttribute('content', themeColor);
+        } else {
+          metaThemeColor.setAttribute('content', mainColor);
+        }
+        console.log(metaThemeColor.getAttribute('content'));
+      }
+    }, [themeColor, mainColor, isOpen]);
+
     return (
       <>
         <HStack
@@ -80,9 +99,7 @@ const LessonCard = memo(
         <UiDrawer
           isOpen={isOpen}
           onClose={onClose}
-          drawerActions={
-            <LessonDrawer dayDate={dayDate} lesson={lesson} isOpen={isOpen}/>
-          }
+          drawerActions={<LessonDrawer dayDate={dayDate} lesson={lesson} />}
         />
       </>
     );

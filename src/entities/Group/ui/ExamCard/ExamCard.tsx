@@ -8,6 +8,7 @@ import { DateTime } from 'luxon';
 import styles from './ExamCard.module.scss';
 import { ExamDrawer } from '../ExamDrawer/ExamDrawer';
 import { UiDrawer } from '@/shared/ui/ui-drawer/UiDrawer';
+import { useEffect } from 'react';
 export function ExamCard({ exam }: { exam: ExamType }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { theme } = useChakra();
@@ -15,6 +16,20 @@ export function ExamCard({ exam }: { exam: ExamType }) {
     theme.colors.light.main_text,
     theme.colors.dark.main_text
   );
+  const themeColor = useColorModeValue( '#858585','#0E1117')
+  const mainColor = useColorModeValue(theme.colors.light.main, theme.colors.dark.main)
+  useEffect(() => {
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) {
+      if (isOpen) {
+        metaThemeColor.setAttribute('content', themeColor);
+      } else {
+        metaThemeColor.setAttribute('content', mainColor);
+      }
+      console.log(metaThemeColor.getAttribute('content'));
+    }
+  }, [themeColor, mainColor, isOpen]);
+
   return (
     <>
       <HStack
@@ -51,7 +66,7 @@ export function ExamCard({ exam }: { exam: ExamType }) {
       <UiDrawer
         isOpen={isOpen}
         onClose={onClose}
-        drawerActions={ExamDrawer({ exam, isOpen })}
+        drawerActions={ExamDrawer({ exam })}
       />
     </>
   );

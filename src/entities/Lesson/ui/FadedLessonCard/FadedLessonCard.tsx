@@ -1,5 +1,5 @@
 import { Lesson } from '@/shared';
-import { HStack, Text } from '@chakra-ui/react';
+import { HStack, Text, useChakra } from '@chakra-ui/react';
 import { lessonStateIcons } from '@/shared/constants';
 import { getLessonState } from '../../lib/getLessonState';
 import { lessonStateLine } from '../../constants/lessonStateLine';
@@ -10,6 +10,7 @@ import { sliceLessonName } from '../../lib/sliceLessonName';
 import { useColorModeValue } from '@chakra-ui/react';
 import styles from './FadedLessonCard.module.scss';
 import { UiDrawer } from '@/shared/ui/ui-drawer/UiDrawer';
+import { useEffect } from 'react';
 
 export function FadedLessonCard({
   lesson,
@@ -20,6 +21,21 @@ export function FadedLessonCard({
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
+  const themeColor = useColorModeValue( '#858585','#0E1117')
+  const {theme} = useChakra()
+  const mainColor = useColorModeValue(theme.colors.light.main, theme.colors.dark.main)
+  useEffect(() => {
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) {
+      if (isOpen) {
+        metaThemeColor.setAttribute('content', themeColor);
+      } else {
+        metaThemeColor.setAttribute('content', mainColor);
+      }
+      console.log(metaThemeColor.getAttribute('content'));
+    }
+  }, [themeColor, mainColor, isOpen]);
+
   return (
     <>
       <HStack
@@ -61,7 +77,7 @@ export function FadedLessonCard({
         isOpen={isOpen}
         onClose={onClose}
         drawerActions={
-          <LessonDrawer dayDate={dayDate} lesson={lesson} isOpen={isOpen} />
+          <LessonDrawer dayDate={dayDate} lesson={lesson} />
         }
       />
     </>
