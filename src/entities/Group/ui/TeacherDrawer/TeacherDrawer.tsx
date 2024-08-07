@@ -2,25 +2,14 @@ import { DrawerHeader, Text, Box, useColorModeValue } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { LessonTypes } from '@/shared/constants';
 import { DisciplineTypes } from '@/shared';
-import { useEffect } from 'react';
 export function TeacherDrawer({
   disciplineType,
   disciplineName,
-  isOpen
 }: {
   disciplineType: DisciplineTypes;
   disciplineName: string;
-  isOpen: boolean
 }) {
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
-  const themeColor = useColorModeValue( '#858585','#0E1117')
-  useEffect(() => {
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor && isOpen) {
-      metaThemeColor.setAttribute('content', themeColor);
-      console.log(metaThemeColor.getAttribute('content'))
-    }
-  }, [themeColor, isOpen]);
   return (
     <DrawerHeader
       w="95%"

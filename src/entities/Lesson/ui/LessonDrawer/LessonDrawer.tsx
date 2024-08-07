@@ -18,15 +18,12 @@ import {
   Tab,
   TabPanel,
 } from '@chakra-ui/react';
-import { useEffect } from 'react';
 const LessonDrawer = ({
   dayDate,
-  lesson,
-  isOpen
+  lesson
 }: {
   dayDate: string;
   lesson: Lesson;
-  isOpen: boolean;
 }) => {
   const specificDate = DateTime.fromISO(dayDate);
   const formattedDate = specificDate.toFormat('d MMMM', { locale: 'ru' });
@@ -35,14 +32,6 @@ const LessonDrawer = ({
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const mainElementColor = useColorModeValue('light.main_element', 'dark.main_element')
   const tabTeacherColor = useColorModeValue('light.tab_teacher', 'dark.tab_teacher')
-  const themeColor = useColorModeValue( '#858585','#0E1117')
-  useEffect(() => {
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor && isOpen) {
-      metaThemeColor.setAttribute('content', themeColor);
-      console.log(metaThemeColor.getAttribute('content'))
-    }
-  }, [themeColor, isOpen]);
   return (
     <>
       <DrawerHeader

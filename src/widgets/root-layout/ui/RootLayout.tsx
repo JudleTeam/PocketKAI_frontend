@@ -14,10 +14,10 @@ export function RootLayout() {
   const { colorMode } = useColorMode();
   useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-
     if (metaThemeColor) {
       metaThemeColor.setAttribute('content', themeColor);
     }
+    console.log(metaThemeColor?.getAttribute('content'))
   }, [themeColor, colorMode]);
   return (
     <div className={styles['root-layout']}>

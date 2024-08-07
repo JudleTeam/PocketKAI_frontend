@@ -8,7 +8,6 @@ import {
   Spinner,
   Text,
   Box,
-  useColorMode,
 } from '@chakra-ui/react';
 import { CheckCircleIcon } from '@chakra-ui/icons';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -20,7 +19,7 @@ import { useGroup, useUser } from '@/entities';
 import { useEffect, useState } from 'react';
 import { getRandomPhrase } from './lib/getRandomPhrase';
 import { useNavigate } from 'react-router-dom';
-export function Auth(isOpen: boolean, onClose: () => void) {
+export function Auth(onClose: () => void) {
   const {
     reset,
     handleSubmit,
@@ -30,14 +29,6 @@ export function Auth(isOpen: boolean, onClose: () => void) {
   const { userAuthStatus, login, getMe } = useUser();
   const navigate = useNavigate();
   const [phrase, setPhrase] = useState(getRandomPhrase());
-  const { colorMode } = useColorMode();
-  const themeColor = useColorModeValue('#1A446B', '#122033');
-  useEffect(() => {
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor && isOpen) {
-      metaThemeColor.setAttribute('content', themeColor);
-    }
-  }, [themeColor, colorMode, isOpen]);
   useEffect(() => {
     const interval = setInterval(() => {
       setPhrase(getRandomPhrase());
