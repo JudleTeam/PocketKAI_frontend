@@ -16,9 +16,9 @@ import { UiModal } from '@/shared/ui/ui-modal/UiModal';
 import { AddGroupToFavourite } from '@/features';
 import { SelectGroup } from '@/features';
 import { useGroup, useSchedule } from '@/entities';
-import { getTodayDate } from '@/shared';
 import { useScrollSpy } from '../lib/useScrollSpy';
 import { parityTypes } from '@/shared/constants';
+import { scrollToToday } from '@/shared/lib';
 
 export type ContextType = [
   string,
@@ -55,7 +55,7 @@ export function AppLayout() {
           date_from: weekAgo,
           days_count,
         }).then(() => {
-          ScrollToToday();
+          scrollToToday(false);
         });
       });
     }
@@ -75,11 +75,6 @@ export function AppLayout() {
     theme.colors.light.main,
     theme.colors.dark.main
   );
-  const ScrollToToday = () => {
-    document
-      .getElementById(getTodayDate())
-      ?.scrollIntoView({ behavior: 'smooth' });
-  };
   const isNotDatebar =
     location.pathname.includes('teachers') ||
     location.pathname.includes('schedule/full') ||
@@ -92,7 +87,7 @@ export function AppLayout() {
           fontWeight={'medium'}
           color={mainTextColor}
           gap={0.4}
-          onClick={ScrollToToday}
+          onClick={() => scrollToToday(true)}
         >
           <Text fontSize={22}>
             {DateTime.now().setLocale('ru').toFormat('d MMMM')}

@@ -35,7 +35,6 @@ export function Account() {
   const { colorMode } = useColorMode();
   useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    console.log(colorMode);
     if (metaThemeColor) {
       metaThemeColor.setAttribute('content', mainElementColor);
     }

@@ -6,19 +6,19 @@ import {
   useChakra,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { FadedLessonCard, LessonCard, RestCard } from '@/entities';
-import { getFormattedDate, Nullable, Schedule } from '@/shared';
+import { FadedLessonCard, LessonCard, RestCard, useSchedule } from '@/entities';
+import { getFormattedDate } from '@/shared';
 import { useInfiniteScroll } from '../lib/useInfiniteScroll';
-//import { useCurrentDay } from '@/widgets';
 import styles from './ScheduleLayout.module.scss';
 import { getTodayDate } from '@/shared';
 import { ArrowIcon } from '@/shared/assets';
 import { useGoUpButton } from '../lib/useGoUpButton';
-export function ScheduleLayout({ schedule }: { schedule: Nullable<Schedule> }) {
+import { scrollToToday } from '@/shared/lib';
+export function ScheduleLayout() {
   const today = getTodayDate();
+  const { schedule } = useSchedule();
   const { upperRef, lowerRef, scheduleContainerRef } = useInfiniteScroll();
   const { showButton, position: todayBlockPosition } = useGoUpButton();
-  console.log(todayBlockPosition);
   const { theme } = useChakra();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const mainElementColor = useColorModeValue(
@@ -84,11 +84,7 @@ export function ScheduleLayout({ schedule }: { schedule: Nullable<Schedule> }) {
 
       {showButton && (
         <Box
-          onClick={() =>
-            document
-              .getElementById(today)
-              ?.scrollIntoView({ behavior: 'smooth' })
-          }
+          onClick={() => scrollToToday(true)}
           as="button"
           w="40px"
           h="40px"

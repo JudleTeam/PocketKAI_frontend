@@ -6,16 +6,19 @@ import { useEffect } from 'react';
 import { NavbarActions } from '../navbar/NavbarActions';
 //import PWABadge from '@/PWABadge';
 export function RootLayout() {
-  const {theme} = useChakra()
-  const themeColor = useColorModeValue(theme.colors.light.main, theme.colors.dark.main);
-  const {colorMode} = useColorMode();
- useEffect(() => {
-   const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-   console.log(colorMode)
-   if (metaThemeColor) {
-    metaThemeColor.setAttribute('content', themeColor); 
-  }
- }, [themeColor,colorMode]);
+  const { theme } = useChakra();
+  const themeColor = useColorModeValue(
+    theme.colors.light.main,
+    theme.colors.dark.main
+  );
+  const { colorMode } = useColorMode();
+  useEffect(() => {
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+
+    if (metaThemeColor) {
+      metaThemeColor.setAttribute('content', themeColor);
+    }
+  }, [themeColor, colorMode]);
   return (
     <div className={styles['root-layout']}>
       <Outlet />
