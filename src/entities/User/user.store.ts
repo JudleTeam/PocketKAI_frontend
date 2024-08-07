@@ -34,6 +34,7 @@ export const useUser = create<UserType>()(
           set({
             token: response.data.access_token,
             userAuthStatus: 'success',
+            error: null,
           });
           localStorage.setItem('token', response.data.access_token);
           return response.status;
@@ -74,6 +75,7 @@ export const useUser = create<UserType>()(
       name: 'user',
       partialize: (state) => ({
         user: state.user,
+        userGroupMembers: state.userGroupMembers,
       }),
     }
   )
