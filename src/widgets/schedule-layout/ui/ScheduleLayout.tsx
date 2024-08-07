@@ -19,6 +19,7 @@ export function ScheduleLayout() {
   const { schedule } = useSchedule();
   const { upperRef, lowerRef, scheduleContainerRef } = useInfiniteScroll();
   const { showButton, position: todayBlockPosition } = useGoUpButton();
+  console.log(showButton);
   const { theme } = useChakra();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const mainElementColor = useColorModeValue(
@@ -82,12 +83,12 @@ export function ScheduleLayout() {
         <Skeleton height="20px" />
       </Stack>
 
-      {showButton && (
+      {!!showButton && (
         <Box
           onClick={() => scrollToToday(true)}
           as="button"
-          w="40px"
-          h="40px"
+          w="50px"
+          h="50px"
           borderRadius="8px"
           position="fixed"
           bottom="80px"
@@ -96,10 +97,12 @@ export function ScheduleLayout() {
           zIndex={'50'}
         >
           {todayBlockPosition === 'above' ? (
-            <ArrowIcon fill={theme.colors.light.main_text} />
+            <ArrowIcon color="white" w={'20px'} h={'20px'} />
           ) : (
             <ArrowIcon
-              fill={theme.colors.light.main_text}
+              color="white"
+              w={'20px'}
+              h={'20px'}
               transform="rotate(180deg)"
             />
           )}

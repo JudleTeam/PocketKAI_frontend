@@ -18,7 +18,10 @@ export function Group() {
     useUser();
 
   useEffect(() => {
-    if (userGroupMembersStatus === 'idle') {
+    if (
+      userGroupMembersStatus === 'idle' ||
+      userGroupMembersStatus === 'error'
+    ) {
       getGroupMembers();
     }
   }, [userGroupMembersStatus, getGroupMembers]);

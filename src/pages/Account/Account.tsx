@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, Text, Divider, useColorMode, useChakra } from '@chakra-ui/react';
+import { Box, Text, Divider, useChakra } from '@chakra-ui/react';
 import { useUser, accountActions, useGroup } from '@/entities';
 import { Auth } from '@/features';
 import {
@@ -32,13 +32,22 @@ export function Account() {
     'light.exit_button',
     'dark.exit_button'
   );
-  const { colorMode } = useColorMode();
+  const mainColor = useColorModeValue(
+    theme.colors.light.main,
+    theme.colors.dark.main
+  );
+  const themeColor = useColorModeValue('#858585', '#0E1117');
   useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
-      metaThemeColor.setAttribute('content', mainElementColor);
+      if (isOpen) {
+        metaThemeColor.setAttribute('content', themeColor);
+      } else {
+        metaThemeColor.setAttribute('content', mainColor);
+      }
+      console.log(metaThemeColor.getAttribute('content'));
     }
-  }, [mainElementColor, colorMode]);
+  }, [themeColor, mainColor, isOpen]);
   return (
     <Box className={styles['account']}>
       <Box className={styles['account__header']} bgColor={mainElementColor}>
@@ -174,7 +183,7 @@ export function Account() {
       <UiDrawer
         isOpen={isOpen}
         onClose={onClose}
-        drawerActions={Auth(isOpen, onClose)}
+        drawerActions={Auth(onClose)}
       />
     </Box>
   );
