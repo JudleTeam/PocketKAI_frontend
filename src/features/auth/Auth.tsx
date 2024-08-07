@@ -19,6 +19,7 @@ type IFormInput = {
 import { useGroup, useUser } from '@/entities';
 import { useEffect, useState } from 'react';
 import { getRandomPhrase } from './lib/getRandomPhrase';
+import { useNavigate } from 'react-router-dom';
 export function Auth(isOpen: boolean, onClose: () => void) {
   const {
     reset,
@@ -27,6 +28,7 @@ export function Auth(isOpen: boolean, onClose: () => void) {
     formState: { errors },
   } = useForm<IFormInput>();
   const { userAuthStatus, login, getMe } = useUser();
+  const navigate = useNavigate();
   const [phrase, setPhrase] = useState(getRandomPhrase());
   const { colorMode } = useColorMode();
   const themeColor = useColorModeValue('#1A446B', '#122033');
@@ -61,6 +63,7 @@ export function Auth(isOpen: boolean, onClose: () => void) {
     }
     reset();
     onClose();
+    navigate('/account', { replace: true });
   };
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   return (
