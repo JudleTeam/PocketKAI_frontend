@@ -21,7 +21,7 @@ export function UiDrawer({
   useDrawerCloseEvent(onClose, isOpen); // this hook must be here to prevent router mess on back button press
   const MotionDrawerContent = useMemo(() => motion(DrawerContent), []);
   const MotionBox = useMemo(() => motion(Box), []);
-  const [drawerHeight, setDrawerHeight] = useState(80);
+  const [currentHeight, setCurrentHeight] = useState(80);
 
   return (
     <Drawer placement="bottom" isOpen={isOpen} onClose={onClose}>
@@ -29,11 +29,11 @@ export function UiDrawer({
       <MotionDrawerContent
         as={MotionBox}
         pos={'fixed'}
-        minH="70vh"
+        minH="70%"
         minW="100%"
-        h={`${drawerHeight}vh`}
-        maxH="100%"
-        bottom="0"
+        h={`${currentHeight}vh`}
+        maxH="100% + 20px"
+        bottom="-20px"
         borderRadius="16px 16px 0 0"
         display="flex"
         flex={1}
@@ -42,21 +42,24 @@ export function UiDrawer({
         initial={{ y: '100%' }}
         animate={{ y: 0 }}
         exit={{ y: '100%' }}
-        transition={{
-          duration: 0.3,
-          ease: 'easeInOut',
-          bounce: 0.25,
-        }}
         drag="y"
         dragConstraints={{ bottom: 0, top: 0 }}
         dragElastic={0.1}
+        transition={{
+          duration: 0.2,
+          ease: 'easeInOut',
+          bounce: 0.25,
+        }}
         onDragEnd={(_, info) => {
           if (info.offset.y > 100) {
             onClose();
-            setDrawerHeight(80);
+            setCurrentHeight(80);
           } else if (info.offset.y < -100) {
-            setDrawerHeight(100);
+            setCurrentHeight(100);
           }
+        }}
+        style={{
+          transition: 'height 0.2s ease-in-out', // THIS MAKES SMOOTH TRANSITION BETWEEN 80 AND 100 HEIGHT
         }}
       >
         <Box w="20px" h="3px" bgColor="grey" mt={3} />

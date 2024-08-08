@@ -123,7 +123,7 @@ export function WeekSchedule() {
         </HStack>
       </Box>
       <Loader status={weekScheduleStatus} idleMessage="Выберите группу">
-        {weekSchedule ? (
+        {weekSchedule &&
           Object.entries(weekSchedule[weekParity].week_days).map((weekDay) => {
             const dayName = weekDay[0] as keyof typeof SHORT_WEEK_DAYS;
             const dayLessons = weekDay[1];
@@ -169,21 +169,7 @@ export function WeekSchedule() {
                 )}
               </div>
             );
-          })
-        ) : (
-          <Box
-            position="absolute"
-            top="50%"
-            left="50%"
-            zIndex="2"
-            transform="translate(-50%, -50%)"
-            fontSize="18px"
-            fontWeight="medium"
-            color={mainTextColor}
-          >
-            Выберите группу!
-          </Box>
-        )}
+          })}
       </Loader>
     </Tabs>
   );
