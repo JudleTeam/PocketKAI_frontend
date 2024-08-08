@@ -1,4 +1,4 @@
-import { Text, Box, TabList, Tab, Tabs } from '@chakra-ui/react';
+import { Text, Box, TabList, Tab, Tabs, Divider } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { LessonTypes, WEEK_DAYS } from '@/shared/constants';
 import { DisciplineType } from '@/shared';
@@ -23,7 +23,7 @@ export const TeacherDrawer = memo(function TeacherDrawer({
     }
   }, [disciplineType.teacher, getTeacherScheduleById]);
 
-  const { mainTextColor, mainColor, secondElementColor, secondElementLightColor } =
+  const { mainTextColor, mainColor, drawerColor, secondElementColor, secondElementLightColor } =
     useColor();
   return (
     <Box
@@ -70,9 +70,9 @@ export const TeacherDrawer = memo(function TeacherDrawer({
             display="flex"
             alignItems="center"
             justifyContent="space-around"
-            backgroundColor={mainColor}
+            backgroundColor={drawerColor}
             zIndex={5}
-            boxShadow={`0 0 10px 10px ${mainColor}`}
+            boxShadow={`0 0 10px 10px ${drawerColor}`}
           >
             <Tab
               _selected={{
@@ -80,10 +80,12 @@ export const TeacherDrawer = memo(function TeacherDrawer({
                 fontSize: '16px',
                 boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
                 borderRadius: '4px',
+                bgColor: mainColor,
               }}
               color={secondElementColor}
               fontWeight="medium"
               onClick={() => setWeekParity('even')}
+
             >
               Чётная неделя
             </Tab>
@@ -93,6 +95,7 @@ export const TeacherDrawer = memo(function TeacherDrawer({
                 fontSize: '16px',
                 boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
                 borderRadius: '4px',
+                bgColor: mainColor,
               }}
               color={secondElementColor}
               fontWeight="medium"
@@ -106,6 +109,9 @@ export const TeacherDrawer = memo(function TeacherDrawer({
             mt={'20px'}
             mb={'30px'}
             onClick={(e) => e.stopPropagation()}
+            display='flex'
+            flexDirection='column'
+            gap='10px'
           >
             <Loader status={teacherScheduleStatus} idleMessage="">
               {teacherSchedule[weekParity].length > 0 ? (
@@ -115,7 +121,7 @@ export const TeacherDrawer = memo(function TeacherDrawer({
                   ].filter((lesson) => lesson.number_of_day === index + 1);
                   return (
                     <Box>
-                      <Text fontSize={20} fontWeight={'medium'}>
+                      <Text fontSize={20} fontWeight={'medium'} padding='10px 0'>
                         {day}
                       </Text>
                       {filteredTeacherSchedule.length > 0
@@ -128,6 +134,7 @@ export const TeacherDrawer = memo(function TeacherDrawer({
                             );
                           })
                         : <Text padding='5px 0' fontSize='16px' fontWeight='bold'>Выходной</Text>}
+                        <Divider padding='10px 0' />
                     </Box>
                   );
                 })

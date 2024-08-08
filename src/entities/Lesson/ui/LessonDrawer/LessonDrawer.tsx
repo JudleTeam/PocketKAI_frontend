@@ -119,7 +119,8 @@ const LessonDrawer = ({
             display="flex"
             alignItems="center"
             gap="15px"
-            _active={{bgColor: tabTeacherColor}}
+            transition="0.2s"
+            _active={{bgColor: tabTeacherColor, transition: "0.2s"}}
           >
             <Avatar bg={mainElementColor}/>
             <Box>

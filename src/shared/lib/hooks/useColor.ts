@@ -24,6 +24,7 @@ export const useColor = () => {
     theme.colors.dark.card
   );
   const themeColor = useColorModeValue('#858585', '#0E1117');
+  const drawerColor = useColorModeValue('#fff', '#2D3748')
   return {
     mainTextColor,
     mainElementColor,
@@ -32,5 +33,6 @@ export const useColor = () => {
     secondElementLightColor,
     cardColor,
     themeColor,
+    drawerColor,
   };
 };
