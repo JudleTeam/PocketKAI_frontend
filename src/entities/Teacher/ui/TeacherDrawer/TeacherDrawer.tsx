@@ -48,7 +48,7 @@ export const TeacherDrawer = memo(function TeacherDrawer({
     <Box
       w="95%"
       h="100%"
-      padding="40px 0 0 0"
+      padding="25px 0 0 0"
       color={mainTextColor}
       display="flex"
       flexDirection="column"
@@ -194,7 +194,7 @@ export const TeacherDrawer = memo(function TeacherDrawer({
                   );
                 })
               ) : (
-                <Text textAlign={'center'}>Пар нет</Text>
+                <Text padding='15px 0' textAlign={'center'}>Пар нет</Text>
               )}
             </Loader>
           </Box>
