@@ -17,7 +17,6 @@ export function RootLayout() {
     if (metaThemeColor) {
       metaThemeColor.setAttribute('content', themeColor);
     }
-    console.log(metaThemeColor?.getAttribute('content'))
   }, [themeColor, colorMode]);
   return (
     <div className={styles['root-layout']}>

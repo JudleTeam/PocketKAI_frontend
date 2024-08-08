@@ -14,11 +14,17 @@ import { getLessonBuilding } from '@/shared/lib';
 import { LessonTypes } from '@/shared/constants';
 import { parityTypes } from '@/shared/constants';
 export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
-  const {theme} = useChakra()
-  const tab = useColorModeValue(theme.colors.light.tab, theme.colors.dark.tab)
+  const { theme } = useChakra();
+  const tab = useColorModeValue(theme.colors.light.tab, theme.colors.dark.tab);
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
-  const mainElementColor = useColorModeValue('light.main_element', 'dark.main_element')
-  const tabTeacherColor = useColorModeValue('light.tab_teacher', 'dark.tab_teacher')
+  const mainElementColor = useColorModeValue(
+    'light.main_element',
+    'dark.main_element'
+  );
+  const tabTeacherColor = useColorModeValue(
+    'light.tab_teacher',
+    'dark.tab_teacher'
+  );
   return (
     <DrawerHeader
       w="95%"
@@ -67,19 +73,19 @@ export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
         </VStack>
       </Box>
       {lesson.parsed_dates && lesson.parsed_dates_status === 'good' ? (
-          <Text fontWeight="medium" fontSize="18px">
-            Даты проведения пары:{' '}
-            {lesson.parsed_dates
-              .map((date) =>
-                DateTime.fromISO(date).setLocale('ru').toFormat('dd MMMM')
-              )
-              .join(', ')}
-          </Text>
-        ) : lesson.parsed_dates_status === 'need_check' ? (
-          <Text fontWeight="medium" fontSize="18px">
-            Даты проведения пары: {lesson.original_dates}
-          </Text>
-        ) : null}
+        <Text fontWeight="medium" fontSize="18px">
+          Даты проведения пары:{' '}
+          {lesson.parsed_dates
+            .map((date) =>
+              DateTime.fromISO(date).setLocale('ru').toFormat('dd MMMM')
+            )
+            .join(', ')}
+        </Text>
+      ) : lesson.parsed_dates_status === 'need_check' ? (
+        <Text fontWeight="medium" fontSize="18px">
+          Даты проведения пары: {lesson.original_dates}
+        </Text>
+      ) : null}
       <Text
         as={Link}
         padding="10px 0"
@@ -101,9 +107,9 @@ export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
           display="flex"
           alignItems="center"
           gap="15px"
-          _active={{bgColor: tabTeacherColor}}
+          _active={{ bgColor: tabTeacherColor }}
         >
-          <Avatar bg={mainElementColor}/>
+          <Avatar bg={mainElementColor} />
           <Box>
             <Text fontSize="16px" fontWeight="medium">
               {lesson?.teacher?.name}

@@ -3,5 +3,4 @@ export type Discipline = {
   created_at: string;
   kai_id: bigint;
   name: string;
-  abbreviation: string;
 };

@@ -20,12 +20,12 @@ type GroupState = {
   error: Nullable<unknown>;
 };
 type GroupActions = {
-  getAllGroups: () => void;
-  getGroupByName: (name: string) => void;
+  getAllGroups: () => Promise<void>;
+  getGroupByName: (name: string) => Promise<void>;
   getGroupById: (id: string) => Promise<Nullable<Group>>;
-  getGroupDisciplines: (group_id: string) => void;
-  suggestGroupByName: (params: GroupSearchParams) => void;
-  getLessonsGroupById: (id: string) => void;
+  getGroupDisciplines: (group_id: string) => Promise<void>;
+  suggestGroupByName: (params: GroupSearchParams) => Promise<void>;
+  getLessonsGroupById: (id: string) => Promise<void>;
   setCurrentGroup: (group: Group | GroupShort) => void;
   removeCurrentGroup: () => void;
   addGroupToFavourite: (group: GroupShort | Group) => void;

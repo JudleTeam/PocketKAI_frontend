@@ -16,7 +16,6 @@ export function Group() {
   const { homeGroup } = useGroup();
   const { userGroupMembers, userGroupMembersStatus, user, getGroupMembers } =
     useUser();
-  console.log(userGroupMembersStatus);
   useEffect(() => {
     if (userGroupMembersStatus === 'idle') {
       getGroupMembers();
@@ -36,20 +35,20 @@ export function Group() {
     theme.colors.dark.blue_element
   );
   return (
-    <Loader status={userGroupMembersStatus} idleMessage="">
-      <Box className={styles['group']}>
-        <Box
-          padding="20px 0 0 0"
-          position={'sticky'}
-          top={'0px'}
-          bgColor={mainColor}
-          zIndex={'2'}
-          boxShadow={`0px 0px 10px 10px ${mainColor}`}
-        >
-          <AccountTabHeader color={mainTextColor}>
-            Группа {homeGroup?.group_name}
-          </AccountTabHeader>
-        </Box>
+    <Box className={styles['group']}>
+      <Box
+        padding="20px 0 0 0"
+        position={'sticky'}
+        top={'0px'}
+        bgColor={mainColor}
+        zIndex={'2'}
+        boxShadow={`0px 0px 10px 10px ${mainColor}`}
+      >
+        <AccountTabHeader color={mainTextColor}>
+          Группа {homeGroup?.group_name}
+        </AccountTabHeader>
+      </Box>
+      <Loader status={userGroupMembersStatus} idleMessage="">
         <Box display="flex" flexDirection="column" gap="10px">
           {userGroupMembers.map((groupMember) => (
             <React.Fragment key={groupMember.id}>
@@ -113,7 +112,7 @@ export function Group() {
             </React.Fragment>
           ))}
         </Box>
-      </Box>
-    </Loader>
+      </Loader>
+    </Box>
   );
 }

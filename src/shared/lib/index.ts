@@ -1,3 +1,7 @@
+export { useColor } from './hooks/useColor';
+
+export { removeDuplicates } from './helpers/removeDuplicates';
+
 export { scrollToToday } from './helpers/scrollToToday';
 
 export { AccountTabHeader } from './ui-helpers/AccountTabHeader';
