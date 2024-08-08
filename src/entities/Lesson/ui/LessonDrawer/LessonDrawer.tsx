@@ -36,7 +36,7 @@ const LessonDrawer = ({
     <>
       <DrawerHeader
         w="95%"
-        padding="40px 0 0 0"
+        padding="25px 0 0 0"
         color={mainTextColor}
         display="flex"
         flexDirection="column"
