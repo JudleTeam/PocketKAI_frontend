@@ -2,22 +2,9 @@ import { TeacherLesson } from '@/shared';
 import { Box, VStack, Text } from '@chakra-ui/react';
 import { getLessonBuilding, useColor } from '@/shared/lib';
 import { useDisclosure } from '@chakra-ui/react';
-import { useEffect } from 'react';
 export function TeacherLessonCard({ lesson }: { lesson: TeacherLesson }) {
-  const { isOpen, onOpen } = useDisclosure();
-
-  const { mainTextColor, themeColor, mainColor } = useColor();
-  useEffect(() => {
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor) {
-      if (isOpen) {
-        metaThemeColor.setAttribute('content', themeColor);
-      } else {
-        metaThemeColor.setAttribute('content', mainColor);
-      }
-    }
-  }, [themeColor, mainColor, isOpen]);
-
+  const { onOpen } = useDisclosure();
+  const { mainTextColor } = useColor();
   return (
     <Box
       onClick={onOpen}
