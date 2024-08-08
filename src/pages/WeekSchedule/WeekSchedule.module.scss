@@ -2,7 +2,7 @@
 .full-schedule{
   display: flex !important;
   flex-direction: column;
-  gap: 20px;
+
   height: 92%;
   scrollbar-width: none;
   scroll-padding-top: 135px;
@@ -12,7 +12,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 10px;
   }
   &__tab-selected{ 
     color: $blue-light;

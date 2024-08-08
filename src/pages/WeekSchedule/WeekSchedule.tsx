@@ -53,7 +53,7 @@ export function WeekSchedule() {
       <Box
         className={styles['full-schedule__tab-list']}
         bgColor={mainColor}
-        boxShadow={`0 20px 5px 5px ${mainColor}`}
+        boxShadow={`0 5px 5px 5px ${mainColor}`}
       >
         <TabList
           display="flex"
@@ -105,7 +105,7 @@ export function WeekSchedule() {
               borderRadius="8px"
               bgColor={currentDay === day[0] ? cardColor : ''}
               boxShadow={currentDay === day[0] ? `0 0 5px 0 ${cardColor}` : ''}
-              padding={currentDay === day[0] ? '10px' : ''}
+              padding={'10px'}
             >
               <button
                 onClick={() => {
