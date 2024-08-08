@@ -97,7 +97,7 @@ export const TeacherDrawer = memo(function TeacherDrawer({
 
           <Box
             pos={'relative'}
-            minH={'250px'}
+            minH={'340px'}
             mt={'20px'}
             overflowY={'auto'}
             h="20%"
@@ -105,20 +105,28 @@ export const TeacherDrawer = memo(function TeacherDrawer({
           >
             <Loader status={teacherScheduleStatus} idleMessage="">
               {teacherSchedule[weekParity].length > 0 ? (
-                Object.values(WEEK_DAYS).map((day, index) => (
-                  <Box>
-                    <Text fontSize={22} fontWeight={'bold'}>
-                      {day}
-                    </Text>
-                    {teacherSchedule[weekParity].map((lesson) => {
-                      if (lesson.number_of_day === index + 1) {
-                        return (
-                          <TeacherLessonCard lesson={lesson} key={lesson.id} />
-                        );
-                      }
-                    })}
-                  </Box>
-                ))
+                Object.values(WEEK_DAYS).map((day, index) => {
+                  const filteredTeacherSchedule = teacherSchedule[
+                    weekParity
+                  ].filter((lesson) => lesson.number_of_day === index + 1);
+                  return (
+                    <Box>
+                      <Text fontSize={20} fontWeight={'medium'}>
+                        {day}
+                      </Text>
+                      {filteredTeacherSchedule.length > 0
+                        ? filteredTeacherSchedule.map((lesson) => {
+                            return (
+                              <TeacherLessonCard
+                                lesson={lesson}
+                                key={lesson.id}
+                              />
+                            );
+                          })
+                        : <Text padding='5px 0' fontSize='16px' fontWeight='bold'>Выходной</Text>}
+                    </Box>
+                  );
+                })
               ) : (
                 <Text textAlign={'center'}>Пар нет</Text>
               )}
