@@ -53,7 +53,7 @@ export function WeekSchedule() {
       <Box
         className={styles['full-schedule__tab-list']}
         bgColor={mainColor}
-        boxShadow={`0 -25px 20px 50px ${mainColor}`}
+        boxShadow={`0 20px 5px 5px ${mainColor}`}
       >
         <TabList
           display="flex"
@@ -122,6 +122,7 @@ export function WeekSchedule() {
           ))}
         </HStack>
       </Box>
+      <Box w='100%' padding='0 4px 60px 4px' style={{scrollbarWidth: 'none'}} overflowY='auto'>
       <Loader status={weekScheduleStatus} idleMessage="Выберите группу">
         {weekSchedule &&
           Object.entries(weekSchedule[weekParity].week_days).map((weekDay) => {
@@ -134,7 +135,7 @@ export function WeekSchedule() {
                   color={mainTextColor}
                   fontWeight="medium"
                   fontSize="18px"
-                  paddingBottom="10px"
+                  padding='10px 0'
                 >
                   {dayName && WEEK_DAYS[dayName]}
                 </Text>
@@ -171,6 +172,7 @@ export function WeekSchedule() {
             );
           })}
       </Loader>
+      </Box>
     </Tabs>
   );
 }
