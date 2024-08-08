@@ -1,3 +1,5 @@
+export { SHORT_WEEK_DAYS, WEEK_DAYS } from './WEEK_DAYS';
+
 export { LessonTypes } from './lessonTypes';
 
 export { lessonStateIcons } from './lessonStateIcons';

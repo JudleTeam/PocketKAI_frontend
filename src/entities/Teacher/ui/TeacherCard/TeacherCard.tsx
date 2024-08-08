@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { ArrowIcon } from '@/shared/assets';
 import { LessonTypes } from '@/shared/constants';
-import { DisciplineTypes } from '@/shared';
+import { DisciplineType } from '@/shared';
 import { UiDrawer } from '@/shared/ui/ui-drawer/UiDrawer';
 import { useDisclosure } from '@chakra-ui/react';
 import { TeacherDrawer } from '../TeacherDrawer/TeacherDrawer';
@@ -18,15 +18,21 @@ export const TeacherCard = memo(function TeacherCard({
   disciplineType,
   disciplineName,
 }: {
-  disciplineType: DisciplineTypes;
+  disciplineType: DisciplineType;
   disciplineName: string;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
-  const mainElementColor = useColorModeValue('light.main_element', 'dark.main_element')
-  const themeColor = useColorModeValue( '#858585','#0E1117')
-  const {theme} = useChakra()
-  const mainColor = useColorModeValue(theme.colors.light.main, theme.colors.dark.main)
+  const mainElementColor = useColorModeValue(
+    'light.main_element',
+    'dark.main_element'
+  );
+  const themeColor = useColorModeValue('#858585', '#0E1117');
+  const { theme } = useChakra();
+  const mainColor = useColorModeValue(
+    theme.colors.light.main,
+    theme.colors.dark.main
+  );
   useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
@@ -35,7 +41,6 @@ export const TeacherCard = memo(function TeacherCard({
       } else {
         metaThemeColor.setAttribute('content', mainColor);
       }
-      console.log(metaThemeColor.getAttribute('content'));
     }
   }, [themeColor, mainColor, isOpen]);
 
@@ -64,7 +69,7 @@ export const TeacherCard = memo(function TeacherCard({
         </Box>
         <ArrowIcon transform="rotate(90deg)"></ArrowIcon>
       </Box>
-      <Divider></Divider>
+      <Divider />
       <UiDrawer
         isOpen={isOpen}
         onClose={onClose}

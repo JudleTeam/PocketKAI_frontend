@@ -12,6 +12,7 @@ export const Loader = ({
       return (
         <Box
           pos={'absolute'}
+          zIndex={2}
           left={0}
           right={0}
           top={'45%'}
@@ -23,11 +24,25 @@ export const Loader = ({
         </Box>
       );
     case 'error':
-      return <Box>Что-то пошло не так...</Box>;
+      return (
+        <Box
+          pos={'absolute'}
+          zIndex={2}
+          left={0}
+          right={0}
+          top={'45%'}
+          mx={'auto'}
+          w={'fit-content'}
+          fontSize={'20px'}
+        >
+          Что-то пошло не так...
+        </Box>
+      );
     case 'idle':
       return (
         <Box
           pos={'absolute'}
+          zIndex={2}
           left={0}
           right={0}
           top={'45%'}

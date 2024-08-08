@@ -7,7 +7,7 @@ import {
   DrawerOverlay,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { ReactNode, useMemo } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 
 export function UiDrawer({
   drawerActions,
@@ -21,6 +21,8 @@ export function UiDrawer({
   useDrawerCloseEvent(onClose, isOpen); // this hook must be here to prevent router mess on back button press
   const MotionDrawerContent = useMemo(() => motion(DrawerContent), []);
   const MotionBox = useMemo(() => motion(Box), []);
+  const [drawerHeight, setDrawerHeight] = useState(80);
+
   return (
     <Drawer placement="bottom" isOpen={isOpen} onClose={onClose}>
       <DrawerOverlay />
@@ -29,7 +31,8 @@ export function UiDrawer({
         pos={'fixed'}
         minH="70vh"
         minW="100%"
-        maxH="90%"
+        h={`${drawerHeight}vh`}
+        maxH="100%"
         bottom="0"
         borderRadius="16px 16px 0 0"
         display="flex"
@@ -50,6 +53,9 @@ export function UiDrawer({
         onDragEnd={(_, info) => {
           if (info.offset.y > 100) {
             onClose();
+            setDrawerHeight(80);
+          } else if (info.offset.y < -100) {
+            setDrawerHeight(100);
           }
         }}
       >

@@ -1,4 +1,7 @@
-import { Nullable } from "./common";
+import { Nullable } from './common';
+import { Department } from './department';
+import { Discipline } from './discipline';
+import { Teacher } from './teacher';
 
 export type Group = {
   id: string;
@@ -14,13 +17,13 @@ export type Group = {
   syllabus_url: Nullable<string>;
   educational_program_url: Nullable<string>;
   study_schedule_url: Nullable<string>;
-  speciality: Nullable<SpecialityRead>;
-  profile: Nullable<ProfileRead>;
-  department: Nullable<DepartmentRead>;
-  institute: Nullable<InstituteRead>;
+  speciality: Nullable<Speciality>;
+  profile: Nullable<Profile>;
+  department: Nullable<Department>;
+  institute: Nullable<Institute>;
 };
 
-type SpecialityRead = {
+type Speciality = {
   name: string;
   kai_id: number;
   code: string;
@@ -28,21 +31,14 @@ type SpecialityRead = {
   created_at: string;
 };
 
-type ProfileRead = {
+type Profile = {
   kai_id: number;
   name: string;
   id: string;
   created_at: string;
 };
 
-type DepartmentRead = {
-  kai_id: number;
-  name: string;
-  id: string;
-  created_at: string;
-};
-
-type InstituteRead = {
+type Institute = {
   kai_id: number;
   name: string;
   id: string;
@@ -62,28 +58,14 @@ export type GroupDisciplines = {
   id: string;
   kai_id: number;
   name: string;
-  types: DisciplineTypes[];
-}
+  types: DisciplineType[];
+};
 
-export type DisciplineTypes = {
+export type DisciplineType = {
   parsed_type: string;
   original_type: string;
-  teacher: TeacherRead | null;
-}
-
-type TeacherRead = {
-  login: string;
-  name: string;
-  id: string;
-  created_at: string;
-}
-
-type DisciplineRead = {
-  kai_id: number;
-  name: string;
-  id: string;
-  created_at: string
-}
+  teacher: Nullable<Teacher>;
+};
 
 export type ExamType = {
   original_date: string;
@@ -99,6 +81,6 @@ export type ExamType = {
   group_id: string;
   id: string;
   created_at: string;
-  teacher: TeacherRead;
-  discipline: DisciplineRead;
-}
+  teacher: Teacher;
+  discipline: Discipline;
+};

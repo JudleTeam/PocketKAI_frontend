@@ -9,13 +9,22 @@ import { useDisclosure } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/react';
 import { UiDrawer } from '@/shared/ui/ui-drawer/UiDrawer';
 import { useEffect } from 'react';
-export function FullLessonCard({ lesson }: { lesson: Lesson }) {
+export function FullLessonCard({
+  lesson,
+  variant = 'dark',
+}: {
+  lesson: Lesson;
+  variant?: 'light' | 'dark';
+}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const cardColor = useColorModeValue('light.card', 'dark.card');
-  const themeColor = useColorModeValue( '#858585','#0E1117')
-  const {theme} = useChakra()
-  const mainColor = useColorModeValue(theme.colors.light.main, theme.colors.dark.main)
+  const themeColor = useColorModeValue('#858585', '#0E1117');
+  const { theme } = useChakra();
+  const mainColor = useColorModeValue(
+    theme.colors.light.main,
+    theme.colors.dark.main
+  );
   useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
@@ -24,7 +33,6 @@ export function FullLessonCard({ lesson }: { lesson: Lesson }) {
       } else {
         metaThemeColor.setAttribute('content', mainColor);
       }
-      console.log(metaThemeColor.getAttribute('content'));
     }
   }, [themeColor, mainColor, isOpen]);
 
@@ -33,14 +41,14 @@ export function FullLessonCard({ lesson }: { lesson: Lesson }) {
       <Box
         onClick={onOpen}
         w="100%"
-        bgColor={cardColor}
+        bgColor={variant === 'dark' ? cardColor : 'none'}
         borderRadius="8px"
         padding="10px 15px"
         display="flex"
         justifyContent="space-between"
       >
         <VStack alignItems="start" gap="2px" w="60%">
-          <Text color={mainTextColor} w='95%' fontWeight="bold" fontSize="16px">
+          <Text color={mainTextColor} w="95%" fontWeight="bold" fontSize="16px">
             {sliceLessonName(lesson.discipline.name)}
           </Text>
           <Text color="gray.400" fontWeight="medium" fontSize="20px">
@@ -48,7 +56,7 @@ export function FullLessonCard({ lesson }: { lesson: Lesson }) {
             {lesson.end_time?.slice(0, 5)}
           </Text>
         </VStack>
-        <VStack w="40%" alignItems='center' gap="0">
+        <VStack w="40%" alignItems="center" gap="0">
           <Text fontWeight="medium" fontSize="14px">
             {lesson.parsed_lesson_type &&
               LessonTypes[lesson.parsed_lesson_type]}
@@ -64,7 +72,7 @@ export function FullLessonCard({ lesson }: { lesson: Lesson }) {
       <UiDrawer
         isOpen={isOpen}
         onClose={onClose}
-        drawerActions={FullLessonDrawer({lesson})}
+        drawerActions={FullLessonDrawer({ lesson })}
       />
     </>
   );
