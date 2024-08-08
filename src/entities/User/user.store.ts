@@ -5,6 +5,10 @@ import { persist } from 'zustand/middleware';
 import { FetchStatus, UserStudent, UserGroupMember } from '@/shared';
 import { Nullable } from '@/shared';
 import { AxiosError } from 'axios';
+import { encryptToken } from '@/shared/lib';
+
+const ENCRYPTED_REFRESH_KEY = import.meta.env.VITE_ENCRYPTED_REFRESH_TOKEN_KEY;
+const ACCESS_KEY = import.meta.env.VITE_ACCESS_TOKEN_KEY;
 type UserType = {
   userAuthStatus: FetchStatus;
   user: Nullable<UserStudent>;
@@ -36,7 +40,15 @@ export const useUser = create<UserType>()(
             userAuthStatus: 'success',
             error: null,
           });
-          localStorage.setItem('token', response.data.access_token);
+          localStorage.setItem(ACCESS_KEY, response.data.access_token);
+
+          encryptToken(
+            response.data.refresh_token,
+            response.data.access_token
+          ).then((encryptedToken) => {
+            localStorage.setItem(ENCRYPTED_REFRESH_KEY, encryptedToken);
+          });
+
           return response.status;
         } catch (error: any) {
           set({ error, userAuthStatus: 'error' });
@@ -62,7 +74,8 @@ export const useUser = create<UserType>()(
         }
       },
       logout: () => {
-        localStorage.removeItem('token');
+        localStorage.removeItem(ACCESS_KEY);
+        localStorage.removeItem(ENCRYPTED_REFRESH_KEY);
         set({
           user: null,
           token: '',
