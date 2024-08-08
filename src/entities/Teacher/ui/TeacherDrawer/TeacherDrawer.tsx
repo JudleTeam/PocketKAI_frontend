@@ -1,4 +1,18 @@
-import { Text, Box, TabList, Tab, Tabs, Divider } from '@chakra-ui/react';
+import {
+  Text,
+  Box,
+  TabList,
+  Tab,
+  Tabs,
+  Divider,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverBody,
+  PopoverHeader,
+  PopoverCloseButton,
+  PopoverArrow,
+} from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { LessonTypes, WEEK_DAYS } from '@/shared/constants';
 import { DisciplineType } from '@/shared';
@@ -73,14 +87,14 @@ export const TeacherDrawer = memo(function TeacherDrawer({
           style={{ scrollbarWidth: 'none' }}
         >
           <TabList
-            padding="5px 0"
+            padding="5px"
             position="sticky"
             top="0"
             display="flex"
             alignItems="center"
-            justifyContent="space-around"
+            justifyContent="space-between"
             backgroundColor={drawerColor}
-            zIndex={5}
+            zIndex={100}
             boxShadow={`0 0 10px 10px ${drawerColor}`}
           >
             <Tab
@@ -115,7 +129,6 @@ export const TeacherDrawer = memo(function TeacherDrawer({
           <Box
             pos={'relative'}
             minH={200}
-            mt={'20px'}
             mb={'30px'}
             onClick={(e) => e.stopPropagation()}
             display="flex"
@@ -139,12 +152,37 @@ export const TeacherDrawer = memo(function TeacherDrawer({
                       </Text>
                       {filteredTeacherSchedule.length > 0 ? (
                         filteredTeacherSchedule.map((lesson) => {
-                          return (
-                            <TeacherLessonCard
-                              lesson={lesson}
-                              key={lesson.id}
-                            />
-                          );
+                          if (lesson.parsed_dates_status === 'good') {
+                            return (
+                              <TeacherLessonCard
+                                lesson={lesson}
+                                key={lesson.id}
+                              />
+                            );
+                          } else {
+                            return (
+                              <Popover placement='bottom'>
+                                <PopoverTrigger>
+                                  <button style={{width: '100%'}}>
+                                  <TeacherLessonCard
+                                    lesson={lesson}
+                                    key={lesson.id}
+                                  />
+                                  </button>
+                                </PopoverTrigger>
+                                <PopoverContent bgColor={mainColor}>
+                                  <PopoverHeader fontSize={'18px'} fontWeight={'bold'} color={mainTextColor} border='0'>
+                                  Даты проведения
+                                  </PopoverHeader>
+                                  <PopoverArrow bg={mainColor}/>
+                                  <PopoverCloseButton/>
+                                  <PopoverBody fontSize={'16px'} fontWeight={'medium'} color={mainTextColor}>
+                                    {lesson.original_dates}
+                                  </PopoverBody>
+                                </PopoverContent>
+                              </Popover>
+                            );
+                          }
                         })
                       ) : (
                         <Text padding="5px 0" fontSize="16px" fontWeight="bold">
