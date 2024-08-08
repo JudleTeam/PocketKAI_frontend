@@ -62,7 +62,7 @@ export function UiDrawer({
           transition: 'height 0.2s ease-in-out', // THIS MAKES SMOOTH TRANSITION BETWEEN 80 AND 100 HEIGHT
         }}
       >
-        <Box w="20px" h="3px" bgColor="grey" mt={3} />
+        <Box w="20px" minH='3px' h='3px' bgColor="grey" mt={3} />
         <DrawerCloseButton />
         {drawerActions}
       </MotionDrawerContent>
