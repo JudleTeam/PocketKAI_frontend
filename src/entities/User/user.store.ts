@@ -9,6 +9,8 @@ import { encryptToken } from '@/shared/lib';
 
 const ENCRYPTED_REFRESH_KEY = import.meta.env.VITE_ENCRYPTED_REFRESH_TOKEN_KEY;
 const ACCESS_KEY = import.meta.env.VITE_ACCESS_TOKEN_KEY;
+const IV_KEY = import.meta.env.VITE_IV_KEY;
+const SALT_KEY = import.meta.env.VITE_SALT_KEY;
 type UserType = {
   userAuthStatus: FetchStatus;
   user: Nullable<UserStudent>;
@@ -76,6 +78,8 @@ export const useUser = create<UserType>()(
       logout: () => {
         localStorage.removeItem(ACCESS_KEY);
         localStorage.removeItem(ENCRYPTED_REFRESH_KEY);
+        localStorage.removeItem(SALT_KEY);
+        localStorage.removeItem(IV_KEY);
         set({
           user: null,
           token: '',
