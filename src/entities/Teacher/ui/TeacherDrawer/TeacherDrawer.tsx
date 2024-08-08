@@ -23,8 +23,13 @@ export const TeacherDrawer = memo(function TeacherDrawer({
     }
   }, [disciplineType.teacher, getTeacherScheduleById]);
 
-  const { mainTextColor, mainColor, drawerColor, secondElementColor, secondElementLightColor } =
-    useColor();
+  const {
+    mainTextColor,
+    mainColor,
+    drawerColor,
+    secondElementColor,
+    secondElementLightColor,
+  } = useColor();
   return (
     <Box
       w="95%"
@@ -62,11 +67,15 @@ export const TeacherDrawer = memo(function TeacherDrawer({
         </Text>
       </Box>
       {disciplineType.teacher && (
-        <Tabs variant="unstyled" overflowY={'auto'} style={{scrollbarWidth: 'none'}}>
+        <Tabs
+          variant="unstyled"
+          overflowY={'auto'}
+          style={{ scrollbarWidth: 'none' }}
+        >
           <TabList
-            padding='5px 0'
-            position='sticky'
-            top='0'
+            padding="5px 0"
+            position="sticky"
+            top="0"
             display="flex"
             alignItems="center"
             justifyContent="space-around"
@@ -85,7 +94,6 @@ export const TeacherDrawer = memo(function TeacherDrawer({
               color={secondElementColor}
               fontWeight="medium"
               onClick={() => setWeekParity('even')}
-
             >
               Чётная неделя
             </Tab>
@@ -106,12 +114,13 @@ export const TeacherDrawer = memo(function TeacherDrawer({
           </TabList>
           <Box
             pos={'relative'}
+            minH={200}
             mt={'20px'}
             mb={'30px'}
             onClick={(e) => e.stopPropagation()}
-            display='flex'
-            flexDirection='column'
-            gap='10px'
+            display="flex"
+            flexDirection="column"
+            gap="10px"
           >
             <Loader status={teacherScheduleStatus} idleMessage="">
               {teacherSchedule[weekParity].length > 0 ? (
@@ -121,20 +130,28 @@ export const TeacherDrawer = memo(function TeacherDrawer({
                   ].filter((lesson) => lesson.number_of_day === index + 1);
                   return (
                     <Box>
-                      <Text fontSize={20} fontWeight={'medium'} padding='10px 0'>
+                      <Text
+                        fontSize={20}
+                        fontWeight={'medium'}
+                        padding="10px 0"
+                      >
                         {day}
                       </Text>
-                      {filteredTeacherSchedule.length > 0
-                        ? filteredTeacherSchedule.map((lesson) => {
-                            return (
-                              <TeacherLessonCard
-                                lesson={lesson}
-                                key={lesson.id}
-                              />
-                            );
-                          })
-                        : <Text padding='5px 0' fontSize='16px' fontWeight='bold'>Выходной</Text>}
-                        <Divider padding='10px 0' />
+                      {filteredTeacherSchedule.length > 0 ? (
+                        filteredTeacherSchedule.map((lesson) => {
+                          return (
+                            <TeacherLessonCard
+                              lesson={lesson}
+                              key={lesson.id}
+                            />
+                          );
+                        })
+                      ) : (
+                        <Text padding="5px 0" fontSize="16px" fontWeight="bold">
+                          Выходной
+                        </Text>
+                      )}
+                      <Divider padding="10px 0" />
                     </Box>
                   );
                 })
