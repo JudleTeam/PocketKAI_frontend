@@ -13,6 +13,7 @@ import { DateTime } from 'luxon';
 import { getLessonBuilding } from '@/shared/lib';
 import { LessonTypes } from '@/shared/constants';
 import { parityTypes } from '@/shared/constants';
+import { HashLink } from 'react-router-hash-link';
 export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
   const { theme } = useChakra();
   const tab = useColorModeValue(theme.colors.light.tab, theme.colors.dark.tab);
@@ -96,31 +97,31 @@ export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
       >
         Сообщить об ошибке
       </Text>
-      {lesson.teacher && (
-        <Box
-          as={Link}
-          to={'/teachers'}
-          boxShadow={`0px 0px 5px 0px ${tab}`}
-          bgColor={tab}
-          borderRadius="16px"
-          padding="14px"
-          display="flex"
-          alignItems="center"
-          gap="15px"
-          transition="0.2s"
-          _active={{ bgColor: tabTeacherColor, transition: "0.2s" }}
-        >
-          <Avatar bg={mainElementColor} />
-          <Box>
-            <Text fontSize="16px" fontWeight="medium">
-              {lesson?.teacher?.name}
-            </Text>
-            <Text fontSize="12px" fontWeight="medium">
-              {lesson.department?.name}
-            </Text>
-          </Box>
+      <Box
+        as={HashLink}
+        to={lesson.teacher ? `/teachers#${lesson?.teacher?.id}` : '/teachers'}
+        boxShadow={`0px 0px 5px 0px ${tab}`}
+        bgColor={tab}
+        borderRadius="16px"
+        padding="14px"
+        display="flex"
+        alignItems="center"
+        gap="15px"
+        transition="0.2s"
+        _active={{ bgColor: tabTeacherColor, transition: '0.2s' }}
+      >
+        <Avatar bg={mainElementColor} />
+        <Box>
+          <Text fontSize="16px" fontWeight="medium">
+            {lesson?.teacher?.name
+              ? lesson.teacher.name
+              : 'Преподаватель кафедры'}
+          </Text>
+          <Text fontSize="12px" fontWeight="medium">
+            {lesson.department?.name}
+          </Text>
         </Box>
-      )}
+      </Box>
     </DrawerHeader>
   );
 }

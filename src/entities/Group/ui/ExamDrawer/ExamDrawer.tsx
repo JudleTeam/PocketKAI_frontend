@@ -10,6 +10,7 @@ import {
   import { Link } from 'react-router-dom';
   import { DateTime } from 'luxon';
   import { getLessonBuilding } from '@/shared/lib';
+import { HashLink } from 'react-router-hash-link';
   export function ExamDrawer({ exam }: { exam: ExamType }) {
     const {theme} = useChakra()
     const tab = useColorModeValue(theme.colors.light.tab, theme.colors.dark.tab)
@@ -61,10 +62,9 @@ import {
         >
           Сообщить об ошибке
         </Text>
-        {exam.teacher && (
-          <Box
-            as={Link}
-            to={'/teachers'}
+        <Box
+            as={HashLink}
+            to={exam.teacher ? `/teachers#${exam?.teacher?.id}` : '/teachers'}
             boxShadow={`0px 0px 5px 0px ${tab}`}
             bgColor={tab}
             borderRadius="16px"
@@ -78,11 +78,10 @@ import {
             <Avatar bg={mainElementColor}/>
             <Box>
               <Text fontSize="16px" fontWeight="medium">
-                {exam?.teacher?.name}
+                {exam?.teacher?.name ? exam.teacher.name : 'Преподаватель кафедры'}
               </Text>
             </Box>
           </Box>
-        )}
       </DrawerHeader>
     );
   }
