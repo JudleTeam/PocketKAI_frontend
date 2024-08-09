@@ -19,7 +19,7 @@ export function ScheduleLayout() {
   const { schedule } = useSchedule();
   const { upperRef, lowerRef, scheduleContainerRef } = useInfiniteScroll();
   const { showButton, position: todayBlockPosition } = useGoUpButton();
-  console.log(showButton);
+  //console.log(todayBlockPosition);
   const { theme } = useChakra();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const mainElementColor = useColorModeValue(

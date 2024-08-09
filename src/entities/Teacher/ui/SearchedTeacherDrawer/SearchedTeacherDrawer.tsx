@@ -14,28 +14,22 @@ import {
   PopoverArrow,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-import { LessonTypes, WEEK_DAYS } from '@/shared/constants';
-import { DisciplineType } from '@/shared';
-import { memo, useEffect, useState } from 'react';
+import { WEEK_DAYS } from '@/shared/constants';
+import { Teacher } from '@/shared';
+import { useEffect, useState } from 'react';
 import { useTeachers } from '../../model/teacher.store';
 import { useColor } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader/Loader';
 import { TeacherLessonCard } from '../TeacherLessonCard';
-export const TeacherDrawer = memo(function TeacherDrawer({
-  disciplineType,
-  disciplineName,
-}: {
-  disciplineType: DisciplineType;
-  disciplineName: string;
-}) {
+export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
   const [weekParity, setWeekParity] = useState<'even' | 'odd'>('even');
   const { teacherScheduleStatus, teacherSchedule, getTeacherScheduleById } =
     useTeachers();
   useEffect(() => {
-    if (disciplineType.teacher) {
-      getTeacherScheduleById(disciplineType.teacher.id);
+    if (teacher) {
+      getTeacherScheduleById(teacher.id);
     }
-  }, [disciplineType.teacher, getTeacherScheduleById]);
+  }, [teacher, getTeacherScheduleById]);
 
   const {
     mainTextColor,
@@ -55,9 +49,7 @@ export const TeacherDrawer = memo(function TeacherDrawer({
       gap="5px"
     >
       <Text fontSize="24px" fontWeight="bold">
-        {disciplineType.teacher?.name
-          ? disciplineType.teacher?.name
-          : 'Преподаватель кафедры'}
+        {teacher?.name ?? 'Преподаватель кафедры'}
       </Text>
       <Box
         display="flex"
@@ -65,11 +57,6 @@ export const TeacherDrawer = memo(function TeacherDrawer({
         fontSize="16px"
         padding="10px 0"
       >
-        <Text color={mainTextColor}>{disciplineName}</Text>
-        <Text>
-          {disciplineType.parsed_type &&
-            LessonTypes[disciplineType.parsed_type]}
-        </Text>
         <Text
           as={Link}
           fontSize="14px"
@@ -80,7 +67,7 @@ export const TeacherDrawer = memo(function TeacherDrawer({
           Сообщить об ошибке
         </Text>
       </Box>
-      {disciplineType.teacher && (
+      {teacher && (
         <Tabs
           variant="unstyled"
           overflowY={'auto'}
@@ -213,4 +200,4 @@ export const TeacherDrawer = memo(function TeacherDrawer({
       )}
     </Box>
   );
-});
+}

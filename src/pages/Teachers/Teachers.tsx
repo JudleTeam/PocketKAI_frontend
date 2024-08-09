@@ -1,119 +1,69 @@
 import { useGroup } from '@/entities';
-import { Box, Text } from '@chakra-ui/react';
-import styles from './Teachers.module.scss';
-import { TeacherCard } from '@/entities';
-import { useEffect, useRef, useState } from 'react';
-import { sliceLessonName } from '@/entities';
-import { ArrowIcon } from '@/shared/assets';
-import { Loader } from '@/shared/ui/loader/Loader';
+import {
+  Box,
+  Button,
+  Menu,
+  MenuButton,
+  MenuItemOption,
+  MenuList,
+  MenuOptionGroup,
+} from '@chakra-ui/react';
+import { useState } from 'react';
 import { useColor } from '@/shared/lib';
+import styles from './Teachers.module.scss';
+import { ChevronDownIcon } from '@chakra-ui/icons';
+import { GroupTeachers, SearchedTeachers } from '@/widgets';
 
 export function Teachers() {
-  const { mainTextColor, mainColor, mainElementColor } = useColor();
-  const {
-    currentGroup,
-    groupDisciplines,
-    groupDisciplinesStatus,
-    getGroupDisciplines,
-  } = useGroup();
+  const { mainTextColor, mainColor } = useColor();
+  const { currentGroup } = useGroup();
+  const [layoutType, setLayoutType] = useState<'group' | 'searched'>('group');
 
-  const [showButton, setShowButton] = useState(false);
-  const teacherRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const currentRef = teacherRef.current;
-    const handleScroll = () => {
-      if (currentRef && currentRef.scrollTop > 200) {
-        setShowButton(true);
-      } else {
-        setShowButton(false);
-      }
-    };
-    if (currentRef) {
-      currentRef.addEventListener('scroll', handleScroll);
-    }
-
-    return () => {
-      if (currentRef) {
-        currentRef.removeEventListener('scroll', handleScroll);
-      }
-    };
-  }, []);
-  useEffect(() => {
-    if (currentGroup && groupDisciplinesStatus === 'idle') {
-      getGroupDisciplines(currentGroup.id);
-    }
-  }, [currentGroup, groupDisciplinesStatus, getGroupDisciplines]);
   return (
-    <Loader status={groupDisciplinesStatus} idleMessage="Выберите группу">
-      <Box id="teacher" ref={teacherRef} className={styles['teachers']}>
-        {currentGroup ? (
-          <Text
-            position="fixed"
-            w="100%"
-            zIndex="1"
-            boxShadow={`0px 0px 10px 10px ${mainColor}`}
-            bgColor={mainColor}
+    <Box id="teacher" className={styles['teachers']}>
+      <Menu>
+        <Box
+          position="fixed"
+          textAlign="left"
+          w="90%"
+          zIndex="1"
+          boxShadow={`0px 0px 10px 10px ${mainColor}`}
+          bgColor={mainColor}
+        >
+          <MenuButton
+            as={Button}
+            p={0}
+            rightIcon={<ChevronDownIcon />}
             fontSize="20px"
             fontWeight="bold"
             color={mainTextColor}
+            bgColor={mainColor}
           >
-            Преподаватели гр. {currentGroup?.group_name}
-          </Text>
-        ) : null}
-        <Box
-          padding="40px 0 10px 0"
-          display="flex"
-          flexDirection="column"
-          gap="10px"
-        >
-          {groupDisciplines ? (
-            groupDisciplines.map((discipline) => (
-              <Box key={discipline.id}>
-                <Text color={mainTextColor} fontWeight="bold" fontSize="16px">
-                  {sliceLessonName(discipline.name)}
-                </Text>
-                {discipline.types.map((disciplineType, index) => (
-                  <TeacherCard
-                    disciplineType={disciplineType}
-                    disciplineName={discipline.name}
-                    key={index}
-                  />
-                ))}
-              </Box>
-            ))
-          ) : (
-            <Box
-              position="absolute"
-              top="50%"
-              left="50%"
-              zIndex="2"
-              transform="translate(-50%, -50%)"
-              fontSize="18px"
-              fontWeight="medium"
-              color={mainTextColor}
-            >
-              Выберите группу!
-            </Box>
-          )}
+            {layoutType === 'group'
+              ? `Преподаватели гр. ${currentGroup?.group_name}`
+              : 'Поиск преподов'}
+          </MenuButton>
         </Box>
-        {showButton && (
-          <Box
-            as="button"
-            onClick={() => teacherRef.current?.scrollTo(0, 0)}
-            w="40px"
-            h="40px"
-            borderRadius="8px"
-            position="fixed"
-            bottom="80px"
-            right="5%"
-            bgColor={mainElementColor}
-            zIndex={'50'}
-          >
-            <ArrowIcon w="20px" h="20px" color="white"></ArrowIcon>
-          </Box>
-        )}
-      </Box>
-    </Loader>
+        <MenuList>
+          <MenuOptionGroup type="radio" value={layoutType}>
+            <MenuItemOption
+              value="group"
+              onClick={() => setLayoutType('group')}
+            >
+              Преподы группы
+            </MenuItemOption>
+            <MenuItemOption
+              value="searched"
+              onClick={() => setLayoutType('searched')}
+            >
+              Поиск преподов
+            </MenuItemOption>
+          </MenuOptionGroup>
+        </MenuList>
+      </Menu>
+
+      {layoutType === 'group' && <GroupTeachers />}
+      {layoutType === 'searched' && <SearchedTeachers />}
+    </Box>
   );
 }
