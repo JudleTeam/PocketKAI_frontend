@@ -5,6 +5,7 @@ import { LessonTypes } from '@/shared/constants';
 import { Avatar, useChakra, useColorModeValue } from '@chakra-ui/react';
 import { parityTypes } from '@/shared/constants';
 import { Link } from 'react-router-dom';
+import {HashLink} from 'react-router-hash-link';
 import {
   DrawerBody,
   DrawerHeader,
@@ -108,10 +109,9 @@ const LessonDrawer = ({
         >
           Сообщить об ошибке
         </Text>
-        {lesson.teacher && (
           <Box
-            as={Link}
-            to={'/teachers'}
+            as={HashLink}
+            to={lesson.teacher ? `/teachers#${lesson?.teacher?.id}` : '/teachers'}
             boxShadow={`0px 0px 5px 0px ${tab}`}
             bgColor={tab}
             borderRadius="16px"
@@ -125,14 +125,13 @@ const LessonDrawer = ({
             <Avatar bg={mainElementColor}/>
             <Box>
               <Text fontSize="16px" fontWeight="medium">
-                {lesson?.teacher?.name}
+                {lesson?.teacher?.name ? lesson.teacher.name : 'Преподаватель кафедры'}
               </Text>
               <Text fontSize="12px" fontWeight="medium">
                 {lesson.department?.name}
               </Text>
             </Box>
           </Box>
-        )}
       </DrawerHeader>
       <DrawerBody w="100%">
         <Tabs w="100%">

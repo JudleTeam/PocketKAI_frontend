@@ -8,17 +8,17 @@ import {
 } from '@chakra-ui/react';
 import { ArrowIcon } from '@/shared/assets';
 import { LessonTypes } from '@/shared/constants';
-import { DisciplineType } from '@/shared';
 import { UiDrawer } from '@/shared/ui/ui-drawer/UiDrawer';
 import { useDisclosure } from '@chakra-ui/react';
 import { TeacherDrawer } from '../TeacherDrawer/TeacherDrawer';
-import { memo, useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
+import { TeacherDisciplineType } from '../../model/types';
 
 export const TeacherCard = memo(function TeacherCard({
   disciplineType,
   disciplineName,
 }: {
-  disciplineType: DisciplineType;
+  disciplineType: TeacherDisciplineType;
   disciplineName: string;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -34,6 +34,11 @@ export const TeacherCard = memo(function TeacherCard({
     theme.colors.dark.main
   );
   useEffect(() => {
+    if(location.hash.slice(1,) === disciplineType.teacher?.id){
+      onOpen();
+    }
+  }, [disciplineType.teacher?.id, onOpen])
+  useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
       if (isOpen) {
@@ -43,10 +48,10 @@ export const TeacherCard = memo(function TeacherCard({
       }
     }
   }, [themeColor, mainColor, isOpen]);
-
   return (
     <Box>
       <Box
+        id={disciplineType.teacher?.id}
         onClick={onOpen}
         display="flex"
         justifyContent="space-between"
@@ -59,11 +64,19 @@ export const TeacherCard = memo(function TeacherCard({
             <Text color={mainTextColor} fontWeight="medium" fontSize="14px">
               {disciplineType.teacher?.name ?? 'Преподаватель кафедры'}
             </Text>
-            <Text color={mainTextColor} fontWeight="medium" fontSize="14px">
-              {disciplineType.parsed_type
-                ? LessonTypes && LessonTypes[disciplineType.parsed_type]
-                : disciplineType.original_type}
-            </Text>
+            <Box color={mainTextColor} fontWeight="medium" fontSize="14px" display='flex' flexWrap='wrap' gap='0 10px'>
+            {disciplineType.parsed_types
+                ? disciplineType.parsed_types.map(parsed_type => (
+                  <React.Fragment key={parsed_type}>
+                    {LessonTypes && LessonTypes[parsed_type]}{' '}
+                  </React.Fragment>
+                ))
+                : disciplineType.original_types.map(original_type => (
+                  <React.Fragment key={original_type}>
+                    {original_type}{' '}
+                  </React.Fragment>
+                ))}
+            </Box>
             <Box fontSize="14px"></Box>
           </Box>
         </Box>

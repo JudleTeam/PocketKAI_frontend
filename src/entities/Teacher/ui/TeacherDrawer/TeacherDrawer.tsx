@@ -9,23 +9,22 @@ import {
   PopoverTrigger,
   PopoverContent,
   PopoverBody,
-  PopoverHeader,
   PopoverCloseButton,
   PopoverArrow,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { LessonTypes, WEEK_DAYS } from '@/shared/constants';
-import { DisciplineType } from '@/shared';
-import { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { useTeachers } from '../../model/teacher.store';
 import { useColor } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader/Loader';
 import { TeacherLessonCard } from '../TeacherLessonCard';
+import { TeacherDisciplineType } from '../../model/types';
 export const TeacherDrawer = memo(function TeacherDrawer({
   disciplineType,
   disciplineName,
 }: {
-  disciplineType: DisciplineType;
+  disciplineType: TeacherDisciplineType;
   disciplineName: string;
 }) {
   const [weekParity, setWeekParity] = useState<'even' | 'odd'>('even');
@@ -67,8 +66,17 @@ export const TeacherDrawer = memo(function TeacherDrawer({
       >
         <Text color={mainTextColor}>{disciplineName}</Text>
         <Text>
-          {disciplineType.parsed_type &&
-            LessonTypes[disciplineType.parsed_type]}
+          {disciplineType.parsed_types.length > 0
+            ? disciplineType.parsed_types.map((parsed_type) => (
+                <React.Fragment key={parsed_type}>
+                  {LessonTypes && LessonTypes[parsed_type]}{' '}
+                </React.Fragment>
+              ))
+            : disciplineType.original_types.map((original_type) => (
+                <React.Fragment key={original_type}>
+                  {original_type}{' '}
+                </React.Fragment>
+              ))}
         </Text>
         <Text
           as={Link}
@@ -171,22 +179,24 @@ export const TeacherDrawer = memo(function TeacherDrawer({
                                   </button>
                                 </PopoverTrigger>
                                 <PopoverContent bgColor={mainColor}>
-                                  <PopoverHeader
-                                    fontSize={'18px'}
-                                    fontWeight={'bold'}
-                                    color={mainTextColor}
-                                    border="0"
-                                  >
-                                    Даты проведения
-                                  </PopoverHeader>
                                   <PopoverArrow bg={mainColor} />
                                   <PopoverCloseButton />
                                   <PopoverBody
                                     fontSize={'16px'}
                                     fontWeight={'medium'}
                                     color={mainTextColor}
+                                    display='flex'
+                                    flexDirection={'column'}
+                                    gap='5px'
                                   >
-                                    {lesson.original_dates}
+                                    <Text>Даты проведения: {lesson.original_dates}</Text>
+                                    <Box>
+                                    {lesson.groups.map(group => 
+                                      <React.Fragment key={group.id}>
+                                        Группы: {group.group_name}{' '}
+                                      </React.Fragment>
+                                    )}
+                                    </Box>
                                   </PopoverBody>
                                 </PopoverContent>
                               </Popover>
