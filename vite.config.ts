@@ -28,13 +28,50 @@ export default defineConfig({
             src: '/android-chrome-192x192.png',
             sizes: '192x192',
             type: 'image/png',
-            purpose: "maskable"
           },
           {
             src: '/android-chrome-512x512.png',
             sizes: '512x512',
             type: 'image/png',
-            purpose: "maskable"
+          },
+          {
+            src: '/android-chrome-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any',
+          },
+          {
+            src: '/android-chrome-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+        ],
+        screenshots: [
+          {
+            src: '/screenshots/1.jpg',
+            sizes: '1080x1920',
+            type: 'image/jpeg',
+          },
+          {
+            src: '/screenshots/2.jpg',
+            sizes: '1080x1920',
+            type: 'image/jpeg',
+          },
+          {
+            src: '/screenshots/3.jpg',
+            sizes: '1080x1920',
+            type: 'image/jpeg',
+          },
+          {
+            src: '/screenshots/4.jpg',
+            sizes: '1080x1920',
+            type: 'image/jpeg',
+          },
+          {
+            src: '/screenshots/5.jpg',
+            sizes: '1080x1920',
+            type: 'image/jpeg',
           },
         ],
       },
