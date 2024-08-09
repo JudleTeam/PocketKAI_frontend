@@ -24,7 +24,10 @@ export function useGoUpButton() {
           const isVisible = entry.isIntersecting;
           setShowButton(!isVisible);
           if (!isVisible) {
-            setPosition(entry.boundingClientRect.top < 0 ? 'above' : 'below');
+            console.log(entry.boundingClientRect.top);
+            setPosition(
+              entry.boundingClientRect.top - 57 <= 0 ? 'above' : 'below'
+            );
           }
         }
       });

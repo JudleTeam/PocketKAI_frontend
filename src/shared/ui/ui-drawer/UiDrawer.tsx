@@ -32,7 +32,7 @@ export function UiDrawer({
         minH="70%"
         minW="100%"
         h={`${currentHeight}vh`}
-        maxH="100% + 20px"
+        maxH="calc(100vh + 20px)"
         bottom="-20px"
         borderRadius="16px 16px 0 0"
         display="flex"
@@ -62,7 +62,7 @@ export function UiDrawer({
           transition: 'height 0.2s ease-in-out', // THIS MAKES SMOOTH TRANSITION BETWEEN 80 AND 100 HEIGHT
         }}
       >
-        <Box w="20px" minH='3px' h='3px' bgColor="grey" mt={3} />
+        <Box w="20px" minH="3px" h="3px" bgColor="grey" mt={3} />
         <DrawerCloseButton />
         {drawerActions}
       </MotionDrawerContent>

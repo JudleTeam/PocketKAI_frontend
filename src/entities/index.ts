@@ -1,3 +1,5 @@
+export { SearchedTeacherCard } from './Teacher/ui/SearchedTeacherCard/SearchedTeacherCard';
+
 export { useTeachers } from './Teacher/model/teacher.store';
 
 export { useUser } from './User/user.store';

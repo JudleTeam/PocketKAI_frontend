@@ -12,6 +12,7 @@ import { teacherService } from './teacher.service';
 type TeachersState = {
   groupTeachers: Teacher[];
   searchedTeachers: Teacher[];
+  searchedTeachersStatus: FetchStatus;
   teacherSchedule: {
     odd: TeacherLesson[];
     even: TeacherLesson[];
@@ -30,6 +31,7 @@ type TeachersActions = {
 const initialState: TeachersState = {
   groupTeachers: [],
   searchedTeachers: [],
+  searchedTeachersStatus: 'idle',
   teacherSchedule: { odd: [], even: [] },
   teacherScheduleStatus: 'idle',
   error: null,
@@ -47,10 +49,16 @@ export const useTeachers = create<TeachersState & TeachersActions>()((set) => ({
     });
   },
   suggestTeacherByName: async (name) => {
-    const response = await teacherService.suggestTeacherByName(name);
-    set({
-      searchedTeachers: response.data,
-    });
+    set({ searchedTeachersStatus: 'loading', error: null });
+    try {
+      const response = await teacherService.suggestTeacherByName(name);
+      set({
+        searchedTeachers: response.data,
+        searchedTeachersStatus: 'success',
+      });
+    } catch (error) {
+      set({ error, searchedTeachersStatus: 'error' });
+    }
   },
   getTeacherScheduleById: async (id) => {
     set({ teacherScheduleStatus: 'loading', error: null });
