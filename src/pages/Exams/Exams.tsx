@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { ExamCard } from '@/entities';
 import { DateTime } from 'luxon';
 import { getTodayDate } from '@/shared';
+import { lessonStateIcons } from '@/shared/constants';
 export function Exams() {
   const { getExamsByGroupId, exams, currentGroup } = useGroup();
   const today = getTodayDate();
@@ -30,8 +31,16 @@ export function Exams() {
   }, [getExamsByGroupId, currentGroup]);
   return (
     <Box className={styles['exams']}>
+      <Text
+        fontSize="22px"
+        padding="5px 0"
+        fontWeight="medium"
+        color={mainTextColor}
+      >
+        Экзамены
+      </Text>
       {exams.length > 0 ? (
-        exams.map((exam) => (
+        exams.map((exam, index) => (
           <Box key={exam.id} display="flex" flexDirection="column" gap="3px">
             <Text color={mainTextColor} fontWeight="regular" fontSize="18px">
               {exam.parsed_date
@@ -52,6 +61,43 @@ export function Exams() {
               </div>
             </div>
             <ExamCard key={exam.id} exam={exam} />
+            {exams.length - 1 === index ? (
+              <Box display="flex" flexDirection="column" gap="10px">
+                <Text
+                  color={mainTextColor}
+                  fontWeight="regular"
+                  fontSize="18px"
+                >
+                  Далее
+                </Text>
+                <div className={styles['exam__timeline']}>
+                  <div className={styles['exam__timeline-stub']} />
+                  <div className={styles['exam__timeline-part']}>
+                    <Box
+                      bgColor={'#3182ce'}
+                      className={styles['exam__timeline-part-line']}
+                    ></Box>
+                    <Box display='flex' justifyContent={'center'} alignItems={'center'}>{lessonStateIcons['upcoming']}</Box>
+                    <Box
+                      bgColor={'#3182ce'}
+                      className={styles['exam__timeline-part-line']}
+                    ></Box>
+                  </div>
+                  <Box>
+                    <Box className={styles['exam__timeline-part-line']}></Box>
+                    <Text
+                      fontSize="16px"
+                      fontWeight="bold"
+                      textAlign="center"
+                      padding="3px 0"
+                      color={mainTextColor}
+                    >
+                      Каникулы
+                    </Text>
+                  </Box>
+                </div>
+              </Box>
+            ) : null}
           </Box>
         ))
       ) : currentGroup ? (

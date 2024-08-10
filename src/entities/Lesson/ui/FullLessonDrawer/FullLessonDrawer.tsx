@@ -6,6 +6,11 @@ import {
   Avatar,
   useColorModeValue,
   useChakra,
+  Popover,
+  PopoverArrow,
+  PopoverContent,
+  PopoverBody,
+  PopoverTrigger,
 } from '@chakra-ui/react';
 import { Lesson } from '@/shared';
 import { Link } from 'react-router-dom';
@@ -74,19 +79,47 @@ export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
         </VStack>
       </Box>
       {lesson.parsed_dates && lesson.parsed_dates_status === 'good' ? (
-        <Text fontWeight="medium" fontSize="18px">
-          Даты проведения пары:{' '}
-          {lesson.parsed_dates
-            .map((date) =>
-              DateTime.fromISO(date).setLocale('ru').toFormat('dd MMMM')
-            )
-            .join(', ')}
-        </Text>
-      ) : lesson.parsed_dates_status === 'need_check' ? (
-        <Text fontWeight="medium" fontSize="18px">
-          Даты проведения пары: {lesson.original_dates}
-        </Text>
-      ) : null}
+          <Text fontWeight="medium" fontSize="18px">
+            Даты проведения пары:{' '}
+            {lesson.parsed_dates
+              .map((date) =>
+                DateTime.fromISO(date).setLocale('ru').toFormat('dd MMMM')
+              )
+              .join(', ')}
+          </Text>
+        ) : lesson.parsed_dates &&
+          lesson.parsed_dates_status === 'need_check' ? (
+          <Popover>
+            <PopoverTrigger>
+              <button
+                style={{
+                  display: 'flex',
+                  textAlign: 'start',
+                  flexWrap: 'wrap',
+                  width: '100%',
+                  color: '#ED8936',
+                  fontWeight: '500',
+                  fontSize: '18px',
+                }}
+              >
+                Даты проведения пары: {lesson.original_dates}
+              </button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <PopoverArrow />
+              <PopoverBody fontSize="14px" color={mainTextColor}>
+                {lesson.parsed_dates
+                  .map((date) =>
+                    DateTime.fromISO(date).setLocale('ru').toFormat('dd MMMM')
+                  )
+                  .join(', ')}
+              </PopoverBody>
+            </PopoverContent>
+          </Popover>
+        ) : lesson.original_dates &&
+          lesson.parsed_dates_status == 'need_check' ? (
+          <Text fontWeight="medium" fontSize="18px">Даты проведения пары:{' '}{lesson.original_dates}</Text>
+        ) : null}
       <Text
         as={Link}
         padding="10px 0"

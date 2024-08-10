@@ -10,8 +10,6 @@ export { useGroup } from './Group/model/group.store';
 
 export { ExamCard } from './Group/ui/ExamCard/ExamCard';
 
-export { sliceLessonName } from './Lesson/lib/sliceLessonName';
-
 export { getLessonBuilding } from '../shared/lib/helpers/getLessonBuilding';
 
 export { TeacherCard } from './Teacher/ui/TeacherCard/TeacherCard';

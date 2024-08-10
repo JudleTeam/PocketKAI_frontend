@@ -40,7 +40,7 @@ export function Teachers() {
             bgColor={mainColor}
           >
             {layoutType === 'group'
-              ? `Преподаватели гр. ${currentGroup?.group_name}`
+              ? `Преподаватели ${currentGroup?.group_name ? `гр. ${currentGroup.group_name}` : null }`
               : 'Поиск преподов'}
           </MenuButton>
         </Box>

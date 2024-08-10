@@ -6,7 +6,6 @@ import { lessonStateLine } from '../../constants/lessonStateLine';
 import { LessonTypes } from '@/shared/constants'
 import LessonDrawer from '../LessonDrawer/LessonDrawer';
 import { useDisclosure } from '@chakra-ui/react';
-import { sliceLessonName } from '../../lib/sliceLessonName';
 import { useColorModeValue } from '@chakra-ui/react';
 import styles from './FadedLessonCard.module.scss';
 import { UiDrawer } from '@/shared/ui/ui-drawer/UiDrawer';
@@ -61,8 +60,9 @@ export function FadedLessonCard({
             fontWeight="bold"
             lineHeight={1.3}
             className={styles['lesson-card__name']}
+            noOfLines={2}
           >
-            {sliceLessonName(lesson.discipline.name)}
+            {lesson.discipline.name}
           </Text>
           {/* <Text color={mainTextColor} fontWeight={'medium'}>
             {getLessonBuilding(lesson.building_number, lesson.audience_number)}
