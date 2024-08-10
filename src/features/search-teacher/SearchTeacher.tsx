@@ -34,7 +34,7 @@ export function SearchTeacher() {
     return () => {
       debouncedSuggestTeacherByName.cancel();
     };
-  }, []);
+  }, [debouncedSuggestTeacherByName]);
 
   return (
     <>

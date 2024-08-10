@@ -20,7 +20,7 @@ export const ACCOUNT_ACTIONS = [
     icon: AboutUsIcon,
   },
   {
-    label: 'Сообщить об ошибке',
+    label: 'Обратная связь',
     path: 'report',
     icon: ProblemIcon,
   },
