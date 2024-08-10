@@ -9,7 +9,6 @@ import {
   PopoverTrigger,
   PopoverContent,
   PopoverBody,
-  PopoverCloseButton,
   PopoverArrow,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
@@ -65,7 +64,7 @@ export const TeacherDrawer = memo(function TeacherDrawer({
         padding="10px 0"
       >
         <Text color={mainTextColor}>{disciplineName}</Text>
-        <Text>
+        <Text display='flex' flexWrap={'wrap'} gap='0 10px'>
           {disciplineType.parsed_types.length > 0
             ? disciplineType.parsed_types.map((parsed_type) => (
                 <React.Fragment key={parsed_type}>
@@ -159,50 +158,46 @@ export const TeacherDrawer = memo(function TeacherDrawer({
                         {day}
                       </Text>
                       {filteredTeacherSchedule.length > 0 ? (
-                        filteredTeacherSchedule.map((lesson) => {
-                          if (lesson.parsed_dates_status === 'good') {
-                            return (
-                              <TeacherLessonCard
-                                lesson={lesson}
-                                key={lesson.id}
-                              />
-                            );
-                          } else {
-                            return (
-                              <Popover placement="bottom">
-                                <PopoverTrigger>
-                                  <button style={{ width: '100%' }}>
-                                    <TeacherLessonCard
-                                      lesson={lesson}
-                                      key={lesson.id}
-                                    />
-                                  </button>
-                                </PopoverTrigger>
-                                <PopoverContent bgColor={mainColor}>
-                                  <PopoverArrow bg={mainColor} />
-                                  <PopoverCloseButton />
-                                  <PopoverBody
-                                    fontSize={'16px'}
-                                    fontWeight={'medium'}
-                                    color={mainTextColor}
-                                    display='flex'
-                                    flexDirection={'column'}
-                                    gap='5px'
-                                  >
-                                    <Text>Даты проведения: {lesson.original_dates}</Text>
-                                    <Box>
-                                    {lesson.groups.map(group => 
+                        filteredTeacherSchedule.map((lesson) => (
+                          <Popover placement="bottom">
+                            <PopoverTrigger>
+                              <button style={{ width: '100%' }}>
+                                <TeacherLessonCard
+                                  lesson={lesson}
+                                  key={lesson.id}
+                                />
+                              </button>
+                            </PopoverTrigger>
+                            <PopoverContent bgColor={mainColor}>
+                              <PopoverArrow bg={mainColor} />
+                              <PopoverBody
+                                fontSize={'16px'}
+                                fontWeight={'medium'}
+                                color={mainTextColor}
+                                display="flex"
+                                flexDirection={'column'}
+                                gap="5px"
+                              >
+                                {lesson.parsed_dates_status ===
+                                'good' ? null : (
+                                  <Text>
+                                    Даты проведения: {lesson.original_dates}
+                                  </Text>
+                                )}
+                                <Box>
+                                  <Box display="flex" flexWrap={'wrap'}>
+                                    <Text>Группы:&nbsp;</Text>
+                                    {lesson.groups.map((group) => (
                                       <React.Fragment key={group.id}>
-                                        Группы: {group.group_name}{' '}
+                                        {group.group_name}{' '}
                                       </React.Fragment>
-                                    )}
-                                    </Box>
-                                  </PopoverBody>
-                                </PopoverContent>
-                              </Popover>
-                            );
-                          }
-                        })
+                                    ))}
+                                  </Box>
+                                </Box>
+                              </PopoverBody>
+                            </PopoverContent>
+                          </Popover>
+                        ))
                       ) : (
                         <Text padding="5px 0" fontSize="16px" fontWeight="bold">
                           Выходной

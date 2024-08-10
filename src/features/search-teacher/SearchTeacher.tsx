@@ -38,23 +38,25 @@ export function SearchTeacher() {
 
   return (
     <>
-      <InputGroup>
+      <InputGroup padding="5px">
         <Input
           placeholder="Поиск преподавателя"
           onChange={handleInputChange}
           ref={inputRef}
         />
-        <InputRightElement width="4.5rem">
-          {inputRef.current?.value && (
+        {inputRef.current?.value && (
+          <InputRightElement width="4.5rem">
             <IconButton
               aria-label="clear"
-              h="1.75rem"
+              top="50%"
+              transform={'translate(0, -50%)'}
+              h="2rem"
               size="sm"
               icon={<DeleteIcon />}
               onClick={handleInputClear}
             />
-          )}
-        </InputRightElement>
+          </InputRightElement>
+        )}
       </InputGroup>
       <Loader status={searchedTeachersStatus} idleMessage="Ничего не найдено">
         {searchedTeachers?.map((teacher) => (
