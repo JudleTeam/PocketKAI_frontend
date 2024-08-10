@@ -7,17 +7,10 @@ import { parityTypes } from '@/shared/constants';
 import { Link } from 'react-router-dom';
 import {HashLink} from 'react-router-hash-link';
 import {
-  DrawerBody,
   DrawerHeader,
   Text,
   VStack,
-  Button,
   Box,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
 } from '@chakra-ui/react';
 const LessonDrawer = ({
   dayDate,
@@ -133,7 +126,7 @@ const LessonDrawer = ({
             </Box>
           </Box>
       </DrawerHeader>
-      <DrawerBody w="100%">
+      {/* <DrawerBody w="100%">
         <Tabs w="100%">
           <TabList w="100%">
             <Tab w="50%" fontWeight="medium">
@@ -166,7 +159,7 @@ const LessonDrawer = ({
             </TabPanel>
           </TabPanels>
         </Tabs>
-      </DrawerBody>
+      </DrawerBody> */}
     </>
   );
 };
