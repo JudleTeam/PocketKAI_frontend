@@ -25,16 +25,27 @@ export function Report() {
           Сообщение об ошибке
         </AccountTabHeader>
       </Box>
-      <iframe style={{borderRadius: '8px', overflowY: 'auto'}} src="https://forms.yandex.ru/cloud/66b65dab84227c1b171b2fc2/?iframe=1&theme=%23000000" height='100%' frameBorder="0" width='100%' name="ya-form-66b65dab84227c1b171b2fc2"></iframe>
-      <Text fontWeight="bold" color={mainTextColor}>
-        Служба поддержки -{' '}
-        <a
-          style={{ textDecoration: 'underline' }}
-          href="https://t.me/kai_pup_help"
-        >
-          @kai_pup_help
-        </a>
-      </Text>
+      <Box overflowY={'auto'} padding='0 0 50px 0' style={{scrollbarWidth:'none'}}>
+       <Box>
+       <iframe
+          style={{ borderRadius: '8px', overflowY: 'auto' }}
+          src="https://forms.yandex.ru/cloud/66b65dab84227c1b171b2fc2/?iframe=1&theme=%23000000"
+           height="100%"
+          frameBorder="0"
+          width="100%"
+          name="ya-form-66b65dab84227c1b171b2fc2"
+        ></iframe>
+       </Box>
+        <Text fontWeight="bold" color={mainTextColor}>
+          Служба поддержки -{' '}
+          <a
+            style={{ textDecoration: 'underline' }}
+            href="https://t.me/kai_pup_help"
+          >
+            @kai_pup_help
+          </a>
+        </Text>
+      </Box>
     </Box>
   );
 }

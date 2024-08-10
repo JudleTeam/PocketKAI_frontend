@@ -3,13 +3,12 @@ import { Box, VStack, Text, useChakra } from '@chakra-ui/react';
 import { LessonTypes } from '@/shared/constants';
 import { getLessonBuilding } from '@/shared/lib';
 import { ArrowIcon } from '@/shared/assets/chakraIcons/ArrowIcon';
-import { sliceLessonName } from '../../lib/sliceLessonName';
 import { FullLessonDrawer } from '../FullLessonDrawer/FullLessonDrawer';
 import { useDisclosure } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/react';
 import { UiDrawer } from '@/shared/ui/ui-drawer/UiDrawer';
-import { useEffect } from 'react';
-export function FullLessonCard({
+import { memo, useEffect } from 'react';
+export const FullLessonCard = memo(function FullLessonCard({
   lesson,
   variant = 'dark',
 }: {
@@ -48,8 +47,8 @@ export function FullLessonCard({
         justifyContent="space-between"
       >
         <VStack alignItems="start" gap="2px" w="60%">
-          <Text color={mainTextColor} w="95%" fontWeight="bold" fontSize="16px">
-            {sliceLessonName(lesson.discipline.name)}
+          <Text color={mainTextColor} w="95%" fontWeight="bold" fontSize="16px" noOfLines={2}>
+            {lesson.discipline.name}
           </Text>
           <Text color="gray.400" fontWeight="medium" fontSize="20px">
             {lesson.start_time?.slice(0, 5)} {lesson.end_time && '-'}{' '}
@@ -76,4 +75,4 @@ export function FullLessonCard({
       />
     </>
   );
-}
+})

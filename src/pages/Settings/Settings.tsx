@@ -22,10 +22,10 @@ export function Settings() {
       >
         <AccountTabHeader color={mainTextColor}>Настройки</AccountTabHeader>
       </Box>
-      <Text fontSize="18px" fontWeight="bold">
+      <Text fontSize="18px" fontWeight="bold" color={mainTextColor}>
         Изменить тему приложения
       </Text>
-      <Button onClick={toggleColorMode}>
+      <Button onClick={toggleColorMode} color={mainTextColor}>
         {colorMode === 'light' ? 'Тёмная' : 'Светлая'} тема
       </Button>
     </Box>

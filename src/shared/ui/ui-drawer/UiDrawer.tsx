@@ -7,9 +7,9 @@ import {
   DrawerOverlay,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { ReactNode, useMemo, useState } from 'react';
+import { memo, ReactNode, useMemo, useState } from 'react';
 
-export function UiDrawer({
+export const UiDrawer = memo(function UiDrawer({
   drawerActions,
   isOpen,
   onClose, // THIS SHOULD ALWAYS BE MEMOIZED!!! use the useDrawerDisclosure hook
@@ -68,4 +68,4 @@ export function UiDrawer({
       </MotionDrawerContent>
     </Drawer>
   );
-}
+})

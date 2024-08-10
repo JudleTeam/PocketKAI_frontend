@@ -14,7 +14,6 @@ import { lessonStateLine } from '../../constants/lessonStateLine';
 import { LessonTypes } from '@/shared/constants';
 import { getLessonState } from '../../lib/getLessonState';
 import { getLessonBuilding } from '@/shared/lib';
-import { sliceLessonName } from '../../lib/sliceLessonName';
 import { UiDrawer } from '@/shared/ui/ui-drawer/UiDrawer';
 import styles from './LessonCard.module.scss';
 
@@ -81,8 +80,10 @@ const LessonCard = memo(
               fontWeight="bold"
               lineHeight={1.3}
               className={styles['lesson-card__name']}
+              noOfLines={2}
             >
-              {sliceLessonName(lesson.discipline.name)}
+              {/* {sliceLessonName(lesson.discipline.name)} */}
+              {lesson.discipline.name}
             </Text>
             <Text color={mainTextColor} fontWeight={'medium'}>
               {getLessonBuilding(
