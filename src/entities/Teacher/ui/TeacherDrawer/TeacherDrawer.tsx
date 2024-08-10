@@ -10,6 +10,7 @@ import {
   PopoverContent,
   PopoverBody,
   PopoverArrow,
+  PopoverHeader,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { LessonTypes, WEEK_DAYS } from '@/shared/constants';
@@ -64,7 +65,7 @@ export const TeacherDrawer = memo(function TeacherDrawer({
         padding="10px 0"
       >
         <Text color={mainTextColor}>{disciplineName}</Text>
-        <Text display='flex' flexWrap={'wrap'} gap='0 10px'>
+        <Text display="flex" flexWrap={'wrap'} gap="0 10px">
           {disciplineType.parsed_types.length > 0
             ? disciplineType.parsed_types.map((parsed_type) => (
                 <React.Fragment key={parsed_type}>
@@ -170,6 +171,13 @@ export const TeacherDrawer = memo(function TeacherDrawer({
                             </PopoverTrigger>
                             <PopoverContent bgColor={mainColor}>
                               <PopoverArrow bg={mainColor} />
+                              <PopoverHeader
+                                fontSize="14px"
+                                fontWeight={'medium'}
+                                color={mainTextColor}
+                              >
+                                {lesson.discipline.name}
+                              </PopoverHeader>
                               <PopoverBody
                                 fontSize={'16px'}
                                 fontWeight={'medium'}

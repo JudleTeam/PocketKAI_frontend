@@ -10,6 +10,7 @@ import {
   PopoverContent,
   PopoverBody,
   PopoverArrow,
+  PopoverHeader,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { WEEK_DAYS } from '@/shared/constants';
@@ -149,6 +150,13 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
                             </PopoverTrigger>
                             <PopoverContent bgColor={mainColor}>
                               <PopoverArrow bg={mainColor} />
+                              <PopoverHeader
+                                fontSize="14px"
+                                fontWeight={'medium'}
+                                color={mainTextColor}
+                              >
+                                {lesson.discipline.name}
+                              </PopoverHeader>
                               <PopoverBody
                                 fontSize={'16px'}
                                 fontWeight={'medium'}
