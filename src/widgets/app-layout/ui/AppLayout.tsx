@@ -66,7 +66,7 @@ export function AppLayout() {
     getWeekParity,
     getFullWeekScheduleByName,
   ]);
-  useEffect(() => {
+  useEffect(()  => {
     document.getElementById(currentDay)?.scrollIntoView();
   }, [location.pathname]);
   const { theme } = useChakra();
