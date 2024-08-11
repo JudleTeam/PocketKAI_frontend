@@ -9,20 +9,20 @@ import {
   ModalFooter,
   Button,
   Divider,
-  Checkbox,
   RadioGroup,
   Radio,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import Select, { StylesConfig } from 'react-select';
 import { useGroup, useSchedule } from '@/entities';
 import { GroupShort, SelectItem } from '@/shared';
+import { useColor } from '@/shared/lib';
 type IFormInput = {
   group: SelectItem<GroupShort>;
   addToFavourite: boolean;
+  radio: string;
 };
 export function AddGroupToFavourite(onClose: () => void) {
   const {
@@ -36,21 +36,34 @@ export function AddGroupToFavourite(onClose: () => void) {
     currentGroup,
   } = useGroup();
   const { resetScheduleState } = useSchedule();
-  const { resetField, handleSubmit, control, register } = useForm<IFormInput>();
-
+  const { resetField, handleSubmit, control, getValues, register } = useForm<IFormInput>();
+  const [selectGroup, setSelectGroup] = useState<string | undefined>(currentGroup?.group_name);
   const handleInputChange = (newValue: string) => {
     suggestGroupByName({ group_name: newValue });
   };
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    if (data.addToFavourite) {
-      addGroupToFavourite(data.group.value);
+  const handleFavoriteClick= () => {
+    const selectedGroup = getValues('group')
+    if(selectedGroup){
+      addGroupToFavourite(selectedGroup.value);
+      resetField('group');
+      setSelectGroup(selectedGroup.value.group_name)
     }
-    setCurrentGroup(data.group.value);
-    resetField('group');
-    resetScheduleState();
+  };
+  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+    const groupValue = getValues('group')
+    if(groupValue){
+      setCurrentGroup(groupValue.value);
+      resetField('group');
+      resetScheduleState();
+    }
+    const radioValue = data.radio
+    if(radioValue){
+      getGroupByName(radioValue);
+      resetScheduleState();
+    }
     onClose();
   };
-  const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
+  const {mainTextColor, tabColor} = useColor()
   const customStyles: StylesConfig = {
     option: (provided) => ({
       ...provided,
@@ -81,17 +94,6 @@ export function AddGroupToFavourite(onClose: () => void) {
             />
           )}
         />
-        <Checkbox
-          display={'flex'}
-          flexDir={'row-reverse'}
-          justifyContent={'space-between'}
-          spacing={0}
-          mt={2}
-          iconSize={'lg'}
-          {...register('addToFavourite')}
-        >
-          Добавить группу в избранное?
-        </Checkbox>
         <Box>
           <Heading
             py={'15px'}
@@ -103,13 +105,14 @@ export function AddGroupToFavourite(onClose: () => void) {
           </Heading>
 
           <RadioGroup
-            onChange={(groupName) => getGroupByName(groupName)}
-            value={currentGroup?.group_name}
+            value={selectGroup}
+            onChange={setSelectGroup}
           >
             <Stack fontSize={'18px'} fontWeight={'500'} color={mainTextColor}>
               {favouriteGroups.map((group) => (
                 <React.Fragment key={group.id}>
                   <Radio
+                    {...register("radio")}
                     key={group.id}
                     value={group.group_name}
                     py={'5px'}
@@ -139,13 +142,18 @@ export function AddGroupToFavourite(onClose: () => void) {
           </RadioGroup>
         </Box>
       </ModalBody>
-      <ModalFooter>
-        <Button w="40%" colorScheme="blue" mr={3} type="submit">
+      <ModalFooter w='100%' display='flex' flexWrap={'wrap'} gap='10px'>
+        <Button w='100%' bg={tabColor} color={mainTextColor} onClick={handleFavoriteClick}>
+          Добавить в избранное
+        </Button>
+        <Box w='100%' display={'flex'} justifyContent='space-between'>
+        <Button w="48%" colorScheme="blue" type="submit">
           Сохранить
         </Button>
-        <Button w="40%" colorScheme="blue" variant="outline" onClick={onClose}>
+        <Button w="48%" colorScheme="blue" variant="outline" onClick={onClose}>
           Отмена
         </Button>
+        </Box>
       </ModalFooter>
     </form>
   );

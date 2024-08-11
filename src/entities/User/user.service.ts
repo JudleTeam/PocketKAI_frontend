@@ -16,5 +16,5 @@ export const userService = {
 
   getGroupMembers: (): ApiResponse<UserGroupMember[]> => {
     return apiClient.get<UserGroupMember[]>('user/me/student/group_members');
-  },
+  }
 };

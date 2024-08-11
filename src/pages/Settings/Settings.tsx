@@ -1,15 +1,10 @@
-import { AccountTabHeader } from '@/shared/lib';
-import { Button, Text, Box, useChakra } from '@chakra-ui/react';
-import { useColorMode, useColorModeValue } from '@chakra-ui/react';
+import { AccountTabHeader, useColor } from '@/shared/lib';
+import { Button, Text, Box } from '@chakra-ui/react';
+import { useColorMode } from '@chakra-ui/react';
 import styles from './Settings.module.scss';
 export function Settings() {
   const { toggleColorMode, colorMode } = useColorMode();
-  const { theme } = useChakra();
-  const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
-  const mainColor = useColorModeValue(
-    theme.colors.light.main,
-    theme.colors.dark.main
-  );
+  const {tabTeacher, mainColor, mainTextColor} = useColor()
   return (
     <Box className={styles['settings']}>
       <Box
@@ -25,7 +20,7 @@ export function Settings() {
       <Text fontSize="18px" fontWeight="bold" color={mainTextColor}>
         Изменить тему приложения
       </Text>
-      <Button onClick={toggleColorMode} color={mainTextColor}>
+      <Button onClick={toggleColorMode} bg={tabTeacher} color={mainTextColor}>
         {colorMode === 'light' ? 'Тёмная' : 'Светлая'} тема
       </Button>
     </Box>

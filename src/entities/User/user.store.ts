@@ -43,7 +43,6 @@ export const useUser = create<UserType>()(
             error: null,
           });
           localStorage.setItem(ACCESS_KEY, response.data.access_token);
-
           encryptToken(
             response.data.refresh_token,
             response.data.access_token
