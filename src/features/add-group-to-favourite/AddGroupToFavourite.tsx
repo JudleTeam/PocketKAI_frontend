@@ -37,14 +37,18 @@ export function AddGroupToFavourite(onClose: () => void) {
   } = useGroup();
   const { resetScheduleState } = useSchedule();
   const { resetField, handleSubmit, control, getValues, register } = useForm<IFormInput>();
+  const [isOpen, setIsOpen] = useState(false);
   const [selectGroup, setSelectGroup] = useState<string | undefined>(currentGroup?.group_name);
   const handleInputChange = (newValue: string) => {
     suggestGroupByName({ group_name: newValue });
+    setIsOpen(true)
   };
   const handleFavoriteClick= () => {
     const selectedGroup = getValues('group')
     if(selectedGroup){
       addGroupToFavourite(selectedGroup.value);
+      setIsOpen(false);
+      console.log(isOpen)
       resetField('group');
       setSelectGroup(selectedGroup.value.group_name)
     }
@@ -63,6 +67,7 @@ export function AddGroupToFavourite(onClose: () => void) {
     const groupByName = getGroupByName(selectGroup); 
     setCurrentGroup(await groupByName)
   }
+  setIsOpen(false)
   resetScheduleState();
   onClose();
   };
@@ -106,7 +111,6 @@ export function AddGroupToFavourite(onClose: () => void) {
           >
             Избранные группы
           </Heading>
-
           <RadioGroup
             value={selectGroup}
             onChange={setSelectGroup}
@@ -146,7 +150,7 @@ export function AddGroupToFavourite(onClose: () => void) {
         </Box>
       </ModalBody>
       <ModalFooter w='100%' display='flex' flexWrap={'wrap'} gap='10px'>
-        <Button w='100%' bg={tabColor} color={mainTextColor} onClick={handleFavoriteClick}>
+        <Button w='100%' bg={tabColor} display={isOpen ? 'block' : 'none'} color={mainTextColor} onClick={handleFavoriteClick}>
           Добавить в избранное
         </Button>
         <Box w='100%' display={'flex'} justifyContent='space-between'>
