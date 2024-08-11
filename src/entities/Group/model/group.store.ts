@@ -21,7 +21,7 @@ type GroupState = {
 };
 type GroupActions = {
   getAllGroups: () => Promise<void>;
-  getGroupByName: (name: string) => Promise<void>;
+  getGroupByName: (name: string) => Promise<Group>;
   getGroupById: (id: string) => Promise<Nullable<Group>>;
   getGroupDisciplines: (group_id: string) => Promise<void>;
   suggestGroupByName: (params: GroupSearchParams) => Promise<void>;
@@ -59,6 +59,7 @@ export const useGroup = create<GroupState & GroupActions>()(
       getGroupByName: async (name) => {
         const response = await groupService.getGroupByName(name);
         set({ currentGroup: response.data });
+        return response.data
       },
       getGroupById: async (id) => {
         set({ homeGroupStatus: 'loading' });
