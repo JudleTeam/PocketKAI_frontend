@@ -42,6 +42,7 @@ export function Auth(onClose: () => void) {
     homeGroupStatus,
     addGroupToFavourite,
     setCurrentGroup,
+    getFavoriteGroups,
   } = useGroup();
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const status = await login(data);
@@ -54,6 +55,7 @@ export function Auth(onClose: () => void) {
           setCurrentGroup(group);
         }
       }
+      await getFavoriteGroups();
       reset();
       onClose();
       navigate('/account', { replace: true });

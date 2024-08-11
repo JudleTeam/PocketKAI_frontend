@@ -7,6 +7,14 @@ export const useColor = () => {
     theme.colors.light.main_element,
     theme.colors.dark.main_element
   );
+  const tabColor = useColorModeValue(
+    theme.colors.light.tab,
+    theme.colors.dark.tab
+  )
+  const tabTeacher = useColorModeValue(
+    theme.colors.light.tab_teacher,
+    theme.colors.dark.tab_teacher
+  )
   const mainColor = useColorModeValue(
     theme.colors.light.main,
     theme.colors.dark.main
@@ -34,5 +42,7 @@ export const useColor = () => {
     cardColor,
     themeColor,
     drawerColor,
+    tabColor,
+    tabTeacher
   };
 };

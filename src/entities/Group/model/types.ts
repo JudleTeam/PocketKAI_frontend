@@ -7,3 +7,7 @@ export type ExamParams = {
   academic_year: string;
   academic_year_half: number;
 }
+
+export type FavoriteParams = {
+  group_id: string;
+}

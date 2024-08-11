@@ -26,6 +26,7 @@ type GroupActions = {
   getGroupDisciplines: (group_id: string) => Promise<void>;
   suggestGroupByName: (params: GroupSearchParams) => Promise<void>;
   getLessonsGroupById: (id: string) => Promise<void>;
+  getFavoriteGroups: () => Promise<void>;
   setCurrentGroup: (group: Group | GroupShort) => void;
   removeCurrentGroup: () => void;
   addGroupToFavourite: (group: GroupShort | Group) => void;
@@ -46,7 +47,7 @@ const initialState: GroupState = {
   exams: [],
   error: null,
 };
-
+const ACCESS_KEY = import.meta.env.VITE_ACCESS_TOKEN_KEY;
 export const useGroup = create<GroupState & GroupActions>()(
   persist(
     (set) => ({
@@ -110,26 +111,62 @@ export const useGroup = create<GroupState & GroupActions>()(
       removeCurrentGroup: () => {
         set({ currentGroup: null });
       },
-
+      getFavoriteGroups: async () => {
+        const response = await groupService.getFavoriteGroups();
+        set((state) => {
+          const responseGroups = response.data;
+          const remainingGroups = state.favouriteGroups.filter(
+            group => !responseGroups.some(responseGroup => responseGroup.id === group.id)
+          );
+          const combinedGroups = [...responseGroups, ...remainingGroups];
+          const limitedGroups = combinedGroups.slice(0, 10);
+          const addGroups: string[] = []; 
+          limitedGroups.map((group) => {
+            addGroups.push(group.id)
+          });
+          groupService.addBulkFavoriteGroup(addGroups);
+          return { favouriteGroups: limitedGroups };
+        })
+      },
       addGroupToFavourite: (group: GroupShort | Group) => {
+        const params = {
+          group_id: group.id
+        }
         set((state) => {
           const isAlreadyFavourite = state.favouriteGroups.some(
             (favGroup) => favGroup.id === group.id
-          );
-          if (isAlreadyFavourite) {
+          )
+          if (isAlreadyFavourite || state.favouriteGroups.length >= 10) {
             return state;
           }
+          if(localStorage.getItem(ACCESS_KEY)){
+            groupService.addFavoriteGroup(params)
+          }
+          const groupShort = {
+            id: group.id,
+            kai_id: group.kai_id,
+            group_name: group.group_name,
+            is_verified: group.is_verified,
+            parsed_at: group.parsed_at || null,
+            schedule_parsed_at: group.schedule_parsed_at || null,
+            exams_parsed_at: group.exams_parsed_at || null,
+          }
           return {
-            favouriteGroups: [...state.favouriteGroups, group],
+            favouriteGroups: [...state.favouriteGroups, groupShort],
           };
         });
       },
-      removeGroupFromFavourite: (group: GroupShort) => {
-        set((state) => ({
-          favouriteGroups: state.favouriteGroups.filter(
-            (favouriteGroup) => favouriteGroup.id !== group.id
-          ),
-        }));
+      removeGroupFromFavourite:async (group: GroupShort) => {
+        if(localStorage.getItem(ACCESS_KEY)){
+          groupService.deleteFavoriteGroup(group.id)
+        }
+        set((state) => {
+          return {
+            favouriteGroups: state.favouriteGroups.filter(
+              (favouriteGroup) => favouriteGroup.id !== group.id
+            ),
+          }
+        });
       },
       resetGroupState: () => set(initialState),
     }),

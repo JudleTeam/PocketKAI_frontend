@@ -13,6 +13,7 @@ export type Group = {
   verified_at: Nullable<string>;
   created_at: string;
   parsed_at: Nullable<string>;
+  exams_parsed_at: string | null;
   schedule_parsed_at: Nullable<string>;
   syllabus_url: Nullable<string>;
   educational_program_url: Nullable<string>;
@@ -52,6 +53,7 @@ export type GroupShort = {
   is_verified: boolean;
   parsed_at: string | null;
   schedule_parsed_at: string | null;
+  exams_parsed_at: string | null;
 };
 
 export type GroupDisciplines = {
