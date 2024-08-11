@@ -49,21 +49,22 @@ export function AddGroupToFavourite(onClose: () => void) {
       setSelectGroup(selectedGroup.value.group_name)
     }
   };
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const groupValue = data.group
     const radioValue = data.radio
     console.log(groupValue, radioValue)
-    if(groupValue){
-      setCurrentGroup(groupValue.value);
-      resetField('group');
-      resetScheduleState();
-      onClose();
-    }
-    else if(radioValue){
-      getGroupByName(radioValue);
-      resetScheduleState();
-      onClose()
-    }
+    const group = groupValue?.value || favouriteGroups.find(group => group.group_name === radioValue);
+  if (group) {
+    console.log(group)
+    setCurrentGroup(group);
+    resetField('group');
+  }
+  if (!group && selectGroup) {
+    const groupByName = getGroupByName(selectGroup); 
+    setCurrentGroup(await groupByName)
+  }
+  resetScheduleState();
+  onClose();
   };
   const {mainTextColor, tabColor} = useColor()
   const customStyles: StylesConfig = {
