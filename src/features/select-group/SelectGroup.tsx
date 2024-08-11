@@ -1,4 +1,4 @@
-import { useGroup, useSchedule } from '@/entities';
+import { useGroup, useSchedule, useUser } from '@/entities';
 import { GroupShort } from '@/shared';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
@@ -12,19 +12,25 @@ import {
   Button,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { useEffect } from 'react';
 
 export function SelectGroup({ onOpen }: { onOpen: () => void }) {
   const mainElementColor = useColorModeValue(
     'light.main_element',
     'dark.main_element'
   );
-  const { favouriteGroups, currentGroup, setCurrentGroup } = useGroup();
+  const { user } = useUser();
+  const { favouriteGroups, currentGroup, setCurrentGroup, getFavoriteGroups } = useGroup();
   const { resetScheduleState } = useSchedule();
   const handleGroupClick = (group: GroupShort) => {
     setCurrentGroup(group);
     resetScheduleState();
   };
-
+  useEffect(() => {
+    if(user){
+      getFavoriteGroups();
+    }
+  }, [getFavoriteGroups, user])
   return (
     <Menu>
       <MenuButton

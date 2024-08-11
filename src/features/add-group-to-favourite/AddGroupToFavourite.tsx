@@ -50,18 +50,20 @@ export function AddGroupToFavourite(onClose: () => void) {
     }
   };
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    const groupValue = getValues('group')
+    const groupValue = data.group
+    const radioValue = data.radio
+    console.log(groupValue, radioValue)
     if(groupValue){
       setCurrentGroup(groupValue.value);
       resetField('group');
       resetScheduleState();
+      onClose();
     }
-    const radioValue = data.radio
-    if(radioValue){
+    else if(radioValue){
       getGroupByName(radioValue);
       resetScheduleState();
+      onClose()
     }
-    onClose();
   };
   const {mainTextColor, tabColor} = useColor()
   const customStyles: StylesConfig = {
