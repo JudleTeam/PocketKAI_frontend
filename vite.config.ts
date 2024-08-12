@@ -77,6 +77,35 @@ export default defineConfig({
       },
 
       workbox: {
+        runtimeCaching: [
+          {
+            urlPattern:
+              /^https:\/\/pocket-kai\.vercel\.app\/.*\.(js|css|html|svg|png|ico)$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'pocket-kai-cache',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 30 * 24 * 60 * 60,
+              },
+            },
+          },
+          {
+            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+            handler: 'CacheFirst',
+          },
+          {
+            urlPattern: /^https:\/\/api\.pocket-kai\.judle\.ru\/.*$/,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'pocket-kai-api-cache',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 7 * 24 * 60 * 60,
+              },
+            },
+          },
+        ],
         globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
         cleanupOutdatedCaches: true,
         clientsClaim: true,

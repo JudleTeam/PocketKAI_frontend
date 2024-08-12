@@ -9,6 +9,7 @@ import {
   FullWeekSchedule,
 } from '@/shared';
 import { generateDateSchedule } from '../lib/generateDateSchedule';
+import { formWeekSchedule } from '../lib/formWeekSchedule';
 
 type StoreState = {
   schedule: Schedule;
@@ -45,17 +46,13 @@ export const useSchedule = create<StoreState & StoreActions>((set, get) => ({
   getFullWeekScheduleByName: async (name) => {
     set({ weekScheduleStatus: 'loading' });
     try {
-      const [oddWeek, evenWeek] = await Promise.all([
-        scheduleService.getWeekScheduleByGroupName(name, {
-          week_parity: 'odd',
-        }),
-        scheduleService.getWeekScheduleByGroupName(name, {
-          week_parity: 'even',
-        }),
-      ]);
+      const response = await scheduleService.getWeekScheduleByGroupName(name, {
+        week_parity: 'any',
+      });
+      const anyWeek = formWeekSchedule(response.data);
 
       set({
-        weekSchedule: { odd: oddWeek.data, even: evenWeek.data },
+        weekSchedule: { odd: anyWeek.odd, even: anyWeek.even },
         weekScheduleStatus: 'success',
       });
     } catch (error) {

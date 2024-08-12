@@ -66,9 +66,10 @@ export function AppLayout() {
     getWeekParity,
     getFullWeekScheduleByName,
   ]);
-  useEffect(()  => {
+  useEffect(() => {
     document.getElementById(currentDay)?.scrollIntoView();
   }, [location.pathname]);
+
   const { theme } = useChakra();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const mainColor = useColorModeValue(
@@ -84,7 +85,6 @@ export function AppLayout() {
       } else {
         metaThemeColor.setAttribute('content', mainColor);
       }
-      console.log(metaThemeColor.getAttribute('content'));
     }
   }, [themeColor, mainColor, isOpen]);
   const isNotDatebar =

@@ -14,13 +14,13 @@ import {
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { LessonTypes, WEEK_DAYS } from '@/shared/constants';
-import React, { memo, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTeachers } from '../../model/teacher.store';
 import { useColor } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader/Loader';
 import { TeacherLessonCard } from '../TeacherLessonCard';
 import { TeacherDisciplineType } from '../../model/types';
-export const TeacherDrawer = memo(function TeacherDrawer({
+export const TeacherDrawer = function TeacherDrawer({
   disciplineType,
   disciplineName,
 }: {
@@ -28,13 +28,21 @@ export const TeacherDrawer = memo(function TeacherDrawer({
   disciplineName: string;
 }) {
   const [weekParity, setWeekParity] = useState<'even' | 'odd'>('even');
-  const { teacherScheduleStatus, teacherSchedule, getTeacherScheduleById } =
-    useTeachers();
+  const {
+    teacherScheduleStatus,
+    teacherSchedule,
+    getTeacherScheduleById,
+    clearTeacherSchedule,
+  } = useTeachers();
   useEffect(() => {
-    if (disciplineType.teacher) {
-      getTeacherScheduleById(disciplineType.teacher.id);
-    }
-  }, [disciplineType.teacher, getTeacherScheduleById]);
+    clearTeacherSchedule();
+    const timeoutId = setTimeout(() => {
+      if (disciplineType.teacher) {
+        getTeacherScheduleById(disciplineType.teacher.id);
+      }
+    }, 200);
+    return () => clearTimeout(timeoutId);
+  }, [disciplineType.teacher, getTeacherScheduleById, clearTeacherSchedule]);
 
   const {
     mainTextColor,
@@ -226,4 +234,4 @@ export const TeacherDrawer = memo(function TeacherDrawer({
       )}
     </Box>
   );
-});
+};
