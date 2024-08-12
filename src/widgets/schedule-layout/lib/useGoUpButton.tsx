@@ -24,7 +24,6 @@ export function useGoUpButton() {
           const isVisible = entry.isIntersecting;
           setShowButton(!isVisible);
           if (!isVisible) {
-            console.log(entry.boundingClientRect.top);
             setPosition(
               entry.boundingClientRect.top - 57 <= 0 ? 'above' : 'below'
             );

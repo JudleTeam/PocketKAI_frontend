@@ -4,7 +4,7 @@ import styles from './RootLayout.module.scss';
 import { useChakra, useColorMode, useColorModeValue } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { NavbarActions } from '../navbar/NavbarActions';
-//import PWABadge from '@/PWABadge';
+import PWABadge from '@/PWABadge';
 export function RootLayout() {
   const { theme } = useChakra();
   const themeColor = useColorModeValue(
@@ -22,7 +22,7 @@ export function RootLayout() {
     <div className={styles['root-layout']}>
       <Outlet />
       <UiNavbar navbarActions={NavbarActions} />
-      {/* <PWABadge /> */}
+      <PWABadge />
     </div>
   );
 }

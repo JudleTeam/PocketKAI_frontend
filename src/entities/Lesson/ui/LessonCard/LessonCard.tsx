@@ -42,7 +42,6 @@ const LessonCard = memo(
         } else {
           metaThemeColor.setAttribute('content', mainColor);
         }
-        console.log(metaThemeColor.getAttribute('content'));
       }
     }, [themeColor, mainColor, isOpen]);
 

@@ -8,6 +8,7 @@ import { Nullable } from '@/shared';
 import { removeDuplicates } from '@/shared/lib';
 import { create } from 'zustand';
 import { teacherService } from './teacher.service';
+import { formTeachersSchedule } from '../lib/formTeachersSchedule';
 
 type TeachersState = {
   groupTeachers: Teacher[];
@@ -25,6 +26,7 @@ type TeachersActions = {
   suggestTeacherByName: (name: string) => Promise<void>;
   getTeacherScheduleById: (id: string) => Promise<void>;
   setTeacherScheduleStatus: (status: FetchStatus) => void;
+  clearTeacherSchedule: () => void;
   clearTeachersState: () => void;
 };
 
@@ -60,15 +62,15 @@ export const useTeachers = create<TeachersState & TeachersActions>()((set) => ({
       set({ error, searchedTeachersStatus: 'error' });
     }
   },
+  clearTeacherSchedule: () =>
+    set({ teacherSchedule: initialState.teacherSchedule }),
   getTeacherScheduleById: async (id) => {
     set({ teacherScheduleStatus: 'loading', error: null });
     try {
-      const [oddWeek, evenWeek] = await Promise.all([
-        teacherService.getTeacherScheduleById(id, 'odd'),
-        teacherService.getTeacherScheduleById(id, 'even'),
-      ]);
+      const response = await teacherService.getTeacherScheduleById(id, 'any');
+      const schedule = formTeachersSchedule(response.data);
       set({
-        teacherSchedule: { odd: oddWeek.data, even: evenWeek.data },
+        teacherSchedule: { ...schedule },
         teacherScheduleStatus: 'success',
       });
     } catch (error) {

@@ -4,13 +4,7 @@ export type WeekSchedule = {
   parsed_at: string;
   week_parity: 'odd' | 'even' | 'any';
   week_days: {
-    monday: Lesson[];
-    tuesday: Lesson[];
-    wednesday: Lesson[];
-    thursday: Lesson[];
-    friday: Lesson[];
-    saturday: Lesson[];
-    sunday: Lesson[];
+    [key: string]: Lesson[];
   };
 };
 
