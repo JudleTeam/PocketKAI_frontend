@@ -34,7 +34,7 @@ export const TeacherCard = memo(function TeacherCard({
     theme.colors.dark.main
   );
   useEffect(() => {
-    if (location.hash.slice(1) === disciplineType.teacher?.id) {
+    if (!isOpen && location.hash.slice(1) === disciplineType.teacher?.id) {
       onOpen();
     }
   }, [disciplineType.teacher?.id, isOpen, onOpen]);

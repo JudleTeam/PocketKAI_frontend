@@ -5,17 +5,12 @@ import { cn, useDrawerPopstateClose } from '@/shared/lib';
 
 const Drawer = ({
   open = false,
-  snapPoints = [0.6, 1],
-  activeSnapPoint = 0.6,
   onOpenChange = () => {},
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Root>) => {
   useDrawerPopstateClose(open, onOpenChange);
   return (
     <DrawerPrimitive.Root
-      activeSnapPoint={activeSnapPoint}
-      snapPoints={snapPoints}
-      fadeFromIndex={0}
       open={open}
       onOpenChange={onOpenChange}
       closeThreshold={0.6}
@@ -52,7 +47,7 @@ const DrawerContent = React.forwardRef<
     <DrawerPrimitive.Content
       ref={ref}
       className={cn(
-        'fixed inset-x-0 h-[100%] max-h-[100%] px-5 bottom-0 z-50 mt-24 flex flex-col rounded-t-[25px] border bg-l-main dark:bg-d-main ',
+        'fixed inset-x-0 h-[100%] max-h-[80%] px-5 bottom-0 z-50 mt-24 flex flex-col rounded-t-[25px] border bg-l-main dark:bg-d-main ',
         className
       )}
       {...props}
