@@ -8,14 +8,9 @@ import {
 import { ArrowIcon } from '@/shared/assets';
 import { LessonTypes } from '@/shared/constants';
 import { TeacherDrawer } from '../TeacherDrawer/TeacherDrawer';
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect } from 'react';
 import { TeacherDisciplineType } from '../../model/types';
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerTrigger,
-} from '@/shared/ui/drawer';
+import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
 import { useDisclosure } from '@/shared/lib';
 
 export const TeacherCard = memo(function TeacherCard({
