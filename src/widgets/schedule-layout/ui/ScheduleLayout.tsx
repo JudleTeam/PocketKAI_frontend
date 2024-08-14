@@ -17,7 +17,7 @@ import { scrollToToday } from '@/shared/lib';
 export function ScheduleLayout() {
   const today = getTodayDate();
   const { schedule } = useSchedule();
-  const { upperRef, lowerRef, scheduleContainerRef } = useInfiniteScroll();
+  const { lowerRef, scheduleContainerRef } = useInfiniteScroll();
   const { showButton, position: todayBlockPosition } = useGoUpButton();
   //console.log(todayBlockPosition);
   const { theme } = useChakra();
