@@ -32,11 +32,11 @@ export function ScheduleLayout() {
       className={styles['schedule']}
       ref={scheduleContainerRef}
     >
-      <Stack ref={upperRef}>
+      {/* <Stack ref={upperRef}>
         <Skeleton height="20px" />
         <Skeleton height="20px" />
         <Skeleton height="20px" />
-      </Stack>
+      </Stack> */}
       {schedule?.days.map((day) => (
         <div key={day.date} className={styles['day']} id={day.date}>
           <Text
@@ -94,7 +94,7 @@ export function ScheduleLayout() {
           bottom="80px"
           right="5%"
           bgColor={mainElementColor}
-          zIndex={'50'}
+          zIndex={'10'}
         >
           {todayBlockPosition === 'above' ? (
             <ArrowIcon color="white" w={'20px'} h={'20px'} />

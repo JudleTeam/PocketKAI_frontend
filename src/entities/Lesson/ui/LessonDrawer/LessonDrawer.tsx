@@ -15,7 +15,7 @@ import {
 import { parityTypes } from '@/shared/constants';
 import { Link } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
-import { DrawerHeader, Text, VStack, Box } from '@chakra-ui/react';
+import { Text, VStack, Box } from '@chakra-ui/react';
 const LessonDrawer = ({
   dayDate,
   lesson,
@@ -38,7 +38,7 @@ const LessonDrawer = ({
   );
   return (
     <>
-      <DrawerHeader
+      <Box
         w="95%"
         padding="25px 0 0 0"
         color={mainTextColor}
@@ -128,7 +128,9 @@ const LessonDrawer = ({
           </Popover>
         ) : lesson.original_dates &&
           lesson.parsed_dates_status == 'need_check' ? (
-          <Text fontWeight="medium" fontSize="18px">Даты проведения пары:{' '}{lesson.original_dates}</Text>
+          <Text fontWeight="medium" fontSize="18px">
+            Даты проведения пары: {lesson.original_dates}
+          </Text>
         ) : null}
         <Text
           as={Link}
@@ -165,7 +167,7 @@ const LessonDrawer = ({
             </Text>
           </Box>
         </Box>
-      </DrawerHeader>
+      </Box>
       {/* <DrawerBody w="100%">
         <Tabs w="100%">
           <TabList w="100%">
