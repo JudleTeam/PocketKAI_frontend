@@ -11,7 +11,7 @@ import { useDisclosure } from '@chakra-ui/react';
 import { TeacherDrawer } from '../TeacherDrawer/TeacherDrawer';
 import React, { memo, useEffect } from 'react';
 import { TeacherDisciplineType } from '../../model/types';
-import { Drawer } from 'vaul';
+import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
 
 export const TeacherCard = memo(function TeacherCard({
   disciplineType,
@@ -48,19 +48,16 @@ export const TeacherCard = memo(function TeacherCard({
     }
   }, [themeColor, mainColor, isOpen]);
   return (
-    <Drawer.Root snapPoints={[0.6, 1]} fadeFromIndex={0}>
-      <Drawer.Trigger asChild>
-        <Box
+    <Drawer snapPoints={[0.6, 1]} fadeFromIndex={0}>
+      <DrawerTrigger asChild>
+        <div
+          className="flex justify-between items-center py-[10px]"
           id={disciplineType.teacher?.id}
           onClick={onOpen}
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          padding="10px 0"
         >
-          <Box display="flex" gap="10px" alignItems="center">
+          <div className="flex items-center gap-[10px]">
             <Avatar bg={mainElementColor} />
-            <Box>
+            <div>
               <Text color={mainTextColor} fontWeight="medium" fontSize="14px">
                 {disciplineType.teacher?.name ?? 'Преподаватель кафедры'}
               </Text>
@@ -84,32 +81,17 @@ export const TeacherCard = memo(function TeacherCard({
                       </React.Fragment>
                     ))}
               </Box>
-              <Box fontSize="14px"></Box>
-            </Box>
-          </Box>
-          <ArrowIcon transform="rotate(90deg)"></ArrowIcon>
-        </Box>
-      </Drawer.Trigger>
-
-      <Drawer.Portal>
-        <Drawer.Overlay className="fixed inset-0 bg-black/40 z-20" />
-        <Drawer.Content
-          className={
-            'flex flex-col ' +
-            'bg-white rounded-t-[25px] ' +
-            'mt-24 z-20 ' +
-            'h-[100%] max-h-[100%] ' +
-            'fixed bottom-0 left-0 right-0 ' +
-            'md:max-w-[550px] md:mx-auto lg:max-w-[50vw]'
-          }
-        >
-          <Drawer.Handle className="mt-2 w-2 h-2 bg-black" />
-          <TeacherDrawer
-            disciplineName={disciplineName}
-            disciplineType={disciplineType}
-          />
-        </Drawer.Content>
-      </Drawer.Portal>
-    </Drawer.Root>
+            </div>
+          </div>
+          <ArrowIcon transform="rotate(90deg)" />
+        </div>
+      </DrawerTrigger>
+      <DrawerContent>
+        <TeacherDrawer
+          disciplineName={disciplineName}
+          disciplineType={disciplineType}
+        />
+      </DrawerContent>
+    </Drawer>
   );
 });

@@ -1,13 +1,13 @@
 .app-layout {
-  height: 100%;
   margin: 0 auto;
   width: 92%;
-  padding: 5px 0 20px 0;
+  padding: 0px 0 20px 0;
+
   &__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 0 10px 0;
+    padding-block: 5px 10px;
   }
   &__select {
     font-weight: 500;

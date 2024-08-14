@@ -16,6 +16,7 @@ import { parityTypes } from '@/shared/constants';
 import { Link } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 import { Text, VStack, Box } from '@chakra-ui/react';
+import { DrawerTitle } from '@/shared/ui/drawer';
 const LessonDrawer = ({
   dayDate,
   lesson,
@@ -38,21 +39,14 @@ const LessonDrawer = ({
   );
   return (
     <>
-      <Box
-        w="95%"
-        padding="25px 0 0 0"
-        color={mainTextColor}
-        display="flex"
-        flexDirection="column"
-        gap="5px"
-      >
-        <Text fontSize="24px" fontWeight="bold">
+      <div className="flex flex-col gap-3 pt-5 text-l-main-text dark:text-d-main-text">
+        <DrawerTitle className="text-2xl font-bold">
           {lesson.discipline.name}
-        </Text>
-        <Text fontSize="24px" fontWeight="medium">
+        </DrawerTitle>
+        <p className="text-2xl font-medium">
           {lesson.start_time?.slice(0, -3)} {lesson.end_time && '-'}{' '}
           {lesson.end_time?.slice(0, -3)}
-        </Text>
+        </p>
         <Box
           display="flex"
           justifyContent="space-between"
@@ -167,7 +161,7 @@ const LessonDrawer = ({
             </Text>
           </Box>
         </Box>
-      </Box>
+      </div>
       {/* <DrawerBody w="100%">
         <Tabs w="100%">
           <TabList w="100%">

@@ -15,6 +15,7 @@ export function UiDatebar({
   );
   return (
     <HStack
+      bgColor={mainColor}
       boxShadow={`0px 10px 10px 10px ${mainColor}`}
       className={styles['datebar']}
       justifyContent={'space-around'}

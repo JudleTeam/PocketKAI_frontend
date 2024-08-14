@@ -9,6 +9,8 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  scrollbar-width: none;
+  scroll-padding-top: 160px;
 }
 body * {
   font-family: 'Montserrat';

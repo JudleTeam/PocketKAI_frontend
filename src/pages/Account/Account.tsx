@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, Text, Divider, useChakra } from '@chakra-ui/react';
+import { Box, Text, Divider, useChakra, useDisclosure } from '@chakra-ui/react';
 import { useUser, accountActions, useGroup } from '@/entities';
 import { Auth } from '@/features';
 import {
@@ -9,13 +9,12 @@ import {
   ExitIcon,
 } from '@/shared/assets';
 import { ACCOUNT_ACTIONS, USER_ACTIONS } from '@/shared/constants';
-import { UiDrawer } from '@/shared/ui/ui-drawer/UiDrawer';
 import styles from './Account.module.scss';
 import { useColorModeValue } from '@chakra-ui/react';
-import { useDrawerDisclosure } from '@/shared/ui/ui-drawer/lib/useDrawerDisclosure';
+import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
 export function Account() {
   const { homeGroup } = useGroup();
-  const { isOpen, onClose, onOpen } = useDrawerDisclosure();
+  const { isOpen, onClose } = useDisclosure();
   const { theme } = useChakra();
   const { user, logout } = useUser();
   const accountActionsColor = useColorModeValue(
@@ -45,7 +44,6 @@ export function Account() {
       } else {
         metaThemeColor.setAttribute('content', mainColor);
       }
-      console.log(metaThemeColor.getAttribute('content'));
     }
   }, [themeColor, mainColor, isOpen]);
   return (
@@ -100,36 +98,42 @@ export function Account() {
             ))}
           </Box>
         ) : (
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            onClick={onOpen}
-            padding="15px 20px"
-            transition="0.2s"
-            _active={{
-              bgColor: tab,
-              transition: '0.2s',
-              borderRadius: '8px',
-            }}
-          >
-            <Text
-              as={'span'}
-              display="flex"
-              gap="10px"
-              color={mainTextColor}
-              fontSize="16px"
-              fontWeight="medium"
-            >
-              <ProfileIcon w="24px" h="24px" color="gray.400" />
-              Войти в аккаунт
-            </Text>
-            <ArrowIcon
-              transform="rotate(90deg)"
-              color="gray.400"
-              w="24px"
-              h="24px"
-            />
-          </Box>
+          <Drawer>
+            <DrawerTrigger asChild>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                padding="15px 20px"
+                transition="0.2s"
+                _active={{
+                  bgColor: tab,
+                  transition: '0.2s',
+                  borderRadius: '8px',
+                }}
+              >
+                <Text
+                  as={'span'}
+                  display="flex"
+                  gap="10px"
+                  color={mainTextColor}
+                  fontSize="16px"
+                  fontWeight="medium"
+                >
+                  <ProfileIcon w="24px" h="24px" color="gray.400" />
+                  Войти в аккаунт
+                </Text>
+                <ArrowIcon
+                  transform="rotate(90deg)"
+                  color="gray.400"
+                  w="24px"
+                  h="24px"
+                />
+              </Box>
+            </DrawerTrigger>
+            <DrawerContent>
+              <Auth onClose={onClose} />
+            </DrawerContent>
+          </Drawer>
         )}
       </Box>
       <Box
@@ -179,11 +183,6 @@ export function Account() {
         w="100%"
         position="absolute"
         top={user ? '755px' : '630px'}
-      ></Box>
-      <UiDrawer
-        isOpen={isOpen}
-        onClose={onClose}
-        drawerActions={Auth(onClose)}
       />
     </Box>
   );

@@ -1,17 +1,5 @@
-import {
-  Text,
-  Box,
-  TabList,
-  Tab,
-  Tabs,
-  Divider,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverBody,
-  PopoverArrow,
-  PopoverHeader,
-} from '@chakra-ui/react';
+import { Text, Box, TabList, Tab, Tabs, Divider } from '@chakra-ui/react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import { Link } from 'react-router-dom';
 import { LessonTypes, WEEK_DAYS } from '@/shared/constants';
 import React, { useEffect, useState } from 'react';
@@ -53,9 +41,8 @@ export const TeacherDrawer = function TeacherDrawer({
   } = useColor();
   return (
     <Box
-      w="95%"
       h="100%"
-      padding="25px 0 0 0"
+      pt={5}
       color={mainTextColor}
       display="flex"
       flexDirection="column"
@@ -168,7 +155,7 @@ export const TeacherDrawer = function TeacherDrawer({
                       </Text>
                       {filteredTeacherSchedule.length > 0 ? (
                         filteredTeacherSchedule.map((lesson) => (
-                          <Popover placement="bottom">
+                          <Popover>
                             <PopoverTrigger>
                               <button style={{ width: '100%' }}>
                                 <TeacherLessonCard
@@ -177,40 +164,31 @@ export const TeacherDrawer = function TeacherDrawer({
                                 />
                               </button>
                             </PopoverTrigger>
-                            <PopoverContent bgColor={mainColor}>
-                              <PopoverArrow bg={mainColor} />
-                              <PopoverHeader
-                                fontSize="14px"
-                                fontWeight={'medium'}
-                                color={mainTextColor}
+                            <PopoverContent className="bg-white">
+                              <h4
+                                className={`text-sm font-medium text-[${mainTextColor}] `}
                               >
                                 {lesson.discipline.name}
-                              </PopoverHeader>
-                              <PopoverBody
-                                fontSize={'16px'}
-                                fontWeight={'medium'}
+                              </h4>
+                              <div className="flex flex-col text-md gap-2 font-medium">
                                 color={mainTextColor}
-                                display="flex"
-                                flexDirection={'column'}
-                                gap="5px"
-                              >
                                 {lesson.parsed_dates_status ===
                                 'good' ? null : (
                                   <Text>
                                     Даты проведения: {lesson.original_dates}
                                   </Text>
                                 )}
-                                <Box>
-                                  <Box display="flex" flexWrap={'wrap'}>
-                                    <Text>Группы:&nbsp;</Text>
-                                    {lesson.groups.map((group) => (
-                                      <React.Fragment key={group.id}>
-                                        {group.group_name}{' '}
-                                      </React.Fragment>
-                                    ))}
-                                  </Box>
+                              </div>
+                              <Box>
+                                <Box display="flex" flexWrap={'wrap'}>
+                                  <Text>Группы:&nbsp;</Text>
+                                  {lesson.groups.map((group) => (
+                                    <React.Fragment key={group.id}>
+                                      {group.group_name}{' '}
+                                    </React.Fragment>
+                                  ))}
                                 </Box>
-                              </PopoverBody>
+                              </Box>
                             </PopoverContent>
                           </Popover>
                         ))

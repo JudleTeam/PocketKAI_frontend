@@ -24,9 +24,10 @@ export function Teachers() {
       <Menu>
         <Box
           position="fixed"
+          top="70px"
           textAlign="left"
           w="90%"
-          zIndex="1"
+          zIndex="10"
           boxShadow={`0px 0px 10px 10px ${mainColor}`}
           bgColor={mainColor}
         >
@@ -40,7 +41,11 @@ export function Teachers() {
             bgColor={mainColor}
           >
             {layoutType === 'group'
-              ? `Преподаватели ${currentGroup?.group_name ? `гр. ${currentGroup.group_name}` : '' }`
+              ? `Преподаватели ${
+                  currentGroup?.group_name
+                    ? `гр. ${currentGroup.group_name}`
+                    : ''
+                }`
               : 'Поиск преподов'}
           </MenuButton>
         </Box>
