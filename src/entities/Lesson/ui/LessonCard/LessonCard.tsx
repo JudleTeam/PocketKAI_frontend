@@ -84,7 +84,7 @@ const LessonCard = memo(
             </div>
           </HStack>
         </DrawerTrigger>
-        <DrawerContent className={'h-[100%] max-h-[100%] '}>
+        <DrawerContent>
           <LessonDrawer lesson={lesson} dayDate={dayDate} />
         </DrawerContent>
       </Drawer>
