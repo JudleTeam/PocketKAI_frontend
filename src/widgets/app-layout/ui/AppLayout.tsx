@@ -93,30 +93,34 @@ export function AppLayout() {
     location.pathname.includes('schedule/exams');
   return (
     <div className={styles['app-layout']}>
-      <Box className={styles['app-layout__header']} bgColor={mainColor}>
-        <VStack
-          alignItems={'flex-start'}
-          fontWeight={'medium'}
-          color={mainTextColor}
-          gap={0.4}
-          onClick={() => scrollToToday(true)}
-        >
-          <Text fontSize={22}>
-            {DateTime.now().setLocale('ru').toFormat('d MMMM')}
-          </Text>
-          <Text>{parity && parityTypes[parity?.parity]}</Text>
-        </VStack>
-        <SelectGroup onOpen={onOpen} />
-      </Box>
-      <UiDatebar
-        isNotDatebar={isNotDatebar}
-        datebarContent={DatebarContent({
-          currentDay,
-          setCurrentDay,
-          swiperRef,
-        })}
-      />
-      <Outlet context={[currentDay, setCurrentDay] satisfies ContextType} />
+      <div className="bg-l-main dark:bg-d-main fixed top-0 left-0 z-50 w-full px-4">
+        <Box className={styles['app-layout__header']} bgColor={mainColor}>
+          <VStack
+            alignItems={'flex-start'}
+            fontWeight={'medium'}
+            color={mainTextColor}
+            gap={0.4}
+            onClick={() => scrollToToday(true)}
+          >
+            <Text fontSize={22}>
+              {DateTime.now().setLocale('ru').toFormat('d MMMM')}
+            </Text>
+            <Text>{parity && parityTypes[parity?.parity]}</Text>
+          </VStack>
+          <SelectGroup onOpen={onOpen} />
+        </Box>
+        <UiDatebar
+          isNotDatebar={isNotDatebar}
+          datebarContent={DatebarContent({
+            currentDay,
+            setCurrentDay,
+            swiperRef,
+          })}
+        />
+      </div>
+      <div className="pt-16">
+        <Outlet context={[currentDay, setCurrentDay] satisfies ContextType} />
+      </div>
       <UiModal
         isOpen={isOpen}
         onClose={onClose}

@@ -14,7 +14,7 @@ import { LessonTypes } from '@/shared/constants';
 import { getLessonState } from '../../lib/getLessonState';
 import { getLessonBuilding } from '@/shared/lib';
 import styles from './LessonCard.module.scss';
-import { Drawer } from 'vaul';
+import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
 import LessonDrawer from '../LessonDrawer/LessonDrawer';
 
 const LessonCard = memo(
@@ -23,10 +23,6 @@ const LessonCard = memo(
     const mainTextColor = useColorModeValue(
       'light.main_text',
       'dark.main_text'
-    );
-    const blueLightElementColor = useColorModeValue(
-      'light.blue_light_element',
-      'dark.blue_light_element'
     );
     const themeColor = useColorModeValue('#858585', '#0E1117');
     const { theme } = useChakra();
@@ -46,8 +42,8 @@ const LessonCard = memo(
     }, [themeColor, mainColor, isOpen]);
 
     return (
-      <Drawer.Root snapPoints={[0.6, 1]} fadeFromIndex={0}>
-        <Drawer.Trigger asChild>
+      <Drawer snapPoints={[0.6, 1]} fadeFromIndex={0}>
+        <DrawerTrigger asChild>
           <HStack
             onClick={onOpen}
             className={styles['lesson-card']}
@@ -63,8 +59,7 @@ const LessonCard = memo(
                   : 'Н/Д'}
               </Text>
               <Text
-                className={styles['lesson-card__time--end']}
-                color={blueLightElementColor}
+                className={`${styles['lesson-card__time--end']} text-l-blue-light-element dark:text-d-blue-light-element`}
               >
                 {lesson.end_time &&
                   DateTime.fromISO(lesson.end_time).toFormat('HH:mm')}
@@ -97,24 +92,11 @@ const LessonCard = memo(
               </Text>
             </div>
           </HStack>
-        </Drawer.Trigger>
-        <Drawer.Portal>
-          <Drawer.Overlay className="fixed inset-0 bg-black/40 z-20" />
-          <Drawer.Content
-            className={
-              'flex flex-col ' +
-              'bg-white rounded-t-[25px] ' +
-              'mt-24 z-20 ' +
-              'h-[100%] max-h-[100%] ' +
-              'fixed bottom-0 left-0 right-0 ' +
-              'md:max-w-[550px] md:mx-auto lg:max-w-[50vw]'
-            }
-          >
-            <Drawer.Handle className="mt-2 w-2 h-2 bg-black" />
-            <LessonDrawer lesson={lesson} dayDate={dayDate} />
-          </Drawer.Content>
-        </Drawer.Portal>
-      </Drawer.Root>
+        </DrawerTrigger>
+        <DrawerContent className={'h-[100%] max-h-[100%] '}>
+          <LessonDrawer lesson={lesson} dayDate={dayDate} />
+        </DrawerContent>
+      </Drawer>
     );
   }
 );

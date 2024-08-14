@@ -8,8 +8,8 @@ import LessonDrawer from '../LessonDrawer/LessonDrawer';
 import { useDisclosure } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/react';
 import styles from './FadedLessonCard.module.scss';
-import { UiDrawer } from '@/shared/ui/ui-drawer/UiDrawer';
 import { useEffect } from 'react';
+import { Drawer, DrawerTrigger, DrawerContent } from '@/shared/ui/drawer';
 
 export function FadedLessonCard({
   lesson,
@@ -18,7 +18,7 @@ export function FadedLessonCard({
   lesson: Lesson;
   dayDate: string;
 }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen } = useDisclosure();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const themeColor = useColorModeValue('#858585', '#0E1117');
   const { theme } = useChakra();
@@ -38,48 +38,48 @@ export function FadedLessonCard({
   }, [themeColor, mainColor, isOpen]);
 
   return (
-    <>
-      <HStack
-        onClick={onOpen}
-        className={styles['lesson-card']}
-        alignItems="flex-start"
-      >
-        <div className={styles['lesson-card__time']}>
-          <Text
-            className={styles['lesson-card__time--start']}
-            color={mainTextColor}
-          >
-            00:00
-          </Text>
-        </div>
-        <div className={styles['lesson-card__timeline']}>
-          {lessonStateIcons[getLessonState(lesson, dayDate).state]}
-          {lessonStateLine(getLessonState(lesson, dayDate).color)}
-        </div>
-        <div className={styles['lesson-card__info']}>
-          <Text
-            color={mainTextColor}
-            fontWeight="bold"
-            lineHeight={1.3}
-            className={styles['lesson-card__name']}
-            noOfLines={2}
-          >
-            {lesson.discipline.name}
-          </Text>
-          {/* <Text color={mainTextColor} fontWeight={'medium'}>
+    <Drawer>
+      <DrawerTrigger asChild>
+        <HStack
+          onClick={onOpen}
+          className={styles['lesson-card']}
+          alignItems="flex-start"
+        >
+          <div className={styles['lesson-card__time']}>
+            <Text
+              className={styles['lesson-card__time--start']}
+              color={mainTextColor}
+            >
+              00:00
+            </Text>
+          </div>
+          <div className={styles['lesson-card__timeline']}>
+            {lessonStateIcons[getLessonState(lesson, dayDate).state]}
+            {lessonStateLine(getLessonState(lesson, dayDate).color)}
+          </div>
+          <div className={styles['lesson-card__info']}>
+            <Text
+              color={mainTextColor}
+              fontWeight="bold"
+              lineHeight={1.3}
+              className={styles['lesson-card__name']}
+              noOfLines={2}
+            >
+              {lesson.discipline.name}
+            </Text>
+            {/* <Text color={mainTextColor} fontWeight={'medium'}>
             {getLessonBuilding(lesson.building_number, lesson.audience_number)}
           </Text> */}
-          <Text fontWeight={'meduim'}>
-            {lesson.parsed_lesson_type &&
-              LessonTypes[lesson.parsed_lesson_type]}
-          </Text>
-        </div>
-      </HStack>
-      <UiDrawer
-        isOpen={isOpen}
-        onClose={onClose}
-        drawerActions={<LessonDrawer dayDate={dayDate} lesson={lesson} />}
-      />
-    </>
+            <Text fontWeight={'meduim'}>
+              {lesson.parsed_lesson_type &&
+                LessonTypes[lesson.parsed_lesson_type]}
+            </Text>
+          </div>
+        </HStack>
+      </DrawerTrigger>
+      <DrawerContent>
+        <LessonDrawer lesson={lesson} dayDate={dayDate} />
+      </DrawerContent>
+    </Drawer>
   );
 }

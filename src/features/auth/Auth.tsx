@@ -1,9 +1,6 @@
 import {
   Input,
   Button,
-  DrawerHeader,
-  DrawerBody,
-  DrawerFooter,
   useColorModeValue,
   Spinner,
   Text,
@@ -20,7 +17,7 @@ import { useEffect, useState } from 'react';
 import { getRandomPhrase } from './lib/getRandomPhrase';
 import { useNavigate } from 'react-router-dom';
 import { getErrorText } from './lib/getErrorText';
-export function Auth(onClose: () => void) {
+export function Auth({ onClose }: { onClose: () => void }) {
   const {
     reset,
     handleSubmit,
@@ -61,18 +58,19 @@ export function Auth(onClose: () => void) {
   };
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <DrawerHeader
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-1">
+      <Box
         fontSize={'24px'}
         fontWeight={'600'}
         color={mainTextColor}
-        margin={'0 auto'}
+        mx={'auto'}
+        mt={4}
         textAlign={'center'}
       >
         Вход в аккаунт
-      </DrawerHeader>
+      </Box>
       {userAuthStatus === 'loading' && (
-        <DrawerBody
+        <Box
           display="flex"
           flexDirection="column"
           justifyContent="center"
@@ -83,11 +81,11 @@ export function Auth(onClose: () => void) {
           <Box maxW="250px" textAlign={'center'}>
             <Text>{phrase}...</Text>
           </Box>
-        </DrawerBody>
+        </Box>
       )}
 
       {userAuthStatus === 'success' && (
-        <DrawerBody
+        <Box
           display="flex"
           flexDirection="column"
           justifyContent="center"
@@ -96,12 +94,12 @@ export function Auth(onClose: () => void) {
         >
           <CheckCircleIcon w="80px" h="80px" color="green.500" />
           <Text>Успешно</Text>
-        </DrawerBody>
+        </Box>
       )}
 
       {(userAuthStatus === 'idle' || userAuthStatus === 'error') && (
-        <>
-          <DrawerBody display="flex" flexDirection="column" gap="20px">
+        <div className="flex flex-col gap-5">
+          <Box display="flex" flexDirection="column" gap="20px">
             {<Text>{!!error && getErrorText(error)}</Text>}
             <Box>
               <Input
@@ -126,8 +124,8 @@ export function Auth(onClose: () => void) {
                 </Text>
               )}
             </Box>
-          </DrawerBody>
-          <DrawerFooter w="100%" display="flex" justifyContent="center">
+          </Box>
+          <Box w="100%" display="flex" justifyContent="center">
             <Button w="50%" colorScheme="blue" mr={3} type="submit">
               Войти
             </Button>
@@ -139,8 +137,8 @@ export function Auth(onClose: () => void) {
             >
               Отмена
             </Button>
-          </DrawerFooter>
-        </>
+          </Box>
+        </div>
       )}
     </form>
   );

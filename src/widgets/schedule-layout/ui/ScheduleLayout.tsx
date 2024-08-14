@@ -17,9 +17,8 @@ import { scrollToToday } from '@/shared/lib';
 export function ScheduleLayout() {
   const today = getTodayDate();
   const { schedule } = useSchedule();
-  const { lowerRef, scheduleContainerRef } = useInfiniteScroll();
+  const { upperRef, lowerRef, scheduleContainerRef } = useInfiniteScroll();
   const { showButton, position: todayBlockPosition } = useGoUpButton();
-  //console.log(todayBlockPosition);
   const { theme } = useChakra();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const mainElementColor = useColorModeValue(
@@ -32,11 +31,11 @@ export function ScheduleLayout() {
       className={styles['schedule']}
       ref={scheduleContainerRef}
     >
-      {/* <Stack ref={upperRef}>
+      <Stack ref={upperRef}>
         <Skeleton height="20px" />
         <Skeleton height="20px" />
         <Skeleton height="20px" />
-      </Stack> */}
+      </Stack>
       {schedule?.days.map((day) => (
         <div key={day.date} className={styles['day']} id={day.date}>
           <Text
