@@ -1,25 +1,20 @@
 import { memo, useEffect } from 'react';
-import {
-  HStack,
-  Text,
-  useDisclosure,
-  useColorModeValue,
-  useChakra,
-} from '@chakra-ui/react';
+import { HStack, Text, useColorModeValue, useChakra } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
 import { Lesson } from '@/shared';
 import { lessonStateIcons } from '@/shared/constants';
 import { lessonStateLine } from '../../constants/lessonStateLine';
 import { LessonTypes } from '@/shared/constants';
 import { getLessonState } from '../../lib/getLessonState';
-import { getLessonBuilding } from '@/shared/lib';
+import { getLessonBuilding, useDisclosure } from '@/shared/lib';
 import styles from './LessonCard.module.scss';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
 import LessonDrawer from '../LessonDrawer/LessonDrawer';
 
 const LessonCard = memo(
   ({ lesson, dayDate }: { lesson: Lesson; dayDate: string }) => {
-    const { isOpen, onOpen } = useDisclosure();
+    const { isOpen, setIsOpen } = useDisclosure();
+
     const mainTextColor = useColorModeValue(
       'light.main_text',
       'dark.main_text'
@@ -42,13 +37,9 @@ const LessonCard = memo(
     }, [themeColor, mainColor, isOpen]);
 
     return (
-      <Drawer snapPoints={[0.6, 1]} fadeFromIndex={0}>
+      <Drawer open={isOpen} onOpenChange={setIsOpen}>
         <DrawerTrigger asChild>
-          <HStack
-            onClick={onOpen}
-            className={styles['lesson-card']}
-            alignItems="flex-start"
-          >
+          <HStack className={styles['lesson-card']} alignItems="flex-start">
             <div className={styles['lesson-card__time']}>
               <Text
                 className={styles['lesson-card__time--start']}

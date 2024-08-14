@@ -8,8 +8,8 @@ export function TeacherLessonCard({ lesson }: { lesson: TeacherLesson }) {
   const { mainTextColor } = useColor();
   return (
     <Box
+      className="w-full"
       onClick={onOpen}
-      w="100%"
       borderRadius="8px"
       padding="8px 0"
       display="flex"

@@ -1,19 +1,28 @@
 import * as React from 'react';
 import { Drawer as DrawerPrimitive } from 'vaul';
 
-import { cn } from '@/shared/lib';
+import { cn, useDrawerPopstateClose } from '@/shared/lib';
 
 const Drawer = ({
-  shouldScaleBackground = true,
+  open = false,
+  snapPoints = [0.6, 1],
+  activeSnapPoint = 0.6,
+  onOpenChange = () => {},
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Root>) => (
-  <DrawerPrimitive.Root
-    snapPoints={[0.6, 1]}
-    fadeFromIndex={0}
-    shouldScaleBackground={shouldScaleBackground}
-    {...props}
-  />
-);
+}: React.ComponentProps<typeof DrawerPrimitive.Root>) => {
+  useDrawerPopstateClose(open, onOpenChange);
+  return (
+    <DrawerPrimitive.Root
+      activeSnapPoint={activeSnapPoint}
+      snapPoints={snapPoints}
+      fadeFromIndex={0}
+      open={open}
+      onOpenChange={onOpenChange}
+      closeThreshold={0.6}
+      {...props}
+    />
+  );
+};
 Drawer.displayName = 'Drawer';
 
 const DrawerTrigger = DrawerPrimitive.Trigger;
@@ -49,7 +58,7 @@ const DrawerContent = React.forwardRef<
       {...props}
     >
       <div className="mx-auto mt-4 min-h-1.5 w-[100px] rounded-full bg-gray-300" />
-
+      <DrawerClose className="absolute top-2 right-6">✕</DrawerClose>
       {children}
     </DrawerPrimitive.Content>
   </DrawerPortal>

@@ -37,6 +37,7 @@ const LessonDrawer = ({
     'light.tab_teacher',
     'dark.tab_teacher'
   );
+
   return (
     <>
       <div className="flex flex-col gap-3 pt-5 text-l-main-text dark:text-d-main-text">
