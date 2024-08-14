@@ -1,12 +1,16 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export const useDrawerCloseEvent = (onClose: () => void, isOpen: boolean) => {
+export const useDrawerPopstateClose = (
+  isOpen: boolean,
+  setIsOpen: (isOpen: boolean) => void
+) => {
   const navigate = useNavigate();
   useEffect(() => {
+    if (!setIsOpen) return;
     const onBackButtonEvent = (event: PopStateEvent) => {
       event.preventDefault();
-      onClose();
+      setIsOpen(false);
       navigate(1);
     };
     if (isOpen) {
@@ -17,5 +21,5 @@ export const useDrawerCloseEvent = (onClose: () => void, isOpen: boolean) => {
     return () => {
       window.removeEventListener('popstate', onBackButtonEvent);
     };
-  }, [isOpen, onClose, navigate]);
+  }, [isOpen, navigate, setIsOpen]);
 };

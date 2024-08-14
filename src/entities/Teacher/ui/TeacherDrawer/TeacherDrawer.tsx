@@ -156,7 +156,7 @@ export const TeacherDrawer = function TeacherDrawer({
                       {filteredTeacherSchedule.length > 0 ? (
                         filteredTeacherSchedule.map((lesson) => (
                           <Popover>
-                            <PopoverTrigger>
+                            <PopoverTrigger asChild>
                               <button style={{ width: '100%' }}>
                                 <TeacherLessonCard
                                   lesson={lesson}

@@ -1,10 +1,9 @@
 import { Lesson } from '@/shared';
 import { Box, VStack, Text, useChakra } from '@chakra-ui/react';
 import { LessonTypes } from '@/shared/constants';
-import { getLessonBuilding } from '@/shared/lib';
+import { getLessonBuilding, useDisclosure } from '@/shared/lib';
 import { ArrowIcon } from '@/shared/assets/chakraIcons/ArrowIcon';
 import { FullLessonDrawer } from '../FullLessonDrawer/FullLessonDrawer';
-import { useDisclosure } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/react';
 import { memo, useEffect } from 'react';
 import { Drawer, DrawerTrigger, DrawerContent } from '@/shared/ui/drawer';
@@ -15,7 +14,7 @@ export const FullLessonCard = memo(function FullLessonCard({
   lesson: Lesson;
   variant?: 'light' | 'dark';
 }) {
-  const { isOpen, onOpen } = useDisclosure();
+  const { isOpen, setIsOpen } = useDisclosure();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const cardColor = useColorModeValue('light.card', 'dark.card');
   const themeColor = useColorModeValue('#858585', '#0E1117');
@@ -24,7 +23,6 @@ export const FullLessonCard = memo(function FullLessonCard({
     theme.colors.light.main,
     theme.colors.dark.main
   );
-  console.log(isOpen);
   useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
@@ -37,10 +35,9 @@ export const FullLessonCard = memo(function FullLessonCard({
   }, [themeColor, mainColor, isOpen]);
 
   return (
-    <Drawer open={isOpen}>
+    <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
         <Box
-          onClick={onOpen}
           w="100%"
           bgColor={variant === 'dark' ? cardColor : 'none'}
           borderRadius="8px"
@@ -81,7 +78,7 @@ export const FullLessonCard = memo(function FullLessonCard({
             </Text>
           </VStack>
           <VStack alignItems="center" justifyContent="center">
-            <ArrowIcon transform="rotate(90deg)" color="gray.400"></ArrowIcon>
+            <ArrowIcon transform="rotate(90deg)" color="gray.400" />
           </VStack>
         </Box>
       </DrawerTrigger>

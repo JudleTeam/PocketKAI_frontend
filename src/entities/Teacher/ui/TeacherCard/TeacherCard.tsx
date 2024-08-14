@@ -7,11 +7,16 @@ import {
 } from '@chakra-ui/react';
 import { ArrowIcon } from '@/shared/assets';
 import { LessonTypes } from '@/shared/constants';
-import { useDisclosure } from '@chakra-ui/react';
 import { TeacherDrawer } from '../TeacherDrawer/TeacherDrawer';
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { TeacherDisciplineType } from '../../model/types';
-import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerTrigger,
+} from '@/shared/ui/drawer';
+import { useDisclosure } from '@/shared/lib';
 
 export const TeacherCard = memo(function TeacherCard({
   disciplineType,
@@ -20,7 +25,8 @@ export const TeacherCard = memo(function TeacherCard({
   disciplineType: TeacherDisciplineType;
   disciplineName: string;
 }) {
-  const { isOpen, onOpen } = useDisclosure();
+  const { isOpen, setIsOpen, onOpen } = useDisclosure();
+
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const mainElementColor = useColorModeValue(
     'light.main_element',
@@ -36,7 +42,7 @@ export const TeacherCard = memo(function TeacherCard({
     if (location.hash.slice(1) === disciplineType.teacher?.id) {
       onOpen();
     }
-  }, [disciplineType.teacher?.id, onOpen]);
+  }, [disciplineType.teacher?.id, isOpen, onOpen]);
   useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
@@ -48,12 +54,12 @@ export const TeacherCard = memo(function TeacherCard({
     }
   }, [themeColor, mainColor, isOpen]);
   return (
-    <Drawer snapPoints={[0.6, 1]} fadeFromIndex={0}>
+    <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
         <div
           className="flex justify-between items-center py-[10px]"
           id={disciplineType.teacher?.id}
-          onClick={onOpen}
+          onClick={() => setIsOpen(true)}
         >
           <div className="flex items-center gap-[10px]">
             <Avatar bg={mainElementColor} />
