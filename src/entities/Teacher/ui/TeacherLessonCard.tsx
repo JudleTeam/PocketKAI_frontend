@@ -31,16 +31,15 @@ export function TeacherLessonCard({ lesson }: { lesson: TeacherLesson }) {
           {lesson.parsed_dates_status === 'need_check' ? '! ' : null}
           {lesson.discipline.name}
         </Text>
-
+        <Text textAlign={'center'} fontSize="16px">
+          {lesson.parsed_lesson_type ? LessonTypes[lesson.parsed_lesson_type] : lesson.original_lesson_type}
+        </Text>
         <Text color="gray.400" fontWeight="medium" fontSize="20px">
           {lesson.start_time?.slice(0, 5)} {lesson.end_time && '-'}{' '}
           {lesson.end_time?.slice(0, 5)}
         </Text>
       </VStack>
       <VStack w="40%" alignItems="center" justify={'center'} gap="0">
-        <Text textAlign={'center'} fontSize="14px">
-          {lesson.parsed_lesson_type && LessonTypes[lesson.parsed_lesson_type]}
-        </Text>
         <Text
           fontWeight="medium"
           fontSize="14px"

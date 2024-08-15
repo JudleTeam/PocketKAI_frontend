@@ -1,6 +1,6 @@
 import { Lesson } from '@/shared';
 import { DateTime } from 'luxon';
-import { getLessonBuilding } from '@/shared/lib';
+import { getLessonBuilding, useColor } from '@/shared/lib';
 import { LessonTypes } from '@/shared/constants';
 import {
   Avatar,
@@ -33,11 +33,7 @@ const LessonDrawer = ({
     'light.main_element',
     'dark.main_element'
   );
-  const tabTeacherColor = useColorModeValue(
-    'light.tab_teacher',
-    'dark.tab_teacher'
-  );
-
+  const {cardColor, tabTeacher} = useColor()
   return (
     <>
       <div className="flex flex-col gap-3 pt-5 text-l-main-text dark:text-d-main-text">
@@ -84,7 +80,7 @@ const LessonDrawer = ({
           </VStack>
         </Box>
         {lesson.parsed_dates && lesson.parsed_dates_status === 'good' ? (
-          <Text fontWeight="medium" fontSize="18px">
+          <Text fontWeight="medium" fontSize="18px" color={mainTextColor}>
             Даты проведения пары:{' '}
             {lesson.parsed_dates
               .map((date) =>
@@ -112,18 +108,20 @@ const LessonDrawer = ({
             </PopoverTrigger>
             <PopoverContent>
               <PopoverArrow />
-              <PopoverBody fontSize="14px" color={mainTextColor}>
+              <PopoverBody fontSize="14px">
+                <Text fontSize={'14px'} color={mainTextColor}>
                 {lesson.parsed_dates
                   .map((date) =>
                     DateTime.fromISO(date).setLocale('ru').toFormat('dd MMMM')
                   )
                   .join(', ')}
+                  </Text>
               </PopoverBody>
             </PopoverContent>
           </Popover>
         ) : lesson.original_dates &&
           lesson.parsed_dates_status == 'need_check' ? (
-          <Text fontWeight="medium" fontSize="18px">
+          <Text fontWeight="medium" fontSize="18px" color={mainTextColor}>
             Даты проведения пары: {lesson.original_dates}
           </Text>
         ) : null}
@@ -141,14 +139,14 @@ const LessonDrawer = ({
           as={HashLink}
           to={lesson.teacher ? `/teachers#${lesson?.teacher?.id}` : '/teachers'}
           boxShadow={`0px 0px 5px 0px ${tab}`}
-          bgColor={tab}
+          bgColor={cardColor}
           borderRadius="16px"
           padding="14px"
           display="flex"
           alignItems="center"
           gap="15px"
           transition="0.2s"
-          _active={{ bgColor: tabTeacherColor, transition: '0.2s' }}
+          _active={{ bgColor: tabTeacher, transition: '0.2s' }}
         >
           <Avatar bg={mainElementColor} />
           <Box>

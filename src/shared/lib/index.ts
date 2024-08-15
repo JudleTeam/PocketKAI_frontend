@@ -1,3 +1,5 @@
+export { getWeekParity } from './helpers/getWeekParity';
+
 export { useDrawerPopstateClose } from './hooks/useDrawerPopstateClose';
 
 export { useDisclosure } from './hooks/useDisclosure';
