@@ -1,5 +1,16 @@
-import { Text, Box, TabList, Tab, Tabs, Divider } from '@chakra-ui/react';
-import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
+import {
+  Text,
+  Box,
+  TabList,
+  Tab,
+  Tabs,
+  Divider,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow
+} from '@chakra-ui/react';
+
 import { Link } from 'react-router-dom';
 import { LessonTypes, WEEK_DAYS } from '@/shared/constants';
 import React, { useEffect, useState } from 'react';
@@ -8,6 +19,7 @@ import { useColor } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader/Loader';
 import { TeacherLessonCard } from '../TeacherLessonCard';
 import { TeacherDisciplineType } from '../../model/types';
+import { getWeekParity } from '@/shared/lib';
 export const TeacherDrawer = function TeacherDrawer({
   disciplineType,
   disciplineName,
@@ -15,7 +27,12 @@ export const TeacherDrawer = function TeacherDrawer({
   disciplineType: TeacherDisciplineType;
   disciplineName: string;
 }) {
-  const [weekParity, setWeekParity] = useState<'even' | 'odd'>('even');
+  const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
+  const [weekParity, setWeekParity] = useState<'even' | 'odd'>(getWeekParity());
+  const numberParity = {
+    'even': 0,
+    'odd': 1
+  }
   const {
     teacherScheduleStatus,
     teacherSchedule,
@@ -38,10 +55,12 @@ export const TeacherDrawer = function TeacherDrawer({
     drawerColor,
     secondElementColor,
     secondElementLightColor,
+    cardColor,
   } = useColor();
   return (
     <Box
       h="100%"
+      position="relative"
       pt={5}
       color={mainTextColor}
       display="flex"
@@ -88,6 +107,7 @@ export const TeacherDrawer = function TeacherDrawer({
           variant="unstyled"
           overflowY={'auto'}
           style={{ scrollbarWidth: 'none' }}
+          defaultIndex={numberParity[weekParity]}
         >
           <TabList
             padding="5px"
@@ -106,7 +126,7 @@ export const TeacherDrawer = function TeacherDrawer({
                 fontSize: '16px',
                 boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
                 borderRadius: '4px',
-                bgColor: mainColor,
+                bgColor: cardColor,
               }}
               color={secondElementColor}
               fontWeight="medium"
@@ -120,7 +140,7 @@ export const TeacherDrawer = function TeacherDrawer({
                 fontSize: '16px',
                 boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
                 borderRadius: '4px',
-                bgColor: mainColor,
+                bgColor: cardColor,
               }}
               color={secondElementColor}
               fontWeight="medium"
@@ -130,13 +150,13 @@ export const TeacherDrawer = function TeacherDrawer({
             </Tab>
           </TabList>
           <Box
-            pos={'relative'}
             minH={200}
             mb={'30px'}
             onClick={(e) => e.stopPropagation()}
             display="flex"
             flexDirection="column"
             gap="10px"
+            position="relative"
           >
             <Loader status={teacherScheduleStatus} idleMessage="">
               {teacherSchedule[weekParity].length > 0 ? (
@@ -145,7 +165,7 @@ export const TeacherDrawer = function TeacherDrawer({
                     weekParity
                   ].filter((lesson) => lesson.number_of_day === index + 1);
                   return (
-                    <Box>
+                    <Box position="relative">
                       <Text
                         fontSize={20}
                         fontWeight={'medium'}
@@ -155,8 +175,16 @@ export const TeacherDrawer = function TeacherDrawer({
                       </Text>
                       {filteredTeacherSchedule.length > 0 ? (
                         filteredTeacherSchedule.map((lesson) => (
-                          <Popover>
-                            <PopoverTrigger asChild>
+                          <Popover
+                            isLazy
+                            key={lesson.id}
+                            isOpen={openPopoverId === lesson.id}
+                            onOpen={() =>
+                              lesson.id && setOpenPopoverId(lesson.id)
+                            }
+                            onClose={() => setOpenPopoverId(null)}
+                          >
+                            <PopoverTrigger>
                               <button style={{ width: '100%' }}>
                                 <TeacherLessonCard
                                   lesson={lesson}
@@ -164,14 +192,19 @@ export const TeacherDrawer = function TeacherDrawer({
                                 />
                               </button>
                             </PopoverTrigger>
-                            <PopoverContent className="bg-white">
+                            <PopoverContent
+                              style={{
+                                backgroundColor: mainColor,
+                                padding: '10px',
+                              }}
+                            >
+                              <PopoverArrow bg={mainColor} />
                               <h4
                                 className={`text-sm font-medium text-[${mainTextColor}] `}
                               >
                                 {lesson.discipline.name}
                               </h4>
                               <div className="flex flex-col text-md gap-2 font-medium">
-                                color={mainTextColor}
                                 {lesson.parsed_dates_status ===
                                 'good' ? null : (
                                   <Text>

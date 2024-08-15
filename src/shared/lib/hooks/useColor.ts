@@ -31,8 +31,8 @@ export const useColor = () => {
     theme.colors.light.card,
     theme.colors.dark.card
   );
-  const themeColor = useColorModeValue('#858585', '#0E1117');
-  const drawerColor = useColorModeValue('#fff', '#2D3748')
+  const themeColor = useColorModeValue('#999999', '#10131A');
+  const drawerColor = useColorModeValue('#fff', '#1A202C')
   return {
     mainTextColor,
     mainElementColor,
