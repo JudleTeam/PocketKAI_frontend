@@ -137,7 +137,7 @@ const LessonDrawer = ({
         </Text>
         <Box
           as={HashLink}
-          to={lesson.teacher ? `/teachers#${lesson?.teacher?.id}` : '/teachers'}
+          to={lesson.teacher ? `/teachers#${lesson?.teacher?.id}&${lesson.discipline.id}` : '/teachers'}
           boxShadow={`0px 0px 5px 0px ${tab}`}
           bgColor={cardColor}
           borderRadius="16px"

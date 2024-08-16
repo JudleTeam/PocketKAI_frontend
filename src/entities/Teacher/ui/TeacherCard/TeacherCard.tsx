@@ -14,18 +14,27 @@ import { useColor, useDisclosure } from '@/shared/lib';
 export const TeacherCard = memo(function TeacherCard({
   disciplineType,
   disciplineName,
+  disciplineId
 }: {
   disciplineType: TeacherDisciplineType;
   disciplineName: string;
+  disciplineId: string[];
 }) {
   const { isOpen, setIsOpen, onOpen } = useDisclosure();
 
   const {mainTextColor, themeColor, mainColor, mainElementColor} = useColor();
   useEffect(() => {
-    if (!isOpen && location.hash.slice(1) === disciplineType.teacher?.id) {
-      onOpen();
+    const hashValue = location.hash.slice(1)
+    const [teacherId, disciplineHashId] = hashValue.split('&')
+    disciplineId.map(id => 
+    {
+      if(!isOpen && teacherId === disciplineType.teacher?.id && id === disciplineHashId){
+        onOpen();
+      }
     }
-  }, [disciplineType.teacher?.id, isOpen, onOpen]);
+    )
+
+  }, [disciplineId, disciplineType.teacher?.id, isOpen, onOpen]);
   useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
