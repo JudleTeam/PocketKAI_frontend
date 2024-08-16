@@ -39,10 +39,12 @@ export const TeacherCard = memo(function TeacherCard({
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-        <div
-          className="flex justify-between items-center py-[10px]"
+        <Box
+          className='flex justify-between items-center py-[10px]'
           id={disciplineType.teacher?.id}
           onClick={() => setIsOpen(true)}
+          transition='0.2s'
+          _active={{ opacity: 0.5, transition: '0.2s'}}
         >
           <div className="flex items-center gap-[10px]">
             <Avatar bg={mainElementColor} />
@@ -73,7 +75,7 @@ export const TeacherCard = memo(function TeacherCard({
             </div>
           </div>
           <ArrowIcon transform="rotate(90deg)" />
-        </div>
+        </Box>
       </DrawerTrigger>
       <DrawerContent>
         <TeacherDrawer

@@ -14,7 +14,7 @@ import LessonDrawer from '../LessonDrawer/LessonDrawer';
 const LessonCard = memo(
   ({ lesson, dayDate }: { lesson: Lesson; dayDate: string }) => {
     const { isOpen, setIsOpen } = useDisclosure();
-    const {themeColor, mainTextColor, mainColor} = useColor();
+    const { themeColor, mainTextColor, mainColor } = useColor();
     useEffect(() => {
       const metaThemeColor = document.querySelector('meta[name="theme-color"]');
       if (metaThemeColor) {
@@ -29,7 +29,12 @@ const LessonCard = memo(
     return (
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
         <DrawerTrigger asChild>
-          <HStack className={styles['lesson-card']} alignItems="flex-start">
+          <HStack
+            className={styles['lesson-card']}
+            alignItems="flex-start"
+            transition="0.2s"
+            _active={{ opacity: 0.5, transition: '0.2s' }}
+          >
             <div className={styles['lesson-card__time']}>
               <Text
                 className={styles['lesson-card__time--start']}

@@ -37,6 +37,8 @@ export function FadedLessonCard({
           onClick={() => setIsOpen(true)}
           className={styles['lesson-card']}
           alignItems="flex-start"
+          transition="0.2s"
+          _active={{ opacity: 0.2, transition: '0.2s' }}
         >
           <div className={styles['lesson-card__time']}>
             <Text

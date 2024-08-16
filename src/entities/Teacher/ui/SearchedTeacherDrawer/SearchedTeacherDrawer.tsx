@@ -38,6 +38,7 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
     drawerColor,
     secondElementColor,
     secondElementLightColor,
+    cardColor,
   } = useColor();
   return (
     <Box
@@ -91,7 +92,7 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
                 fontSize: '16px',
                 boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
                 borderRadius: '4px',
-                bgColor: mainColor,
+                bgColor: cardColor,
               }}
               color={secondElementColor}
               fontWeight="medium"
@@ -105,7 +106,7 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
                 fontSize: '16px',
                 boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
                 borderRadius: '4px',
-                bgColor: mainColor,
+                bgColor: cardColor,
               }}
               color={secondElementColor}
               fontWeight="medium"
@@ -123,7 +124,7 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
             flexDirection="column"
             gap="10px"
           >
-             <Loader status={teacherScheduleStatus} idleMessage="">
+            <Loader status={teacherScheduleStatus} idleMessage="">
               {teacherSchedule[weekParity].length > 0 ? (
                 Object.values(WEEK_DAYS).map((day, index) => {
                   const filteredTeacherSchedule = teacherSchedule[
@@ -140,8 +141,9 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
                       </Text>
                       {filteredTeacherSchedule.length > 0 ? (
                         filteredTeacherSchedule.map((lesson) => (
-                          <Popover placement="bottom"
-                          isLazy
+                          <Popover
+                            placement="bottom"
+                            isLazy
                             key={lesson.id}
                             isOpen={openPopoverId === lesson.id}
                             onOpen={() =>
@@ -160,8 +162,8 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
                             <PopoverContent bgColor={mainColor}>
                               <PopoverArrow bg={mainColor} />
                               <PopoverHeader
-                                fontSize="14px"
-                                fontWeight={'medium'}
+                                fontSize="16px"
+                                fontWeight={'bold'}
                                 color={mainTextColor}
                               >
                                 {lesson.discipline.name}
@@ -180,7 +182,7 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
                                     Даты проведения: {lesson.original_dates}
                                   </Text>
                                 )}
-                                <Box display='flex' flexWrap={'wrap'}>
+                                <Box display="flex" flexWrap={'wrap'}>
                                   <Text>Группы:&nbsp;</Text>
                                   {lesson.groups.map((group) => (
                                     <React.Fragment key={group.id}>

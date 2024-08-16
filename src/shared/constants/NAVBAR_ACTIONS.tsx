@@ -22,7 +22,7 @@ export const NAVBAR_ACTIONS = [
     icon: AssignmentIcon,
   },
   {
-    label: 'Преподы',
+    label: 'Педагоги',
     path: '/teachers',
     icon: TeachersIcon,
   },

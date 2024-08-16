@@ -1,9 +1,4 @@
-import {
-  Box,
-  Text,
-  Divider,
-  Avatar
-} from '@chakra-ui/react';
+import { Box, Text, Divider, Avatar } from '@chakra-ui/react';
 import { ArrowIcon } from '@/shared/assets';
 import { Teacher } from '@/shared';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
@@ -28,7 +23,11 @@ export function SearchedTeacherCard({ teacher }: { teacher: Teacher }) {
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-        <Box onClick={() => setIsOpen(true)}>
+        <Box
+          onClick={() => setIsOpen(true)}
+          transition="0.1s"
+          _active={{ opacity: 0.5, transition: '0.1s' }}
+        >
           <Box
             display="flex"
             justifyContent="space-between"

@@ -2,26 +2,14 @@ import {
   Text,
   Box,
   Avatar,
-  useColorModeValue,
-  useChakra,
 } from '@chakra-ui/react';
 import { ExamType } from '@/shared';
 import { Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
-import { getLessonBuilding } from '@/shared/lib';
+import { getLessonBuilding, useColor } from '@/shared/lib';
 import { HashLink } from 'react-router-hash-link';
 export function ExamDrawer({ exam }: { exam: ExamType }) {
-  const { theme } = useChakra();
-  const tab = useColorModeValue(theme.colors.light.tab, theme.colors.dark.tab);
-  const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
-  const mainElementColor = useColorModeValue(
-    'light.main_element',
-    'dark.main_element'
-  );
-  const tabTeacherColor = useColorModeValue(
-    'light.tab_teacher',
-    'dark.tab_teacher'
-  );
+  const {cardColor, tabTeacher, tabColor, mainTextColor, mainElementColor} = useColor()
   return (
     <Box
       padding="25px 0 0 0"
@@ -71,20 +59,22 @@ export function ExamDrawer({ exam }: { exam: ExamType }) {
       <Box
         as={HashLink}
         to={exam.teacher ? `/teachers#${exam?.teacher?.id}` : '/teachers'}
-        boxShadow={`0px 0px 5px 0px ${tab}`}
-        bgColor={tab}
+        boxShadow={`0px 0px 5px 0px ${tabColor}`}
+        bgColor={cardColor}
         borderRadius="16px"
         padding="14px"
         display="flex"
         alignItems="center"
         gap="15px"
         transition="0.2s"
-        _active={{ bgColor: tabTeacherColor, transition: '0.2s' }}
+        _active={{ bgColor: tabTeacher, transition: '0.2s' }}
       >
         <Avatar bg={mainElementColor} />
         <Box>
           <Text fontSize="16px" fontWeight="medium">
-            {exam?.teacher?.name ? exam.teacher.name : 'Преподаватель кафедры'}
+            {exam?.teacher?.name
+              ? exam.teacher.name
+              : 'Преподаватель кафедры'}
           </Text>
         </Box>
       </Box>

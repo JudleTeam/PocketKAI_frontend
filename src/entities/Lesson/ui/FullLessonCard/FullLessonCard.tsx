@@ -14,7 +14,7 @@ export const FullLessonCard = memo(function FullLessonCard({
   variant?: 'light' | 'dark';
 }) {
   const { isOpen, setIsOpen } = useDisclosure();
-  const {mainTextColor, themeColor, mainColor, cardColor} = useColor();
+  const {mainTextColor, themeColor, mainColor, cardColor, tabTeacher} = useColor();
   useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
@@ -36,6 +36,8 @@ export const FullLessonCard = memo(function FullLessonCard({
           padding="10px 15px"
           display="flex"
           justifyContent="space-between"
+          transition="0.2s"
+          _active={{ bgColor: tabTeacher, transition: '0.2s' }}
         >
           <VStack alignItems="start" gap="2px" w="60%">
             <Text
