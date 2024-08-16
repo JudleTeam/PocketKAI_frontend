@@ -28,6 +28,7 @@ export function Teachers() {
           textAlign="left"
           w="90%"
           zIndex="10"
+          padding='5px 0'
           boxShadow={`0px 0px 10px 10px ${mainColor}`}
           bgColor={mainColor}
         >
@@ -46,22 +47,22 @@ export function Teachers() {
                     ? `гр. ${currentGroup.group_name}`
                     : ''
                 }`
-              : 'Поиск преподов'}
+              : 'Поиск преподавателей'}
           </MenuButton>
         </Box>
-        <MenuList>
+        <MenuList zIndex='11'>
           <MenuOptionGroup type="radio" value={layoutType}>
             <MenuItemOption
               value="group"
               onClick={() => setLayoutType('group')}
             >
-              Преподы группы
+              Преподаватели группы
             </MenuItemOption>
             <MenuItemOption
               value="searched"
               onClick={() => setLayoutType('searched')}
             >
-              Поиск преподов
+              Поиск преподавателей
             </MenuItemOption>
           </MenuOptionGroup>
         </MenuList>

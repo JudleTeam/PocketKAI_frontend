@@ -4,7 +4,6 @@ import {
   Text,
   useChakra,
   useColorModeValue,
-  useDisclosure,
 } from '@chakra-ui/react';
 import { getLessonBuilding } from '@/shared/lib';
 import { getExamState } from '../../lib/getExamState';
@@ -15,8 +14,9 @@ import styles from './ExamCard.module.scss';
 import { ExamDrawer } from '../ExamDrawer/ExamDrawer';
 import { useEffect } from 'react';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
+import { useDisclosure } from '@/shared/lib';
 export function ExamCard({ exam }: { exam: ExamType }) {
-  const { isOpen } = useDisclosure();
+  const { isOpen, setIsOpen } = useDisclosure();
   const { theme } = useChakra();
   const mainTextColor = useColorModeValue(
     theme.colors.light.main_text,
@@ -40,9 +40,15 @@ export function ExamCard({ exam }: { exam: ExamType }) {
   }, [themeColor, mainColor, isOpen]);
 
   return (
-    <Drawer>
+    <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-        <HStack className={styles['exam-card']} alignItems="flex-start">
+        <HStack
+          onClick={() => setIsOpen(true)}
+          className={styles['exam-card']}
+          alignItems="flex-start"
+          transition="0.2s"
+          _active={{ opacity: 0.5, transition: '0.2s' }}
+        >
           <div className={styles['exam-card__time']}>
             <Text
               className={styles['exam-card__time--start']}

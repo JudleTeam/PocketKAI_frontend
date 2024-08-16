@@ -8,7 +8,9 @@ import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-  PopoverArrow
+  PopoverArrow,
+  PopoverHeader,
+  PopoverBody
 } from '@chakra-ui/react';
 
 import { Link } from 'react-router-dom';
@@ -192,28 +194,30 @@ export const TeacherDrawer = function TeacherDrawer({
                                 />
                               </button>
                             </PopoverTrigger>
-                            <PopoverContent
-                              style={{
-                                backgroundColor: mainColor,
-                                padding: '10px',
-                              }}
-                            >
+                            <PopoverContent bgColor={mainColor}>
                               <PopoverArrow bg={mainColor} />
-                              <h4
-                                className={`text-sm font-medium text-[${mainTextColor}] `}
+                              <PopoverHeader
+                                fontSize="16px"
+                                fontWeight={'bold'}
+                                color={mainTextColor}
                               >
                                 {lesson.discipline.name}
-                              </h4>
-                              <div className="flex flex-col text-md gap-2 font-medium">
+                              </PopoverHeader>
+                              <PopoverBody
+                                fontSize={'16px'}
+                                fontWeight={'medium'}
+                                color={mainTextColor}
+                                display="flex"
+                                flexDirection={'column'}
+                                gap="5px"
+                              >
                                 {lesson.parsed_dates_status ===
                                 'good' ? null : (
                                   <Text>
                                     Даты проведения: {lesson.original_dates}
                                   </Text>
                                 )}
-                              </div>
-                              <Box>
-                                <Box display="flex" flexWrap={'wrap'}>
+                                <Box display='flex' flexWrap={'wrap'}>
                                   <Text>Группы:&nbsp;</Text>
                                   {lesson.groups.map((group) => (
                                     <React.Fragment key={group.id}>
@@ -221,7 +225,7 @@ export const TeacherDrawer = function TeacherDrawer({
                                     </React.Fragment>
                                   ))}
                                 </Box>
-                              </Box>
+                              </PopoverBody>
                             </PopoverContent>
                           </Popover>
                         ))
