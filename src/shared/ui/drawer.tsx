@@ -13,7 +13,7 @@ const Drawer = ({
     <DrawerPrimitive.Root
       open={open}
       onOpenChange={onOpenChange}
-      closeThreshold={0.6}
+      preventScrollRestoration={false}
       {...props}
     />
   );
@@ -47,7 +47,7 @@ const DrawerContent = React.forwardRef<
     <DrawerPrimitive.Content
       ref={ref}
       className={cn(
-        'fixed inset-x-0 h-[100%] max-h-[80%] px-3 bottom-0 z-50 mt-24 flex flex-col rounded-t-[25px] border-[0px] bg-l-main dark:bg-d-main focus:outline-none',
+        'fixed inset-x-0 h-[80%] max-h-[80%] px-3 bottom-0 z-50 mt-24 flex flex-col rounded-t-[25px] border-[0px] bg-l-main dark:bg-d-main focus:outline-none',
         className
       )}
       {...props}

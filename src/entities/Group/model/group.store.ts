@@ -3,13 +3,15 @@ import { Nullable, GroupShort, ExamType } from '@/shared';
 import { create } from 'zustand';
 import { groupService } from './group.service';
 import { GroupSearchParams } from './types';
-import { persist } from 'zustand/middleware';
+
 import { ExamParams } from './types';
+import { persist } from 'zustand/middleware';
 
 type GroupState = {
   groups: Group[];
   searchedGroups: GroupShort[];
   favouriteGroups: GroupShort[];
+  favouriteGroupsStatus: FetchStatus;
   homeGroup: Nullable<Group>;
   homeGroupStatus: FetchStatus;
   currentGroup: Nullable<Group | GroupShort>;
@@ -26,7 +28,7 @@ type GroupActions = {
   getGroupDisciplines: (group_id: string) => Promise<void>;
   suggestGroupByName: (params: GroupSearchParams) => Promise<void>;
   getLessonsGroupById: (id: string) => Promise<void>;
-  getFavoriteGroups: () => Promise<void>;
+  getFavouriteGroups: () => Promise<void>;
   setCurrentGroup: (group: Group | GroupShort) => void;
   removeCurrentGroup: () => void;
   addGroupToFavourite: (group: GroupShort | Group) => void;
@@ -38,6 +40,7 @@ const initialState: GroupState = {
   groups: [],
   searchedGroups: [],
   favouriteGroups: [],
+  favouriteGroupsStatus: 'idle',
   homeGroup: null,
   homeGroupStatus: 'idle',
   currentGroup: null,
@@ -47,10 +50,9 @@ const initialState: GroupState = {
   exams: [],
   error: null,
 };
-const ACCESS_KEY = import.meta.env.VITE_ACCESS_TOKEN_KEY;
 export const useGroup = create<GroupState & GroupActions>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       ...initialState,
       getAllGroups: async () => {
         const response = await groupService.getAllGroups();
@@ -59,7 +61,7 @@ export const useGroup = create<GroupState & GroupActions>()(
       getGroupByName: async (name) => {
         const response = await groupService.getGroupByName(name);
         set({ currentGroup: response.data });
-        return response.data
+        return response.data;
       },
       getGroupById: async (id) => {
         set({ homeGroupStatus: 'loading' });
@@ -112,71 +114,47 @@ export const useGroup = create<GroupState & GroupActions>()(
       removeCurrentGroup: () => {
         set({ currentGroup: null });
       },
-      getFavoriteGroups: async () => {
-        const response = await groupService.getFavoriteGroups();
-        set((state) => {
-          const responseGroups = response.data;
-          const remainingGroups = state.favouriteGroups.filter(
-            group => !responseGroups.some(responseGroup => responseGroup.id === group.id)
-          );
-          const combinedGroups = [...responseGroups, ...remainingGroups];
-          const limitedGroups = combinedGroups.slice(0, 10);
-          const addGroups: string[] = []; 
-          limitedGroups.map((group) => {
-            addGroups.push(group.id)
+      getFavouriteGroups: async () => {
+        set({ favouriteGroupsStatus: 'loading', error: null });
+        try {
+          const response = await groupService.getFavouriteGroups();
+          set({
+            favouriteGroups: response.data,
+            favouriteGroupsStatus: 'success',
           });
-          groupService.addBulkFavoriteGroup(addGroups);
-          return { favouriteGroups: limitedGroups };
-        })
-      },
-      addGroupToFavourite: (group: GroupShort | Group) => {
-        const params = {
-          group_id: group.id
+        } catch (error) {
+          set({ error, favouriteGroupsStatus: 'error' });
         }
-        set((state) => {
-          const isAlreadyFavourite = state.favouriteGroups.some(
-            (favGroup) => favGroup.id === group.id
-          )
-          if (isAlreadyFavourite || state.favouriteGroups.length >= 10) {
-            return state;
-          }
-          if(localStorage.getItem(ACCESS_KEY)){
-            groupService.addFavoriteGroup(params)
-          }
-          const groupShort = {
-            id: group.id,
-            kai_id: group.kai_id,
-            group_name: group.group_name,
-            is_verified: group.is_verified,
-            parsed_at: group.parsed_at || null,
-            schedule_parsed_at: group.schedule_parsed_at || null,
-            exams_parsed_at: group.exams_parsed_at || null,
-          }
-          return {
-            favouriteGroups: [...state.favouriteGroups, groupShort],
-          };
+      },
+      addGroupToFavourite: async (group: GroupShort | Group) => {
+        const isAlreadyFavourite = get().favouriteGroups.some(
+          (favGroup) => favGroup.id === group.id
+        );
+        if (isAlreadyFavourite || get().favouriteGroups.length >= 10) {
+          return;
+        }
+        set({
+          favouriteGroups: [...get().favouriteGroups, group],
         });
+        await groupService.addFavouriteGroup({ group_id: group.id });
       },
-      removeGroupFromFavourite:async (group: GroupShort) => {
-        if(localStorage.getItem(ACCESS_KEY)){
-          groupService.deleteFavoriteGroup(group.id)
-        }
+      removeGroupFromFavourite: async (group: GroupShort) => {
+        await groupService.deleteFavouriteGroup(group.id);
         set((state) => {
           return {
             favouriteGroups: state.favouriteGroups.filter(
               (favouriteGroup) => favouriteGroup.id !== group.id
             ),
-          }
+          };
         });
       },
       resetGroupState: () => set(initialState),
     }),
     {
-      name: 'favourite-group-storage',
+      name: 'group',
       partialize: (state) => ({
-        favouriteGroups: state.favouriteGroups,
-        currentGroup: state.currentGroup,
         homeGroup: state.homeGroup,
+        currentGroup: state.currentGroup,
       }),
     }
   )
