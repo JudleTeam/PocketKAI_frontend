@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, Text, Divider, useChakra, useDisclosure } from '@chakra-ui/react';
+import { Box, Text, Divider } from '@chakra-ui/react';
 import { useUser, accountActions, useGroup } from '@/entities';
 import { Auth } from '@/features';
 import {
@@ -10,32 +10,14 @@ import {
 } from '@/shared/assets';
 import { ACCOUNT_ACTIONS, USER_ACTIONS } from '@/shared/constants';
 import styles from './Account.module.scss';
-import { useColorModeValue } from '@chakra-ui/react';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
+import { useColor, useDisclosure } from '@/shared/lib';
 export function Account() {
   const { homeGroup } = useGroup();
-  const { isOpen, onClose } = useDisclosure();
-  const { theme } = useChakra();
+  const { isOpen, setIsOpen, onClose} = useDisclosure();
   const { user, logout } = useUser();
-  const accountActionsColor = useColorModeValue(
-    'light.account_actions',
-    'dark.account_actions'
-  );
-  const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
-  const tab = useColorModeValue('light.tab', 'dark.tab');
-  const mainElementColor = useColorModeValue(
-    theme.colors.light.main_element,
-    theme.colors.dark.main_element
-  );
-  const exitButtonColor = useColorModeValue(
-    'light.exit_button',
-    'dark.exit_button'
-  );
-  const mainColor = useColorModeValue(
-    theme.colors.light.main,
-    theme.colors.dark.main
-  );
-  const themeColor = useColorModeValue('#858585', '#0E1117');
+ 
+  const {mainTextColor, tabColor, exitButtonColor, accountActionsColor, themeColor, mainColor, mainElementColor} = useColor();
   useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
@@ -88,7 +70,7 @@ export function Account() {
             {USER_ACTIONS.map((action, index) => (
               <React.Fragment key={action.label}>
                 {accountActions({
-                  tab,
+                  tabColor,
                   mainTextColor,
                   action,
                   index,
@@ -98,15 +80,16 @@ export function Account() {
             ))}
           </Box>
         ) : (
-          <Drawer>
+          <Drawer open={isOpen} onOpenChange={setIsOpen}>
             <DrawerTrigger asChild>
               <Box
+                onClick={() => setIsOpen(true)}
                 display="flex"
                 justifyContent="space-between"
                 padding="15px 20px"
                 transition="0.2s"
                 _active={{
-                  bgColor: tab,
+                  bgColor: tabColor,
                   transition: '0.2s',
                   borderRadius: '8px',
                 }}
@@ -144,7 +127,7 @@ export function Account() {
         {ACCOUNT_ACTIONS.map((action, index) => (
           <React.Fragment key={action.label}>
             {accountActions({
-              tab,
+              tabColor,
               mainTextColor,
               action,
               index,
@@ -167,7 +150,7 @@ export function Account() {
                 transition="0.2s"
                 _active={{
                   transition: '0.2s',
-                  bgColor: tab,
+                  bgColor: tabColor,
                   borderRadius: '0 0 8px 8px',
                 }}
               >

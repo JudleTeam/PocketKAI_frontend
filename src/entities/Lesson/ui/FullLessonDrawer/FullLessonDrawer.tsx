@@ -26,7 +26,7 @@ export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
     'light.main_element',
     'dark.main_element'
   );
-  const {cardColor, tabTeacher} = useColor()
+  const { cardColor, tabTeacher } = useColor();
   return (
     <Box
       padding="25px 0 0 0"
@@ -74,7 +74,7 @@ export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
         </VStack>
       </Box>
       {lesson.parsed_dates && lesson.parsed_dates_status === 'good' ? (
-        <Text fontWeight="medium" fontSize="18px">
+        <Text fontWeight="medium" fontSize="18px" color={mainTextColor}>
           Даты проведения пары:{' '}
           {lesson.parsed_dates
             .map((date) =>
@@ -101,14 +101,14 @@ export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
           </PopoverTrigger>
           <PopoverContent>
             <PopoverArrow />
-            <PopoverBody>
+            <PopoverBody fontSize="14px">
               <Text fontSize={'14px'} color={mainTextColor}>
-              {lesson.parsed_dates
-                .map((date) =>
-                  DateTime.fromISO(date).setLocale('ru').toFormat('dd MMMM')
-                )
-                .join(', ')}
-                </Text>
+                {lesson.parsed_dates
+                  .map((date) =>
+                    DateTime.fromISO(date).setLocale('ru').toFormat('dd MMMM')
+                  )
+                  .join(', ')}
+              </Text>
             </PopoverBody>
           </PopoverContent>
         </Popover>

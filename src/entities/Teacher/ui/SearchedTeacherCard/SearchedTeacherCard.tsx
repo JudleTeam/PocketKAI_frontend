@@ -2,30 +2,18 @@ import {
   Box,
   Text,
   Divider,
-  Avatar,
-  useColorModeValue,
-  useChakra,
+  Avatar
 } from '@chakra-ui/react';
 import { ArrowIcon } from '@/shared/assets';
 import { Teacher } from '@/shared';
-import { useDisclosure } from '@chakra-ui/react';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
 import { useEffect } from 'react';
 import { SearchedTeacherDrawer } from '../SearchedTeacherDrawer/SearchedTeacherDrawer';
+import { useColor, useDisclosure } from '@/shared/lib';
 
 export function SearchedTeacherCard({ teacher }: { teacher: Teacher }) {
-  const { isOpen } = useDisclosure();
-  const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
-  const mainElementColor = useColorModeValue(
-    'light.main_element',
-    'dark.main_element'
-  );
-  const themeColor = useColorModeValue('#858585', '#0E1117');
-  const { theme } = useChakra();
-  const mainColor = useColorModeValue(
-    theme.colors.light.main,
-    theme.colors.dark.main
-  );
+  const { isOpen, setIsOpen } = useDisclosure();
+  const { mainTextColor, themeColor, mainColor, mainElementColor } = useColor();
   useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
@@ -38,9 +26,9 @@ export function SearchedTeacherCard({ teacher }: { teacher: Teacher }) {
   }, [themeColor, mainColor, isOpen]);
 
   return (
-    <Drawer>
+    <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-        <Box>
+        <Box onClick={() => setIsOpen(true)}>
           <Box
             display="flex"
             justifyContent="space-between"

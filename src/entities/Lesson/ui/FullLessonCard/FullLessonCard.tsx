@@ -1,10 +1,9 @@
 import { Lesson } from '@/shared';
-import { Box, VStack, Text, useChakra } from '@chakra-ui/react';
+import { Box, VStack, Text } from '@chakra-ui/react';
 import { LessonTypes } from '@/shared/constants';
-import { getLessonBuilding, useDisclosure } from '@/shared/lib';
+import { getLessonBuilding, useColor, useDisclosure } from '@/shared/lib';
 import { ArrowIcon } from '@/shared/assets/chakraIcons/ArrowIcon';
 import { FullLessonDrawer } from '../FullLessonDrawer/FullLessonDrawer';
-import { useColorModeValue } from '@chakra-ui/react';
 import { memo, useEffect } from 'react';
 import { Drawer, DrawerTrigger, DrawerContent } from '@/shared/ui/drawer';
 export const FullLessonCard = memo(function FullLessonCard({
@@ -15,14 +14,7 @@ export const FullLessonCard = memo(function FullLessonCard({
   variant?: 'light' | 'dark';
 }) {
   const { isOpen, setIsOpen } = useDisclosure();
-  const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
-  const cardColor = useColorModeValue('light.card', 'dark.card');
-  const themeColor = useColorModeValue('#858585', '#0E1117');
-  const { theme } = useChakra();
-  const mainColor = useColorModeValue(
-    theme.colors.light.main,
-    theme.colors.dark.main
-  );
+  const {mainTextColor, themeColor, mainColor, cardColor} = useColor();
   useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {

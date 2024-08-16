@@ -1,9 +1,7 @@
 import {
   Box,
   Text,
-  Avatar,
-  useColorModeValue,
-  useChakra,
+  Avatar
 } from '@chakra-ui/react';
 import { ArrowIcon } from '@/shared/assets';
 import { LessonTypes } from '@/shared/constants';
@@ -11,7 +9,7 @@ import { TeacherDrawer } from '../TeacherDrawer/TeacherDrawer';
 import React, { memo, useEffect } from 'react';
 import { TeacherDisciplineType } from '../../model/types';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
-import { useDisclosure } from '@/shared/lib';
+import { useColor, useDisclosure } from '@/shared/lib';
 
 export const TeacherCard = memo(function TeacherCard({
   disciplineType,
@@ -22,17 +20,7 @@ export const TeacherCard = memo(function TeacherCard({
 }) {
   const { isOpen, setIsOpen, onOpen } = useDisclosure();
 
-  const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
-  const mainElementColor = useColorModeValue(
-    'light.main_element',
-    'dark.main_element'
-  );
-  const themeColor = useColorModeValue('#858585', '#0E1117');
-  const { theme } = useChakra();
-  const mainColor = useColorModeValue(
-    theme.colors.light.main,
-    theme.colors.dark.main
-  );
+  const {mainTextColor, themeColor, mainColor, mainElementColor} = useColor();
   useEffect(() => {
     if (!isOpen && location.hash.slice(1) === disciplineType.teacher?.id) {
       onOpen();
