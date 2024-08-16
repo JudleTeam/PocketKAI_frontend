@@ -66,6 +66,7 @@ export function Auth({ onClose }: { onClose: () => void }) {
         mx={'auto'}
         mt={4}
         textAlign={'center'}
+        mb={5}
       >
         Вход в аккаунт
       </Box>

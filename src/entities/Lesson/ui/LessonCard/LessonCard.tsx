@@ -1,12 +1,12 @@
 import { memo, useEffect } from 'react';
-import { HStack, Text, useColorModeValue, useChakra } from '@chakra-ui/react';
+import { HStack, Text } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
 import { Lesson } from '@/shared';
 import { lessonStateIcons } from '@/shared/constants';
 import { lessonStateLine } from '../../constants/lessonStateLine';
 import { LessonTypes } from '@/shared/constants';
 import { getLessonState } from '../../lib/getLessonState';
-import { getLessonBuilding, useDisclosure } from '@/shared/lib';
+import { getLessonBuilding, useColor, useDisclosure } from '@/shared/lib';
 import styles from './LessonCard.module.scss';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
 import LessonDrawer from '../LessonDrawer/LessonDrawer';
@@ -14,17 +14,7 @@ import LessonDrawer from '../LessonDrawer/LessonDrawer';
 const LessonCard = memo(
   ({ lesson, dayDate }: { lesson: Lesson; dayDate: string }) => {
     const { isOpen, setIsOpen } = useDisclosure();
-
-    const mainTextColor = useColorModeValue(
-      'light.main_text',
-      'dark.main_text'
-    );
-    const themeColor = useColorModeValue('#858585', '#0E1117');
-    const { theme } = useChakra();
-    const mainColor = useColorModeValue(
-      theme.colors.light.main,
-      theme.colors.dark.main
-    );
+    const {themeColor, mainTextColor, mainColor} = useColor();
     useEffect(() => {
       const metaThemeColor = document.querySelector('meta[name="theme-color"]');
       if (metaThemeColor) {
