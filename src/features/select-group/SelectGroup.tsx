@@ -20,17 +20,23 @@ export function SelectGroup({ onOpen }: { onOpen: () => void }) {
     'dark.main_element'
   );
   const { user } = useUser();
-  const { favouriteGroups, currentGroup, setCurrentGroup, getFavoriteGroups } = useGroup();
+  const {
+    favouriteGroups,
+    currentGroup,
+    favouriteGroupsStatus,
+    setCurrentGroup,
+    getFavouriteGroups,
+  } = useGroup();
   const { resetScheduleState } = useSchedule();
   const handleGroupClick = (group: GroupShort) => {
     setCurrentGroup(group);
     resetScheduleState();
   };
   useEffect(() => {
-    if(user){
-      getFavoriteGroups();
+    if (user && favouriteGroupsStatus === 'idle') {
+      getFavouriteGroups();
     }
-  }, [getFavoriteGroups, user])
+  }, [getFavouriteGroups, user, favouriteGroupsStatus]);
   return (
     <Menu>
       <MenuButton

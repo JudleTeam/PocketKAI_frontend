@@ -36,42 +36,44 @@ export function AddGroupToFavourite(onClose: () => void) {
     currentGroup,
   } = useGroup();
   const { resetScheduleState } = useSchedule();
-  const { resetField, handleSubmit, control, getValues, register } = useForm<IFormInput>();
+  const { resetField, handleSubmit, control, getValues, register } =
+    useForm<IFormInput>();
   const [isOpen, setIsOpen] = useState(false);
-  const [selectGroup, setSelectGroup] = useState<string | undefined>(currentGroup?.group_name);
+  const [selectGroup, setSelectGroup] = useState<string | undefined>(
+    currentGroup?.group_name
+  );
   const handleInputChange = (newValue: string) => {
     suggestGroupByName({ group_name: newValue });
-    setIsOpen(true)
+    setIsOpen(true);
   };
-  const handleFavoriteClick= () => {
-    const selectedGroup = getValues('group')
-    if(selectedGroup){
+  const handleFavoriteClick = () => {
+    const selectedGroup = getValues('group');
+    if (selectedGroup) {
       addGroupToFavourite(selectedGroup.value);
       setIsOpen(false);
-      console.log(isOpen)
       resetField('group');
-      setSelectGroup(selectedGroup.value.group_name)
+      setSelectGroup(selectedGroup.value.group_name);
     }
   };
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    const groupValue = data.group
-    const radioValue = data.radio
-    console.log(groupValue, radioValue)
-    const group = groupValue?.value || favouriteGroups.find(group => group.group_name === radioValue);
-  if (group) {
-    console.log(group)
-    setCurrentGroup(group);
-    resetField('group');
-  }
-  if (!group && selectGroup) {
-    const groupByName = getGroupByName(selectGroup); 
-    setCurrentGroup(await groupByName)
-  }
-  setIsOpen(false)
-  resetScheduleState();
-  onClose();
+    const groupValue = data.group;
+    const radioValue = data.radio;
+    const group =
+      groupValue?.value ||
+      favouriteGroups.find((group) => group.group_name === radioValue);
+    if (group) {
+      setCurrentGroup(group);
+      resetField('group');
+    }
+    if (!group && selectGroup) {
+      const groupByName = getGroupByName(selectGroup);
+      setCurrentGroup(await groupByName);
+    }
+    setIsOpen(false);
+    resetScheduleState();
+    onClose();
   };
-  const {mainTextColor, tabColor} = useColor()
+  const { mainTextColor, tabColor } = useColor();
   const customStyles: StylesConfig = {
     option: (provided) => ({
       ...provided,
@@ -111,15 +113,12 @@ export function AddGroupToFavourite(onClose: () => void) {
           >
             Избранные группы
           </Heading>
-          <RadioGroup
-            value={selectGroup}
-            onChange={setSelectGroup}
-          >
+          <RadioGroup value={selectGroup} onChange={setSelectGroup}>
             <Stack fontSize={'18px'} fontWeight={'500'} color={mainTextColor}>
               {favouriteGroups.map((group) => (
                 <React.Fragment key={group.id}>
                   <Radio
-                    {...register("radio")}
+                    {...register('radio')}
                     key={group.id}
                     value={group.group_name}
                     py={'5px'}
@@ -149,17 +148,28 @@ export function AddGroupToFavourite(onClose: () => void) {
           </RadioGroup>
         </Box>
       </ModalBody>
-      <ModalFooter w='100%' display='flex' flexWrap={'wrap'} gap='10px'>
-        <Button w='100%' bg={tabColor} display={isOpen ? 'block' : 'none'} color={mainTextColor} onClick={handleFavoriteClick}>
+      <ModalFooter w="100%" display="flex" flexWrap={'wrap'} gap="10px">
+        <Button
+          w="100%"
+          bg={tabColor}
+          display={isOpen ? 'block' : 'none'}
+          color={mainTextColor}
+          onClick={handleFavoriteClick}
+        >
           Добавить в избранное
         </Button>
-        <Box w='100%' display={'flex'} justifyContent='space-between'>
-        <Button w="48%" colorScheme="blue" type="submit">
-          Сохранить
-        </Button>
-        <Button w="48%" colorScheme="blue" variant="outline" onClick={onClose}>
-          Отмена
-        </Button>
+        <Box w="100%" display={'flex'} justifyContent="space-between">
+          <Button w="48%" colorScheme="blue" type="submit">
+            Сохранить
+          </Button>
+          <Button
+            w="48%"
+            colorScheme="blue"
+            variant="outline"
+            onClick={onClose}
+          >
+            Отмена
+          </Button>
         </Box>
       </ModalFooter>
     </form>

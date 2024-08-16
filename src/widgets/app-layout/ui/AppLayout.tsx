@@ -28,7 +28,7 @@ export type ContextType = [
 export function AppLayout() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [currentDay, setCurrentDay] = useState<string>(
-    DateTime.now().toFormat('yyyy-LL-dd')
+    DateTime.now().setZone('Europe/Moscow').toFormat('yyyy-LL-dd')
   );
   const { currentGroup } = useGroup();
   const {
@@ -42,8 +42,8 @@ export function AppLayout() {
   const swiperRef = useScrollSpy(schedule, setCurrentDay);
   const location = useLocation();
   useEffect(() => {
-    getWeekParity();
     const weekAgo = DateTime.now()
+      .setZone('Europe/Moscow')
       .startOf('week')
       .minus({ days: 7 })
       .toFormat('yyyy-LL-dd');

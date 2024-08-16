@@ -10,6 +10,7 @@ import {
 } from '@/shared';
 import { generateDateSchedule } from '../lib/generateDateSchedule';
 import { formWeekSchedule } from '../lib/formWeekSchedule';
+import { DateTime } from 'luxon';
 
 type StoreState = {
   schedule: Schedule;
@@ -35,7 +36,12 @@ const initialState: StoreState = {
   schedule: { parsed_at: '', days: [] },
   weekSchedule: null,
   examsSchedule: null,
-  parity: null,
+  parity: {
+    date: '',
+    parity:
+      DateTime.now().setZone('Europe/Moscow').weekNumber % 2 ? 'odd' : 'even',
+    int_parity: 0,
+  },
   scheduleStatus: 'idle',
   weekScheduleStatus: 'idle',
   error: null,
