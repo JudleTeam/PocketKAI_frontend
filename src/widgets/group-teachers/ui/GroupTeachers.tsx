@@ -61,6 +61,7 @@ export function GroupTeachers() {
                     parsed_types: [disciplineType.parsed_type],
                     original_types: [disciplineType.original_type],
                     disciplineName: discipline.name,
+                    disciplineId: [discipline.id]
                   });
                 } else {
                   const existingTeacher = uniqueTeachers.get(
@@ -68,8 +69,9 @@ export function GroupTeachers() {
                   );
                   existingTeacher.parsed_types.push(disciplineType.parsed_type);
                   existingTeacher.original_types.push(
-                    disciplineType.original_type
+                    disciplineType.original_type,
                   );
+                  existingTeacher.disciplineId.push(discipline.id)
                 }
               });
               return (
@@ -91,6 +93,7 @@ export function GroupTeachers() {
                           original_types: uniqueDisciplineType.original_types,
                         }}
                         disciplineName={uniqueDisciplineType.disciplineName}
+                        disciplineId = {uniqueDisciplineType.disciplineId}
                         key={index}
                       />
                     )

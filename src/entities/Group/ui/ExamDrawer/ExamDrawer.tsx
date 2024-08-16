@@ -58,7 +58,7 @@ export function ExamDrawer({ exam }: { exam: ExamType }) {
       </Text>
       <Box
         as={HashLink}
-        to={exam.teacher ? `/teachers#${exam?.teacher?.id}` : '/teachers'}
+        to={exam.teacher ? `/teachers#${exam?.teacher?.id}&${exam.discipline.id}` : '/teachers'}
         boxShadow={`0px 0px 5px 0px ${tabColor}`}
         bgColor={cardColor}
         borderRadius="16px"
