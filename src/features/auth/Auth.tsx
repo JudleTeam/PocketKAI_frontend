@@ -38,7 +38,7 @@ export function Auth({ onClose }: { onClose: () => void }) {
     getGroupById,
     homeGroupStatus,
     addGroupToFavourite,
-    setCurrentGroup,
+    synchronizeFavouriteGroupsOnAuth,
   } = useGroup();
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const status = await login(data);
@@ -47,9 +47,10 @@ export function Auth({ onClose }: { onClose: () => void }) {
       if (user.group_id && homeGroupStatus === 'idle') {
         const group = await getGroupById(user.group_id);
         if (group) {
-          addGroupToFavourite(group);
-          setCurrentGroup(group);
+          addGroupToFavourite(group, userAuthStatus);
+          //setCurrentGroup(group);
         }
+        synchronizeFavouriteGroupsOnAuth();
       }
       reset();
       onClose();

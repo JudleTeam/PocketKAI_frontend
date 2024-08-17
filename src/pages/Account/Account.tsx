@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Box, Text, Divider } from '@chakra-ui/react';
-import { useUser, accountActions, useGroup } from '@/entities';
+import { useUser, accountActions, useGroup, useSchedule } from '@/entities';
 import { Auth } from '@/features';
 import {
   GraduationCapIcon,
@@ -14,10 +14,20 @@ import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
 import { useColor, useDisclosure } from '@/shared/lib';
 export function Account() {
   const { homeGroup } = useGroup();
-  const { isOpen, setIsOpen, onClose} = useDisclosure();
+  const { isOpen, setIsOpen, onClose } = useDisclosure();
   const { user, logout } = useUser();
- 
-  const {mainTextColor, tabColor, exitButtonColor, accountActionsColor, themeColor, mainColor, mainElementColor} = useColor();
+  const { resetGroupState } = useGroup();
+  const { resetScheduleState } = useSchedule();
+
+  const {
+    mainTextColor,
+    tabColor,
+    exitButtonColor,
+    accountActionsColor,
+    themeColor,
+    mainColor,
+    mainElementColor,
+  } = useColor();
   useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
@@ -138,7 +148,13 @@ export function Account() {
         {user && (
           <>
             <Divider w="90%" alignSelf="center" />
-            <button onClick={() => logout()}>
+            <button
+              onClick={() => {
+                logout();
+                resetGroupState();
+                resetScheduleState();
+              }}
+            >
               <Text
                 as={'span'}
                 padding="15px 20px"

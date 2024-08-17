@@ -19,7 +19,7 @@ export function SelectGroup({ onOpen }: { onOpen: () => void }) {
     'light.main_element',
     'dark.main_element'
   );
-  const { user } = useUser();
+  const { userAuthStatus } = useUser();
   const {
     favouriteGroups,
     currentGroup,
@@ -33,10 +33,10 @@ export function SelectGroup({ onOpen }: { onOpen: () => void }) {
     resetScheduleState();
   };
   useEffect(() => {
-    if (user && favouriteGroupsStatus === 'idle') {
+    if (userAuthStatus === 'success' && favouriteGroupsStatus === 'idle') {
       getFavouriteGroups();
     }
-  }, [getFavouriteGroups, user, favouriteGroupsStatus]);
+  }, [getFavouriteGroups, userAuthStatus, favouriteGroupsStatus]);
   return (
     <Menu>
       <MenuButton

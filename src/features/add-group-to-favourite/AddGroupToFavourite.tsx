@@ -16,7 +16,7 @@ import { DeleteIcon } from '@chakra-ui/icons';
 import React, { useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import Select, { StylesConfig } from 'react-select';
-import { useGroup, useSchedule } from '@/entities';
+import { useGroup, useSchedule, useUser } from '@/entities';
 import { GroupShort, SelectItem } from '@/shared';
 import { useColor } from '@/shared/lib';
 type IFormInput = {
@@ -36,6 +36,7 @@ export function AddGroupToFavourite(onClose: () => void) {
     currentGroup,
   } = useGroup();
   const { resetScheduleState } = useSchedule();
+  const { userAuthStatus } = useUser();
   const { resetField, handleSubmit, control, getValues, register } =
     useForm<IFormInput>();
   const [isOpen, setIsOpen] = useState(false);
@@ -49,7 +50,7 @@ export function AddGroupToFavourite(onClose: () => void) {
   const handleFavoriteClick = () => {
     const selectedGroup = getValues('group');
     if (selectedGroup) {
-      addGroupToFavourite(selectedGroup.value);
+      addGroupToFavourite(selectedGroup.value, userAuthStatus);
       setIsOpen(false);
       resetField('group');
       setSelectGroup(selectedGroup.value.group_name);
@@ -135,8 +136,9 @@ export function AddGroupToFavourite(onClose: () => void) {
                       </Text>
                       <DeleteIcon
                         w={'20px'}
-                        onClick={() => {
-                          removeGroupFromFavourite(group);
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeGroupFromFavourite(group, userAuthStatus);
                         }}
                       />
                     </Box>
