@@ -14,7 +14,7 @@ const Drawer = ({
       open={open}
       onOpenChange={onOpenChange}
       preventScrollRestoration={false}
-      handleOnly
+      scrollLockTimeout={700}
       {...props}
     />
   );
