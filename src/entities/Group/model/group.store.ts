@@ -31,9 +31,17 @@ type GroupActions = {
   getFavouriteGroups: () => Promise<void>;
   setCurrentGroup: (group: Group | GroupShort) => void;
   removeCurrentGroup: () => void;
-  addGroupToFavourite: (group: GroupShort | Group) => void;
-  removeGroupFromFavourite: (group: GroupShort) => void;
+  addGroupToFavourite: (
+    group: GroupShort | Group,
+    authStatus: FetchStatus
+  ) => void;
+  removeGroupFromFavourite: (
+    group: GroupShort,
+    authStatus: FetchStatus
+  ) => void;
+  synchronizeFavouriteGroupsOnAuth: () => Promise<void>;
   getExamsByGroupId: (group_id: string, params?: ExamParams) => Promise<void>;
+  resetGroupState: () => void;
 };
 
 const initialState: GroupState = {
@@ -126,7 +134,7 @@ export const useGroup = create<GroupState & GroupActions>()(
           set({ error, favouriteGroupsStatus: 'error' });
         }
       },
-      addGroupToFavourite: async (group: GroupShort | Group) => {
+      addGroupToFavourite: async (group, authStatus) => {
         const isAlreadyFavourite = get().favouriteGroups.some(
           (favGroup) => favGroup.id === group.id
         );
@@ -136,10 +144,14 @@ export const useGroup = create<GroupState & GroupActions>()(
         set({
           favouriteGroups: [...get().favouriteGroups, group],
         });
-        await groupService.addFavouriteGroup({ group_id: group.id });
+        if (authStatus === 'success') {
+          await groupService.addFavouriteGroup({ group_id: group.id });
+        }
       },
-      removeGroupFromFavourite: async (group: GroupShort) => {
-        await groupService.deleteFavouriteGroup(group.id);
+      removeGroupFromFavourite: async (group, authStatus) => {
+        if (authStatus === 'success') {
+          await groupService.deleteFavouriteGroup(group.id);
+        }
         set((state) => {
           return {
             favouriteGroups: state.favouriteGroups.filter(
@@ -148,6 +160,14 @@ export const useGroup = create<GroupState & GroupActions>()(
           };
         });
       },
+
+      synchronizeFavouriteGroupsOnAuth: async () => {
+        const favouriteGroupsIds = get().favouriteGroups.map(
+          (group) => group.id
+        );
+        await groupService.addBulkFavouriteGroup(favouriteGroupsIds);
+      },
+
       resetGroupState: () => set(initialState),
     }),
     {
@@ -155,6 +175,7 @@ export const useGroup = create<GroupState & GroupActions>()(
       partialize: (state) => ({
         homeGroup: state.homeGroup,
         currentGroup: state.currentGroup,
+        favouriteGroups: state.favouriteGroups,
       }),
     }
   )

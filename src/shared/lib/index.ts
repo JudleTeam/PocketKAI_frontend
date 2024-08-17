@@ -1,3 +1,5 @@
+export { copyToClipboard } from './helpers/copyToClipboard';
+
 export { getWeekParity } from './helpers/getWeekParity';
 
 export { useDrawerPopstateClose } from './hooks/useDrawerPopstateClose';
