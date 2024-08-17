@@ -14,6 +14,7 @@ const Drawer = ({
       open={open}
       onOpenChange={onOpenChange}
       preventScrollRestoration={false}
+      handleOnly
       {...props}
     />
   );
@@ -52,7 +53,9 @@ const DrawerContent = React.forwardRef<
       )}
       {...props}
     >
-      <div className="mx-auto mt-4 min-h-1.5 w-[100px] rounded-full bg-gray-300" />
+      <DrawerPrimitive.Handle className="mt-4 mx-auto w-full min-h-4">
+        <div className="mx-auto mt-3 min-h-1.5 w-[100px] rounded-full bg-gray-300" />
+      </DrawerPrimitive.Handle>
       <DrawerClose className="absolute top-2 right-6">✕</DrawerClose>
       {children}
     </DrawerPrimitive.Content>

@@ -10,7 +10,7 @@ import {
   PopoverContent,
   PopoverArrow,
   PopoverHeader,
-  PopoverBody
+  PopoverBody,
 } from '@chakra-ui/react';
 
 import { Link } from 'react-router-dom';
@@ -32,9 +32,9 @@ export const TeacherDrawer = function TeacherDrawer({
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
   const [weekParity, setWeekParity] = useState<'even' | 'odd'>(getWeekParity());
   const numberParity = {
-    'even': 0,
-    'odd': 1
-  }
+    even: 0,
+    odd: 1,
+  };
   const {
     teacherScheduleStatus,
     teacherSchedule,
@@ -63,7 +63,7 @@ export const TeacherDrawer = function TeacherDrawer({
     <Box
       h="100%"
       position="relative"
-      pt={5}
+      pt={3}
       color={mainTextColor}
       display="flex"
       flexDirection="column"
@@ -217,7 +217,7 @@ export const TeacherDrawer = function TeacherDrawer({
                                     Даты проведения: {lesson.original_dates}
                                   </Text>
                                 )}
-                                <Box display='flex' flexWrap={'wrap'}>
+                                <Box display="flex" flexWrap={'wrap'}>
                                   <Text>Группы:&nbsp;</Text>
                                   {lesson.groups.map((group) => (
                                     <React.Fragment key={group.id}>
