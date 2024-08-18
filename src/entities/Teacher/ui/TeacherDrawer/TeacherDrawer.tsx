@@ -30,6 +30,7 @@ export const TeacherDrawer = function TeacherDrawer({
   disciplineName: string;
 }) {
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
+
   const [weekParity, setWeekParity] = useState<'even' | 'odd'>(getWeekParity());
   const numberParity = {
     even: 0,
