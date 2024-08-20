@@ -26,7 +26,7 @@ export type ContextType = [
 ];
 
 export function AppLayout() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose, onToggle} = useDisclosure();
   const [currentDay, setCurrentDay] = useState<string>(
     DateTime.now().setZone('Europe/Moscow').toFormat('yyyy-LL-dd')
   );
@@ -124,6 +124,7 @@ export function AppLayout() {
       <UiModal
         isOpen={isOpen}
         onClose={onClose}
+          setIsOpen={onToggle}
         modalActions={() => AddGroupToFavourite(onClose)}
       />
     </div>

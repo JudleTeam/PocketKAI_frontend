@@ -111,11 +111,10 @@ export function Exams() {
           left="50%"
           zIndex="2"
           transform="translate(-50%, -50%)"
-          fontSize="18px"
-          fontWeight="medium"
+          fontSize="20px"
           color={mainTextColor}
         >
-          Выберите группу!
+          Выберите группу
         </Box>
       )}
     </Box>
