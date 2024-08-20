@@ -43,7 +43,6 @@ export function WeekSchedule() {
   const currentDayOfWeek = dayIndex;
   const longDaysOfWeek = Object.keys(SHORT_WEEK_DAYS);
   useScrollSpyFull(longDaysOfWeek, currentDay, setCurrentDay);
-
   return (
     <Tabs
       className={styles['full-schedule']}
@@ -127,6 +126,10 @@ export function WeekSchedule() {
         padding="125px 4px 60px 4px"
         style={{ scrollbarWidth: 'none' }}
         overflowY="auto"
+        top="30vh"
+        left="50%"
+        transform="translate(-50%, 0)"
+        position={weekScheduleStatus === 'success' ? 'initial' : 'absolute'}
       >
         <Loader status={weekScheduleStatus} idleMessage="Выберите группу">
           {weekSchedule &&

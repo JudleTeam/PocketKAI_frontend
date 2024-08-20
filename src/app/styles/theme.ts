@@ -15,7 +15,7 @@ const theme = extendTheme({
             blue_light_element: '#3182ce80', // blue.500 + 80% - gray.500
             black_light_element: '#1a365d80', // blue.900 + 80% - gray.500 + 80%
             card: '#EDF2F7', // gray.100 - gray.700
-            main: '#fff', // white - gray.800
+            main: '#fff', // white - gray.900
             account_actions: '#ffffff', // white - gray.700
             exit_button: '#63171B', // red.900 - red.500
             tab: '#EDF2F7', // gray.100 - gray.800
@@ -30,7 +30,7 @@ const theme = extendTheme({
             blue_light_element: '#718096', // gray.500
             black_light_element: '#71809680', // gray.500 + 80%
             card: '#2D3748', // gray.700
-            main: '#171923', // gray.800
+            main: '#171923', // gray.900
             account_actions: '#2D3748', //gray.700
             exit_button: '#E53E3E', // red.500
             tab: '#1A202C', // gray.800

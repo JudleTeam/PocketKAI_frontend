@@ -6,7 +6,6 @@ import {
   Box,
   Heading,
   Stack,
-  ModalFooter,
   Button,
   Divider,
   RadioGroup,
@@ -70,6 +69,7 @@ export function AddGroupToFavourite(onClose: () => void) {
       const groupByName = getGroupByName(selectGroup);
       setCurrentGroup(await groupByName);
     }
+    console.log(groupValue)
     setIsOpen(false);
     resetScheduleState();
     onClose();
@@ -87,7 +87,7 @@ export function AddGroupToFavourite(onClose: () => void) {
         Выбор группы
       </ModalHeader>
       <ModalCloseButton />
-      <ModalBody>
+      <ModalBody  display='flex' flexDirection='column' gap='20px'> 
         <Controller
           name="group"
           control={control}
@@ -105,9 +105,33 @@ export function AddGroupToFavourite(onClose: () => void) {
             />
           )}
         />
+        <Box w="100%" display="flex" flexWrap={'wrap'} gap="20px">
+        <Button
+          w="100%"
+          bg={tabColor}
+          display={isOpen ? 'block' : 'none'}
+          color={mainTextColor}
+          onClick={handleFavoriteClick}
+        >
+          Добавить в избранное
+        </Button>
+        <Box w="100%" display={'flex'} justifyContent="space-between">
+          <Button w="48%" colorScheme="blue" type="submit">
+            Сохранить
+          </Button>
+          <Button
+            w="48%"
+            colorScheme="blue"
+            variant="outline"
+            onClick={onClose}
+          >
+            Отмена
+          </Button>
+        </Box>
+      </Box>
         <Box>
           <Heading
-            py={'15px'}
+            display={favouriteGroups.length > 0 ? 'block' : 'none'}
             fontSize={'20px'}
             fontWeight={'600'}
             color={mainTextColor}
@@ -150,30 +174,6 @@ export function AddGroupToFavourite(onClose: () => void) {
           </RadioGroup>
         </Box>
       </ModalBody>
-      <ModalFooter w="100%" display="flex" flexWrap={'wrap'} gap="10px">
-        <Button
-          w="100%"
-          bg={tabColor}
-          display={isOpen ? 'block' : 'none'}
-          color={mainTextColor}
-          onClick={handleFavoriteClick}
-        >
-          Добавить в избранное
-        </Button>
-        <Box w="100%" display={'flex'} justifyContent="space-between">
-          <Button w="48%" colorScheme="blue" type="submit">
-            Сохранить
-          </Button>
-          <Button
-            w="48%"
-            colorScheme="blue"
-            variant="outline"
-            onClick={onClose}
-          >
-            Отмена
-          </Button>
-        </Box>
-      </ModalFooter>
     </form>
   );
 }
