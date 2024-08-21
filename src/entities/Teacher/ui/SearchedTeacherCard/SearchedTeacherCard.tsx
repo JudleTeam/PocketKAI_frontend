@@ -37,7 +37,7 @@ export function SearchedTeacherCard({ teacher }: { teacher: Teacher }) {
             <Box display="flex" gap="10px" alignItems="center">
               <Avatar bg={mainElementColor} />
               <Box>
-                <Text color={mainTextColor} fontWeight="medium" fontSize="14px">
+                <Text color={mainTextColor} fontWeight="medium" fontSize="16px">
                   {teacher?.name}
                 </Text>
                 <Box fontSize="14px"></Box>

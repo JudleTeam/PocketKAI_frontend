@@ -138,7 +138,7 @@ export function AddGroupToFavourite(onClose: () => void) {
           >
             Избранные группы
           </Heading>
-          <RadioGroup value={selectGroup} onChange={setSelectGroup}>
+          <RadioGroup value={selectGroup} py='10px' onChange={setSelectGroup}>
             <Stack fontSize={'18px'} fontWeight={'500'} color={mainTextColor}>
               {favouriteGroups.map((group) => (
                 <React.Fragment key={group.id}>

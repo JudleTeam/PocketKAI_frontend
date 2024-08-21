@@ -40,7 +40,7 @@ export const useColor = () => {
     theme.colors.dark.card
   );
   const themeColor = useColorModeValue('#999999', '#10131A');
-  const drawerColor = useColorModeValue('#fff', '#1A202C')
+  const drawerColor = useColorModeValue('#fff', '#171923')
   return {
     mainTextColor,
     mainElementColor,

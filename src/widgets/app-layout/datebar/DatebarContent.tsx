@@ -74,7 +74,7 @@ export function DatebarContent({
                   currentDay === day.date
                     ? {
                         backgroundColor: cardColor,
-                        boxShadow: `0px 0px 5px 0px ${cardColor}`,
+                        boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
                       }
                     : {}
                 }

@@ -66,7 +66,7 @@ export function WeekSchedule() {
               color: secondElementLightColor,
               bgColor: cardColor,
               fontSize: '16px',
-              boxShadow: `0 0 5px 0px ${cardColor}`,
+              boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
               borderRadius: '4px',
             }}
             color={secondElementColor}
@@ -80,7 +80,7 @@ export function WeekSchedule() {
               color: secondElementLightColor,
               bgColor: cardColor,
               fontSize: '16px',
-              boxShadow: `0 0 5px 0px ${cardColor}`,
+              boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
               borderRadius: '4px',
             }}
             color={secondElementColor}
@@ -103,7 +103,7 @@ export function WeekSchedule() {
               fontWeight="medium"
               borderRadius="8px"
               bgColor={currentDay === day[0] ? cardColor : ''}
-              boxShadow={currentDay === day[0] ? `0 0 5px 0 ${cardColor}` : ''}
+              boxShadow={currentDay === day[0] ? `0 0 5px 0 rgba(0, 0, 0, 0.2)` : ''}
               padding={'10px'}
             >
               <button
@@ -128,7 +128,7 @@ export function WeekSchedule() {
         overflowY="auto"
         top="30vh"
         left="50%"
-        transform="translate(-50%, 0)"
+        transform={weekScheduleStatus === 'success' ? 'none' : "translate(-50%, 0)"}
         position={weekScheduleStatus === 'success' ? 'initial' : 'absolute'}
       >
         <Loader status={weekScheduleStatus} idleMessage="Выберите группу">
