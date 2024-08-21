@@ -9,5 +9,11 @@ export const getCurrentSemester = () => {
   if (SEMESTER_BREAKPOINTS.secondSemester.contains(today)) {
     return 'second';
   }
+  if (SEMESTER_BREAKPOINTS.winterHoliday.contains(today)) {
+    return 'winterHoliday';
+  }
+  if (SEMESTER_BREAKPOINTS.summerHoliday.contains(today)) {
+    return 'summerHoliday';
+  }
   return 'holiday';
 };

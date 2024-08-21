@@ -16,17 +16,17 @@ import { useGoUpButton } from '../lib/useGoUpButton';
 import { scrollToToday } from '@/shared/lib';
 export function ScheduleLayout() {
   const today = getTodayDate();
-  const { schedule, semester } = useSchedule();
+  const { schedule } = useSchedule();
   const { upperRef, lowerRef, scheduleContainerRef } = useInfiniteScroll();
   const { showButton, position: todayBlockPosition } = useGoUpButton();
   const { theme } = useChakra();
-  console.log(semester)
+
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const mainElementColor = useColorModeValue(
     theme.colors.light.main_element,
     theme.colors.dark.main_element
   );
-  return (  
+  return (
     <div
       id="schedule"
       className={styles['schedule']}

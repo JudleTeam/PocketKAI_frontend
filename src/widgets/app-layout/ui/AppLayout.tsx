@@ -19,6 +19,7 @@ import { useGroup, useSchedule } from '@/entities';
 import { useScrollSpy } from '../lib/useScrollSpy';
 import { parityTypes } from '@/shared/constants';
 import { scrollToToday } from '@/shared/lib';
+import { isScheduleOutdated } from '@/entities';
 
 export type ContextType = [
   string,
@@ -26,7 +27,7 @@ export type ContextType = [
 ];
 
 export function AppLayout() {
-  const { isOpen, onOpen, onClose, onToggle} = useDisclosure();
+  const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
   const [currentDay, setCurrentDay] = useState<string>(
     DateTime.now().setZone('Europe/Moscow').toFormat('yyyy-LL-dd')
   );
@@ -105,7 +106,11 @@ export function AppLayout() {
             <Text fontSize={22}>
               {DateTime.now().setLocale('ru').toFormat('d MMMM')}
             </Text>
+
             <Text>{parity && parityTypes[parity?.parity]}</Text>
+            <Text fontSize={12} color={'#ed8936'}>
+              {isScheduleOutdated(schedule.parsed_at) && 'Расписание устарело'}
+            </Text>
           </VStack>
           <SelectGroup onOpen={onOpen} />
         </Box>
@@ -124,7 +129,7 @@ export function AppLayout() {
       <UiModal
         isOpen={isOpen}
         onClose={onClose}
-          setIsOpen={onToggle}
+        setIsOpen={onToggle}
         modalActions={() => AddGroupToFavourite(onClose)}
       />
     </div>

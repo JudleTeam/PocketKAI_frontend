@@ -16,7 +16,7 @@ import { getCurrentSemester } from '../lib/getCurrentSemester';
 type StoreState = {
   schedule: Schedule;
   weekSchedule: Nullable<FullWeekSchedule>;
-  semester: 'first' | 'second' | 'holiday';
+  semester: 'first' | 'second' | 'winterHoliday' | 'summerHoliday' | 'holiday';
   examsSchedule: null;
   parity: Nullable<WeekParity>;
   scheduleStatus: FetchStatus;

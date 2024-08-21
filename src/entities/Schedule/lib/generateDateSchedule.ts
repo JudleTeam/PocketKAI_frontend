@@ -2,6 +2,7 @@ import { FullWeekSchedule, Lesson, Nullable, Schedule } from '@/shared';
 import { DateTime } from 'luxon';
 import { ScheduleParams } from '../model/types';
 import { SEMESTER_BREAKPOINTS } from '@/shared/constants';
+import { getCurrentSemester } from './getCurrentSemester';
 
 type WeekDays =
   | 'monday'
@@ -34,18 +35,25 @@ export async function generateDateSchedule(
   };
 
   const dateSchedule: Schedule = {
-    parsed_at: '',
+    parsed_at: fullSchedule?.even.parsed_at || '',
     days: [],
   };
-
+  const currentSemester = getCurrentSemester();
+  const currentSemesterCondition = (
+    targetDate: DateTime<true> | DateTime<false>
+  ) => {
+    if (currentSemester === 'first' || currentSemester === 'summerHoliday') {
+      return SEMESTER_BREAKPOINTS.firstSemester.contains(targetDate);
+    }
+    if (currentSemester === 'second' || currentSemester === 'winterHoliday') {
+      return SEMESTER_BREAKPOINTS.secondSemester.contains(targetDate);
+    }
+  };
   for (let i = 0; i < params.days_count; i++) {
     const targetDate = dateFrom.startOf('week').plus({ days: i });
 
     let lessons: Lesson[] = [];
-    if (
-      SEMESTER_BREAKPOINTS.firstSemester.contains(targetDate) ||
-      SEMESTER_BREAKPOINTS.secondSemester.contains(targetDate)
-    ) {
+    if (currentSemesterCondition(targetDate)) {
       const targetWeekParity = targetDate.weekNumber % 2 === 0 ? 'even' : 'odd';
       const dayName = daysOfWeek[targetDate.weekday];
       lessons = fullSchedule[targetWeekParity]?.week_days[dayName] || [];
