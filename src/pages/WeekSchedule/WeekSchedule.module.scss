@@ -2,7 +2,7 @@
 .full-schedule {
   display: flex !important;
   flex-direction: column;
-  padding: 0 0 10px 0;
+  padding: 10px 0 10px 0;
   height: 92%;
   scrollbar-width: none;
   scroll-padding-top: 135px;
@@ -10,7 +10,7 @@
     position: fixed;
     z-index: 10;
     padding: 10px 15px;
-    top: 70px;
+    top: 85px;
     left: 0;
     width: 100%;
     display: flex;
