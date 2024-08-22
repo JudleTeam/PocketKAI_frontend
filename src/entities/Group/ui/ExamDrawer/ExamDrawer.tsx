@@ -1,15 +1,14 @@
-import {
-  Text,
-  Box,
-  Avatar,
-} from '@chakra-ui/react';
-import { ExamType } from '@/shared';
+import { Text, Box, Avatar, useToast } from '@chakra-ui/react';
+import { CopyToast, ExamType } from '@/shared';
 import { Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import { getLessonBuilding, useColor } from '@/shared/lib';
 import { HashLink } from 'react-router-hash-link';
+import { CopyIcon } from '@chakra-ui/icons';
 export function ExamDrawer({ exam }: { exam: ExamType }) {
-  const {cardColor, tabTeacher, tabColor, mainTextColor, mainElementColor} = useColor()
+  const { cardColor, tabTeacher, tabColor, mainTextColor, mainElementColor } =
+    useColor();
+  const toast = useToast();
   return (
     <Box
       padding="25px 0 0 0"
@@ -18,8 +17,13 @@ export function ExamDrawer({ exam }: { exam: ExamType }) {
       flexDirection="column"
       gap="5px"
     >
-      <Text fontSize="24px" fontWeight="bold">
-        {exam.discipline.name}
+      <Text
+        fontSize="24px"
+        fontWeight="bold"
+        onClick={() => CopyToast(exam.discipline.name, toast)}
+        _active={{ textDecoration: 'underline', transition: '0.2s' }}
+      >
+        <CopyIcon /> {exam.discipline.name}
       </Text>
       <Text fontSize="24px" fontWeight="medium">
         {exam.time.slice(0, -3)}
@@ -58,7 +62,11 @@ export function ExamDrawer({ exam }: { exam: ExamType }) {
       </Text>
       <Box
         as={HashLink}
-        to={exam.teacher ? `/teachers#${exam?.teacher?.id}&${exam.discipline.id}` : '/teachers'}
+        to={
+          exam.teacher
+            ? `/teachers#${exam?.teacher?.id}&${exam.discipline.id}`
+            : '/teachers'
+        }
         boxShadow={`0px 0px 5px 0px ${tabColor}`}
         bgColor={cardColor}
         borderRadius="16px"
@@ -72,9 +80,7 @@ export function ExamDrawer({ exam }: { exam: ExamType }) {
         <Avatar bg={mainElementColor} />
         <Box>
           <Text fontSize="16px" fontWeight="medium">
-            {exam?.teacher?.name
-              ? exam.teacher.name
-              : 'Преподаватель кафедры'}
+            {exam?.teacher?.name ? exam.teacher.name : 'Преподаватель кафедры'}
           </Text>
         </Box>
       </Box>

@@ -4,8 +4,8 @@ import { useChakra, useColorModeValue } from '@chakra-ui/react';
 import { getSpecialtyDetails } from './lib/getSpecialtyDetails';
 import { AccountTabHeader } from '@/shared/lib';
 import styles from './Speciality.module.scss';
-import { copyToClipboard } from '@/shared/lib';
 import { CopyIcon } from '@chakra-ui/icons';
+import { CopyToast } from '@/shared';
 export function Speciality() {
   const toast = useToast();
   const { homeGroup } = useGroup();
@@ -90,22 +90,7 @@ export function Speciality() {
                     textDecoration: 'underline',
                     fontSize: '16px',
                   }}
-                  onClick={() => {
-                    if (url.value)
-                      toast.promise(copyToClipboard(url.value), {
-                        success: {
-                          title: 'Скопировано',
-                          position: 'top-right',
-                          duration: 1000,
-                        },
-                        error: {
-                          title: 'Не удалось скопировать',
-                          position: 'top-right',
-                          duration: 1000,
-                        },
-                        loading: {},
-                      });
-                  }}
+                  onClick={() => CopyToast(url.value || '', toast)}
                 >
                   {url.value} <CopyIcon />
                 </a>

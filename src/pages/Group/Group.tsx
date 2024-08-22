@@ -5,12 +5,15 @@ import {
   useChakra,
   useColorModeValue,
   Divider,
+  useToast,
 } from '@chakra-ui/react';
 import { AccountTabHeader } from '@/shared/lib';
 import styles from './Group.module.scss';
 import { CrownIcon } from '@/shared/assets/chakraIcons/CrownIcon';
 import React, { useEffect } from 'react';
 import { Loader } from '@/shared/ui/loader/Loader';
+import { CopyToast } from '@/shared';
+import { CopyIcon } from '@chakra-ui/icons';
 export function Group() {
   const { theme } = useChakra();
   const { homeGroup } = useGroup();
@@ -34,6 +37,7 @@ export function Group() {
     theme.colors.light.blue_element,
     theme.colors.dark.blue_element
   );
+  const toast = useToast();
   return (
     <Box className={styles['group']}>
       <Box
@@ -57,17 +61,9 @@ export function Group() {
                 display="flex"
                 alignItems="center"
                 gap="10px"
+                onClick={() => CopyToast(groupMember.full_name, toast)}
+                _active={{opacity: 0.5, transition: '0.2s'}}
               >
-                {groupMember.is_leader ? (
-                  <CrownIcon
-                    position="absolute"
-                    top="-5px"
-                    zIndex="1"
-                    transform="rotate(-23deg)"
-                    left="1px"
-                    color="yellow.500"
-                  />
-                ) : null}
                 <Box
                   w="35px"
                   h="35px"
@@ -79,6 +75,16 @@ export function Group() {
                   }
                   borderRadius="50%"
                 >
+                  {groupMember.is_leader ? (
+                  <CrownIcon
+                    position="absolute"
+                    top='-14px'
+                    left='-2px'
+                    zIndex="1"
+                    transform="rotate(-23deg)"
+                    color="yellow.500"
+                  />
+                ) : null}
                   <Text
                     position="absolute"
                     top="50%"
@@ -99,14 +105,16 @@ export function Group() {
                   flexDirection="column"
                   justifyContent="center"
                   gap="0px"
+                  w='80%'
                 >
-                  <Text fontWeight="bold" color={mainTextColor}>
+                  <Text fontWeight="bold"  w='95%' color={mainTextColor}>
                     {groupMember.full_name}
                   </Text>
                   <Text fontWeight="medium" fontSize="14px" color="gray.500">
                     {groupMember.email}
                   </Text>
                 </Box>
+              <CopyIcon position='absolute' right='0' />
               </Box>
               <Divider />
             </React.Fragment>

@@ -1,4 +1,4 @@
-import { Lesson } from '@/shared';
+import { CopyToast, Lesson } from '@/shared';
 import { DateTime } from 'luxon';
 import { getLessonBuilding, useColor } from '@/shared/lib';
 import { LessonTypes } from '@/shared/constants';
@@ -11,12 +11,14 @@ import {
   PopoverTrigger,
   useChakra,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
 import { parityTypes } from '@/shared/constants';
 import { Link } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 import { Text, VStack, Box } from '@chakra-ui/react';
 import { DrawerTitle } from '@/shared/ui/drawer';
+import { CopyIcon } from '@chakra-ui/icons';
 const LessonDrawer = ({
   dayDate,
   lesson,
@@ -33,12 +35,18 @@ const LessonDrawer = ({
     'light.main_element',
     'dark.main_element'
   );
-  const {cardColor, tabTeacher} = useColor()
+  const { cardColor, tabTeacher } = useColor();
+  const toast = useToast();
   return (
     <>
       <div className="flex flex-col gap-3 pt-5 text-l-main-text dark:text-d-main-text">
-        <DrawerTitle className="text-2xl font-bold">
-          {lesson.discipline.name}
+        <DrawerTitle
+          className="text-2xl font-bold"
+          onClick={() => CopyToast(lesson.discipline.name, toast)}
+        >
+          <Text _active={{ textDecoration: 'underline', transition: '0.2s' }}>
+            <CopyIcon /> {lesson.discipline.name}
+          </Text>
         </DrawerTitle>
         <p className="text-2xl font-medium">
           {lesson.start_time?.slice(0, -3)} {lesson.end_time && '-'}{' '}
@@ -110,12 +118,12 @@ const LessonDrawer = ({
               <PopoverArrow />
               <PopoverBody fontSize="14px">
                 <Text fontSize={'14px'} color={mainTextColor}>
-                {lesson.parsed_dates
-                  .map((date) =>
-                    DateTime.fromISO(date).setLocale('ru').toFormat('dd MMMM')
-                  )
-                  .join(', ')}
-                  </Text>
+                  {lesson.parsed_dates
+                    .map((date) =>
+                      DateTime.fromISO(date).setLocale('ru').toFormat('dd MMMM')
+                    )
+                    .join(', ')}
+                </Text>
               </PopoverBody>
             </PopoverContent>
           </Popover>
@@ -137,7 +145,11 @@ const LessonDrawer = ({
         </Text>
         <Box
           as={HashLink}
-          to={lesson.teacher ? `/teachers#${lesson?.teacher?.id}&${lesson.discipline.id}` : '/teachers'}
+          to={
+            lesson.teacher
+              ? `/teachers#${lesson?.teacher?.id}&${lesson.discipline.id}`
+              : '/teachers'
+          }
           boxShadow={`0px 0px 5px 0px ${tab}`}
           bgColor={cardColor}
           borderRadius="16px"

@@ -23,10 +23,7 @@ export function Exams() {
 
   useEffect(() => {
     if (currentGroup?.id) {
-      getExamsByGroupId(currentGroup?.id, {
-        academic_year: '2023-2024',
-        academic_year_half: 2,
-      });
+      getExamsByGroupId(currentGroup?.id);
     }
   }, [getExamsByGroupId, currentGroup]);
   return (
@@ -63,13 +60,6 @@ export function Exams() {
             <ExamCard key={exam.id} exam={exam} />
             {exams.length - 1 === index ? (
               <Box display="flex" flexDirection="column" gap="10px">
-                <Text
-                  color={mainTextColor}
-                  fontWeight="regular"
-                  fontSize="18px"
-                >
-                  Далее
-                </Text>
                 <div className={styles['exam__timeline']}>
                   <div className={styles['exam__timeline-stub']} />
                   <div className={styles['exam__timeline-part']}>
@@ -78,10 +68,6 @@ export function Exams() {
                       className={styles['exam__timeline-part-line']}
                     ></Box>
                     <Box display='flex' justifyContent={'center'} alignItems={'center'}>{lessonStateIcons['upcoming']}</Box>
-                    <Box
-                      bgColor={'#3182ce'}
-                      className={styles['exam__timeline-part-line']}
-                    ></Box>
                   </div>
                   <Box>
                     <Box className={styles['exam__timeline-part-line']}></Box>
