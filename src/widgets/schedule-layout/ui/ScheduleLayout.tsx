@@ -20,6 +20,7 @@ export function ScheduleLayout() {
   const { upperRef, lowerRef, scheduleContainerRef } = useInfiniteScroll();
   const { showButton, position: todayBlockPosition } = useGoUpButton();
   const { theme } = useChakra();
+
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const mainElementColor = useColorModeValue(
     theme.colors.light.main_element,
@@ -36,46 +37,52 @@ export function ScheduleLayout() {
         <Skeleton height="20px" />
         <Skeleton height="20px" />
       </Stack>
-      {schedule?.days.map((day) => (
-        <div key={day.date} className={styles['day']} id={day.date}>
-          <Text
-            color={mainTextColor}
-            fontWeight="medium"
-            fontSize="18px"
-            pt="5px"
-          >
-            {getFormattedDate(day.date)}
-          </Text>
-          <div className={styles['day__timeline']}>
-            <div className={styles['day__timeline-stub']} />
-            <div className={styles['day__timeline-part']}>
-              <Box
-                bgColor={today >= day.date ? '#3182ce80' : '#3182ce'}
-                className={styles['day__timeline-part-line']}
-              ></Box>
+      {schedule?.days.map((day) => {
+        return (
+          <div key={day.date} className={styles['day']} id={day.date}>
+            <Text
+              color={mainTextColor}
+              fontWeight="medium"
+              fontSize="18px"
+              pt="5px"
+            >
+              {getFormattedDate(day.date)}
+            </Text>
+            <div className={styles['day__timeline']}>
+              <div className={styles['day__timeline-stub']} />
+              <div className={styles['day__timeline-part']}>
+                <Box
+                  bgColor={today >= day.date ? '#3182ce80' : '#3182ce'}
+                  className={styles['day__timeline-part-line']}
+                ></Box>
+              </div>
             </div>
-          </div>
-          {day.lessons.length === 0 && <RestCard dayDate={day.date} />}
-          {day.lessons.map((lesson) => {
-            if (
-              lesson.parsed_dates &&
-              !lesson.parsed_dates.includes(day.date)
-            ) {
+            {day.lessons.length === 0 && <RestCard dayDate={day.date} />}
+            {day.lessons.map((lesson) => {
+              if (
+                lesson.parsed_dates &&
+                !lesson.parsed_dates.includes(day.date)
+              ) {
+                return (
+                  <FadedLessonCard
+                    key={lesson.id}
+                    lesson={lesson}
+                    dayDate={day.date}
+                  />
+                );
+              }
+
               return (
-                <FadedLessonCard
-                  key={lesson.id}
+                <LessonCard
                   lesson={lesson}
                   dayDate={day.date}
+                  key={lesson.id}
                 />
               );
-            }
-
-            return (
-              <LessonCard lesson={lesson} dayDate={day.date} key={lesson.id} />
-            );
-          })}
-        </div>
-      ))}
+            })}
+          </div>
+        );
+      })}
       <Stack ref={lowerRef}>
         <Skeleton height="20px" />
         <Skeleton height="20px" />

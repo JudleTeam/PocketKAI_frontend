@@ -11,7 +11,7 @@ export const LessonTypes: Record<string, Nullable<ReactNode>> = {
   practice: (
     <Text
       as={'span'}
-      color="#2B6CB0"
+      color="#3182CE"
       display="flex"
       alignItems="center"
       gap="5px"
@@ -23,7 +23,7 @@ export const LessonTypes: Record<string, Nullable<ReactNode>> = {
   lecture: (
     <Text
       as={'span'}
-      color="#6B46C1"
+      color="#805AD5"
       display="flex"
       alignItems="center"
       gap="5px"
@@ -35,7 +35,7 @@ export const LessonTypes: Record<string, Nullable<ReactNode>> = {
   lab_work: (
     <Text
       as={'span'}
-      color="#2C7A7B"
+      color="#38A169"
       display="flex"
       alignItems="center"
       gap="5px"

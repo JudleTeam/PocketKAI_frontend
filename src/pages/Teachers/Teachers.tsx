@@ -67,7 +67,6 @@ export function Teachers() {
           </MenuOptionGroup>
         </MenuList>
       </Menu>
-
       {layoutType === 'group' && <GroupTeachers />}
       {layoutType === 'searched' && <SearchedTeachers />}
     </Box>

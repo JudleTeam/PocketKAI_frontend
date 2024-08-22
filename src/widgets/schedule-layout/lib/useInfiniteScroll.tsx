@@ -20,7 +20,7 @@ export function useInfiniteScroll() {
     if (!schedule || !currentGroup || !schedule.days.length) return;
     const options = {
       root: null,
-      rootMargin: '120px 0px 120px 0px',
+      rootMargin: '420px 0px 120px 0px',
       threshold: 0.1,
     };
     observer.current = new IntersectionObserver((entries, observerInstance) => {

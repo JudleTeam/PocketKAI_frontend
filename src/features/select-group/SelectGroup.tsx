@@ -12,7 +12,7 @@ import {
   Button,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useEffect } from 'react';
+import React,{ useEffect } from 'react';
 
 export function SelectGroup({ onOpen }: { onOpen: () => void }) {
   const mainElementColor = useColorModeValue(
@@ -64,6 +64,8 @@ export function SelectGroup({ onOpen }: { onOpen: () => void }) {
         >
           Добавить группу
         </MenuItem>
+        {favouriteGroups.length > 0 && 
+        <React.Fragment>
         <MenuDivider />
         <MenuOptionGroup
           title="Группа"
@@ -85,6 +87,7 @@ export function SelectGroup({ onOpen }: { onOpen: () => void }) {
             </MenuItemOption>
           ))}
         </MenuOptionGroup>
+        </React.Fragment>}
       </MenuList>
     </Menu>
   );

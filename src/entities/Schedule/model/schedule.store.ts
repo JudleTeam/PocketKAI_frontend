@@ -11,10 +11,12 @@ import {
 import { generateDateSchedule } from '../lib/generateDateSchedule';
 import { formWeekSchedule } from '../lib/formWeekSchedule';
 import { DateTime } from 'luxon';
+import { getCurrentSemester } from '../lib/getCurrentSemester';
 
 type StoreState = {
   schedule: Schedule;
   weekSchedule: Nullable<FullWeekSchedule>;
+  semester: 'first' | 'second' | 'winterHoliday' | 'summerHoliday' | 'holiday';
   examsSchedule: null;
   parity: Nullable<WeekParity>;
   scheduleStatus: FetchStatus;
@@ -36,6 +38,7 @@ const initialState: StoreState = {
   schedule: { parsed_at: '', days: [] },
   weekSchedule: null,
   examsSchedule: null,
+  semester: getCurrentSemester(),
   parity: {
     date: '',
     parity:

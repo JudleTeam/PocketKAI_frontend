@@ -39,7 +39,7 @@ module.exports = {
         'd-blue-light-element': '#718096', // gray.500
         'd-black-light-element': '#71809680', // gray.500 + 80%
         'd-card': '#2D3748', // gray.700
-        'd-main': '#1A202C', // gray.800
+        'd-main': '#171923', // gray.900
         'd-account-actions': '#2D3748', //gray.700
         'd-exit-button': '#E53E3E', // red.500
         'd-tab': '#1A202C', // gray.800
