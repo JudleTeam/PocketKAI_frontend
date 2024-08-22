@@ -10,14 +10,16 @@ import {
   PopoverContent,
   PopoverBody,
   PopoverTrigger,
+  useToast,
 } from '@chakra-ui/react';
-import { Lesson } from '@/shared';
+import { CopyToast, Lesson } from '@/shared';
 import { Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import { getLessonBuilding, useColor } from '@/shared/lib';
 import { LessonTypes } from '@/shared/constants';
 import { parityTypes } from '@/shared/constants';
 import { HashLink } from 'react-router-hash-link';
+import { CopyIcon } from '@chakra-ui/icons';
 export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
   const { theme } = useChakra();
   const tab = useColorModeValue(theme.colors.light.tab, theme.colors.dark.tab);
@@ -26,6 +28,7 @@ export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
     'light.main_element',
     'dark.main_element'
   );
+  const toast = useToast();
   const { cardColor, tabTeacher } = useColor();
   return (
     <Box
@@ -35,8 +38,13 @@ export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
       flexDirection="column"
       gap="5px"
     >
-      <Text fontSize="24px" fontWeight="bold">
-        {lesson.discipline.name}
+      <Text
+        fontSize="24px"
+        fontWeight="bold"
+        _active={{ textDecoration: 'underline', transition: '0.2s' }}
+        onClick={() => CopyToast(lesson.discipline.name, toast)}
+      >
+        <CopyIcon /> {lesson.discipline.name}
       </Text>
       <Text fontSize="24px" fontWeight="medium">
         {lesson.start_time?.slice(0, -3)} {lesson.end_time && '-'}{' '}
@@ -130,7 +138,11 @@ export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
       </Text>
       <Box
         as={HashLink}
-        to={lesson.teacher ? `/teachers#${lesson?.teacher?.id}&${lesson.discipline.id}` : '/teachers'}
+        to={
+          lesson.teacher
+            ? `/teachers#${lesson?.teacher?.id}&${lesson.discipline.id}`
+            : '/teachers'
+        }
         boxShadow={`0px 0px 5px 0px ${tab}`}
         bgColor={cardColor}
         borderRadius="16px"
