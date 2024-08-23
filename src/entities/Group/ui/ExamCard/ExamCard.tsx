@@ -69,6 +69,7 @@ export function ExamCard({ exam }: { exam: ExamType }) {
               fontWeight="bold"
               lineHeight={1.3}
               className={styles['exam-card__name']}
+              noOfLines={2}
             >
               {exam.discipline.name}
             </Text>

@@ -126,7 +126,9 @@ export function Profile() {
                   justifyContent='center'
                   alignItems='center'
                   color={mainTextColor} fontSize="14px"
-                  onClick={() => detail.value && CopyToast(detail.value, toast)}>
+                  onClick={() => detail.value && CopyToast(detail.value, toast)}
+                  _active={{textDecoration: 'underline', transition: '0.2s'}}
+                  >
                     {detail.value}
                     <CopyIcon/>
                   </Text>
