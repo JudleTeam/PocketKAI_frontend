@@ -1,9 +1,9 @@
 import { apiClient, ApiResponse, UserStudent, UserGroupMember } from '@/shared';
-import { AuthParams, TokenResponse } from './types';
+import { AuthParams, AuthResponse } from './types';
 
 export const userService = {
-  postAuth: (params: AuthParams): ApiResponse<TokenResponse> => {
-    return apiClient.post<TokenResponse>('auth/login', params, {
+  postAuth: (params: AuthParams): ApiResponse<AuthResponse> => {
+    return apiClient.post<AuthResponse>('auth/login', params, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
