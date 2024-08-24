@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { WEEK_DAYS } from '@/shared/constants';
-import { CopyToast, Teacher } from '@/shared';
+import { copyToast, Teacher } from '@/shared';
 import { useEffect, useState } from 'react';
 import { useTeachers } from '../../model/teacher.store';
 import { useColor } from '@/shared/lib';
@@ -58,12 +58,10 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
         fontWeight="bold"
         _active={{ textDecoration: 'underline', transition: '0.2s' }}
         onClick={() =>
-          CopyToast(teacher?.name || 'Преподаватель кафедры', toast)
+          copyToast(teacher?.name || 'Преподаватель кафедры', toast)
         }
       >
-        <CopyIcon/>
-        {' '}
-        {teacher?.name ?? 'Преподаватель кафедры'}
+        <CopyIcon /> {teacher?.name ?? 'Преподаватель кафедры'}
       </Text>
       <Box
         display="flex"

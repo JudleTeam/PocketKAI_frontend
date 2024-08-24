@@ -5,7 +5,7 @@ import { getSpecialtyDetails } from './lib/getSpecialtyDetails';
 import { AccountTabHeader } from '@/shared/lib';
 import styles from './Speciality.module.scss';
 import { CopyIcon } from '@chakra-ui/icons';
-import { CopyToast } from '@/shared';
+import { copyToast } from '@/shared';
 export function Speciality() {
   const toast = useToast();
   const { homeGroup } = useGroup();
@@ -90,7 +90,7 @@ export function Speciality() {
                     textDecoration: 'underline',
                     fontSize: '16px',
                   }}
-                  onClick={() => CopyToast(url.value || '', toast)}
+                  onClick={() => copyToast(url.value || '', toast)}
                 >
                   {url.value} <CopyIcon />
                 </a>

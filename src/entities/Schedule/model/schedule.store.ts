@@ -18,6 +18,7 @@ type StoreState = {
   weekSchedule: Nullable<FullWeekSchedule>;
   semester: 'first' | 'second' | 'winterHoliday' | 'summerHoliday' | 'holiday';
   examsSchedule: null;
+  showFadedLessons: boolean;
   parity: Nullable<WeekParity>;
   scheduleStatus: FetchStatus;
   weekScheduleStatus: FetchStatus;
@@ -31,6 +32,7 @@ type StoreActions = {
   ) => Promise<void>;
   getSchedule: (params: ScheduleParams) => Promise<void>;
   getWeekParity: (params?: WeekParity) => Promise<void>;
+  setShowFadedLessons: (showFadedLessons: boolean) => void;
   resetScheduleState: () => void;
 };
 
@@ -39,6 +41,7 @@ const initialState: StoreState = {
   weekSchedule: null,
   examsSchedule: null,
   semester: getCurrentSemester(),
+  showFadedLessons: true,
   parity: {
     date: '',
     parity:
@@ -98,5 +101,10 @@ export const useSchedule = create<StoreState & StoreActions>((set, get) => ({
     const response = await scheduleService.getWeekParity(params);
     set({ parity: response.data });
   },
+
+  setShowFadedLessons: (value) => {
+    set({ showFadedLessons: value });
+  },
+
   resetScheduleState: () => set(initialState),
 }));

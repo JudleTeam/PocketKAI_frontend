@@ -12,7 +12,7 @@ import {
   PopoverTrigger,
   useToast,
 } from '@chakra-ui/react';
-import { CopyToast, Lesson } from '@/shared';
+import { copyToast, Lesson } from '@/shared';
 import { Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import { getLessonBuilding, useColor } from '@/shared/lib';
@@ -42,7 +42,7 @@ export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
         fontSize="24px"
         fontWeight="bold"
         _active={{ textDecoration: 'underline', transition: '0.2s' }}
-        onClick={() => CopyToast(lesson.discipline.name, toast)}
+        onClick={() => copyToast(lesson.discipline.name, toast)}
       >
         <CopyIcon /> {lesson.discipline.name}
       </Text>

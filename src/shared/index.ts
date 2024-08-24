@@ -1,4 +1,4 @@
-export {CopyToast} from './ui/copy-toast/CopyToast';
+export { copyToast } from './ui/copy-toast/CopyToast';
 
 export { getTodayDate } from './lib/helpers/getTodayDate';
 
