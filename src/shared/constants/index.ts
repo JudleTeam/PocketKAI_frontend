@@ -1,3 +1,5 @@
+export { SEMESTER_BREAKPOINTS } from './SEMESTER_BREAKPOINTS';
+
 export { SHORT_WEEK_DAYS, WEEK_DAYS } from './WEEK_DAYS';
 
 export { LessonTypes } from './lessonTypes';

@@ -19,6 +19,7 @@ import { useGroup, useSchedule } from '@/entities';
 import { useScrollSpy } from '../lib/useScrollSpy';
 import { parityTypes } from '@/shared/constants';
 import { scrollToToday } from '@/shared/lib';
+import { isScheduleOutdated } from '@/entities';
 
 export type ContextType = [
   string,
@@ -26,9 +27,9 @@ export type ContextType = [
 ];
 
 export function AppLayout() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
   const [currentDay, setCurrentDay] = useState<string>(
-    DateTime.now().toFormat('yyyy-LL-dd')
+    DateTime.now().setZone('Europe/Moscow').toFormat('yyyy-LL-dd')
   );
   const { currentGroup } = useGroup();
   const {
@@ -42,8 +43,8 @@ export function AppLayout() {
   const swiperRef = useScrollSpy(schedule, setCurrentDay);
   const location = useLocation();
   useEffect(() => {
-    getWeekParity();
     const weekAgo = DateTime.now()
+      .setZone('Europe/Moscow')
       .startOf('week')
       .minus({ days: 7 })
       .toFormat('yyyy-LL-dd');
@@ -93,33 +94,50 @@ export function AppLayout() {
     location.pathname.includes('schedule/exams');
   return (
     <div className={styles['app-layout']}>
-      <Box className={styles['app-layout__header']} bgColor={mainColor}>
-        <VStack
-          alignItems={'flex-start'}
-          fontWeight={'medium'}
-          color={mainTextColor}
-          gap={0.4}
-          onClick={() => scrollToToday(true)}
-        >
-          <Text fontSize={22}>
-            {DateTime.now().setLocale('ru').toFormat('d MMMM')}
-          </Text>
-          <Text>{parity && parityTypes[parity?.parity]}</Text>
-        </VStack>
-        <SelectGroup onOpen={onOpen} />
+      <Box
+        bgColor={mainColor}
+        pos={'fixed'}
+        top={0}
+        left={0}
+        w={'100%'}
+        px={5}
+        zIndex={20}
+      >
+        <Box className={styles['app-layout__header']} bgColor={mainColor}>
+          <VStack
+            alignItems={'flex-start'}
+            fontWeight={'medium'}
+            color={mainTextColor}
+            gap={0.4}
+            onClick={() => scrollToToday(true)}
+          >
+            <Text fontSize={22}>
+              {DateTime.now().setLocale('ru').toFormat('d MMMM')}
+            </Text>
+
+            <Text>{parity && parityTypes[parity?.parity]}</Text>
+            <Text fontSize={12} color={'#ed8936'}>
+              {isScheduleOutdated(schedule.parsed_at) && 'Расписание устарело'}
+            </Text>
+          </VStack>
+          <SelectGroup onOpen={onOpen} />
+        </Box>
+        <UiDatebar
+          isNotDatebar={isNotDatebar}
+          datebarContent={DatebarContent({
+            currentDay,
+            setCurrentDay,
+            swiperRef,
+          })}
+        />
       </Box>
-      <UiDatebar
-        isNotDatebar={isNotDatebar}
-        datebarContent={DatebarContent({
-          currentDay,
-          setCurrentDay,
-          swiperRef,
-        })}
-      />
-      <Outlet context={[currentDay, setCurrentDay] satisfies ContextType} />
+      <div className="pt-16">
+        <Outlet context={[currentDay, setCurrentDay] satisfies ContextType} />
+      </div>
       <UiModal
         isOpen={isOpen}
         onClose={onClose}
+        setIsOpen={onToggle}
         modalActions={() => AddGroupToFavourite(onClose)}
       />
     </div>

@@ -1,6 +1,6 @@
-import { Lesson } from '@/shared';
+import { copyToast, Lesson } from '@/shared';
 import { DateTime } from 'luxon';
-import { getLessonBuilding } from '@/shared/lib';
+import { getLessonBuilding, useColor } from '@/shared/lib';
 import { LessonTypes } from '@/shared/constants';
 import {
   Avatar,
@@ -11,11 +11,14 @@ import {
   PopoverTrigger,
   useChakra,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
 import { parityTypes } from '@/shared/constants';
 import { Link } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
-import { DrawerHeader, Text, VStack, Box } from '@chakra-ui/react';
+import { Text, VStack, Box } from '@chakra-ui/react';
+import { DrawerTitle } from '@/shared/ui/drawer';
+import { CopyIcon } from '@chakra-ui/icons';
 const LessonDrawer = ({
   dayDate,
   lesson,
@@ -32,27 +35,23 @@ const LessonDrawer = ({
     'light.main_element',
     'dark.main_element'
   );
-  const tabTeacherColor = useColorModeValue(
-    'light.tab_teacher',
-    'dark.tab_teacher'
-  );
+  const { cardColor, tabTeacher } = useColor();
+  const toast = useToast();
   return (
     <>
-      <DrawerHeader
-        w="95%"
-        padding="25px 0 0 0"
-        color={mainTextColor}
-        display="flex"
-        flexDirection="column"
-        gap="5px"
-      >
-        <Text fontSize="24px" fontWeight="bold">
-          {lesson.discipline.name}
-        </Text>
-        <Text fontSize="24px" fontWeight="medium">
+      <div className="flex flex-col gap-3 pt-5 text-l-main-text dark:text-d-main-text">
+        <DrawerTitle
+          className="text-2xl font-bold"
+          onClick={() => copyToast(lesson.discipline.name, toast)}
+        >
+          <Text _active={{ textDecoration: 'underline', transition: '0.2s' }}>
+            <CopyIcon /> {lesson.discipline.name}
+          </Text>
+        </DrawerTitle>
+        <p className="text-2xl font-medium">
           {lesson.start_time?.slice(0, -3)} {lesson.end_time && '-'}{' '}
           {lesson.end_time?.slice(0, -3)}
-        </Text>
+        </p>
         <Box
           display="flex"
           justifyContent="space-between"
@@ -89,7 +88,7 @@ const LessonDrawer = ({
           </VStack>
         </Box>
         {lesson.parsed_dates && lesson.parsed_dates_status === 'good' ? (
-          <Text fontWeight="medium" fontSize="18px">
+          <Text fontWeight="medium" fontSize="18px" color={mainTextColor}>
             Даты проведения пары:{' '}
             {lesson.parsed_dates
               .map((date) =>
@@ -117,18 +116,22 @@ const LessonDrawer = ({
             </PopoverTrigger>
             <PopoverContent>
               <PopoverArrow />
-              <PopoverBody fontSize="14px" color={mainTextColor}>
-                {lesson.parsed_dates
-                  .map((date) =>
-                    DateTime.fromISO(date).setLocale('ru').toFormat('dd MMMM')
-                  )
-                  .join(', ')}
+              <PopoverBody fontSize="14px">
+                <Text fontSize={'14px'} color={mainTextColor}>
+                  {lesson.parsed_dates
+                    .map((date) =>
+                      DateTime.fromISO(date).setLocale('ru').toFormat('dd MMMM')
+                    )
+                    .join(', ')}
+                </Text>
               </PopoverBody>
             </PopoverContent>
           </Popover>
         ) : lesson.original_dates &&
           lesson.parsed_dates_status == 'need_check' ? (
-          <Text fontWeight="medium" fontSize="18px">Даты проведения пары:{' '}{lesson.original_dates}</Text>
+          <Text fontWeight="medium" fontSize="18px" color={mainTextColor}>
+            Даты проведения пары: {lesson.original_dates}
+          </Text>
         ) : null}
         <Text
           as={Link}
@@ -142,16 +145,20 @@ const LessonDrawer = ({
         </Text>
         <Box
           as={HashLink}
-          to={lesson.teacher ? `/teachers#${lesson?.teacher?.id}` : '/teachers'}
+          to={
+            lesson.teacher
+              ? `/teachers#${lesson?.teacher?.id}&${lesson.discipline.id}`
+              : '/teachers'
+          }
           boxShadow={`0px 0px 5px 0px ${tab}`}
-          bgColor={tab}
+          bgColor={cardColor}
           borderRadius="16px"
           padding="14px"
           display="flex"
           alignItems="center"
           gap="15px"
           transition="0.2s"
-          _active={{ bgColor: tabTeacherColor, transition: '0.2s' }}
+          _active={{ bgColor: tabTeacher, transition: '0.2s' }}
         >
           <Avatar bg={mainElementColor} />
           <Box>
@@ -165,7 +172,7 @@ const LessonDrawer = ({
             </Text>
           </Box>
         </Box>
-      </DrawerHeader>
+      </div>
       {/* <DrawerBody w="100%">
         <Tabs w="100%">
           <TabList w="100%">

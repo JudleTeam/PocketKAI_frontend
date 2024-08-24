@@ -8,10 +8,12 @@ import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-  PopoverBody,
   PopoverArrow,
   PopoverHeader,
+  PopoverBody,
+  useToast,
 } from '@chakra-ui/react';
+
 import { Link } from 'react-router-dom';
 import { LessonTypes, WEEK_DAYS } from '@/shared/constants';
 import React, { useEffect, useState } from 'react';
@@ -20,6 +22,9 @@ import { useColor } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader/Loader';
 import { TeacherLessonCard } from '../TeacherLessonCard';
 import { TeacherDisciplineType } from '../../model/types';
+import { getWeekParity } from '@/shared/lib';
+import { CopyIcon } from '@chakra-ui/icons';
+import { copyToast } from '@/shared';
 export const TeacherDrawer = function TeacherDrawer({
   disciplineType,
   disciplineName,
@@ -27,7 +32,13 @@ export const TeacherDrawer = function TeacherDrawer({
   disciplineType: TeacherDisciplineType;
   disciplineName: string;
 }) {
-  const [weekParity, setWeekParity] = useState<'even' | 'odd'>('even');
+  const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
+
+  const [weekParity, setWeekParity] = useState<'even' | 'odd'>(getWeekParity());
+  const numberParity = {
+    even: 0,
+    odd: 1,
+  };
   const {
     teacherScheduleStatus,
     teacherSchedule,
@@ -50,18 +61,30 @@ export const TeacherDrawer = function TeacherDrawer({
     drawerColor,
     secondElementColor,
     secondElementLightColor,
+    cardColor,
   } = useColor();
+  const toast = useToast();
   return (
     <Box
-      w="95%"
       h="100%"
-      padding="25px 0 0 0"
+      position="relative"
+      pt={3}
       color={mainTextColor}
       display="flex"
       flexDirection="column"
       gap="5px"
     >
-      <Text fontSize="24px" fontWeight="bold">
+      <Text
+        fontSize="24px"
+        fontWeight="bold"
+        onClick={() => {
+          const teacherName =
+            disciplineType.teacher?.name || 'Преподаватель кафедры';
+          copyToast(teacherName, toast);
+        }}
+        _active={{ textDecoration: 'underline', transition: '0.2s' }}
+      >
+        <CopyIcon />{' '}
         {disciplineType.teacher?.name
           ? disciplineType.teacher?.name
           : 'Преподаватель кафедры'}
@@ -101,6 +124,7 @@ export const TeacherDrawer = function TeacherDrawer({
           variant="unstyled"
           overflowY={'auto'}
           style={{ scrollbarWidth: 'none' }}
+          defaultIndex={numberParity[weekParity]}
         >
           <TabList
             padding="5px"
@@ -119,7 +143,7 @@ export const TeacherDrawer = function TeacherDrawer({
                 fontSize: '16px',
                 boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
                 borderRadius: '4px',
-                bgColor: mainColor,
+                bgColor: cardColor,
               }}
               color={secondElementColor}
               fontWeight="medium"
@@ -133,7 +157,7 @@ export const TeacherDrawer = function TeacherDrawer({
                 fontSize: '16px',
                 boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
                 borderRadius: '4px',
-                bgColor: mainColor,
+                bgColor: cardColor,
               }}
               color={secondElementColor}
               fontWeight="medium"
@@ -143,13 +167,13 @@ export const TeacherDrawer = function TeacherDrawer({
             </Tab>
           </TabList>
           <Box
-            pos={'relative'}
             minH={200}
             mb={'30px'}
             onClick={(e) => e.stopPropagation()}
             display="flex"
             flexDirection="column"
             gap="10px"
+            position="relative"
           >
             <Loader status={teacherScheduleStatus} idleMessage="">
               {teacherSchedule[weekParity].length > 0 ? (
@@ -158,7 +182,7 @@ export const TeacherDrawer = function TeacherDrawer({
                     weekParity
                   ].filter((lesson) => lesson.number_of_day === index + 1);
                   return (
-                    <Box>
+                    <Box position="relative">
                       <Text
                         fontSize={20}
                         fontWeight={'medium'}
@@ -168,7 +192,15 @@ export const TeacherDrawer = function TeacherDrawer({
                       </Text>
                       {filteredTeacherSchedule.length > 0 ? (
                         filteredTeacherSchedule.map((lesson) => (
-                          <Popover placement="bottom">
+                          <Popover
+                            isLazy
+                            key={lesson.id}
+                            isOpen={openPopoverId === lesson.id}
+                            onOpen={() =>
+                              lesson.id && setOpenPopoverId(lesson.id)
+                            }
+                            onClose={() => setOpenPopoverId(null)}
+                          >
                             <PopoverTrigger>
                               <button style={{ width: '100%' }}>
                                 <TeacherLessonCard
@@ -180,8 +212,8 @@ export const TeacherDrawer = function TeacherDrawer({
                             <PopoverContent bgColor={mainColor}>
                               <PopoverArrow bg={mainColor} />
                               <PopoverHeader
-                                fontSize="14px"
-                                fontWeight={'medium'}
+                                fontSize="16px"
+                                fontWeight={'bold'}
                                 color={mainTextColor}
                               >
                                 {lesson.discipline.name}
@@ -200,15 +232,13 @@ export const TeacherDrawer = function TeacherDrawer({
                                     Даты проведения: {lesson.original_dates}
                                   </Text>
                                 )}
-                                <Box>
-                                  <Box display="flex" flexWrap={'wrap'}>
-                                    <Text>Группы:&nbsp;</Text>
-                                    {lesson.groups.map((group) => (
-                                      <React.Fragment key={group.id}>
-                                        {group.group_name}{' '}
-                                      </React.Fragment>
-                                    ))}
-                                  </Box>
+                                <Box display="flex" flexWrap={'wrap'}>
+                                  <Text>Группы:&nbsp;</Text>
+                                  {lesson.groups.map((group) => (
+                                    <React.Fragment key={group.id}>
+                                      {group.group_name}{' '}
+                                    </React.Fragment>
+                                  ))}
                                 </Box>
                               </PopoverBody>
                             </PopoverContent>

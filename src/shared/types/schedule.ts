@@ -15,7 +15,6 @@ export type FullWeekSchedule = {
 
 export type Day = {
   date: string;
-  //  parity: 'odd' | 'even' | 'any';
   lessons: Lesson[];
 };
 

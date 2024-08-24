@@ -43,7 +43,6 @@ export function WeekSchedule() {
   const currentDayOfWeek = dayIndex;
   const longDaysOfWeek = Object.keys(SHORT_WEEK_DAYS);
   useScrollSpyFull(longDaysOfWeek, currentDay, setCurrentDay);
-
   return (
     <Tabs
       className={styles['full-schedule']}
@@ -67,7 +66,7 @@ export function WeekSchedule() {
               color: secondElementLightColor,
               bgColor: cardColor,
               fontSize: '16px',
-              boxShadow: `0 0 5px 0px ${cardColor}`,
+              boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
               borderRadius: '4px',
             }}
             color={secondElementColor}
@@ -81,7 +80,7 @@ export function WeekSchedule() {
               color: secondElementLightColor,
               bgColor: cardColor,
               fontSize: '16px',
-              boxShadow: `0 0 5px 0px ${cardColor}`,
+              boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
               borderRadius: '4px',
             }}
             color={secondElementColor}
@@ -104,7 +103,7 @@ export function WeekSchedule() {
               fontWeight="medium"
               borderRadius="8px"
               bgColor={currentDay === day[0] ? cardColor : ''}
-              boxShadow={currentDay === day[0] ? `0 0 5px 0 ${cardColor}` : ''}
+              boxShadow={currentDay === day[0] ? `0 0 5px 0 rgba(0, 0, 0, 0.2)` : ''}
               padding={'10px'}
             >
               <button
@@ -122,56 +121,69 @@ export function WeekSchedule() {
           ))}
         </HStack>
       </Box>
-      <Box w='100%' padding='0 4px 60px 4px' style={{scrollbarWidth: 'none'}} overflowY='auto'>
-      <Loader status={weekScheduleStatus} idleMessage="Выберите группу">
-        {weekSchedule &&
-          Object.entries(weekSchedule[weekParity].week_days).map((weekDay) => {
-            const dayName = weekDay[0] as keyof typeof SHORT_WEEK_DAYS;
-            const dayLessons = weekDay[1];
-            if (weekDay[0] === 'sunday') return null;
-            return (
-              <div id={dayName} key={dayName}>
-                <Text
-                  color={mainTextColor}
-                  fontWeight="medium"
-                  fontSize="18px"
-                  padding='10px 0'
-                >
-                  {dayName && WEEK_DAYS[dayName]}
-                </Text>
-                {dayLessons.length > 0 ? (
-                  <VStack gap="10px">
-                    {dayLessons?.map((lesson) => {
-                      if (
-                        lesson.parsed_dates ||
-                        lesson.parsed_dates_status === 'need_check'
-                      ) {
-                        return (
-                          <Box className={styles['faded']} key={lesson.id}>
-                            <FullLessonCard lesson={lesson} />
-                          </Box>
-                        );
-                      }
-                      return <FullLessonCard lesson={lesson} key={lesson.id} />;
-                    })}
-                  </VStack>
-                ) : (
-                  <Box
-                    w="100%"
-                    bgColor={cardColor}
-                    borderRadius="8px"
-                    padding="10px 15px"
-                    color={mainTextColor}
-                    fontWeight="bold"
-                    fontSize="18px"
-                  >
-                    Время отдыхать
-                  </Box>
-                )}
-              </div>
-            );
-          })}
-      </Loader>
+      <Box
+        w="100%"
+        padding="125px 4px 60px 4px"
+        style={{ scrollbarWidth: 'none' }}
+        overflowY="auto"
+        top="30vh"
+        left="50%"
+        transform={weekScheduleStatus === 'success' ? 'none' : "translate(-50%, 0)"}
+        position={weekScheduleStatus === 'success' ? 'initial' : 'absolute'}
+      >
+        <Loader status={weekScheduleStatus} idleMessage="Выберите группу">
+          {weekSchedule &&
+            Object.entries(weekSchedule[weekParity].week_days).map(
+              (weekDay) => {
+                const dayName = weekDay[0] as keyof typeof SHORT_WEEK_DAYS;
+                const dayLessons = weekDay[1];
+                if (weekDay[0] === 'sunday') return null;
+                return (
+                  <div id={dayName} key={dayName}>
+                    <Text
+                      color={mainTextColor}
+                      fontWeight="medium"
+                      fontSize="18px"
+                      padding="10px 0"
+                    >
+                      {dayName && WEEK_DAYS[dayName]}
+                    </Text>
+                    {dayLessons.length > 0 ? (
+                      <VStack gap="10px">
+                        {dayLessons?.map((lesson) => {
+                          if (
+                            lesson.parsed_dates ||
+                            lesson.parsed_dates_status === 'need_check'
+                          ) {
+                            return (
+                              <Box className={styles['faded']} key={lesson.id}>
+                                <FullLessonCard lesson={lesson} />
+                              </Box>
+                            );
+                          }
+                          return (
+                            <FullLessonCard lesson={lesson} key={lesson.id} />
+                          );
+                        })}
+                      </VStack>
+                    ) : (
+                      <Box
+                        w="100%"
+                        bgColor={cardColor}
+                        borderRadius="8px"
+                        padding="10px 15px"
+                        color={mainTextColor}
+                        fontWeight="bold"
+                        fontSize="18px"
+                      >
+                        Время отдыхать
+                      </Box>
+                    )}
+                  </div>
+                );
+              }
+            )}
+        </Loader>
       </Box>
     </Tabs>
   );

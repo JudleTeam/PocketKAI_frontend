@@ -1,10 +1,13 @@
 import { useGroup } from '@/entities';
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Text, useToast } from '@chakra-ui/react';
 import { useChakra, useColorModeValue } from '@chakra-ui/react';
 import { getSpecialtyDetails } from './lib/getSpecialtyDetails';
 import { AccountTabHeader } from '@/shared/lib';
 import styles from './Speciality.module.scss';
+import { CopyIcon } from '@chakra-ui/icons';
+import { copyToast } from '@/shared';
 export function Speciality() {
+  const toast = useToast();
   const { homeGroup } = useGroup();
   const { theme } = useChakra();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
@@ -87,15 +90,9 @@ export function Speciality() {
                     textDecoration: 'underline',
                     fontSize: '16px',
                   }}
-                  target="_blank"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (url.value) {
-                      window.open(url.value, '_blank', 'download');
-                    }
-                  }}
+                  onClick={() => copyToast(url.value || '', toast)}
                 >
-                  {url.value}
+                  {url.value} <CopyIcon />
                 </a>
               </Box>
             )

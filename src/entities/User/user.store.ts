@@ -38,14 +38,14 @@ export const useUser = create<UserType>()(
         try {
           const response = await userService.postAuth(params);
           set({
-            token: response.data.access_token,
+            token: response.data.auth.access_token,
             userAuthStatus: 'success',
             error: null,
           });
-          localStorage.setItem(ACCESS_KEY, response.data.access_token);
+          localStorage.setItem(ACCESS_KEY, response.data.auth.access_token);
           encryptToken(
-            response.data.refresh_token,
-            response.data.access_token
+            response.data.auth.refresh_token,
+            response.data.auth.access_token
           ).then((encryptedToken) => {
             localStorage.setItem(ENCRYPTED_REFRESH_KEY, encryptedToken);
           });
@@ -93,6 +93,7 @@ export const useUser = create<UserType>()(
       partialize: (state) => ({
         user: state.user,
         userGroupMembers: state.userGroupMembers,
+        userAuthStatus: state.userAuthStatus,
       }),
     }
   )

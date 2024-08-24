@@ -1,9 +1,13 @@
 import { UiNavbar } from '@/shared/ui/ui-navbar/ui-navbar';
 import { Outlet } from 'react-router-dom';
-import styles from './RootLayout.module.scss';
-import { useChakra, useColorMode, useColorModeValue } from '@chakra-ui/react';
+import {
+  Box,
+  useChakra,
+  useColorMode,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { useEffect } from 'react';
-import { NavbarActions } from '../navbar/NavbarActions';
+import { NavbarActions } from './navbar/NavbarActions';
 import PWABadge from '@/PWABadge';
 export function RootLayout() {
   const { theme } = useChakra();
@@ -19,10 +23,10 @@ export function RootLayout() {
     }
   }, [themeColor, colorMode]);
   return (
-    <div className={styles['root-layout']}>
+    <Box>
       <Outlet />
       <UiNavbar navbarActions={NavbarActions} />
       <PWABadge />
-    </div>
+    </Box>
   );
 }

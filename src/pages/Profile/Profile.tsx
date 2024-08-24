@@ -7,13 +7,17 @@ import {
   useColorModeValue,
   Avatar,
   Divider,
+  useToast,
 } from '@chakra-ui/react';
 import { getUserDetails } from './lib/getUserDetails';
 import { AccountTabHeader } from '@/shared/lib';
 import styles from './Profile.module.scss';
+import { CopyIcon } from '@chakra-ui/icons';
+import { copyToast } from '@/shared';
 
 export function Profile() {
   const { user } = useUser();
+  const toast = useToast();
   const userDetails = getUserDetails(user);
   const { theme } = useChakra();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
@@ -115,9 +119,30 @@ export function Profile() {
                     {detail.label}
                   </Text>
                 </Box>
-                <Text color={mainTextColor} fontSize="14px">
-                  {detail.value}
-                </Text>
+                {detail.label === 'Номер зачётки' ? (
+                  <Text
+                    display="flex"
+                    gap="5px"
+                    justifyContent="center"
+                    alignItems="center"
+                    color={mainTextColor}
+                    fontSize="14px"
+                    onClick={() =>
+                      detail.value && copyToast(detail.value, toast)
+                    }
+                    _active={{
+                      textDecoration: 'underline',
+                      transition: '0.2s',
+                    }}
+                  >
+                    {detail.value}
+                    <CopyIcon />
+                  </Text>
+                ) : (
+                  <Text color={mainTextColor} fontSize="14px">
+                    {detail.value}
+                  </Text>
+                )}
               </Box>
               <Divider
                 display={userDetails.length - 1 === index ? 'none' : 'block'}

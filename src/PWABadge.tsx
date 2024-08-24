@@ -1,77 +1,94 @@
-import './PWABadge.css'
+import './PWABadge.css';
 
-import { useRegisterSW } from 'virtual:pwa-register/react'
+import { useRegisterSW } from 'virtual:pwa-register/react';
 
 function PWABadge() {
   // check for updates every hour
-  const period = 60 * 60 * 1000
-
+  const period = 60 * 60 * 1000;
   const {
     offlineReady: [offlineReady, setOfflineReady],
     needRefresh: [needRefresh, setNeedRefresh],
     updateServiceWorker,
   } = useRegisterSW({
     onRegisteredSW(swUrl, r) {
-      if (period <= 0) return
+      if (period <= 0) return;
       if (r?.active?.state === 'activated') {
-        registerPeriodicSync(period, swUrl, r)
-      }
-      else if (r?.installing) {
+        registerPeriodicSync(period, swUrl, r);
+      } else if (r?.installing) {
         r.installing.addEventListener('statechange', (e) => {
-          const sw = e.target as ServiceWorker
-          if (sw.state === 'activated')
-            registerPeriodicSync(period, swUrl, r)
-        })
+          const sw = e.target as ServiceWorker;
+          if (sw.state === 'activated') registerPeriodicSync(period, swUrl, r);
+        });
       }
     },
-  })
+  });
 
   function close() {
-    setOfflineReady(false)
-    setNeedRefresh(false)
+    setOfflineReady(false);
+    setNeedRefresh(false);
   }
 
   return (
     <div className="PWABadge" role="alert" aria-labelledby="toast-message">
-      { (offlineReady || needRefresh)
-      && (
-        <div className="PWABadge-toast">
+      {(offlineReady || needRefresh) && (
+        <div className="PWABadge-toast border-2 space-y-3 bg-l-account-actions w-7/12 h-fit dark:bg-d-account-actions">
           <div className="PWABadge-message">
-            { offlineReady
-              ? <span id="toast-message">App ready to work offline</span>
-              : <span id="toast-message">New content available, click on reload button to update.</span>}
+            {offlineReady ? (
+              <span id="toast-message">
+                Приложение готово к работе в оффлайн!
+              </span>
+            ) : (
+              <span id="toast-message">
+                Доступно обновление! Нажмите "Обновить", чтобы перезагрузить
+                приложение.
+              </span>
+            )}
           </div>
           <div className="PWABadge-buttons">
-            { needRefresh && <button className="PWABadge-toast-button" onClick={() => updateServiceWorker(true)}>Reload</button> }
-            <button className="PWABadge-toast-button" onClick={() => close()}>Close</button>
+            {needRefresh && (
+              <button
+                className="PWABadge-toast-button rounded px-4 py-1.5 bg-l-blue-light-element dark:bg-d-blue-light-element"
+                onClick={() => updateServiceWorker(true)}
+              >
+                Обновить
+              </button>
+            )}
+            <button
+              className="PWABadge-toast-button rounded px-4 py-1.5 bg-l-blue-light-element dark:bg-d-blue-light-element"
+              onClick={() => close()}
+            >
+              Закрыть
+            </button>
           </div>
         </div>
       )}
     </div>
-  )
+  );
 }
 
-export default PWABadge
+export default PWABadge;
 
 /**
  * This function will register a periodic sync check every hour, you can modify the interval as needed.
  */
-function registerPeriodicSync(period: number, swUrl: string, r: ServiceWorkerRegistration) {
-  if (period <= 0) return
+function registerPeriodicSync(
+  period: number,
+  swUrl: string,
+  r: ServiceWorkerRegistration
+) {
+  if (period <= 0) return;
 
   setInterval(async () => {
-    if ('onLine' in navigator && !navigator.onLine)
-      return
+    if ('onLine' in navigator && !navigator.onLine) return;
 
     const resp = await fetch(swUrl, {
       cache: 'no-store',
       headers: {
-        'cache': 'no-store',
+        cache: 'no-store',
         'cache-control': 'no-cache',
       },
-    })
+    });
 
-    if (resp?.status === 200)
-      await r.update()
-  }, period)
+    if (resp?.status === 200) await r.update();
+  }, period);
 }

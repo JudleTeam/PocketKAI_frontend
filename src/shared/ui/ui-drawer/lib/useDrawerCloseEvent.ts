@@ -8,7 +8,6 @@ export const useDrawerCloseEvent = (onClose: () => void, isOpen: boolean) => {
       event.preventDefault();
       onClose();
       navigate(1);
-      console.log('drawer event!');
     };
     if (isOpen) {
       navigate('');

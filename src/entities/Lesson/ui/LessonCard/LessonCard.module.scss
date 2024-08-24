@@ -3,6 +3,7 @@
 .lesson-card {
   display: flex;
   cursor: pointer;
+  height: 100%;
   &::after {
     content: url('../../../../shared/assets/icons/right-arrow.svg');
     width: 10px;

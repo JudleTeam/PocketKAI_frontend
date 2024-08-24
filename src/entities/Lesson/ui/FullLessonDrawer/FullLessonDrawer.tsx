@@ -1,5 +1,4 @@
 import {
-  DrawerHeader,
   Text,
   VStack,
   Box,
@@ -11,14 +10,16 @@ import {
   PopoverContent,
   PopoverBody,
   PopoverTrigger,
+  useToast,
 } from '@chakra-ui/react';
-import { Lesson } from '@/shared';
+import { copyToast, Lesson } from '@/shared';
 import { Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
-import { getLessonBuilding } from '@/shared/lib';
+import { getLessonBuilding, useColor } from '@/shared/lib';
 import { LessonTypes } from '@/shared/constants';
 import { parityTypes } from '@/shared/constants';
 import { HashLink } from 'react-router-hash-link';
+import { CopyIcon } from '@chakra-ui/icons';
 export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
   const { theme } = useChakra();
   const tab = useColorModeValue(theme.colors.light.tab, theme.colors.dark.tab);
@@ -27,21 +28,23 @@ export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
     'light.main_element',
     'dark.main_element'
   );
-  const tabTeacherColor = useColorModeValue(
-    'light.tab_teacher',
-    'dark.tab_teacher'
-  );
+  const toast = useToast();
+  const { cardColor, tabTeacher } = useColor();
   return (
-    <DrawerHeader
-      w="95%"
+    <Box
       padding="25px 0 0 0"
       color={mainTextColor}
       display="flex"
       flexDirection="column"
       gap="5px"
     >
-      <Text fontSize="24px" fontWeight="bold">
-        {lesson.discipline.name}
+      <Text
+        fontSize="24px"
+        fontWeight="bold"
+        _active={{ textDecoration: 'underline', transition: '0.2s' }}
+        onClick={() => copyToast(lesson.discipline.name, toast)}
+      >
+        <CopyIcon /> {lesson.discipline.name}
       </Text>
       <Text fontSize="24px" fontWeight="medium">
         {lesson.start_time?.slice(0, -3)} {lesson.end_time && '-'}{' '}
@@ -79,47 +82,50 @@ export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
         </VStack>
       </Box>
       {lesson.parsed_dates && lesson.parsed_dates_status === 'good' ? (
-          <Text fontWeight="medium" fontSize="18px">
-            Даты проведения пары:{' '}
-            {lesson.parsed_dates
-              .map((date) =>
-                DateTime.fromISO(date).setLocale('ru').toFormat('dd MMMM')
-              )
-              .join(', ')}
-          </Text>
-        ) : lesson.parsed_dates &&
-          lesson.parsed_dates_status === 'need_check' ? (
-          <Popover>
-            <PopoverTrigger>
-              <button
-                style={{
-                  display: 'flex',
-                  textAlign: 'start',
-                  flexWrap: 'wrap',
-                  width: '100%',
-                  color: '#ED8936',
-                  fontWeight: '500',
-                  fontSize: '18px',
-                }}
-              >
-                Даты проведения пары: {lesson.original_dates}
-              </button>
-            </PopoverTrigger>
-            <PopoverContent>
-              <PopoverArrow />
-              <PopoverBody fontSize="14px" color={mainTextColor}>
+        <Text fontWeight="medium" fontSize="18px" color={mainTextColor}>
+          Даты проведения пары:{' '}
+          {lesson.parsed_dates
+            .map((date) =>
+              DateTime.fromISO(date).setLocale('ru').toFormat('dd MMMM')
+            )
+            .join(', ')}
+        </Text>
+      ) : lesson.parsed_dates && lesson.parsed_dates_status === 'need_check' ? (
+        <Popover>
+          <PopoverTrigger>
+            <button
+              style={{
+                display: 'flex',
+                textAlign: 'start',
+                flexWrap: 'wrap',
+                width: '100%',
+                color: '#ED8936',
+                fontWeight: '500',
+                fontSize: '18px',
+              }}
+            >
+              Даты проведения пары: {lesson.original_dates}
+            </button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <PopoverArrow />
+            <PopoverBody fontSize="14px">
+              <Text fontSize={'14px'} color={mainTextColor}>
                 {lesson.parsed_dates
                   .map((date) =>
                     DateTime.fromISO(date).setLocale('ru').toFormat('dd MMMM')
                   )
                   .join(', ')}
-              </PopoverBody>
-            </PopoverContent>
-          </Popover>
-        ) : lesson.original_dates &&
-          lesson.parsed_dates_status == 'need_check' ? (
-          <Text fontWeight="medium" fontSize="18px">Даты проведения пары:{' '}{lesson.original_dates}</Text>
-        ) : null}
+              </Text>
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
+      ) : lesson.original_dates &&
+        lesson.parsed_dates_status == 'need_check' ? (
+        <Text fontWeight="medium" fontSize="18px" color={mainTextColor}>
+          Даты проведения пары: {lesson.original_dates}
+        </Text>
+      ) : null}
       <Text
         as={Link}
         padding="10px 0"
@@ -132,16 +138,20 @@ export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
       </Text>
       <Box
         as={HashLink}
-        to={lesson.teacher ? `/teachers#${lesson?.teacher?.id}` : '/teachers'}
+        to={
+          lesson.teacher
+            ? `/teachers#${lesson?.teacher?.id}&${lesson.discipline.id}`
+            : '/teachers'
+        }
         boxShadow={`0px 0px 5px 0px ${tab}`}
-        bgColor={tab}
+        bgColor={cardColor}
         borderRadius="16px"
         padding="14px"
         display="flex"
         alignItems="center"
         gap="15px"
         transition="0.2s"
-        _active={{ bgColor: tabTeacherColor, transition: '0.2s' }}
+        _active={{ bgColor: tabTeacher, transition: '0.2s' }}
       >
         <Avatar bg={mainElementColor} />
         <Box>
@@ -155,6 +165,6 @@ export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
           </Text>
         </Box>
       </Box>
-    </DrawerHeader>
+    </Box>
   );
 }

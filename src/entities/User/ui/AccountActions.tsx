@@ -9,13 +9,13 @@ type ActionType = {
   icon: ComponentWithAs<'svg', IconProps>;
 };
 export function accountActions({
-  tab,
+  tabColor,
   mainTextColor,
   action,
   index,
   lastIndex,
 }: {
-  tab: string;
+  tabColor: string;
   mainTextColor: string;
   action: ActionType;
   index: number;
@@ -32,7 +32,7 @@ export function accountActions({
         justifyContent="space-between"
         transition="0.2s"
         _active={{
-          bgColor: tab,
+          bgColor: tabColor,
           transition: '0.2s',
           borderRadius:
             index === 0

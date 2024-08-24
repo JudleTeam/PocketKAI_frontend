@@ -17,7 +17,10 @@ function isToday(date: string) {
   const day = DateTime.now().toFormat('yyyy-LL-dd');
   return day === date;
 }
-
+function isCurrentMonth(date:string){
+  const month = DateTime.now().toFormat('LL');
+  return month === date.slice(5,7);
+}
 export function DatebarContent({
   currentDay,
   setCurrentDay,
@@ -74,7 +77,7 @@ export function DatebarContent({
                   currentDay === day.date
                     ? {
                         backgroundColor: cardColor,
-                        boxShadow: `0px 0px 5px 0px ${cardColor}`,
+                        boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
                       }
                     : {}
                 }
@@ -86,6 +89,7 @@ export function DatebarContent({
                   setCurrentDay(day.date);
                 }}
               >
+                <Box display='flex'>
                 <Text
                   color={
                     isToday(day.date)
@@ -95,6 +99,19 @@ export function DatebarContent({
                 >
                   {day.date.slice(-2)}
                 </Text>
+                {isCurrentMonth(day.date) ? null :  
+                <Text 
+                color={
+                  isToday(day.date)
+                    ? secondElementLightColor
+                    : secondElementColor
+                }
+                fontSize='10px'
+                >
+                  {day.date.slice(5,7)}
+                </Text>
+                }
+                </Box>
                 <Text
                   color={
                     isToday(day.date)

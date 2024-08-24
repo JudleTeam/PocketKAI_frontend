@@ -11,6 +11,14 @@ export const useColor = () => {
     theme.colors.light.tab,
     theme.colors.dark.tab
   )
+  const accountActionsColor = useColorModeValue(
+    'light.account_actions',
+    'dark.account_actions'
+  );
+  const exitButtonColor = useColorModeValue(
+    'light.exit_button',
+    'dark.exit_button'
+  );
   const tabTeacher = useColorModeValue(
     theme.colors.light.tab_teacher,
     theme.colors.dark.tab_teacher
@@ -31,8 +39,8 @@ export const useColor = () => {
     theme.colors.light.card,
     theme.colors.dark.card
   );
-  const themeColor = useColorModeValue('#858585', '#0E1117');
-  const drawerColor = useColorModeValue('#fff', '#2D3748')
+  const themeColor = useColorModeValue('#999999', '#10131A');
+  const drawerColor = useColorModeValue('#fff', '#171923')
   return {
     mainTextColor,
     mainElementColor,
@@ -43,6 +51,8 @@ export const useColor = () => {
     themeColor,
     drawerColor,
     tabColor,
-    tabTeacher
+    tabTeacher,
+    exitButtonColor,
+    accountActionsColor
   };
 };
