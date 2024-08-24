@@ -1,8 +1,6 @@
 .account {
   display: flex;
-  height: 92%;
   flex-direction: column;
-  overflow-y: auto;
   scrollbar-width: none;
   &__header {
     position: absolute;

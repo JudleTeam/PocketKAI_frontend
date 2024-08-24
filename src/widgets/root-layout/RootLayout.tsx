@@ -23,7 +23,7 @@ export function RootLayout() {
     }
   }, [themeColor, colorMode]);
   return (
-    <Box>
+    <Box pb={16}>
       <Outlet />
       <UiNavbar navbarActions={NavbarActions} />
       <PWABadge />

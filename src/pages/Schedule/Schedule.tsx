@@ -41,6 +41,7 @@ export function Schedule() {
           return (
             <div key={day.date} className={styles['day']} id={day.date}>
               <Text
+                w={'fit-content'}
                 color={mainTextColor}
                 fontWeight="medium"
                 fontSize="18px"

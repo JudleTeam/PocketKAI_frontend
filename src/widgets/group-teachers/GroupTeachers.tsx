@@ -1,7 +1,7 @@
 import { useGroup } from '@/entities';
 import { Box, Text } from '@chakra-ui/react';
 import { TeacherCard } from '@/entities';
-import { useEffect} from 'react';
+import { useEffect } from 'react';
 import { Loader } from '@/shared/ui/loader/Loader';
 import { useColor } from '@/shared/lib';
 export function GroupTeachers() {
@@ -20,12 +20,7 @@ export function GroupTeachers() {
   return (
     <Loader status={groupDisciplinesStatus} idleMessage="Выберите группу">
       <Box id="teacher">
-        <Box
-          padding="50px 0 10px 0"
-          display="flex"
-          flexDirection="column"
-          gap="10px"
-        >
+        <Box pt="50px" display="flex" flexDirection="column" gap="10px">
           {groupDisciplines &&
             groupDisciplines.map((discipline) => {
               const uniqueTeachers = new Map();
@@ -36,7 +31,7 @@ export function GroupTeachers() {
                     parsed_types: [disciplineType.parsed_type],
                     original_types: [disciplineType.original_type],
                     disciplineName: discipline.name,
-                    disciplineId: [discipline.id]
+                    disciplineId: [discipline.id],
                   });
                 } else {
                   const existingTeacher = uniqueTeachers.get(
@@ -44,9 +39,9 @@ export function GroupTeachers() {
                   );
                   existingTeacher.parsed_types.push(disciplineType.parsed_type);
                   existingTeacher.original_types.push(
-                    disciplineType.original_type,
+                    disciplineType.original_type
                   );
-                  existingTeacher.disciplineId.push(discipline.id)
+                  existingTeacher.disciplineId.push(discipline.id);
                 }
               });
               return (
@@ -68,7 +63,7 @@ export function GroupTeachers() {
                           original_types: uniqueDisciplineType.original_types,
                         }}
                         disciplineName={uniqueDisciplineType.disciplineName}
-                        disciplineId = {uniqueDisciplineType.disciplineId}
+                        disciplineId={uniqueDisciplineType.disciplineId}
                         key={index}
                       />
                     )
