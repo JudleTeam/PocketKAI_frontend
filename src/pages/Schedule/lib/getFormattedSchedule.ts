@@ -2,6 +2,7 @@ import {
   Day,
   getFormattedDate,
   Group,
+  GroupShort,
   Lesson,
   Nullable,
   WeekParity,
@@ -18,10 +19,11 @@ const weekParityTranslation = {
 export const getFormattedSchedule = (
   day: Day,
   weekParity: Nullable<WeekParity>,
-  group: Group
+  group: Nullable<Group | GroupShort>
 ) => {
   const { date, lessons } = day;
   const { parity } = weekParity!;
+  if (!group) return '';
   const header = `${
     parity === 'odd' ? 'Четная неделя' : 'Нечетная неделя'
   }\n${getFormattedDate(date)}, гр. ${group.group_name}\n————————————————\n`;
