@@ -8,7 +8,8 @@ import LessonDrawer from '../LessonDrawer/LessonDrawer';
 import styles from './FadedLessonCard.module.scss';
 import { useEffect } from 'react';
 import { Drawer, DrawerTrigger, DrawerContent } from '@/shared/ui/drawer';
-import { useColor, useDisclosure} from '@/shared/lib';
+import { useColor, useDisclosure } from '@/shared/lib';
+import { useSchedule } from '@/entities';
 
 export function FadedLessonCard({
   lesson,
@@ -18,7 +19,8 @@ export function FadedLessonCard({
   dayDate: string;
 }) {
   const { isOpen, setIsOpen } = useDisclosure();
-  const {mainTextColor, themeColor, mainColor} = useColor();
+  const { mainTextColor, themeColor, mainColor } = useColor();
+  const { showFadedLessons } = useSchedule();
   useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
@@ -34,6 +36,7 @@ export function FadedLessonCard({
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
         <HStack
+          display={showFadedLessons ? 'flex' : 'none'}
           onClick={() => setIsOpen(true)}
           className={styles['lesson-card']}
           alignItems="flex-start"

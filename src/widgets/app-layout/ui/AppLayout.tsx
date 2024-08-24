@@ -94,7 +94,15 @@ export function AppLayout() {
     location.pathname.includes('schedule/exams');
   return (
     <div className={styles['app-layout']}>
-      <div className="bg-l-main dark:bg-d-main fixed top-0 left-0 z-50 w-full px-4">
+      <Box
+        bgColor={mainColor}
+        pos={'fixed'}
+        top={0}
+        left={0}
+        w={'100%'}
+        px={5}
+        zIndex={20}
+      >
         <Box className={styles['app-layout__header']} bgColor={mainColor}>
           <VStack
             alignItems={'flex-start'}
@@ -122,7 +130,7 @@ export function AppLayout() {
             swiperRef,
           })}
         />
-      </div>
+      </Box>
       <div className="pt-16">
         <Outlet context={[currentDay, setCurrentDay] satisfies ContextType} />
       </div>

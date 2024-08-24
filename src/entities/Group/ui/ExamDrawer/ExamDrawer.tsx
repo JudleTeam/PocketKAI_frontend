@@ -1,5 +1,5 @@
 import { Text, Box, Avatar, useToast } from '@chakra-ui/react';
-import { CopyToast, ExamType } from '@/shared';
+import { copyToast, ExamType } from '@/shared';
 import { Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import { getLessonBuilding, useColor } from '@/shared/lib';
@@ -20,7 +20,7 @@ export function ExamDrawer({ exam }: { exam: ExamType }) {
       <Text
         fontSize="24px"
         fontWeight="bold"
-        onClick={() => CopyToast(exam.discipline.name, toast)}
+        onClick={() => copyToast(exam.discipline.name, toast)}
         _active={{ textDecoration: 'underline', transition: '0.2s' }}
       >
         <CopyIcon /> {exam.discipline.name}

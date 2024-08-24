@@ -39,7 +39,7 @@ export const FullLessonCard = memo(function FullLessonCard({
           transition="0.2s"
           _active={{ bgColor: tabTeacher, transition: '0.2s' }}
         >
-          <VStack alignItems="start" gap="2px" w="60%">
+          <VStack alignItems="start" gap="2px" w="70%">
             <Text
               color={mainTextColor}
               w="95%"
@@ -62,7 +62,7 @@ export const FullLessonCard = memo(function FullLessonCard({
             <Text
               fontWeight="medium"
               fontSize="14px"
-              w="60%"
+              w="80%"
               textAlign="center"
             >
               {getLessonBuilding(

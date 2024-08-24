@@ -69,7 +69,6 @@ export function AddGroupToFavourite(onClose: () => void) {
       const groupByName = getGroupByName(selectGroup);
       setCurrentGroup(await groupByName);
     }
-    console.log(groupValue)
     setIsOpen(false);
     resetScheduleState();
     onClose();
@@ -87,7 +86,7 @@ export function AddGroupToFavourite(onClose: () => void) {
         Выбор группы
       </ModalHeader>
       <ModalCloseButton />
-      <ModalBody  display='flex' flexDirection='column' gap='20px'> 
+      <ModalBody display="flex" flexDirection="column" gap="20px">
         <Controller
           name="group"
           control={control}
@@ -106,29 +105,29 @@ export function AddGroupToFavourite(onClose: () => void) {
           )}
         />
         <Box w="100%" display="flex" flexWrap={'wrap'} gap="20px">
-        <Button
-          w="100%"
-          bg={tabColor}
-          display={isOpen ? 'block' : 'none'}
-          color={mainTextColor}
-          onClick={handleFavoriteClick}
-        >
-          Добавить в избранное
-        </Button>
-        <Box w="100%" display={'flex'} justifyContent="space-between">
-          <Button w="48%" colorScheme="blue" type="submit">
-            Сохранить
-          </Button>
           <Button
-            w="48%"
-            colorScheme="blue"
-            variant="outline"
-            onClick={onClose}
+            w="100%"
+            bg={tabColor}
+            display={isOpen ? 'block' : 'none'}
+            color={mainTextColor}
+            onClick={handleFavoriteClick}
           >
-            Отмена
+            Добавить в избранное
           </Button>
+          <Box w="100%" display={'flex'} justifyContent="space-between">
+            <Button w="48%" colorScheme="blue" type="submit">
+              Сохранить
+            </Button>
+            <Button
+              w="48%"
+              colorScheme="blue"
+              variant="outline"
+              onClick={onClose}
+            >
+              Отмена
+            </Button>
+          </Box>
         </Box>
-      </Box>
         <Box>
           <Heading
             display={favouriteGroups.length > 0 ? 'block' : 'none'}
@@ -138,7 +137,7 @@ export function AddGroupToFavourite(onClose: () => void) {
           >
             Избранные группы
           </Heading>
-          <RadioGroup value={selectGroup} py='10px' onChange={setSelectGroup}>
+          <RadioGroup value={selectGroup} py="10px" onChange={setSelectGroup}>
             <Stack fontSize={'18px'} fontWeight={'500'} color={mainTextColor}>
               {favouriteGroups.map((group) => (
                 <React.Fragment key={group.id}>

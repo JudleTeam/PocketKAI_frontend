@@ -1,4 +1,4 @@
-import { CopyToast, Lesson } from '@/shared';
+import { copyToast, Lesson } from '@/shared';
 import { DateTime } from 'luxon';
 import { getLessonBuilding, useColor } from '@/shared/lib';
 import { LessonTypes } from '@/shared/constants';
@@ -42,7 +42,7 @@ const LessonDrawer = ({
       <div className="flex flex-col gap-3 pt-5 text-l-main-text dark:text-d-main-text">
         <DrawerTitle
           className="text-2xl font-bold"
-          onClick={() => CopyToast(lesson.discipline.name, toast)}
+          onClick={() => copyToast(lesson.discipline.name, toast)}
         >
           <Text _active={{ textDecoration: 'underline', transition: '0.2s' }}>
             <CopyIcon /> {lesson.discipline.name}
