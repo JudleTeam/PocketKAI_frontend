@@ -31,30 +31,29 @@ function PWABadge() {
   return (
     <div className="PWABadge" role="alert" aria-labelledby="toast-message">
       {(offlineReady || needRefresh) && (
-        <div className="PWABadge-toast border-2 space-y-3 bg-l-account-actions w-7/12 h-fit dark:bg-d-account-actions">
+        <div className="PWABadge-toast border-1 space-y-3 bg-l-account-actions w-9/12 h-fit dark:bg-d-account-actions">
           <div className="PWABadge-message">
             {offlineReady ? (
-              <span id="toast-message">
+              <span id="toast-message" className="text-[16px]">
                 Приложение готово к работе в оффлайн!
               </span>
             ) : (
-              <span id="toast-message">
-                Доступно обновление! Нажмите "Обновить", чтобы перезагрузить
-                приложение.
+              <span id="toast-message" className="text-[16px]">
+                Доступно обновление!
               </span>
             )}
           </div>
           <div className="PWABadge-buttons">
             {needRefresh && (
               <button
-                className="PWABadge-toast-button rounded px-4 py-1.5 bg-l-blue-light-element dark:bg-d-blue-light-element"
+                className="PWABadge-toast-button rounded px-4 py-1.5 text-white bg-l-blue-element dark:bg-d-blue-element"
                 onClick={() => updateServiceWorker(true)}
               >
                 Обновить
               </button>
             )}
             <button
-              className="PWABadge-toast-button rounded px-4 py-1.5 bg-l-blue-light-element dark:bg-d-blue-light-element"
+              className="PWABadge-toast-button rounded px-4 py-1.5  bg-transparent dark:bg-transparent dark:text-white"
               onClick={() => close()}
             >
               Закрыть
