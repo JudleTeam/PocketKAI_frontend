@@ -3,6 +3,8 @@ import { Button, Text, Box, Switch, Divider } from '@chakra-ui/react';
 import { useColorMode } from '@chakra-ui/react';
 import styles from './Settings.module.scss';
 import { useSettings } from '@/entities';
+import { Select } from '@chakra-ui/react';
+import { ScheduleView } from '@/shared';
 export function Settings() {
   const { toggleColorMode, colorMode } = useColorMode();
   const { tabTeacher, mainColor, mainTextColor } = useColor();
@@ -11,10 +13,10 @@ export function Settings() {
     isScheduleInfinite,
     toggleShowFadedLessons,
     toggleIsScheduleInfinite,
-    toggleShowTimeline,
-    showTimeline,
+    togglePreferencedScheduleView,
+    preferencedScheduleView,
   } = useSettings();
-  console.log(showTimeline)
+  console.log(preferencedScheduleView)
   return (
     <Box className={styles['settings']}>
       <Box
@@ -98,27 +100,10 @@ export function Settings() {
         >
           При открытии показывать:
         </Text>
-        <Box
-          display={'flex'}
-          alignItems={'center'}
-          justifyContent={'space-between'}
-        >
-          <Text
-            as={'label'}
-            fontSize="16px"
-            fontWeight="semibold"
-            color={mainTextColor}
-            htmlFor="showTimeline"
-          >
-            {showTimeline ? 'Таймлайн' : 'Полное расписание'}
-          </Text>
-          <Switch
-            id="showTimeline"
-            size={'md'}
-            isChecked={showTimeline}
-            onChange={() => toggleShowTimeline(!showTimeline)}
-          />
-        </Box>
+        <Select  color={mainTextColor} defaultValue={preferencedScheduleView} onChange={(event) => togglePreferencedScheduleView(event.target.value as ScheduleView)}>
+          <option value='timeline'>Таймлайн</option>
+          <option value="full">Полное расписание</option>
+        </Select>
       </Box>
     </Box>
   );
