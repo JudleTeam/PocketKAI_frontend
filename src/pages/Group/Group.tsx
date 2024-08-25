@@ -46,12 +46,19 @@ export function Group() {
         top={'0px'}
         bgColor={mainColor}
         zIndex={'2'}
-        boxShadow={`0px 0px 10px 10px ${mainColor}`}
+        boxShadow={`0px 0px 20px 20px ${mainColor}`}
       >
         <AccountTabHeader color={mainTextColor}>
           Группа {homeGroup?.group_name}
         </AccountTabHeader>
       </Box>
+      <Box
+        w="100%"
+        style={{ scrollbarWidth: 'none' }}
+        overflowY="auto"
+        h='90vh'
+        padding='10px 0 70px 0'
+      > 
       <Loader status={userGroupMembersStatus} idleMessage="">
         <Box display="flex" flexDirection="column" gap="10px">
           {userGroupMembers.map((groupMember) => (
@@ -121,6 +128,7 @@ export function Group() {
           ))}
         </Box>
       </Loader>
+      </Box>
     </Box>
   );
 }
