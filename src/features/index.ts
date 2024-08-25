@@ -1,3 +1,6 @@
+export { BottomBoundary } from './boundaries/bottom-boundary';
+export { TopBoundary } from './boundaries/top-boundary';
+
 export { SearchTeacher } from './search-teacher/SearchTeacher';
 
 export { Auth } from './auth/Auth';

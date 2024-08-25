@@ -13,8 +13,6 @@ export function useInfiniteScroll() {
   } = useSchedule();
   const upperRef = useRef<HTMLDivElement>(null);
   const lowerRef = useRef<HTMLDivElement>(null);
-  const scheduleContainerRef = useRef<HTMLDivElement>(null);
-  const scrollPosition = useRef<number>(0);
 
   useEffect(() => {
     if (!schedule || !currentGroup || !schedule.days.length) return;
@@ -29,9 +27,6 @@ export function useInfiniteScroll() {
           const loader = entry.target as HTMLDivElement;
           observerInstance.unobserve(loader);
           if (loader === upperRef.current) {
-            const previousScrollHeight =
-              scheduleContainerRef.current?.scrollHeight;
-
             const dateFrom = DateTime.fromISO(schedule?.days[0].date)
               .minus({ days: 7 })
               .toFormat('yyyy-LL-dd');
@@ -41,21 +36,9 @@ export function useInfiniteScroll() {
                 days_count: 7,
               },
               false
-            ).then(() => {
-              if (
-                !previousScrollHeight ||
-                !scheduleContainerRef.current?.scrollHeight
-              )
-                return;
-              scrollPosition.current =
-                scheduleContainerRef.current?.scrollHeight -
-                previousScrollHeight;
-              scheduleContainerRef.current?.scrollTo(0, scrollPosition.current);
-            });
+            );
           }
           if (loader === lowerRef.current) {
-            scrollPosition.current =
-              scheduleContainerRef.current?.scrollTop ?? 0;
             const dateFrom = DateTime.fromISO(
               schedule?.days[schedule.days.length - 1].date
             )
@@ -67,9 +50,7 @@ export function useInfiniteScroll() {
                 days_count: 7,
               },
               true
-            ).then(() => {
-              scheduleContainerRef.current?.scrollTo(0, scrollPosition.current);
-            });
+            );
           }
         }
       });
@@ -80,12 +61,6 @@ export function useInfiniteScroll() {
     return () => {
       if (observer.current) observer.current.disconnect();
     };
-  }, [
-    schedule,
-    currentGroup,
-    status,
-    addToCurrentSchedule,
-    scheduleContainerRef,
-  ]);
-  return { upperRef, lowerRef, scheduleContainerRef };
+  }, [schedule, currentGroup, status, addToCurrentSchedule]);
+  return { upperRef, lowerRef };
 }

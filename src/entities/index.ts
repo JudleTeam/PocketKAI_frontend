@@ -1,6 +1,4 @@
-export { isScheduleOutdated } from './Schedule/lib/isScheduleOutdated';
-
-export { SearchedTeacherCard } from './Teacher/ui/SearchedTeacherCard/SearchedTeacherCard';
+export { useSettings } from './AppSettings/app-settings.store';
 
 export { useTeachers } from './Teacher/model/teacher.store';
 
@@ -9,6 +7,10 @@ export { useUser } from './User/user.store';
 export { useSchedule } from './Schedule/model/schedule.store';
 
 export { useGroup } from './Group/model/group.store';
+
+export { isScheduleOutdated } from './Schedule/lib/isScheduleOutdated';
+
+export { SearchedTeacherCard } from './Teacher/ui/SearchedTeacherCard/SearchedTeacherCard';
 
 export { ExamCard } from './Group/ui/ExamCard/ExamCard';
 

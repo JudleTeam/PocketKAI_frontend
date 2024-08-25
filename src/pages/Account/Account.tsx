@@ -71,111 +71,113 @@ export function Account() {
           </>
         )}
       </Box>
-      <Box
-        className={styles['account__user-actions']}
-        bgColor={accountActionsColor}
-      >
-        {user ? (
-          <Box display="flex" flexDirection="column">
-            {USER_ACTIONS.map((action, index) => (
-              <React.Fragment key={action.label}>
-                {accountActions({
-                  tabColor,
-                  mainTextColor,
-                  action,
-                  index,
-                  lastIndex: USER_ACTIONS.length - 1,
-                })}
-              </React.Fragment>
-            ))}
-          </Box>
-        ) : (
-          <Drawer open={isOpen} onOpenChange={setIsOpen}>
-            <DrawerTrigger asChild>
-              <Box
-                onClick={() => setIsOpen(true)}
-                display="flex"
-                justifyContent="space-between"
-                padding="15px 20px"
-                transition="0.2s"
-                _active={{
-                  bgColor: tabColor,
-                  transition: '0.2s',
-                  borderRadius: '8px',
+      <Box className={styles['account__body']}>
+        <Box
+          className={styles['account__user-actions']}
+          bgColor={accountActionsColor}
+        >
+          {user ? (
+            <Box display="flex" flexDirection="column">
+              {USER_ACTIONS.map((action, index) => (
+                <React.Fragment key={action.label}>
+                  {accountActions({
+                    tabColor,
+                    mainTextColor,
+                    action,
+                    index,
+                    lastIndex: USER_ACTIONS.length - 1,
+                  })}
+                </React.Fragment>
+              ))}
+            </Box>
+          ) : (
+            <Drawer open={isOpen} onOpenChange={setIsOpen}>
+              <DrawerTrigger asChild>
+                <Box
+                  onClick={() => setIsOpen(true)}
+                  display="flex"
+                  justifyContent="space-between"
+                  padding="15px 20px"
+                  transition="0.2s"
+                  _active={{
+                    bgColor: tabColor,
+                    transition: '0.2s',
+                    borderRadius: '8px',
+                  }}
+                >
+                  <Text
+                    as={'span'}
+                    display="flex"
+                    gap="10px"
+                    color={mainTextColor}
+                    fontSize="16px"
+                    fontWeight="medium"
+                  >
+                    <ProfileIcon w="24px" h="24px" color="gray.400" />
+                    Войти в аккаунт
+                  </Text>
+                  <ArrowIcon
+                    transform="rotate(90deg)"
+                    color="gray.400"
+                    w="24px"
+                    h="24px"
+                  />
+                </Box>
+              </DrawerTrigger>
+              <DrawerContent>
+                <Auth onClose={onClose} />
+              </DrawerContent>
+            </Drawer>
+          )}
+        </Box>
+        <Box
+          className={styles['account__account-actions']}
+          bgColor={accountActionsColor}
+          top={user ? '170px' : '80px'}
+        >
+          {ACCOUNT_ACTIONS.map((action, index) => (
+            <React.Fragment key={action.label}>
+              {accountActions({
+                tabColor,
+                mainTextColor,
+                action,
+                index,
+                lastIndex: ACCOUNT_ACTIONS.length - 1,
+              })}
+            </React.Fragment>
+          ))}
+          {user && (
+            <>
+              <Divider w="90%" alignSelf="center" />
+              <button
+                onClick={() => {
+                  logout();
+                  resetGroupState();
+                  resetScheduleState();
                 }}
               >
                 <Text
                   as={'span'}
+                  padding="15px 20px"
                   display="flex"
                   gap="10px"
-                  color={mainTextColor}
+                  color={exitButtonColor}
                   fontSize="16px"
                   fontWeight="medium"
+                  transition="0.2s"
+                  _active={{
+                    transition: '0.2s',
+                    bgColor: tabColor,
+                    borderRadius: '0 0 8px 8px',
+                  }}
                 >
-                  <ProfileIcon w="24px" h="24px" color="gray.400" />
-                  Войти в аккаунт
+                  <ExitIcon color="red.400" w="24px" h="24px" />
+                  Выйти из аккаунта
                 </Text>
-                <ArrowIcon
-                  transform="rotate(90deg)"
-                  color="gray.400"
-                  w="24px"
-                  h="24px"
-                />
-              </Box>
-            </DrawerTrigger>
-            <DrawerContent>
-              <Auth onClose={onClose} />
-            </DrawerContent>
-          </Drawer>
-        )}
-      </Box>
-      <Box
-        className={styles['account__account-actions']}
-        bgColor={accountActionsColor}
-        top={user ? '470px' : '400px'}
-      >
-        {ACCOUNT_ACTIONS.map((action, index) => (
-          <React.Fragment key={action.label}>
-            {accountActions({
-              tabColor,
-              mainTextColor,
-              action,
-              index,
-              lastIndex: ACCOUNT_ACTIONS.length - 1,
-            })}
-          </React.Fragment>
-        ))}
-        {user && (
-          <>
-            <Divider w="90%" alignSelf="center" />
-            <button
-              onClick={() => {
-                logout();
-                resetGroupState();
-                resetScheduleState();
-              }}
-            >
-              <Text
-                as={'span'}
-                padding="15px 20px"
-                display="flex"
-                gap="10px"
-                color={exitButtonColor}
-                fontSize="16px"
-                fontWeight="medium"
-                transition="0.2s"
-                _active={{
-                  transition: '0.2s',
-                  bgColor: tabColor,
-                  borderRadius: '0 0 8px 8px',
-                }}
-              >
-                <ExitIcon color="red.400" w="24px" h="24px" />
-                Выйти из аккаунта
-              </Text>
-            </button>
-          </>
-        )}
+              </button>
+            </>
+          )}
+        </Box>
       </Box>
     </Box>
   );

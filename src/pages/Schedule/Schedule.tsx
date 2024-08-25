@@ -1,4 +1,4 @@
-import { Box, Skeleton, Stack, Text, useToast } from '@chakra-ui/react';
+import { Box, Text, useToast } from '@chakra-ui/react';
 import {
   FadedLessonCard,
   LessonCard,
@@ -6,6 +6,7 @@ import {
   useGroup,
   useSchedule,
 } from '@/entities';
+import { TopBoundary, BottomBoundary } from '@/features';
 import { getFormattedDate } from '@/shared';
 import { useInfiniteScroll } from './lib/useInfiniteScroll';
 import { getTodayDate } from '@/shared';
@@ -21,22 +22,14 @@ export function Schedule() {
   const today = getTodayDate();
   const { schedule, weekScheduleStatus, parity } = useSchedule();
   const { currentGroup } = useGroup();
-  const { upperRef, lowerRef, scheduleContainerRef } = useInfiniteScroll();
+  const { upperRef, lowerRef } = useInfiniteScroll();
   const { showButton, position: todayBlockPosition } = useGoUpButton();
   const toast = useToast();
   const { mainTextColor, mainElementColor } = useColor();
   return (
     <Loader status={weekScheduleStatus} idleMessage="Выберите группу">
-      <div
-        id="schedule"
-        className={styles['schedule']}
-        ref={scheduleContainerRef}
-      >
-        <Stack ref={upperRef}>
-          <Skeleton height="20px" />
-          <Skeleton height="20px" />
-          <Skeleton height="20px" />
-        </Stack>
+      <div id="schedule" className={styles['schedule']}>
+        <TopBoundary ref={upperRef} />
         {schedule?.days.map((day) => {
           return (
             <div key={day.date} className={styles['day']} id={day.date}>
@@ -92,11 +85,7 @@ export function Schedule() {
             </div>
           );
         })}
-        <Stack ref={lowerRef}>
-          <Skeleton height="20px" />
-          <Skeleton height="20px" />
-          <Skeleton height="20px" />
-        </Stack>
+        <BottomBoundary ref={lowerRef} />
 
         {!!showButton && (
           <Box
