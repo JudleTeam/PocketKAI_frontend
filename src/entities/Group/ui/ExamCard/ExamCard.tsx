@@ -1,10 +1,5 @@
 import { ExamType } from '@/shared';
-import {
-  HStack,
-  Text,
-  useChakra,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { HStack, Text, useChakra, useColorModeValue } from '@chakra-ui/react';
 import { getLessonBuilding } from '@/shared/lib';
 import { getExamState } from '../../lib/getExamState';
 import { lessonStateIcons } from '@/shared/constants';
@@ -35,7 +30,6 @@ export function ExamCard({ exam }: { exam: ExamType }) {
       } else {
         metaThemeColor.setAttribute('content', mainColor);
       }
-      console.log(metaThemeColor.getAttribute('content'));
     }
   }, [themeColor, mainColor, isOpen]);
 

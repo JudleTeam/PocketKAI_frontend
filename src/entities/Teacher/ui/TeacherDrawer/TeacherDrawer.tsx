@@ -182,7 +182,7 @@ export const TeacherDrawer = function TeacherDrawer({
                     weekParity
                   ].filter((lesson) => lesson.number_of_day === index + 1);
                   return (
-                    <Box position="relative">
+                    <Box position="relative" key={day}>
                       <Text
                         fontSize={20}
                         fontWeight={'medium'}

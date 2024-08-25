@@ -141,7 +141,7 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
                     weekParity
                   ].filter((lesson) => lesson.number_of_day === index + 1);
                   return (
-                    <Box>
+                    <Box key={day}>
                       <Text
                         fontSize={20}
                         fontWeight={'medium'}
