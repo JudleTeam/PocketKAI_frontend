@@ -12,6 +12,7 @@ import { generateDateSchedule } from '../lib/generateDateSchedule';
 import { formWeekSchedule } from '../lib/formWeekSchedule';
 import { DateTime } from 'luxon';
 import { getCurrentSemester } from '../lib/getCurrentSemester';
+import { persist } from 'zustand/middleware';
 
 type StoreState = {
   schedule: Schedule;
@@ -53,58 +54,77 @@ const initialState: StoreState = {
   error: null,
 };
 
-export const useSchedule = create<StoreState & StoreActions>((set, get) => ({
-  ...initialState,
-  getFullWeekScheduleByName: async (name) => {
-    set({ weekScheduleStatus: 'loading' });
-    try {
-      const response = await scheduleService.getWeekScheduleByGroupName(name, {
-        week_parity: 'any',
-      });
-      const anyWeek = formWeekSchedule(response.data);
+export const useSchedule = create<StoreState & StoreActions>()(
+  persist(
+    (set, get) => ({
+      ...initialState,
+      getFullWeekScheduleByName: async (name) => {
+        set({ weekScheduleStatus: 'loading' });
+        try {
+          const response = await scheduleService.getWeekScheduleByGroupName(
+            name,
+            {
+              week_parity: 'any',
+            }
+          );
+          const anyWeek = formWeekSchedule(response.data);
 
-      set({
-        weekSchedule: { odd: anyWeek.odd, even: anyWeek.even },
-        weekScheduleStatus: 'success',
-      });
-    } catch (error) {
-      set({ error, weekScheduleStatus: 'error' });
-    }
-  },
-  addToCurrentSchedule: async (params: ScheduleParams, isNextWeek = false) => {
-    set({ scheduleStatus: 'loading' });
-    try {
-      const response = await generateDateSchedule(get().weekSchedule, params);
-      set({
-        schedule: {
-          parsed_at: response.parsed_at,
-          days: isNextWeek
-            ? [...get().schedule.days, ...response.days]
-            : [...response.days, ...get().schedule.days],
-        },
-        scheduleStatus: 'idle',
-      });
-    } catch (error) {
-      set({ error, scheduleStatus: 'error' });
-    }
-  },
-  getSchedule: async (params: ScheduleParams) => {
-    const response = await generateDateSchedule(get().weekSchedule, params);
-    set({
-      schedule: {
-        parsed_at: response.parsed_at,
-        days: response.days,
+          set({
+            weekSchedule: { odd: anyWeek.odd, even: anyWeek.even },
+            weekScheduleStatus: 'success',
+          });
+        } catch (error) {
+          set({ error, weekScheduleStatus: 'error' });
+        }
       },
-    });
-  },
-  getWeekParity: async (params?: WeekParity) => {
-    const response = await scheduleService.getWeekParity(params);
-    set({ parity: response.data });
-  },
+      addToCurrentSchedule: async (
+        params: ScheduleParams,
+        isNextWeek = false
+      ) => {
+        set({ scheduleStatus: 'loading' });
+        try {
+          const response = await generateDateSchedule(
+            get().weekSchedule,
+            params
+          );
+          set({
+            schedule: {
+              parsed_at: response.parsed_at,
+              days: isNextWeek
+                ? [...get().schedule.days, ...response.days]
+                : [...response.days, ...get().schedule.days],
+            },
+            scheduleStatus: 'idle',
+          });
+        } catch (error) {
+          set({ error, scheduleStatus: 'error' });
+        }
+      },
+      getSchedule: async (params: ScheduleParams) => {
+        const response = await generateDateSchedule(get().weekSchedule, params);
+        set({
+          schedule: {
+            parsed_at: response.parsed_at,
+            days: response.days,
+          },
+        });
+      },
+      getWeekParity: async (params?: WeekParity) => {
+        const response = await scheduleService.getWeekParity(params);
+        set({ parity: response.data });
+      },
 
-  setShowFadedLessons: (value) => {
-    set({ showFadedLessons: value });
-  },
+      setShowFadedLessons: (value) => {
+        set({ showFadedLessons: value });
+      },
 
-  resetScheduleState: () => set(initialState),
-}));
+      resetScheduleState: () => set(initialState),
+    }),
+    {
+      name: 'schedule',
+      partialize: (state) => ({
+        showFadedLessons: state.showFadedLessons,
+      }),
+    }
+  )
+);
