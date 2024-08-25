@@ -29,7 +29,7 @@ export type ContextType = [
 export function AppLayout() {
   const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
   const currentDayRef = useRef<string>('');
-  const currentDayLocalStorage = localStorage.getItem('currentDay');
+  const currentDayLocalStorage = sessionStorage.getItem('currentDay');
   const [currentDay, setCurrentDay] = useState<string>(
     currentDayLocalStorage ||
       DateTime.now().setZone('Europe/Moscow').toFormat('yyyy-LL-dd')
@@ -78,7 +78,7 @@ export function AppLayout() {
   useEffect(() => {
     document.getElementById(currentDay)?.scrollIntoView();
     return () => {
-      localStorage.setItem('currentDay', currentDayRef.current);
+      sessionStorage.setItem('currentDay', currentDayRef.current);
     };
   }, [location.pathname]);
   const { theme } = useChakra();
