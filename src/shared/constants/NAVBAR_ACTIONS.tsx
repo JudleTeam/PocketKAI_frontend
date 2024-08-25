@@ -10,25 +10,27 @@ export type NavbarAction = {
   icon: ComponentWithAs<'svg', IconProps>;
 };
 
-export const NAVBAR_ACTIONS = [
-  {
-    label: 'Расписание',
-    path: '/schedule',
-    icon: ScheduleIcon,
-  },
-  {
-    label: 'Задания',
-    path: '/assignments',
-    icon: AssignmentIcon,
-  },
-  {
-    label: 'Педагоги',
-    path: '/teachers',
-    icon: TeachersIcon,
-  },
-  {
-    label: 'Аккаунт',
-    path: '/account',
-    icon: AccountIcon,
-  },
-];
+export function getNavbarActions(showTimeline: boolean): NavbarAction[] {
+  return [
+    {
+      label: 'Расписание',
+      path: showTimeline ? '/schedule' : '/schedule/full', // Условное изменение пути
+      icon: ScheduleIcon,
+    },
+    {
+      label: 'Задания',
+      path: '/assignments',
+      icon: AssignmentIcon,
+    },
+    {
+      label: 'Педагоги',
+      path: '/teachers',
+      icon: TeachersIcon,
+    },
+    {
+      label: 'Аккаунт',
+      path: '/account',
+      icon: AccountIcon,
+    },
+  ];
+}

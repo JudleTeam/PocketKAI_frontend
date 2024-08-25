@@ -1,4 +1,4 @@
-import { NAVBAR_ACTIONS } from '@/shared/constants';
+import React from 'react';
 import {
   Box,
   Menu,
@@ -14,38 +14,99 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from './NavbarActions.module.scss';
 import { ArrowIcon } from '@/shared/assets/chakraIcons/ArrowIcon';
 import { isCurrentLocation } from '../lib/isCurrentLocation';
+import { useSettings } from '@/entities';
+import { getNavbarActions, NavbarAction } from '@/shared/constants';
+import { useEffect, useState } from 'react';
+
+const menuItems = {
+  full: [
+    { label: 'Таймлайн', path: '/schedule' },
+    { label: 'Расписание экзаменов', path: '/schedule/exams' },
+  ],
+  exams: [
+    { label: 'Таймлайн', path: '/schedule' },
+    { label: 'Полное расписание', path: '/schedule/full' },
+  ],
+  default: [
+    { label: 'Полное расписание', path: '/schedule/full' },
+    { label: 'Расписание экзаменов', path: '/schedule/exams' },
+  ],
+};
 
 export function NavbarActions() {
+  const { showTimeline } = useSettings();
   const location = useLocation();
-  const isOnFullSchedulePath = location.pathname === '/schedule/full';
-  const isOnExamsPath = location.pathname === '/schedule/exams';
   const navigate = useNavigate();
   const { theme } = useChakra();
   const mainElement = useColorModeValue(
     theme.colors.light.main_element,
     theme.colors.dark.main_element
   );
+
+  const [navbarActions, setNavbarActions] = useState<NavbarAction[]>([]);
+
+  useEffect(() => {
+    setNavbarActions(getNavbarActions(showTimeline));
+  }, [showTimeline]);
+
+  const isSchedulePage = [
+    '/schedule/full',
+    '/schedule/exams',
+    '/schedule',
+  ].includes(location.pathname);
+
+  const handleNavigation = (action: NavbarAction) => {
+    if (action.label === 'Расписание' && isSchedulePage) return;
+    navigate(action.path);
+  };
+
+  const getMenuItems = () => {
+    if (location.pathname === '/schedule/full') return menuItems.full;
+    if (location.pathname === '/schedule/exams') return menuItems.exams;
+    return menuItems.default;
+  };
+
   return (
     <>
-      {NAVBAR_ACTIONS.map((action) => {
+      {navbarActions.map((action) => {
         const Icon = action.icon;
+        const isCurrent = isCurrentLocation(action);
+        const menuItemsToShow =
+          action.label === 'Расписание' && isSchedulePage ? getMenuItems() : [];
+
         return (
           <Box
-            onClick={() => {
-              navigate(
-                (isOnFullSchedulePath && action.path === '/schedule') ||
-                  (isOnExamsPath && action.path === '/schedule')
-                  ? location.pathname
-                  : action.path
-              );
-            }}
             key={action.label}
+            onClick={() => handleNavigation(action)}
             style={{ height: '100%' }}
           >
-            {(action.label === 'Расписание' && isCurrentLocation(action)) ||
-            (action.label === 'Расписание' &&
-              (isOnFullSchedulePath || isOnExamsPath)) ? (
+            {menuItemsToShow.length > 0 ? (
               <Menu isLazy>
+                <MenuButton>
+                  <VStack
+                    gap={0.5}
+                    justifyContent={'space-between'}
+                    className={styles['stack']}
+                  >
+                    <Box className={styles['icons']}>
+                      <Icon
+                        w="100px"
+                        h="100px"
+                        color={
+                          isCurrent || isSchedulePage ? mainElement : '#fff'
+                        }
+                        className={`${styles['icon']} ${
+                          (isCurrent || isSchedulePage) &&
+                          styles['icon--active']
+                        }`}
+                      />
+                      <ArrowIcon color="#fff" />
+                    </Box>
+                    <Box color="#fff" fontFamily="Montserrat">
+                      {action.label}
+                    </Box>
+                  </VStack>
+                </MenuButton>
                 <MenuList
                   display="flex"
                   flexDirection="column"
@@ -55,106 +116,23 @@ export function NavbarActions() {
                   bgColor={mainElement}
                   color="#fff"
                 >
-                  {location.pathname === '/schedule/full' &&
-                  action.path === '/schedule' ? (
-                    <>
+                  {menuItemsToShow.map((item, index) => (
+                    <React.Fragment key={item.path}>
                       <MenuItem
                         as={Link}
-                        to="/schedule"
+                        to={item.path}
                         padding="5px 10px"
                         onClick={(e) => e.stopPropagation()}
                         bgColor={mainElement}
                       >
-                        Таймлайн
+                        {item.label}
                       </MenuItem>
-                      <Divider w={'90%'} alignSelf={'center'}></Divider>
-                      <MenuItem
-                        as={Link}
-                        to="/schedule/exams"
-                        padding="5px 10px"
-                        onClick={(e) => e.stopPropagation()}
-                        bgColor={mainElement}
-                      >
-                        Расписание экзаменов
-                      </MenuItem>
-                    </>
-                  ) : location.pathname === '/schedule/exams' &&
-                    action.path === '/schedule' ? (
-                    <>
-                      <MenuItem
-                        as={Link}
-                        to="/schedule"
-                        padding="5px 10px"
-                        onClick={(e) => e.stopPropagation()}
-                        bgColor={mainElement}
-                      >
-                        Таймлайн
-                      </MenuItem>
-                      <Divider w={'90%'} alignSelf={'center'}></Divider>
-                      <MenuItem
-                        as={Link}
-                        to="/schedule/full"
-                        padding="5px 10px"
-                        onClick={(e) => e.stopPropagation()}
-                        bgColor={mainElement}
-                      >
-                        Полное расписание
-                      </MenuItem>
-                    </>
-                  ) : (
-                    <>
-                      <MenuItem
-                        as={Link}
-                        to="/schedule/full"
-                        padding="5px 10px"
-                        onClick={(e) => e.stopPropagation()}
-                        bgColor={mainElement}
-                      >
-                        Полное расписание
-                      </MenuItem>
-                      <Divider w={'90%'} alignSelf={'center'}></Divider>
-                      <MenuItem
-                        as={Link}
-                        to="/schedule/exams"
-                        padding="5px 10px"
-                        onClick={(e) => e.stopPropagation()}
-                        bgColor={mainElement}
-                      >
-                        Расписание экзаменов
-                      </MenuItem>
-                    </>
-                  )}
+                      {index < menuItemsToShow.length - 1 && (
+                        <Divider w={'90%'} alignSelf={'center'} />
+                      )}
+                    </React.Fragment>
+                  ))}
                 </MenuList>
-                <MenuButton>
-                  <VStack
-                    gap={0.5}
-                    justifyContent={'space-between'}
-                    className={styles['stack']}
-                  >
-                    <Box className={styles['icons']}>
-                      <Icon
-                        className={`${styles['icon']} ${
-                          isCurrentLocation(action) && styles['icon--active']
-                        } ${
-                          isOnFullSchedulePath &&
-                          isOnExamsPath &&
-                          styles['icon--active']
-                        }`}
-                        color={
-                          isCurrentLocation(action) ||
-                          isOnFullSchedulePath ||
-                          isOnExamsPath
-                            ? mainElement
-                            : '#fff'
-                        }
-                      />
-                      <ArrowIcon color="#fff" />
-                    </Box>
-                    <Box color="#fff" fontFamily="Montserrat">
-                      {action.label}
-                    </Box>
-                  </VStack>
-                </MenuButton>
               </Menu>
             ) : (
               <VStack
@@ -163,12 +141,12 @@ export function NavbarActions() {
                 className={styles['stack']}
               >
                 <Icon
-                w='100px'
-                h='100px'
-                  color={isCurrentLocation(action) ? mainElement : '#fff'}
-                  className={` ${styles['icon']} ${
-                    isCurrentLocation(action) && styles['icon--active']
-                  } `}
+                  w="100px"
+                  h="100px"
+                  color={isCurrent ? mainElement : '#fff'}
+                  className={`${styles['icon']} ${
+                    isCurrent && styles['icon--active']
+                  }`}
                 />
                 <Box color="#fff" fontFamily="Montserrat">
                   {action.label}

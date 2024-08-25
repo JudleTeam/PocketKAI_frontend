@@ -11,7 +11,10 @@ export function Settings() {
     isScheduleInfinite,
     toggleShowFadedLessons,
     toggleIsScheduleInfinite,
+    toggleShowTimeline,
+    showTimeline,
   } = useSettings();
+  console.log(showTimeline)
   return (
     <Box className={styles['settings']}>
       <Box
@@ -85,6 +88,35 @@ export function Settings() {
             size={'md'}
             isChecked={isScheduleInfinite}
             onChange={() => toggleIsScheduleInfinite(!isScheduleInfinite)}
+          />
+        </Box>
+        <Divider/>
+        <Text
+        fontSize='18px'
+        fontWeight='bold'
+        color={mainTextColor}
+        >
+          При открытии показывать:
+        </Text>
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+        >
+          <Text
+            as={'label'}
+            fontSize="16px"
+            fontWeight="semibold"
+            color={mainTextColor}
+            htmlFor="showTimeline"
+          >
+            {showTimeline ? 'Таймлайн' : 'Полное расписание'}
+          </Text>
+          <Switch
+            id="showTimeline"
+            size={'md'}
+            isChecked={showTimeline}
+            onChange={() => toggleShowTimeline(!showTimeline)}
           />
         </Box>
       </Box>
