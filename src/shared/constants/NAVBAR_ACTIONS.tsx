@@ -3,6 +3,7 @@ import { AccountIcon } from '../assets/chakraIcons/AccountIcon';
 import { AssignmentIcon } from '../assets/chakraIcons/AssignmentIcon';
 import { ScheduleIcon } from '../assets/chakraIcons/ScheduleIcon';
 import { TeachersIcon } from '../assets/chakraIcons/TeachersIcon';
+type ScheduleView = 'timeline' | 'full'
 
 export type NavbarAction = {
   label: string;
@@ -10,11 +11,11 @@ export type NavbarAction = {
   icon: ComponentWithAs<'svg', IconProps>;
 };
 
-export function getNavbarActions(showTimeline: boolean): NavbarAction[] {
+export function getNavbarActions(preferencedScheduleView:ScheduleView): NavbarAction[] {
   return [
     {
       label: 'Расписание',
-      path: showTimeline ? '/schedule' : '/schedule/full', // Условное изменение пути
+      path: preferencedScheduleView === 'timeline' ? '/schedule' : '/schedule/full',
       icon: ScheduleIcon,
     },
     {

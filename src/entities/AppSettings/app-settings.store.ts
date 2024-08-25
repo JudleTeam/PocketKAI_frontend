@@ -1,16 +1,17 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { ScheduleView } from '@/shared';
 
 type SettingsState = {
   showFadedLessons: boolean;
   isScheduleInfinite: boolean;
-  showTimeline: boolean;
+  preferencedScheduleView: ScheduleView;
 };
 
 type SettingsActions = {
   toggleShowFadedLessons: (value: boolean) => void;
   toggleIsScheduleInfinite: (value: boolean) => void;
-  toggleShowTimeline: (value: boolean) => void;
+  togglePreferencedScheduleView: (value: ScheduleView) => void;
 };
 
 export const useSettings = create<SettingsState & SettingsActions>()(
@@ -18,15 +19,15 @@ export const useSettings = create<SettingsState & SettingsActions>()(
     (set) => ({
       showFadedLessons: true,
       isScheduleInfinite: true,
-      showTimeline: true,
+      preferencedScheduleView: 'timeline',
       toggleShowFadedLessons: (value) => {
         set({ showFadedLessons: value });
       },
       toggleIsScheduleInfinite: (value) => {
         set({ isScheduleInfinite: value });
       },
-      toggleShowTimeline: (value) => {
-        set({ showTimeline: value });
+      togglePreferencedScheduleView: (value) => {
+        set({ preferencedScheduleView: value });
       }
     }),
     {
@@ -34,7 +35,7 @@ export const useSettings = create<SettingsState & SettingsActions>()(
       partialize: (state) => ({
         showFadedLessons: state.showFadedLessons,
         isScheduleInfinite: state.isScheduleInfinite,
-        showTimeline: state.showTimeline,
+        preferencedScheduleView: state.preferencedScheduleView,
       }),
     }
   )

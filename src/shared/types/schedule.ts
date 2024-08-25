@@ -28,3 +28,5 @@ export type WeekParity = {
   parity: 'odd' | 'even';
   int_parity: number;
 };
+
+export type ScheduleView = 'timeline' | 'full'

@@ -34,7 +34,7 @@ const menuItems = {
 };
 
 export function NavbarActions() {
-  const { showTimeline } = useSettings();
+  const { preferencedScheduleView } = useSettings();
   const location = useLocation();
   const navigate = useNavigate();
   const { theme } = useChakra();
@@ -46,8 +46,8 @@ export function NavbarActions() {
   const [navbarActions, setNavbarActions] = useState<NavbarAction[]>([]);
 
   useEffect(() => {
-    setNavbarActions(getNavbarActions(showTimeline));
-  }, [showTimeline]);
+    setNavbarActions(getNavbarActions(preferencedScheduleView));
+  }, [preferencedScheduleView]);
 
   const isSchedulePage = [
     '/schedule/full',
