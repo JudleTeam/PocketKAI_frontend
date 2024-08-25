@@ -7,7 +7,7 @@ import {
   useChakra,
 } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { UiDatebar } from '@/shared/ui/ui-datebar/UiDatebar';
 import { DatebarContent } from '../datebar/DatebarContent';
@@ -28,8 +28,11 @@ export type ContextType = [
 
 export function AppLayout() {
   const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
+  const currentDayRef = useRef<string>('');
+  const currentDayLocalStorage = sessionStorage.getItem('currentDay');
   const [currentDay, setCurrentDay] = useState<string>(
-    DateTime.now().setZone('Europe/Moscow').toFormat('yyyy-LL-dd')
+    currentDayLocalStorage ||
+      DateTime.now().setZone('Europe/Moscow').toFormat('yyyy-LL-dd')
   );
   const { currentGroup } = useGroup();
   const {
@@ -67,10 +70,17 @@ export function AppLayout() {
     getWeekParity,
     getFullWeekScheduleByName,
   ]);
+
+  useEffect(() => {
+    currentDayRef.current = currentDay;
+  }, [currentDay]);
+
   useEffect(() => {
     document.getElementById(currentDay)?.scrollIntoView();
+    return () => {
+      sessionStorage.setItem('currentDay', currentDayRef.current);
+    };
   }, [location.pathname]);
-
   const { theme } = useChakra();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const mainColor = useColorModeValue(
