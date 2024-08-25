@@ -132,7 +132,7 @@ export function Account() {
       <Box
         className={styles['account__account-actions']}
         bgColor={accountActionsColor}
-        top={user ? '480px' : '400px'}
+        top={user ? '470px' : '400px'}
       >
         {ACCOUNT_ACTIONS.map((action, index) => (
           <React.Fragment key={action.label}>
@@ -177,12 +177,6 @@ export function Account() {
           </>
         )}
       </Box>
-      <Box
-        h="10px"
-        w="100%"
-        position="absolute"
-        top={user ? '755px' : '630px'}
-      />
     </Box>
   );
 }

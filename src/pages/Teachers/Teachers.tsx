@@ -24,11 +24,11 @@ export function Teachers() {
       <Menu>
         <Box
           position="fixed"
-          top="85px"
+          top={currentGroup ? '85px' : '65px'}
           textAlign="left"
           w="90%"
           zIndex="10"
-          padding='5px 0'
+          padding="5px 0"
           boxShadow={`0px 0px 10px 10px ${mainColor}`}
           bgColor={mainColor}
         >
@@ -50,7 +50,7 @@ export function Teachers() {
               : 'Поиск преподавателей'}
           </MenuButton>
         </Box>
-        <MenuList zIndex='11'>
+        <MenuList zIndex="11">
           <MenuOptionGroup type="radio" value={layoutType}>
             <MenuItemOption
               value="group"

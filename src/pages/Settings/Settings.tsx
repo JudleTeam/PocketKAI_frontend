@@ -1,5 +1,5 @@
 import { AccountTabHeader, useColor } from '@/shared/lib';
-import { Button, Text, Box } from '@chakra-ui/react';
+import { Button, Text, Box, Switch, Divider } from '@chakra-ui/react';
 import { useColorMode } from '@chakra-ui/react';
 import styles from './Settings.module.scss';
 import { useSchedule } from '@/entities';
@@ -37,24 +37,21 @@ export function Settings() {
           {colorMode === 'light' ? 'Тёмная' : 'Светлая'} тема
         </Button>
       </Box>
-
+      <Divider />
       <Box
         display={'flex'}
-        flexDirection={'column'}
         gap={2}
         alignItems={'center'}
+        justifyContent={'space-between'}
       >
-        <Text fontSize="18px" fontWeight="bold" color={mainTextColor}>
+        <Text fontSize="16px" fontWeight="semibold" color={mainTextColor}>
           Скрыть неактивные занятия
         </Text>
-        <Button
-          w={'100%'}
-          onClick={() => setShowFadedLessons(!showFadedLessons)}
-          bg={tabTeacher}
-          color={mainTextColor}
-        >
-          {showFadedLessons ? 'Скрыть' : 'Показать'}
-        </Button>
+        <Switch
+          size={'md'}
+          isChecked={!showFadedLessons}
+          onChange={() => setShowFadedLessons(!showFadedLessons)}
+        />
       </Box>
     </Box>
   );

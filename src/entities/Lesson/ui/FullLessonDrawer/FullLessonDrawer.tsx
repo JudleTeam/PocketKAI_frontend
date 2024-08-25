@@ -20,6 +20,7 @@ import { LessonTypes } from '@/shared/constants';
 import { parityTypes } from '@/shared/constants';
 import { HashLink } from 'react-router-hash-link';
 import { CopyIcon } from '@chakra-ui/icons';
+
 export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
   const { theme } = useChakra();
   const tab = useColorModeValue(theme.colors.light.tab, theme.colors.dark.tab);
@@ -30,9 +31,10 @@ export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
   );
   const toast = useToast();
   const { cardColor, tabTeacher } = useColor();
+
   return (
     <Box
-      padding="25px 0 0 0"
+      padding="15px 0 0 0"
       color={mainTextColor}
       display="flex"
       flexDirection="column"

@@ -141,7 +141,7 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
                     weekParity
                   ].filter((lesson) => lesson.number_of_day === index + 1);
                   return (
-                    <Box>
+                    <Box key={day}>
                       <Text
                         fontSize={20}
                         fontWeight={'medium'}
@@ -194,9 +194,13 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
                                 )}
                                 <Box display="flex" flexWrap={'wrap'}>
                                   <Text>Группы:&nbsp;</Text>
-                                  {lesson.groups.map((group) => (
+                                  {lesson.groups.map((group, index) => (
                                     <React.Fragment key={group.id}>
-                                      {group.group_name}{' '}
+                                      {`${group.group_name}${
+                                        lesson.groups.length - 1 === index
+                                          ? ''
+                                          : ', '
+                                      }`}
                                     </React.Fragment>
                                   ))}
                                 </Box>

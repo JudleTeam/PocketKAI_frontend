@@ -32,6 +32,20 @@ export function WeekSchedule() {
     }
   }, [currentGroup, weekScheduleStatus, getFullWeekScheduleByName]);
 
+  useEffect(() => {
+    const todayWeekDay = DateTime.now()
+      .setLocale('ru')
+      .setZone('Europe/Moscow')
+      .weekdayLong?.toLowerCase();
+    if (todayWeekDay === 'воскресенье' || !todayWeekDay) {
+      window.scrollTo(0, 0);
+      return;
+    }
+    document
+      .getElementById(todayWeekDay)
+      ?.scrollIntoView({ behavior: 'smooth' });
+  }, []);
+
   const [currentDay, setCurrentDay] = useState<string>('');
   const {
     mainColor,
@@ -103,7 +117,9 @@ export function WeekSchedule() {
               fontWeight="medium"
               borderRadius="8px"
               bgColor={currentDay === day[0] ? cardColor : ''}
-              boxShadow={currentDay === day[0] ? `0 0 5px 0 rgba(0, 0, 0, 0.2)` : ''}
+              boxShadow={
+                currentDay === day[0] ? `0 0 5px 0 rgba(0, 0, 0, 0.2)` : ''
+              }
               padding={'10px'}
             >
               <button
@@ -128,7 +144,9 @@ export function WeekSchedule() {
         overflowY="auto"
         top="30vh"
         left="50%"
-        transform={weekScheduleStatus === 'success' ? 'none' : "translate(-50%, 0)"}
+        transform={
+          weekScheduleStatus === 'success' ? 'none' : 'translate(-50%, 0)'
+        }
         position={weekScheduleStatus === 'success' ? 'initial' : 'absolute'}
       >
         <Loader status={weekScheduleStatus} idleMessage="Выберите группу">

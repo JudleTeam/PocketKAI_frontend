@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Drawer as DrawerPrimitive } from 'vaul';
-
+import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { cn, useDrawerPopstateClose } from '@/shared/lib';
 
 const Drawer = ({
@@ -56,6 +56,11 @@ const DrawerContent = React.forwardRef<
         <div className="mx-auto mt-3 min-h-1.5 w-[100px] rounded-full bg-gray-300" />
       </DrawerPrimitive.Handle>
       <DrawerClose className="absolute top-2 right-6">✕</DrawerClose>
+      <DrawerDescription />
+      <VisuallyHidden.Root>
+        <DrawerTitle />
+      </VisuallyHidden.Root>
+
       {children}
     </DrawerPrimitive.Content>
   </DrawerPortal>
@@ -104,6 +109,7 @@ const DrawerDescription = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Description
+    aria-describedby={undefined}
     ref={ref}
     className={cn('text-sm text-muted-foreground', className)}
     {...props}
