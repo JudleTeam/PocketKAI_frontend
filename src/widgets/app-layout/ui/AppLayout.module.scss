@@ -1,6 +1,10 @@
 .app-layout {
   margin: 0 auto;
   width: 92%;
+  height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+  scroll-padding-top: 230px;
 
   &__header {
     display: flex;

@@ -28,6 +28,7 @@ export type ContextType = [
 
 export function AppLayout() {
   const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
+  // this is made to scroll  on certain day after navigating to other page that is not part of app layout
   const currentDayRef = useRef<string>('');
   const currentDayLocalStorage = sessionStorage.getItem('currentDay');
   const [currentDay, setCurrentDay] = useState<string>(

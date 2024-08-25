@@ -9,7 +9,7 @@ import styles from './FadedLessonCard.module.scss';
 import { useEffect } from 'react';
 import { Drawer, DrawerTrigger, DrawerContent } from '@/shared/ui/drawer';
 import { useColor, useDisclosure } from '@/shared/lib';
-import { useSchedule } from '@/entities';
+import { useSettings } from '@/entities';
 
 export function FadedLessonCard({
   lesson,
@@ -20,7 +20,7 @@ export function FadedLessonCard({
 }) {
   const { isOpen, setIsOpen } = useDisclosure();
   const { mainTextColor, themeColor, mainColor } = useColor();
-  const { showFadedLessons } = useSchedule();
+  const { showFadedLessons } = useSettings();
   useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
