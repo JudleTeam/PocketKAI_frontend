@@ -30,7 +30,7 @@ export const BottomBoundary = forwardRef<HTMLDivElement>((_, lowerRef) => {
     );
   }
   return (
-    <Button mt={2} onClick={() => handleLoadMore()}>
+    <Button w={'100%'} mt={2} onClick={() => handleLoadMore()}>
       Загрузить
     </Button>
   );

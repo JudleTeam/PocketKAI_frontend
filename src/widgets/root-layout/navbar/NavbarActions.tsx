@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Box,
   Menu,
-  VStack,
   MenuButton,
   MenuList,
   MenuItem,
@@ -83,15 +82,16 @@ export function NavbarActions() {
             {menuItemsToShow.length > 0 ? (
               <Menu isLazy>
                 <MenuButton>
-                  <VStack
+                  <Box
+                    display={'flex'}
+                    flexDir={{ base: 'column', md: 'row' }}
+                    alignItems={'center'}
                     gap={0.5}
                     justifyContent={'space-between'}
                     className={styles['stack']}
                   >
                     <Box className={styles['icons']}>
                       <Icon
-                        w="100px"
-                        h="100px"
                         color={
                           isCurrent || isSchedulePage ? mainElement : '#fff'
                         }
@@ -100,12 +100,10 @@ export function NavbarActions() {
                           styles['icon--active']
                         }`}
                       />
-                      <ArrowIcon color="#fff" />
+                      <ArrowIcon w={3} h={3} color="#fff" />
                     </Box>
-                    <Box color="#fff" fontFamily="Montserrat">
-                      {action.label}
-                    </Box>
-                  </VStack>
+                    <Box color="#fff">{action.label}</Box>
+                  </Box>
                 </MenuButton>
                 <MenuList
                   display="flex"
@@ -135,23 +133,22 @@ export function NavbarActions() {
                 </MenuList>
               </Menu>
             ) : (
-              <VStack
+              <Box
+                display={'flex'}
+                flexDir={{ base: 'column', md: 'row' }}
+                alignItems={'center'}
                 gap={0.5}
                 justifyContent={'space-between'}
                 className={styles['stack']}
               >
                 <Icon
-                  w="100px"
-                  h="100px"
                   color={isCurrent ? mainElement : '#fff'}
                   className={`${styles['icon']} ${
                     isCurrent && styles['icon--active']
                   }`}
                 />
-                <Box color="#fff" fontFamily="Montserrat">
-                  {action.label}
-                </Box>
-              </VStack>
+                <Box color="#fff">{action.label}</Box>
+              </Box>
             )}
           </Box>
         );

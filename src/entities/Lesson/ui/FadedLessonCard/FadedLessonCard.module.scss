@@ -4,6 +4,7 @@
   display: flex;
   cursor: pointer;
   opacity: 0.5;
+  width: clamp(200px, 90vw, 800px);
   &::after {
     content: url('../../../../shared/assets/icons/right-arrow.svg');
     width: 10px;

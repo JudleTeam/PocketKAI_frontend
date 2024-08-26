@@ -4,6 +4,7 @@
   display: flex;
   cursor: pointer;
   height: 100%;
+  width: clamp(200px, 90vw, 600px);
   &::after {
     content: url('../../../../shared/assets/icons/right-arrow.svg');
     width: 10px;
@@ -17,7 +18,7 @@
   &__time {
     display: flex;
     flex-direction: column;
-    
+
     p {
       font-family: 'Chivo Mono', monospace;
       line-height: 1.5rem;
@@ -40,7 +41,7 @@
   }
   &__info {
     text-align: left;
-    width: 58%;
+    width: 70%;
     font-size: clamp(13px, 4vw, 18px);
     line-height: 1.6rem;
   }

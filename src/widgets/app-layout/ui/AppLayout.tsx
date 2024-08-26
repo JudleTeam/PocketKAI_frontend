@@ -20,7 +20,7 @@ import { useScrollSpy } from '../lib/useScrollSpy';
 import { parityTypes } from '@/shared/constants';
 import { scrollToToday } from '@/shared/lib';
 import { isScheduleOutdated } from '@/entities';
-
+import logo from '../../../shared/assets/images/logo.png';
 export type ContextType = [
   string,
   React.Dispatch<React.SetStateAction<string>>
@@ -108,30 +108,50 @@ export function AppLayout() {
       <Box
         bgColor={mainColor}
         pos={'fixed'}
+        display={'flex'}
+        flexDir={'column'}
+        gap={{ base: 0, md: 4 }}
         top={0}
         left={0}
         w={'100%'}
-        px={5}
         zIndex={20}
       >
-        <Box className={styles['app-layout__header']} bgColor={mainColor}>
-          <VStack
-            alignItems={'flex-start'}
-            fontWeight={'medium'}
-            color={mainTextColor}
-            gap={0.4}
-            onClick={() => scrollToToday(true)}
+        <Box
+          px={5}
+          py={2}
+          boxShadow={{ base: 'none', md: '0px 0px 5px 0px rgba(0, 0, 0, 0.2)' }}
+          className={styles['app-layout__header']}
+          bgColor={mainColor}
+        >
+          <Box display={{ base: 'none', md: 'block' }} w={16}>
+            <img src={logo} />
+          </Box>
+          <Box
+            w={{ base: '100%', md: '40%' }}
+            display={'flex'}
+            alignItems={'center'}
+            justifyContent={{ base: 'space-between', md: 'flex-end' }}
+            gap={4}
           >
-            <Text fontSize={22}>
-              {DateTime.now().setLocale('ru').toFormat('d MMMM')}
-            </Text>
+            <VStack
+              alignItems={'flex-start'}
+              fontWeight={'medium'}
+              color={mainTextColor}
+              gap={0.4}
+              onClick={() => scrollToToday(true)}
+            >
+              <Text fontSize={22}>
+                {DateTime.now().setLocale('ru').toFormat('d MMMM')}
+              </Text>
 
-            <Text>{parity && parityTypes[parity?.parity]}</Text>
-            <Text fontSize={12} color={'#ed8936'}>
-              {isScheduleOutdated(schedule.parsed_at) && 'Расписание устарело'}
-            </Text>
-          </VStack>
-          <SelectGroup onOpen={onOpen} />
+              <Text>{parity && parityTypes[parity?.parity]}</Text>
+              <Text fontSize={12} color={'#ed8936'}>
+                {isScheduleOutdated(schedule.parsed_at) &&
+                  'Расписание устарело'}
+              </Text>
+            </VStack>
+            <SelectGroup onOpen={onOpen} />
+          </Box>
         </Box>
         <UiDatebar
           isNotDatebar={isNotDatebar}
