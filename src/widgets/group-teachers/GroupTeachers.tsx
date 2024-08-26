@@ -20,7 +20,7 @@ export function GroupTeachers() {
   return (
     <Loader status={groupDisciplinesStatus} idleMessage="Выберите группу">
       <Box id="teacher">
-        <Box pt="50px" display="flex" flexDirection="column" gap="10px">
+        <Box pt="40px" display="flex" flexDirection="column" gap="10px">
           {groupDisciplines &&
             groupDisciplines.map((discipline) => {
               const uniqueTeachers = new Map();

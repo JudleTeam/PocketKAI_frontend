@@ -1,7 +1,9 @@
 .account {
-  height: 100%;
+  height: 88vh;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  scrollbar-width: none;
   &__header {
     display: flex;
     flex-direction: column;

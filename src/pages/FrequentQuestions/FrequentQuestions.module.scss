@@ -1,13 +1,13 @@
 .faq{
     width: 90%;
     margin: 0 auto;
-    height: 95%;
+    height: 90vh;
     overflow-y: auto;
     scrollbar-width: none;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    padding: 0 0 40px 0;
+    padding: 0 0 30px 0;
 }
 .panel{
     a{

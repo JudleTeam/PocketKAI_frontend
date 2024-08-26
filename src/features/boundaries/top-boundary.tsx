@@ -28,7 +28,7 @@ export const TopBoundary = forwardRef<HTMLDivElement>((_, upperRef) => {
     );
   }
   return (
-    <Button mb={2} onClick={() => handleLoadMore()}>
+    <Button w={'100%'} mb={2} onClick={() => handleLoadMore()}>
       Загрузить
     </Button>
   );

@@ -28,7 +28,13 @@ export function Schedule() {
   const { mainTextColor, mainElementColor } = useColor();
   return (
     <Loader status={weekScheduleStatus} idleMessage="Выберите группу">
-      <div id="schedule" className={styles['schedule']}>
+      <Box
+        id="schedule"
+        className={styles['schedule']}
+        alignItems={{ base: '', md: 'flex-start' }}
+        w={{ base: '100%', md: 'fit-content' }}
+        margin={{ base: '0', md: '0 auto' }}
+      >
         <TopBoundary ref={upperRef} />
         {schedule?.days.map((day) => {
           return (
@@ -112,7 +118,7 @@ export function Schedule() {
             )}
           </Box>
         )}
-      </div>
+      </Box>
     </Loader>
   );
 }

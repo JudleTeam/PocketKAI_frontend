@@ -18,10 +18,13 @@ export function UiNavbar({
   );
   return (
     <HStack
+      w={{ base: '90%', md: 'auto' }}
+      py={1}
+      px={{ base: 2, md: 7 }}
       bgColor={mainElement}
       className={styles['navbar']}
-      boxShadow={`0px 15px 20px 30px ${mainColor}`}
-      justifyContent={'space-around'}
+      boxShadow={{ base: `0px 15px 20px 30px ${mainColor}`, md: 'none' }}
+      justifyContent={{ base: 'space-around', md: 'space-between' }}
     >
       {navbarActions()}
     </HStack>
