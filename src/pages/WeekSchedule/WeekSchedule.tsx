@@ -139,7 +139,7 @@ export function WeekSchedule() {
       </Box>
       <Box
         w="100%"
-        padding="125px 4px 60px 4px"
+        padding="115px 4px 60px 4px"
         style={{ scrollbarWidth: 'none' }}
         overflowY="auto"
         top="30vh"
