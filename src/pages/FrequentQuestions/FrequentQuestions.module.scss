@@ -1,16 +1,16 @@
-.faq{
-    width: 90%;
-    margin: 0 auto;
-    height: 95%;
-    overflow-y: auto;
-    scrollbar-width: none;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 0 0 40px 0;
+.faq {
+  width: 90%;
+  margin: 0 auto;
+  height: 95vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0 0 40px 0;
 }
-.panel{
-    a{
-        text-decoration: underline;
-    }
+.panel {
+  a {
+    text-decoration: underline;
+  }
 }

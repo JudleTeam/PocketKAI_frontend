@@ -14,7 +14,7 @@ export const useDrawerPopstateClose = (
       navigate(1);
     };
     if (isOpen) {
-      navigate('');
+      navigate('#');
       window.addEventListener('popstate', onBackButtonEvent);
     }
 
