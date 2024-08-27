@@ -1,3 +1,5 @@
+export { shareData } from './helpers/shareData';
+
 export { copyToClipboard } from './helpers/copyToClipboard';
 
 export { getWeekParity } from './helpers/getWeekParity';

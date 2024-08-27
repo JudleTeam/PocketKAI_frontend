@@ -2,15 +2,20 @@ import * as React from 'react';
 import { Drawer as DrawerPrimitive } from 'vaul';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { cn, useDrawerPopstateClose } from '@/shared/lib';
-
+import { useBreakpointValue } from '@chakra-ui/react';
 const Drawer = ({
   open = false,
   onOpenChange = () => {},
+
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Root>) => {
   useDrawerPopstateClose(open, onOpenChange);
+  const drawerDirection = useBreakpointValue<
+    'bottom' | 'right' | 'left' | 'top' | undefined
+  >({ base: 'bottom', md: 'right' });
   return (
     <DrawerPrimitive.Root
+      direction={drawerDirection ?? 'bottom'}
       open={open}
       onOpenChange={onOpenChange}
       preventScrollRestoration={false}
@@ -41,32 +46,36 @@ DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
 const DrawerContent = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>
->(({ className, children, ...props }, ref) => (
-  <DrawerPortal>
-    <DrawerOverlay />
-    <DrawerPrimitive.Content
-      ref={ref}
-      className={cn(
-        'fixed inset-x-0 h-[80%] max-h-[80%] px-3 bottom-0 z-50 mt-24 flex flex-col rounded-t-[25px] border-[0px] bg-l-main dark:bg-d-main focus:outline-none',
-        className
-      )}
-      {...props}
-    >
-      <DrawerPrimitive.Handle className="mt-4 w-full min-h-4">
-        <div className='flex justify-center items-center'>
-          <div className="mt-3 min-h-1.5 w-[35%] rounded-full bg-gray-300" />
-        </div>
-      </DrawerPrimitive.Handle>
-      <DrawerClose className="absolute top-2 right-6">✕</DrawerClose>
-      <DrawerDescription />
-      <VisuallyHidden.Root>
-        <DrawerTitle />
-      </VisuallyHidden.Root>
+>(({ className, children, ...props }, ref) => {
+  return (
+    <DrawerPortal>
+      <DrawerOverlay />
+      <DrawerPrimitive.Content
+        ref={ref}
+        className={cn(
+          'fixed inset-x-0 md:right-0 md:left-auto h-[80%] max-h-[80%] md:max-h-[100%] md:h-[100%] md:max-w-[400px]' +
+            ' px-3 bottom-0 z-50 mt-24 flex flex-col rounded-t-[25px] md:rounded-t-none md:rounded-tl-[15px] md:rounded-bl-[15px]' +
+            ' bg-l-main dark:bg-d-main focus:outline-none border-[0px] md:p-5',
+          className
+        )}
+        {...props}
+      >
+        <DrawerPrimitive.Handle className="mt-4 w-full min-h-4 md:hidden">
+          <div className="flex justify-center items-center">
+            <div className="mt-3 min-h-1.5 w-[35%] rounded-full bg-gray-300" />
+          </div>
+        </DrawerPrimitive.Handle>
+        <DrawerClose className="absolute top-2 right-6">✕</DrawerClose>
+        <DrawerDescription />
+        <VisuallyHidden.Root>
+          <DrawerTitle />
+        </VisuallyHidden.Root>
 
-      {children}
-    </DrawerPrimitive.Content>
-  </DrawerPortal>
-));
+        {children}
+      </DrawerPrimitive.Content>
+    </DrawerPortal>
+  );
+});
 DrawerContent.displayName = 'DrawerContent';
 
 const DrawerHeader = ({
