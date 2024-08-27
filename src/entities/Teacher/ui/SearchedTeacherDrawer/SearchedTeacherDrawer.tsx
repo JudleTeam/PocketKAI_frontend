@@ -81,7 +81,6 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
       </Box>
       {teacher && (
         <Tabs
-          data-vaul-no-drag
           variant="unstyled"
           overflowY={'auto'}
           style={{ scrollbarWidth: 'none' }}
@@ -127,6 +126,7 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
             </Tab>
           </TabList>
           <Box
+            data-vaul-no-drag
             pos={'relative'}
             minH={200}
             mb={'30px'}

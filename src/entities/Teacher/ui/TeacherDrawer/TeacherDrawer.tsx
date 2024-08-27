@@ -121,7 +121,6 @@ export const TeacherDrawer = function TeacherDrawer({
       </Box>
       {disciplineType.teacher && (
         <Tabs
-          data-vaul-no-drag
           variant="unstyled"
           overflowY={'auto'}
           style={{ scrollbarWidth: 'none' }}
@@ -168,6 +167,7 @@ export const TeacherDrawer = function TeacherDrawer({
             </Tab>
           </TabList>
           <Box
+            data-vaul-no-drag
             minH={200}
             mb={'30px'}
             onClick={(e) => e.stopPropagation()}
