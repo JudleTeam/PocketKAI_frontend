@@ -173,7 +173,7 @@ export const TeacherDrawer = function TeacherDrawer({
             display="flex"
             flexDirection="column"
             gap="10px"
-            position="relative"
+            position="relative" 
           >
             <Loader status={teacherScheduleStatus} idleMessage="">
               {teacherSchedule[weekParity].length > 0 ? (
@@ -238,7 +238,7 @@ export const TeacherDrawer = function TeacherDrawer({
                                 )}
                                 <Box display="flex" flexWrap={'wrap'}>
                                   <Text>Группы:&nbsp;</Text>
-                                  {lesson.groups.map((group) => (
+                                  {lesson.groups.map((group, index) => (
                                     <React.Fragment key={group.id}>
                                       {`${group.group_name}${
                                         lesson.groups.length - 1 === index
