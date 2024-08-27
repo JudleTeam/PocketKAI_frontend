@@ -66,6 +66,7 @@ export const TeacherDrawer = function TeacherDrawer({
   const toast = useToast();
   return (
     <Box
+      data-vaul-no-drag
       h="100%"
       position="relative"
       pt={3}

@@ -18,6 +18,8 @@ export function UiNavbar({
   );
   return (
     <HStack
+      pos={'fixed'}
+      bottom={'15px'}
       w={{ base: '90%', md: 'auto' }}
       py={1}
       px={{ base: 2, md: 7 }}

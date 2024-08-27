@@ -15,9 +15,9 @@ export function UiDatebar({
   );
   return (
     <HStack
-      alignSelf={{ base: '', md: 'center' }}
+      alignSelf={'center'}
       bgColor={mainColor}
-      w={{ base: '100%', md: '60%' }}
+      w={{ base: '95%', md: '60%' }}
       boxShadow={`0px 5px 5px 5px ${mainColor}`}
       className={styles['datebar']}
       justifyContent={'space-around'}
