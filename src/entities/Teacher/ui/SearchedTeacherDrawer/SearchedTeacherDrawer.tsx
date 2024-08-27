@@ -45,7 +45,6 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
   const toast = useToast();
   return (
     <Box
-      data-vaul-no-drag
       w="95%"
       h="100%"
       padding="25px 0 0 0"
@@ -82,6 +81,7 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
       </Box>
       {teacher && (
         <Tabs
+          data-vaul-no-drag
           variant="unstyled"
           overflowY={'auto'}
           style={{ scrollbarWidth: 'none' }}
