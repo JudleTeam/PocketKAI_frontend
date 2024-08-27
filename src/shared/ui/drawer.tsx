@@ -54,7 +54,7 @@ const DrawerContent = React.forwardRef<
     >
       <DrawerPrimitive.Handle className="mt-4 w-full min-h-4">
         <div className='flex justify-center items-center'>
-          <div className="mt-3 min-h-1.5 w-[100px] rounded-full bg-gray-300" />
+          <div className="mt-3 min-h-1.5 w-[35%] rounded-full bg-gray-300" />
         </div>
       </DrawerPrimitive.Handle>
       <DrawerClose className="absolute top-2 right-6">✕</DrawerClose>

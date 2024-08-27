@@ -81,7 +81,6 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
       </Box>
       {teacher && (
         <Tabs
-          data-vaul-no-drag
           variant="unstyled"
           overflowY={'auto'}
           style={{ scrollbarWidth: 'none' }}

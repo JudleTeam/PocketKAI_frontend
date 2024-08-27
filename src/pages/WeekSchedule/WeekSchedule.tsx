@@ -7,6 +7,7 @@ import {
   Text,
   VStack,
   HStack,
+  useToast,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { FullLessonCard } from '@/entities';
@@ -17,6 +18,9 @@ import styles from './WeekSchedule.module.scss';
 import { SHORT_WEEK_DAYS, WEEK_DAYS } from '@/shared/constants';
 import { useColor } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader/Loader';
+import { CopyIcon } from '@chakra-ui/icons';
+import { copyToast } from '@/shared';
+import { getFormattedWeekSchedule } from './lib/getFormattedSchedule';
 
 export function WeekSchedule() {
   const { getFullWeekScheduleByName, weekSchedule, weekScheduleStatus } =
@@ -34,18 +38,18 @@ export function WeekSchedule() {
 
   useEffect(() => {
     const todayWeekDay = DateTime.now()
-      .setLocale('ru')
+      .setLocale('en')
       .setZone('Europe/Moscow')
       .weekdayLong?.toLowerCase();
-    if (todayWeekDay === 'воскресенье' || !todayWeekDay) {
+    if (todayWeekDay === 'sunday' || !todayWeekDay) {
       window.scrollTo(0, 0);
       return;
     }
+    console.log(todayWeekDay)
     document
       .getElementById(todayWeekDay)
       ?.scrollIntoView({ behavior: 'smooth' });
   }, []);
-
   const [currentDay, setCurrentDay] = useState<string>('');
   const {
     mainColor,
@@ -57,6 +61,7 @@ export function WeekSchedule() {
   const currentDayOfWeek = dayIndex;
   const longDaysOfWeek = Object.keys(SHORT_WEEK_DAYS);
   useScrollSpyFull(longDaysOfWeek, currentDay, setCurrentDay);
+  const toast = useToast();
   return (
     <Tabs
       className={styles['full-schedule']}
@@ -163,8 +168,16 @@ export function WeekSchedule() {
                       fontWeight="medium"
                       fontSize="18px"
                       padding="10px 0"
+                      onClick={() => {
+                        dayLessons.length > 0 &&
+                          copyToast(
+                            getFormattedWeekSchedule(weekDay, weekParity , currentGroup),
+                            toast
+                          );
+                      }}
                     >
                       {dayName && WEEK_DAYS[dayName]}
+                      {dayLessons.length > 0 ? <CopyIcon w={4} h={4} ml={1.5} /> : null}
                     </Text>
                     {dayLessons.length > 0 ? (
                       <VStack gap="10px">
