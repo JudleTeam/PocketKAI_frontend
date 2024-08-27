@@ -1,4 +1,4 @@
-import { Box, Text, useToast } from '@chakra-ui/react';
+import { Box, Text, useToast, Divider } from '@chakra-ui/react';
 import {
   FadedLessonCard,
   LessonCard,
@@ -18,6 +18,7 @@ import styles from './Schedule.module.scss';
 import { getFormattedSchedule } from './lib/getFormattedSchedule';
 import { copyToast } from '@/shared/ui/copy-toast/CopyToast';
 import { CopyIcon } from '@chakra-ui/icons';
+import { DateTime } from 'luxon';
 export function Schedule() {
   const today = getTodayDate();
   const { schedule, weekScheduleStatus, parity } = useSchedule();
@@ -37,14 +38,34 @@ export function Schedule() {
       >
         <TopBoundary ref={upperRef} />
         {schedule?.days.map((day) => {
+          const isFirstDayOfWeek = DateTime.fromISO(day.date).weekday === 1;
+          const weekParity =
+            DateTime.fromISO(day.date).weekNumber % 2 === 0
+              ? 'Чётная неделя'
+              : 'Нечётная неделя';
           return (
             <div key={day.date} className={styles['day']} id={day.date}>
+              {isFirstDayOfWeek && (
+                <Box
+                  w={'100%'}
+                  display="flex"
+                  flexDir="column"
+                  color={'gray.400'}
+                  fontWeight="medium"
+                  fontSize="16px"
+                  pt="5px"
+                  lineHeight="100%"
+                  gap="10px"
+                >
+                  <Divider></Divider>
+                  <Text>{weekParity}</Text>
+                </Box>
+              )}
               <Text
                 w={'fit-content'}
                 color={mainTextColor}
                 fontWeight="medium"
                 fontSize="18px"
-                pt="5px"
                 onClick={() => {
                   day.lessons.length &&
                     copyToast(
