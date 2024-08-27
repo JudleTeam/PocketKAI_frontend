@@ -38,18 +38,18 @@ export function WeekSchedule() {
 
   useEffect(() => {
     const todayWeekDay = DateTime.now()
-      .setLocale('ru')
+      .setLocale('en')
       .setZone('Europe/Moscow')
       .weekdayLong?.toLowerCase();
-    if (todayWeekDay === 'воскресенье' || !todayWeekDay) {
+    if (todayWeekDay === 'sunday' || !todayWeekDay) {
       window.scrollTo(0, 0);
       return;
     }
+    console.log(todayWeekDay)
     document
       .getElementById(todayWeekDay)
       ?.scrollIntoView({ behavior: 'smooth' });
   }, []);
-
   const [currentDay, setCurrentDay] = useState<string>('');
   const {
     mainColor,

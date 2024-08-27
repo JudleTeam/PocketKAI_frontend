@@ -8,7 +8,7 @@ import {
   MenuList,
   MenuOptionGroup,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useColor } from '@/shared/lib';
 import styles from './Teachers.module.scss';
 import { ChevronDownIcon } from '@chakra-ui/icons';
@@ -18,6 +18,9 @@ export function Teachers() {
   const { mainTextColor, mainColor } = useColor();
   const { currentGroup } = useGroup();
   const [layoutType, setLayoutType] = useState<'group' | 'searched'>('group');
+  useEffect(() => {
+    document.getElementById('teacher')?.scrollIntoView()
+  }, [])
 
   return (
     <Box id="teacher" className={styles['teachers']}>
