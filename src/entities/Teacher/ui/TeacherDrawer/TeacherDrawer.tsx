@@ -185,7 +185,7 @@ export const TeacherDrawer = function TeacherDrawer({
                     <Box
                       position="relative"
                       key={day}
-                      data-vaul-no-drag={index !== 0}
+                      {...(index !== 0 ? { 'data-vaul-no-drag': true } : {})}
                     >
                       <Text
                         fontSize={20}
