@@ -12,7 +12,7 @@ import {
   Radio,
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import Select, { StylesConfig } from 'react-select';
 import { useGroup, useSchedule, useUser } from '@/entities';
@@ -46,6 +46,9 @@ export function AddGroupToFavourite(onClose: () => void) {
     suggestGroupByName({ group_name: newValue });
     setIsOpen(true);
   };
+  useEffect(() => {
+    setSelectGroup(currentGroup?.group_name)
+  }, [currentGroup])
   const handleFavoriteClick = () => {
     const selectedGroup = getValues('group');
     if (selectedGroup) {
