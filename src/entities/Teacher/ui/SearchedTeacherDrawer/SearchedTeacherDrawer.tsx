@@ -126,7 +126,6 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
             </Tab>
           </TabList>
           <Box
-            data-vaul-no-drag
             pos={'relative'}
             minH={200}
             mb={'30px'}
@@ -142,7 +141,7 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
                     weekParity
                   ].filter((lesson) => lesson.number_of_day === index + 1);
                   return (
-                    <Box key={day}>
+                    <Box key={day} data-vaul-no-drag={index !== 0}>
                       <Text
                         fontSize={20}
                         fontWeight={'medium'}

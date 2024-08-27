@@ -167,7 +167,6 @@ export const TeacherDrawer = function TeacherDrawer({
             </Tab>
           </TabList>
           <Box
-            data-vaul-no-drag
             minH={200}
             mb={'30px'}
             onClick={(e) => e.stopPropagation()}
@@ -183,7 +182,11 @@ export const TeacherDrawer = function TeacherDrawer({
                     weekParity
                   ].filter((lesson) => lesson.number_of_day === index + 1);
                   return (
-                    <Box position="relative" key={day}>
+                    <Box
+                      position="relative"
+                      key={day}
+                      data-vaul-no-drag={index !== 0}
+                    >
                       <Text
                         fontSize={20}
                         fontWeight={'medium'}
