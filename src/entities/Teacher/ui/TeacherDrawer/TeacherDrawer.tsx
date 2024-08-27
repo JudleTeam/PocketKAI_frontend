@@ -66,7 +66,6 @@ export const TeacherDrawer = function TeacherDrawer({
   const toast = useToast();
   return (
     <Box
-      data-vaul-no-drag
       h="100%"
       position="relative"
       pt={3}
@@ -122,6 +121,7 @@ export const TeacherDrawer = function TeacherDrawer({
       </Box>
       {disciplineType.teacher && (
         <Tabs
+          data-vaul-no-drag
           variant="unstyled"
           overflowY={'auto'}
           style={{ scrollbarWidth: 'none' }}
