@@ -24,11 +24,11 @@ export function Teachers() {
       <Menu>
         <Box
           position="fixed"
-          top={currentGroup ? '85px' : '65px'}
+          top={currentGroup ? '70px' : '65px'}
           textAlign="left"
           w="90%"
           zIndex="10"
-          padding="5px 0"
+          padding="10px 0 0 0"
           boxShadow={`0px 0px 10px 10px ${mainColor}`}
           bgColor={mainColor}
         >

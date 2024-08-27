@@ -51,7 +51,7 @@ export function Report() {
             name="ya-form-66b65dab84227c1b171b2fc2"
           ></iframe>
         </Box>
-        <Text fontWeight="bold" color={mainTextColor}>
+        <Text pt='10px' fontWeight="bold" color={mainTextColor}>
           Или сразу напишите нам -{' '}
           <a
             style={{ textDecoration: 'underline' }}

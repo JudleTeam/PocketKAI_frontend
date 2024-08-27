@@ -57,7 +57,7 @@ export function Profile() {
         position="relative"
       >
         <Box
-          h="40%"
+          h="75px"
           w="100%"
           bgColor={mainElement}
           borderRadius="8px 8px 0 0"
@@ -75,7 +75,7 @@ export function Profile() {
         </Box>
         <Box
           w="100%"
-          h="60%"
+          h="125px"
           display="flex"
           flexDirection="column"
           justifyContent="center"
