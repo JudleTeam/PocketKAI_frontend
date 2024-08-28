@@ -60,8 +60,8 @@ const DrawerContent = React.forwardRef<
         )}
         {...props}
       >
-        <DrawerPrimitive.Handle className="mt-4 w-full min-h-4 md:hidden">
-          <div className="flex justify-center items-center">
+        <DrawerPrimitive.Handle className="mt-4 w-[100%] min-h-4 md:hidden">
+          <div className="w-[100%] flex justify-center items-center">
             <div className="mt-3 min-h-1.5 w-[35%] rounded-full bg-gray-300" />
           </div>
         </DrawerPrimitive.Handle>

@@ -11,6 +11,7 @@ import {
   PopoverArrow,
   PopoverHeader,
   PopoverBody,
+  useToast,
 } from '@chakra-ui/react';
 
 import { Link } from 'react-router-dom';
@@ -22,6 +23,7 @@ import { Loader } from '@/shared/ui/loader/Loader';
 import { TeacherLessonCard } from '../TeacherLessonCard';
 import { TeacherDisciplineType } from '../../model/types';
 import { getWeekParity } from '@/shared/lib';
+import { copyToast } from '@/shared';
 export const TeacherDrawer = function TeacherDrawer({
   disciplineType,
   disciplineName,
@@ -51,7 +53,7 @@ export const TeacherDrawer = function TeacherDrawer({
     }, 200);
     return () => clearTimeout(timeoutId);
   }, [disciplineType.teacher, getTeacherScheduleById, clearTeacherSchedule]);
-
+  const toast = useToast()
   const {
     mainTextColor,
     mainColor,
@@ -70,7 +72,7 @@ export const TeacherDrawer = function TeacherDrawer({
       flexDirection="column"
       gap="5px"
     >
-      <Text fontSize="24px" fontWeight="bold">
+      <Text fontSize="24px" fontWeight="bold" onClick={() => copyToast(disciplineType.teacher?.name || 'Преподаватель кафедры', toast)}>
         {disciplineType.teacher?.name
           ? disciplineType.teacher?.name
           : 'Преподаватель кафедры'}

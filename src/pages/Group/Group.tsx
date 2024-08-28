@@ -57,7 +57,7 @@ export function Group() {
         style={{ scrollbarWidth: 'none' }}
         overflowY="auto"
         h='90vh'
-        padding='10px 0 70px 0'
+        padding='15px 0 70px 0'
       > 
       <Loader status={userGroupMembersStatus} idleMessage="">
         <Box display="flex" flexDirection="column" gap="10px">

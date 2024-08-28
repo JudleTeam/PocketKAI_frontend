@@ -4,9 +4,11 @@ import styles from './UiDatebar.module.scss';
 export function UiDatebar({
   datebarContent,
   isNotDatebar,
+  className,
 }: {
   datebarContent: ReactNode;
   isNotDatebar: boolean;
+  className: string;
 }) {
   const { theme } = useChakra();
   const mainColor = useColorModeValue(
@@ -19,7 +21,7 @@ export function UiDatebar({
       bgColor={mainColor}
       w={{ base: '95%', md: '60%' }}
       boxShadow={`0px 5px 5px 5px ${mainColor}`}
-      className={styles['datebar']}
+      className={`${styles['datebar']} ${className}`}
       justifyContent={'space-around'}
       display={isNotDatebar ? 'none' : 'flex'}
     >

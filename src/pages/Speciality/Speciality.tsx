@@ -56,9 +56,11 @@ export function Speciality() {
           Информация
         </Text>
         {specialityDetails.map((detail) => (
-          <Box key={detail.label}>
+          <Box key={detail.label} onClick={() => detail.value && copyToast(detail.value, toast)}>
             <Text fontSize="14px" color={'gray.500'}>
               {detail.label}
+              {' '}
+              {detail.value ? <CopyIcon/> : null}
             </Text>
             <Text color={mainTextColor} fontSize="16px">
               {detail.value}

@@ -12,9 +12,15 @@ import {
   Button,
   useColorModeValue,
 } from '@chakra-ui/react';
-import React,{ useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-export function SelectGroup({ onOpen }: { onOpen: () => void }) {
+export function SelectGroup({
+  onOpen,
+  className,
+}: {
+  onOpen: () => void;
+  className: string;
+}) {
   const mainElementColor = useColorModeValue(
     'light.main_element',
     'dark.main_element'
@@ -40,6 +46,7 @@ export function SelectGroup({ onOpen }: { onOpen: () => void }) {
   return (
     <Menu>
       <MenuButton
+        className={className}
         w={'50%'}
         as={Button}
         transition="all 0.2s"
@@ -64,30 +71,31 @@ export function SelectGroup({ onOpen }: { onOpen: () => void }) {
         >
           Добавить группу
         </MenuItem>
-        {favouriteGroups.length > 0 && 
-        <React.Fragment>
-        <MenuDivider />
-        <MenuOptionGroup
-          title="Группа"
-          type="radio"
-          color={'#ffffff'}
-          bg={mainElementColor}
-          fontWeight={'500'}
-          fontSize={'16px'}
-          value={currentGroup?.id}
-        >
-          {favouriteGroups.map((group) => (
-            <MenuItemOption
-              key={group.id}
-              value={group.id}
+        {favouriteGroups.length > 0 && (
+          <React.Fragment>
+            <MenuDivider />
+            <MenuOptionGroup
+              title="Группа"
+              type="radio"
+              color={'#ffffff'}
               bg={mainElementColor}
-              onClick={() => handleGroupClick(group)}
+              fontWeight={'500'}
+              fontSize={'16px'}
+              value={currentGroup?.id}
             >
-              {group.group_name}
-            </MenuItemOption>
-          ))}
-        </MenuOptionGroup>
-        </React.Fragment>}
+              {favouriteGroups.map((group) => (
+                <MenuItemOption
+                  key={group.id}
+                  value={group.id}
+                  bg={mainElementColor}
+                  onClick={() => handleGroupClick(group)}
+                >
+                  {group.group_name}
+                </MenuItemOption>
+              ))}
+            </MenuOptionGroup>
+          </React.Fragment>
+        )}
       </MenuList>
     </Menu>
   );
