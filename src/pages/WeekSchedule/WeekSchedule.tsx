@@ -1,26 +1,15 @@
 import { useSchedule } from '@/entities';
-import {
-  Tabs,
-  Tab,
-  TabList,
-  Box,
-  Text,
-  VStack,
-  HStack,
-  useToast,
-} from '@chakra-ui/react';
+import { Tabs, Tab, TabList, Box, VStack, HStack } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { FullLessonCard } from '@/entities';
 import { useGroup } from '@/entities';
 import { DateTime } from 'luxon';
 import { useScrollSpyFull } from './lib/useScrollSpyFull';
 import styles from './WeekSchedule.module.scss';
-import { SHORT_WEEK_DAYS, WEEK_DAYS } from '@/shared/constants';
+import { SHORT_WEEK_DAYS } from '@/shared/constants';
 import { useColor } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader/Loader';
-import { CopyIcon } from '@chakra-ui/icons';
-import { copyToast } from '@/shared';
-import { getFormattedWeekSchedule } from './lib/getFormattedSchedule';
+import { DayNameWithShareFull } from '@/features';
 
 export function WeekSchedule() {
   const { getFullWeekScheduleByName, weekSchedule, weekScheduleStatus } =
@@ -58,7 +47,6 @@ export function WeekSchedule() {
   const currentDayOfWeek = dayIndex;
   const longDaysOfWeek = Object.keys(SHORT_WEEK_DAYS);
   useScrollSpyFull(longDaysOfWeek, currentDay, setCurrentDay);
-  const toast = useToast();
   return (
     <Tabs
       className={styles['full-schedule']}
@@ -154,28 +142,11 @@ export function WeekSchedule() {
                 if (weekDay[0] === 'sunday') return null;
                 return (
                   <Box id={dayName} key={dayName} scrollMarginTop={'-40px'}>
-                    <Text
-                      color={mainTextColor}
-                      fontWeight="medium"
-                      fontSize="18px"
-                      padding="10px 0"
-                      onClick={() => {
-                        dayLessons.length > 0 &&
-                          copyToast(
-                            getFormattedWeekSchedule(
-                              weekDay,
-                              weekParity,
-                              currentGroup
-                            ),
-                            toast
-                          );
-                      }}
-                    >
-                      {dayName && WEEK_DAYS[dayName]}
-                      {dayLessons.length > 0 ? (
-                        <CopyIcon w={4} h={4} ml={1.5} />
-                      ) : null}
-                    </Text>
+                    <DayNameWithShareFull
+                      dayName={dayName}
+                      dayLessons={dayLessons}
+                      weekParity={weekParity}
+                    />
                     {dayLessons.length > 0 ? (
                       <VStack gap="10px">
                         {dayLessons?.map((lesson) => {
