@@ -11,10 +11,11 @@ import {
   PopoverBody,
   PopoverArrow,
   PopoverHeader,
+  useToast,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { WEEK_DAYS } from '@/shared/constants';
-import { Teacher } from '@/shared';
+import { copyToast, Teacher } from '@/shared';
 import { useEffect, useState } from 'react';
 import { useTeachers } from '../../model/teacher.store';
 import { useColor } from '@/shared/lib';
@@ -31,7 +32,7 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
       getTeacherScheduleById(teacher.id);
     }
   }, [teacher, getTeacherScheduleById]);
-
+  const toast = useToast();
   const {
     mainTextColor,
     mainColor,
@@ -42,15 +43,15 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
   } = useColor();
   return (
     <Box
-      w="95%"
-      h="100%"
-      padding="25px 0 0 0"
-      color={mainTextColor}
-      display="flex"
-      flexDirection="column"
-      gap="5px"
+    h="100%"
+    position="relative"
+    pt={3}
+    color={mainTextColor}
+    display="flex"
+    flexDirection="column"
+    gap="5px"
     >
-      <Text fontSize="24px" fontWeight="bold">
+      <Text fontSize="24px" fontWeight="bold" onClick={() => copyToast(teacher?.name || 'Преподаватель кафедры', toast)}>
         {' '}
         {teacher?.name ?? 'Преподаватель кафедры'}
       </Text>

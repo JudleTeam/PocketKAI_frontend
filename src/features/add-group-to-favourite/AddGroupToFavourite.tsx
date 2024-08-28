@@ -56,6 +56,9 @@ export function AddGroupToFavourite(onClose: () => void) {
       setIsOpen(false);
       resetField('group');
       setSelectGroup(selectedGroup.value.group_name);
+      setCurrentGroup(selectedGroup.value)
+      resetScheduleState();
+      onClose();
     }
   };
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {

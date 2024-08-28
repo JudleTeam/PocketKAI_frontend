@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import { getLessonBuilding, useColor } from '@/shared/lib';
 import { HashLink } from 'react-router-hash-link';
-import { CopyIcon } from '@chakra-ui/icons';
 export function ExamDrawer({ exam }: { exam: ExamType }) {
   const { cardColor, tabTeacher, tabColor, mainTextColor, mainElementColor } =
     useColor();
@@ -23,7 +22,7 @@ export function ExamDrawer({ exam }: { exam: ExamType }) {
         onClick={() => copyToast(exam.discipline.name, toast)}
         _active={{ textDecoration: 'underline', transition: '0.2s' }}
       >
-        <CopyIcon /> {exam.discipline.name}
+        {exam.discipline.name}
       </Text>
       <Text fontSize="24px" fontWeight="medium">
         {exam.time.slice(0, -3)}

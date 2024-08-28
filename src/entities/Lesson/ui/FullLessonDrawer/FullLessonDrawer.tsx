@@ -10,8 +10,9 @@ import {
   PopoverContent,
   PopoverBody,
   PopoverTrigger,
+  useToast,
 } from '@chakra-ui/react';
-import { Lesson } from '@/shared';
+import { copyToast, Lesson } from '@/shared';
 import { Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import { getLessonBuilding, useColor } from '@/shared/lib';
@@ -28,7 +29,7 @@ export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
     'dark.main_element'
   );
   const { cardColor, tabTeacher } = useColor();
-
+  const toast = useToast();
   return (
     <Box
       padding="15px 0 0 0"
@@ -37,7 +38,7 @@ export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
       flexDirection="column"
       gap="5px"
     >
-      <Text fontSize="24px" fontWeight="bold">
+      <Text fontSize="24px" fontWeight="bold" onClick={() => copyToast(lesson.discipline.name, toast)}>
         {lesson.discipline.name}
       </Text>
       <Text fontSize="24px" fontWeight="medium">

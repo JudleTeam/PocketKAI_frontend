@@ -1,4 +1,4 @@
-import { Lesson } from '@/shared';
+import { copyToast, Lesson } from '@/shared';
 import { DateTime } from 'luxon';
 import { getLessonBuilding, useColor } from '@/shared/lib';
 import { LessonTypes } from '@/shared/constants';
@@ -11,6 +11,7 @@ import {
   PopoverTrigger,
   useChakra,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
 import { parityTypes } from '@/shared/constants';
 import { Link } from 'react-router-dom';
@@ -34,11 +35,12 @@ const LessonDrawer = ({
     'dark.main_element'
   );
   const { cardColor, tabTeacher } = useColor();
+  const toast = useToast();
   return (
     <>
       <div className="flex flex-col gap-3 pt-5 text-l-main-text dark:text-d-main-text">
         <DrawerTitle className="text-2xl font-bold">
-          <Text>{lesson.discipline.name}</Text>
+          <Text onClick={() => copyToast(lesson.discipline.name, toast)}>{lesson.discipline.name}</Text>
         </DrawerTitle>
         <p className="text-2xl font-medium">
           {lesson.start_time?.slice(0, -3)} {lesson.end_time && '-'}{' '}

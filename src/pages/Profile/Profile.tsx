@@ -119,7 +119,7 @@ export function Profile() {
                     {detail.label}
                   </Text>
                 </Box>
-                {detail.label === 'Номер зачётки' ? (
+                {detail.label === 'Номер зачётки' || detail.label === 'Почта' ? (
                   <Text
                     display="flex"
                     gap="5px"

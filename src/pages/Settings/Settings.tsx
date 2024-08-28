@@ -96,6 +96,7 @@ export function Settings() {
         <Select
           color={mainTextColor}
           defaultValue={preferencedScheduleView}
+          padding={'4px'}
           onChange={(event) =>
             togglePreferencedScheduleView(event.target.value as ScheduleView)
           }
