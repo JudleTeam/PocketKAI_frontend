@@ -21,6 +21,7 @@ import { parityTypes } from '@/shared/constants';
 import { scrollToToday } from '@/shared/lib';
 import { isScheduleOutdated } from '@/entities';
 import logo from '../../../shared/assets/images/logo.png';
+import { useTour } from '@reactour/tour';
 export type ContextType = [
   string,
   React.Dispatch<React.SetStateAction<string>>
@@ -81,8 +82,11 @@ export function AppLayout() {
     return () => {
       sessionStorage.setItem('currentDay', currentDayRef.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
+
   const { theme } = useChakra();
+  const { setIsOpen } = useTour();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const mainColor = useColorModeValue(
     theme.colors.light.main,
@@ -104,8 +108,9 @@ export function AppLayout() {
     location.pathname.includes('schedule/full') ||
     location.pathname.includes('schedule/exams');
   return (
-    <div className={styles['app-layout']} id="app-layout">
+    <div className={`${styles['app-layout']} app-layout__first-step`}>
       <Box
+        className=""
         bgColor={mainColor}
         pos={'fixed'}
         display={'flex'}
@@ -134,11 +139,15 @@ export function AppLayout() {
             gap={4}
           >
             <VStack
+              className="app-layout__second-step"
               alignItems={'flex-start'}
               fontWeight={'medium'}
               color={mainTextColor}
               gap={0.4}
-              onClick={() => scrollToToday(true)}
+              onClick={() => {
+                scrollToToday(true);
+                setIsOpen(true);
+              }}
             >
               <Text fontSize={22}>
                 {DateTime.now().setLocale('ru').toFormat('d MMMM')}
@@ -150,7 +159,7 @@ export function AppLayout() {
                   'Расписание устарело'}
               </Text>
             </VStack>
-            <SelectGroup onOpen={onOpen} />
+            <SelectGroup className="app-layout__third-step" onOpen={onOpen} />
           </Box>
         </Box>
         <UiDatebar
@@ -160,6 +169,7 @@ export function AppLayout() {
             setCurrentDay,
             swiperRef,
           })}
+          className="app-layout__fourth-step"
         />
       </Box>
       <div className="pt-16">

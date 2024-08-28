@@ -1,5 +1,6 @@
 import { useGroup, useSchedule } from '@/entities';
 import { Nullable } from '@/shared';
+import { useToast } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
 import { useEffect, useRef } from 'react';
 
@@ -13,9 +14,12 @@ export function useInfiniteScroll() {
   } = useSchedule();
   const upperRef = useRef<HTMLDivElement>(null);
   const lowerRef = useRef<HTMLDivElement>(null);
+  const toast = useToast();
+  const upperGenerationCount = useRef<number>(0);
 
   useEffect(() => {
     if (!schedule || !currentGroup || !schedule.days.length) return;
+    console.log(upperGenerationCount);
     const options = {
       root: null,
       rootMargin: '420px 0px 120px 0px',
@@ -27,16 +31,26 @@ export function useInfiniteScroll() {
           const loader = entry.target as HTMLDivElement;
           observerInstance.unobserve(loader);
           if (loader === upperRef.current) {
-            const dateFrom = DateTime.fromISO(schedule?.days[0].date)
-              .minus({ days: 7 })
-              .toFormat('yyyy-LL-dd');
-            addToCurrentSchedule(
-              {
-                date_from: dateFrom,
-                days_count: 7,
-              },
-              false
-            );
+            if (upperGenerationCount.current < 6) {
+              const dateFrom = DateTime.fromISO(schedule?.days[0].date)
+                .minus({ days: 7 })
+                .toFormat('yyyy-LL-dd');
+              addToCurrentSchedule(
+                {
+                  date_from: dateFrom,
+                  days_count: 7,
+                },
+                false
+              );
+              upperGenerationCount.current++;
+            } else {
+              toast({
+                title: 'Похоже, что-то пошло не так.',
+                status: 'warning',
+                duration: 9000,
+                isClosable: true,
+              });
+            }
           }
           if (loader === lowerRef.current) {
             const dateFrom = DateTime.fromISO(
@@ -61,6 +75,6 @@ export function useInfiniteScroll() {
     return () => {
       if (observer.current) observer.current.disconnect();
     };
-  }, [schedule, currentGroup, status, addToCurrentSchedule]);
+  }, [schedule, currentGroup, status, toast, addToCurrentSchedule]);
   return { upperRef, lowerRef };
 }
