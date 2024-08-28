@@ -1,3 +1,5 @@
+export { DayNameWithShare } from './day-name-with-share/DayNameWithShare';
+
 export { BottomBoundary } from './boundaries/bottom-boundary';
 export { TopBoundary } from './boundaries/top-boundary';
 

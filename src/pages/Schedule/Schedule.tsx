@@ -1,23 +1,8 @@
-import {
-  Box,
-  Text,
-  useToast,
-  Divider,
-  Icon,
-  useBreakpointValue,
-  UseToastOptions,
-} from '@chakra-ui/react';
+import { Box, Text, Divider } from '@chakra-ui/react';
 
-import { Share2 } from 'lucide-react';
-import {
-  FadedLessonCard,
-  LessonCard,
-  RestCard,
-  useGroup,
-  useSchedule,
-} from '@/entities';
-import { TopBoundary, BottomBoundary } from '@/features';
-import { copyToast, getFormattedDate } from '@/shared';
+import { FadedLessonCard, LessonCard, RestCard, useSchedule } from '@/entities';
+import { TopBoundary, BottomBoundary, DayNameWithShare } from '@/features';
+
 import { useInfiniteScroll } from './lib/useInfiniteScroll';
 import { getTodayDate } from '@/shared';
 import { ArrowIcon } from '@/shared/assets';
@@ -25,24 +10,14 @@ import { useGoUpButton } from './lib/useGoUpButton';
 import { scrollToToday, useColor } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader/Loader';
 import styles from './Schedule.module.scss';
-import { getFormattedSchedule } from './lib/getFormattedSchedule';
 import { DateTime } from 'luxon';
-import { shareData } from '@/shared/lib';
-import { CopyIcon } from '@chakra-ui/icons';
+
 export function Schedule() {
   const today = getTodayDate();
-  const { schedule, weekScheduleStatus, parity } = useSchedule();
-  const { currentGroup } = useGroup();
+  const { schedule, weekScheduleStatus } = useSchedule();
   const { upperRef, lowerRef } = useInfiniteScroll();
   const { showButton, position: todayBlockPosition } = useGoUpButton();
-  const toast = useToast();
-  const { mainTextColor, mainElementColor } = useColor();
-  const isDesktop = useBreakpointValue({ base: false, md: true });
-  const shareFunction = isDesktop
-    ? (data: string, toast: (options: UseToastOptions) => void) =>
-        copyToast(data, toast)
-    : (data: string, toast: (options: UseToastOptions) => void) =>
-        shareData(data, toast);
+  const { mainElementColor } = useColor();
   return (
     <Loader status={weekScheduleStatus} idleMessage="Выберите группу">
       <Box
@@ -77,29 +52,7 @@ export function Schedule() {
                   <Text>{weekParity}</Text>
                 </Box>
               )}
-              <Text
-                w={'fit-content'}
-                color={mainTextColor}
-                fontWeight="medium"
-                fontSize="18px"
-                onClick={() => {
-                  day.lessons.length &&
-                    shareFunction(
-                      getFormattedSchedule(day, parity, currentGroup),
-                      toast
-                    );
-                }}
-              >
-                {getFormattedDate(day.date)}
-                {day.lessons.length ? (
-                  <Icon
-                    as={isDesktop ? CopyIcon : Share2}
-                    w={4}
-                    h={4}
-                    ml={1.5}
-                  />
-                ) : null}
-              </Text>
+              <DayNameWithShare day={day} />
               <div className={styles['day__timeline']}>
                 <div className={styles['day__timeline-stub']} />
                 <div className={styles['day__timeline-part']}>

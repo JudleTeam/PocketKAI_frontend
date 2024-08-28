@@ -10,16 +10,14 @@ import {
   PopoverContent,
   PopoverBody,
   PopoverTrigger,
-  useToast,
 } from '@chakra-ui/react';
-import { copyToast, Lesson } from '@/shared';
+import { Lesson } from '@/shared';
 import { Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import { getLessonBuilding, useColor } from '@/shared/lib';
 import { LessonTypes } from '@/shared/constants';
 import { parityTypes } from '@/shared/constants';
 import { HashLink } from 'react-router-hash-link';
-import { CopyIcon } from '@chakra-ui/icons';
 
 export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
   const { theme } = useChakra();
@@ -29,7 +27,6 @@ export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
     'light.main_element',
     'dark.main_element'
   );
-  const toast = useToast();
   const { cardColor, tabTeacher } = useColor();
 
   return (
@@ -40,13 +37,8 @@ export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
       flexDirection="column"
       gap="5px"
     >
-      <Text
-        fontSize="24px"
-        fontWeight="bold"
-        _active={{ textDecoration: 'underline', transition: '0.2s' }}
-        onClick={() => copyToast(lesson.discipline.name, toast)}
-      >
-        <CopyIcon /> {lesson.discipline.name}
+      <Text fontSize="24px" fontWeight="bold">
+        {lesson.discipline.name}
       </Text>
       <Text fontSize="24px" fontWeight="medium">
         {lesson.start_time?.slice(0, -3)} {lesson.end_time && '-'}{' '}

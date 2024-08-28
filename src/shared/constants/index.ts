@@ -1,3 +1,5 @@
+export { lessonTypesEmojis } from './lessonTypesEmojis';
+
 export { SEMESTER_BREAKPOINTS } from './SEMESTER_BREAKPOINTS';
 
 export { SHORT_WEEK_DAYS, WEEK_DAYS } from './WEEK_DAYS';

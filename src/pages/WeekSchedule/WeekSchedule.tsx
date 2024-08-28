@@ -45,10 +45,7 @@ export function WeekSchedule() {
       window.scrollTo(0, 0);
       return;
     }
-    console.log(todayWeekDay)
-    document
-      .getElementById(todayWeekDay)
-      ?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById(todayWeekDay)?.scrollIntoView();
   }, []);
   const [currentDay, setCurrentDay] = useState<string>('');
   const {
@@ -147,12 +144,6 @@ export function WeekSchedule() {
         padding="115px 4px 60px 4px"
         style={{ scrollbarWidth: 'none' }}
         overflowY="auto"
-        top="30vh"
-        left="50%"
-        transform={
-          weekScheduleStatus === 'success' ? 'none' : 'translate(-50%, 0)'
-        }
-        position={weekScheduleStatus === 'success' ? 'initial' : 'absolute'}
       >
         <Loader status={weekScheduleStatus} idleMessage="Выберите группу">
           {weekSchedule &&
@@ -162,7 +153,7 @@ export function WeekSchedule() {
                 const dayLessons = weekDay[1];
                 if (weekDay[0] === 'sunday') return null;
                 return (
-                  <div id={dayName} key={dayName}>
+                  <Box id={dayName} key={dayName} scrollMarginTop={'-40px'}>
                     <Text
                       color={mainTextColor}
                       fontWeight="medium"
@@ -171,13 +162,19 @@ export function WeekSchedule() {
                       onClick={() => {
                         dayLessons.length > 0 &&
                           copyToast(
-                            getFormattedWeekSchedule(weekDay, weekParity , currentGroup),
+                            getFormattedWeekSchedule(
+                              weekDay,
+                              weekParity,
+                              currentGroup
+                            ),
                             toast
                           );
                       }}
                     >
                       {dayName && WEEK_DAYS[dayName]}
-                      {dayLessons.length > 0 ? <CopyIcon w={4} h={4} ml={1.5} /> : null}
+                      {dayLessons.length > 0 ? (
+                        <CopyIcon w={4} h={4} ml={1.5} />
+                      ) : null}
                     </Text>
                     {dayLessons.length > 0 ? (
                       <VStack gap="10px">
@@ -210,7 +207,7 @@ export function WeekSchedule() {
                         Время отдыхать
                       </Box>
                     )}
-                  </div>
+                  </Box>
                 );
               }
             )}

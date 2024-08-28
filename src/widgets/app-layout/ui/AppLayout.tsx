@@ -123,7 +123,7 @@ export function AppLayout() {
           className={styles['app-layout__header']}
           bgColor={mainColor}
         >
-          <Box display={{ base: 'none', md: 'block' }} w={16}>
+          <Box display={{ base: 'none', md: 'block' }} w={12}>
             <img src={logo} />
           </Box>
           <Box

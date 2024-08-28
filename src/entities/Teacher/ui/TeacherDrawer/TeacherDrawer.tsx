@@ -11,7 +11,6 @@ import {
   PopoverArrow,
   PopoverHeader,
   PopoverBody,
-  useToast,
 } from '@chakra-ui/react';
 
 import { Link } from 'react-router-dom';
@@ -23,8 +22,6 @@ import { Loader } from '@/shared/ui/loader/Loader';
 import { TeacherLessonCard } from '../TeacherLessonCard';
 import { TeacherDisciplineType } from '../../model/types';
 import { getWeekParity } from '@/shared/lib';
-import { CopyIcon } from '@chakra-ui/icons';
-import { copyToast } from '@/shared';
 export const TeacherDrawer = function TeacherDrawer({
   disciplineType,
   disciplineName,
@@ -63,7 +60,6 @@ export const TeacherDrawer = function TeacherDrawer({
     secondElementLightColor,
     cardColor,
   } = useColor();
-  const toast = useToast();
   return (
     <Box
       h="100%"
@@ -74,17 +70,7 @@ export const TeacherDrawer = function TeacherDrawer({
       flexDirection="column"
       gap="5px"
     >
-      <Text
-        fontSize="24px"
-        fontWeight="bold"
-        onClick={() => {
-          const teacherName =
-            disciplineType.teacher?.name || 'Преподаватель кафедры';
-          copyToast(teacherName, toast);
-        }}
-        _active={{ textDecoration: 'underline', transition: '0.2s' }}
-      >
-        <CopyIcon />{' '}
+      <Text fontSize="24px" fontWeight="bold">
         {disciplineType.teacher?.name
           ? disciplineType.teacher?.name
           : 'Преподаватель кафедры'}
@@ -173,7 +159,7 @@ export const TeacherDrawer = function TeacherDrawer({
             display="flex"
             flexDirection="column"
             gap="10px"
-            position="relative" 
+            position="relative"
           >
             <Loader status={teacherScheduleStatus} idleMessage="">
               {teacherSchedule[weekParity].length > 0 ? (
