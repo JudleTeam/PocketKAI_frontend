@@ -104,7 +104,7 @@ export function AppLayout() {
     location.pathname.includes('schedule/full') ||
     location.pathname.includes('schedule/exams');
   return (
-    <div className={styles['app-layout']}>
+    <div className={styles['app-layout']} id="app-layout">
       <Box
         bgColor={mainColor}
         pos={'fixed'}
