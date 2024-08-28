@@ -16,13 +16,10 @@ export function Settings() {
     togglePreferencedScheduleView,
     preferencedScheduleView,
   } = useSettings();
-  console.log(preferencedScheduleView)
   return (
     <Box className={styles['settings']}>
       <Box
         padding="20px 0 0 0"
-        position={'sticky'}
-        top={'0px'}
         bgColor={mainColor}
         zIndex={'1'}
         boxShadow={`0px 0px 10px 10px ${mainColor}`}
@@ -92,16 +89,18 @@ export function Settings() {
             onChange={() => toggleIsScheduleInfinite(!isScheduleInfinite)}
           />
         </Box>
-        <Divider/>
-        <Text
-        fontSize='18px'
-        fontWeight='bold'
-        color={mainTextColor}
-        >
+        <Divider />
+        <Text fontSize="18px" fontWeight="bold" color={mainTextColor}>
           При открытии показывать:
         </Text>
-        <Select  color={mainTextColor} defaultValue={preferencedScheduleView} onChange={(event) => togglePreferencedScheduleView(event.target.value as ScheduleView)}>
-          <option value='timeline'>Таймлайн</option>
+        <Select
+          color={mainTextColor}
+          defaultValue={preferencedScheduleView}
+          onChange={(event) =>
+            togglePreferencedScheduleView(event.target.value as ScheduleView)
+          }
+        >
+          <option value="timeline">Таймлайн</option>
           <option value="full">Полное расписание</option>
         </Select>
       </Box>

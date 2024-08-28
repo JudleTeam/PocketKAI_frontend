@@ -35,10 +35,12 @@ export function Auth({ onClose }: { onClose: () => void }) {
   }, []);
 
   const {
-    getGroupById,
     homeGroupStatus,
+    currentGroup,
+    getGroupById,
     addGroupToFavourite,
     synchronizeFavouriteGroupsOnAuth,
+    setCurrentGroup,
   } = useGroup();
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const status = await login(data);
@@ -46,9 +48,9 @@ export function Auth({ onClose }: { onClose: () => void }) {
       const user = await getMe();
       if (user.group_id && homeGroupStatus === 'idle') {
         const group = await getGroupById(user.group_id);
-        if (group) {
+        if (group && !currentGroup) {
           addGroupToFavourite(group, userAuthStatus);
-          //setCurrentGroup(group);
+          setCurrentGroup(group);
         }
         synchronizeFavouriteGroupsOnAuth();
       }
@@ -102,7 +104,7 @@ export function Auth({ onClose }: { onClose: () => void }) {
       {(userAuthStatus === 'idle' || userAuthStatus === 'error') && (
         <div className="flex flex-col gap-5">
           <Box display="flex" flexDirection="column" gap="20px">
-            {<Text>{!!error && getErrorText(error)}</Text>}
+            {<Text textAlign={'center'}>{!!error && getErrorText(error)}</Text>}
             <Box>
               <Input
                 {...register('login', { required: 'Это поле обязательно' })}

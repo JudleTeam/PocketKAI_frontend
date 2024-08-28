@@ -11,18 +11,16 @@ import {
   PopoverBody,
   PopoverArrow,
   PopoverHeader,
-  useToast,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { WEEK_DAYS } from '@/shared/constants';
-import { copyToast, Teacher } from '@/shared';
+import { Teacher } from '@/shared';
 import { useEffect, useState } from 'react';
 import { useTeachers } from '../../model/teacher.store';
 import { useColor } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader/Loader';
 import { TeacherLessonCard } from '../TeacherLessonCard';
 import React from 'react';
-import { CopyIcon } from '@chakra-ui/icons';
 export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
   const [weekParity, setWeekParity] = useState<'even' | 'odd'>('even');
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
@@ -42,7 +40,6 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
     secondElementLightColor,
     cardColor,
   } = useColor();
-  const toast = useToast();
   return (
     <Box
       w="95%"
@@ -53,15 +50,9 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
       flexDirection="column"
       gap="5px"
     >
-      <Text
-        fontSize="24px"
-        fontWeight="bold"
-        _active={{ textDecoration: 'underline', transition: '0.2s' }}
-        onClick={() =>
-          copyToast(teacher?.name || 'Преподаватель кафедры', toast)
-        }
-      >
-        <CopyIcon /> {teacher?.name ?? 'Преподаватель кафедры'}
+      <Text fontSize="24px" fontWeight="bold">
+        {' '}
+        {teacher?.name ?? 'Преподаватель кафедры'}
       </Text>
       <Box
         display="flex"

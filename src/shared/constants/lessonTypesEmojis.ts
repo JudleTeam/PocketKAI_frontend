@@ -1,8 +1,8 @@
 export const lessonTypesEmojis: Record<string, string> = {
-  лек: '📢',
-  пр: '📝',
-  'л.р.': '🧪',
-  физ: '🏆',
+  lecture: '📢',
+  practice: '📝',
+  lab_work: '🧪',
+  phys_edu: '🏆',
   конс: '❓',
   'к.р.': '🎓',
   'и.з.': '🎯',

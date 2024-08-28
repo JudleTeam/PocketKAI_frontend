@@ -1,26 +1,15 @@
 import { useSchedule } from '@/entities';
-import {
-  Tabs,
-  Tab,
-  TabList,
-  Box,
-  Text,
-  VStack,
-  HStack,
-  useToast,
-} from '@chakra-ui/react';
+import { Tabs, Tab, TabList, Box, VStack, HStack } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { FullLessonCard } from '@/entities';
 import { useGroup } from '@/entities';
 import { DateTime } from 'luxon';
 import { useScrollSpyFull } from './lib/useScrollSpyFull';
 import styles from './WeekSchedule.module.scss';
-import { SHORT_WEEK_DAYS, WEEK_DAYS } from '@/shared/constants';
+import { SHORT_WEEK_DAYS } from '@/shared/constants';
 import { useColor } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader/Loader';
-import { CopyIcon } from '@chakra-ui/icons';
-import { copyToast } from '@/shared';
-import { getFormattedWeekSchedule } from './lib/getFormattedSchedule';
+import { DayNameWithShareFull } from '@/features';
 
 export function WeekSchedule() {
   const { getFullWeekScheduleByName, weekSchedule, weekScheduleStatus } =
@@ -45,10 +34,7 @@ export function WeekSchedule() {
       window.scrollTo(0, 0);
       return;
     }
-    console.log(todayWeekDay)
-    document
-      .getElementById(todayWeekDay)
-      ?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById(todayWeekDay)?.scrollIntoView();
   }, []);
   const [currentDay, setCurrentDay] = useState<string>('');
   const {
@@ -61,7 +47,6 @@ export function WeekSchedule() {
   const currentDayOfWeek = dayIndex;
   const longDaysOfWeek = Object.keys(SHORT_WEEK_DAYS);
   useScrollSpyFull(longDaysOfWeek, currentDay, setCurrentDay);
-  const toast = useToast();
   return (
     <Tabs
       className={styles['full-schedule']}
@@ -147,12 +132,6 @@ export function WeekSchedule() {
         padding="115px 4px 60px 4px"
         style={{ scrollbarWidth: 'none' }}
         overflowY="auto"
-        top="30vh"
-        left="50%"
-        transform={
-          weekScheduleStatus === 'success' ? 'none' : 'translate(-50%, 0)'
-        }
-        position={weekScheduleStatus === 'success' ? 'initial' : 'absolute'}
       >
         <Loader status={weekScheduleStatus} idleMessage="Выберите группу">
           {weekSchedule &&
@@ -162,23 +141,12 @@ export function WeekSchedule() {
                 const dayLessons = weekDay[1];
                 if (weekDay[0] === 'sunday') return null;
                 return (
-                  <div id={dayName} key={dayName}>
-                    <Text
-                      color={mainTextColor}
-                      fontWeight="medium"
-                      fontSize="18px"
-                      padding="10px 0"
-                      onClick={() => {
-                        dayLessons.length > 0 &&
-                          copyToast(
-                            getFormattedWeekSchedule(weekDay, weekParity , currentGroup),
-                            toast
-                          );
-                      }}
-                    >
-                      {dayName && WEEK_DAYS[dayName]}
-                      {dayLessons.length > 0 ? <CopyIcon w={4} h={4} ml={1.5} /> : null}
-                    </Text>
+                  <Box id={dayName} key={dayName} scrollMarginTop={'-40px'}>
+                    <DayNameWithShareFull
+                      dayName={dayName}
+                      dayLessons={dayLessons}
+                      weekParity={weekParity}
+                    />
                     {dayLessons.length > 0 ? (
                       <VStack gap="10px">
                         {dayLessons?.map((lesson) => {
@@ -210,7 +178,7 @@ export function WeekSchedule() {
                         Время отдыхать
                       </Box>
                     )}
-                  </div>
+                  </Box>
                 );
               }
             )}

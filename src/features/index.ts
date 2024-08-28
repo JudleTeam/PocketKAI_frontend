@@ -1,3 +1,7 @@
+export { DayNameWithShareFull } from './day-name-with-share/week-schedule/dayNameWithShareFull';
+
+export { DayNameWithShare } from './day-name-with-share/schedule/DayNameWithShare';
+
 export { BottomBoundary } from './boundaries/bottom-boundary';
 export { TopBoundary } from './boundaries/top-boundary';
 

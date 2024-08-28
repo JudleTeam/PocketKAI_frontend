@@ -3,9 +3,14 @@ import { UseToastOptions } from '@chakra-ui/react';
 
 export const shareData = (
   data: string,
-  fallbackToast: (options: UseToastOptions) => void
+  fallbackToast: (options: UseToastOptions) => void,
+  isDesktop?: boolean
 ) => {
   if (!navigator.canShare) {
+    copyToast(data, fallbackToast);
+    return;
+  }
+  if (isDesktop) {
     copyToast(data, fallbackToast);
     return;
   }
