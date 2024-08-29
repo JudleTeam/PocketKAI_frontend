@@ -1,0 +1,47 @@
+name: Deploy to VPS
+
+on:
+  pull_request:
+    types: [closed]
+    branches: ['main']
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_ACCESS_TOKEN_KEY: ${{ secrets.VITE_ACCESS_TOKEN_KEY }}
+          VITE_SALT_KEY: ${{ secrets.VITE_SALT_KEY }}
+          VITE_IV_KEY: ${{ secrets.VITE_IV_KEY }}
+        run: npm run build
+
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            echo "Deploying to VPS..."
+            mkdir -p /var/www/pocket-kai
+            rm -rf /var/www/pocket-kai/*
+            scp -r build/* ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/var/www/pocket-kai/
+            sudo chown -R www-data:www-data /var/www/pocket-kai
+            sudo systemctl reload nginx
