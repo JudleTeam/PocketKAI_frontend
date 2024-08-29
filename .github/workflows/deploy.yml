@@ -32,6 +32,16 @@ jobs:
           VITE_IV_KEY: ${{ secrets.VITE_IV_KEY }}
         run: npm run build
 
+      - name: Setup SSH key
+        run: |
+          echo "$SSH_PRIVATE_KEY" > /tmp/private_key.pem
+          chmod 600 /tmp/private_key.pem
+
+      - name: Add SSH host key
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+
       - name: Deploy
         uses: garygrossgarten/github-action-scp@release
         with:
@@ -39,6 +49,10 @@ jobs:
           username: ${{ secrets.USERNAME }}
           port: 22
           privateKey: ${{ secrets.PRIVATE_KEY }}
-          local: './build'
+          local: 'build'
           remote: '/var/www/pocket-kai'
           rmRemote: true
+
+      - name: Clean up private key
+        run: |
+          rm /tmp/private_key.pem
