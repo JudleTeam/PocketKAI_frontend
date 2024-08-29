@@ -51,13 +51,13 @@ export function Report() {
             name="ya-form-66b65dab84227c1b171b2fc2"
           ></iframe>
         </Box>
-        <Text pt='10px' fontWeight="bold" color={mainTextColor}>
+        <Text pt="10px" fontWeight="bold" color={mainTextColor}>
           Или сразу напишите нам -{' '}
           <a
             style={{ textDecoration: 'underline' }}
-            href="https://t.me/kai_pup_help"
+            href="https://t.me/pocket_kai_help"
           >
-            @kai_pup_help
+            @pocket_kai_help
           </a>
         </Text>
       </Box>
