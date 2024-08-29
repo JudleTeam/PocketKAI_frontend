@@ -39,4 +39,4 @@ jobs:
           REMOTE_USER: ${{ secrets.USERNAME }}
           REMOTE_HOST: ${{ secrets.HOST }}
           TARGET: /var/www/pocket-kai
-          SOURCE: build
+          SOURCE: dist
