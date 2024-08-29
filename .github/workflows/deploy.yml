@@ -33,12 +33,12 @@ jobs:
         run: npm run build
 
       - name: Deploy
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SERVER_USER: ${{ secrets.SERVER_USER }}
-          SERVER_IP: ${{ secrets.SERVER_IP }}
-        run: |
-          echo "$SSH_PRIVATE_KEY" > private_key.pem
-          chmod 600 private_key.pem
-          rsync -avz -e "ssh -i private_key.pem" ./build/ $SERVER_USER@$SERVER_IP:/var/www/pocket-kai
-          rm private_key.pem
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: 22
+          privateKey: ${{ secrets.PRIVATE_KEY }}
+          local: './build'
+          remote: '/var/www/pocket-kai'
+          rmRemote: true
