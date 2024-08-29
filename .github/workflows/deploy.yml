@@ -32,6 +32,11 @@ jobs:
           VITE_IV_KEY: ${{ secrets.VITE_IV_KEY }}
         run: npm run build
 
+      - name: Add SSH host key
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+
       - name: Deploy to VPS
         uses: appleboy/ssh-action@master
         with:
@@ -43,3 +48,7 @@ jobs:
             mkdir -p /var/www/pocket-kai
             rsync -avz -e "ssh" ./build/ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/var/www/pocket-kai
             sudo chown -R www-data:www-data /var/www/pocket-kai
+
+      - name: Clean up private key
+        run: |
+          rm /tmp/private_key.pem
