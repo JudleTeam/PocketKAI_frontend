@@ -41,7 +41,5 @@ jobs:
           script: |
             echo "Deploying to VPS..."
             mkdir -p /var/www/pocket-kai
-            rm -rf /var/www/pocket-kai/*
-            scp -r build/* ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/var/www/pocket-kai/
+            rsync -avz -e "ssh" ./build/ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/var/www/pocket-kai
             sudo chown -R www-data:www-data /var/www/pocket-kai
-            sudo systemctl reload nginx
