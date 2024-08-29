@@ -1,19 +1,27 @@
-export const steps = [
+import { StepType } from '@reactour/tour';
+
+export const steps: StepType[] = [
   {
-    selector: '.app-layout__first-step',
+    selector: '[data-tour="1"]',
     content: 'Добро пожаловать в Pocket KAI! Проведём краткий курс?',
   },
   {
-    selector: '.app-layout__second-step',
-    content: 'Здесь показывается сегодняшний день и чётность текущей недели. ',
+    selector: '[data-tour="2"]',
+    content:
+      'Здесь показывается сегодняшний день и чётность текущей недели. Нажатие перелистывает к сегодняшнему дню',
   },
   {
-    selector: '.app-layout__third-step',
-    content: 'Это выбор группы - give it a try!',
+    selector: '[data-tour="3"]',
+    content: 'Здесь можно выбрать свою группу',
   },
   {
-    selector: '.app-layout__fourth-step',
-    content: 'Полоска дат - абоба сука шляпа!',
+    selector: '[data-tour="4"]',
+    content:
+      'Нажатие на дату перелистывает расписание на выбранный день. Свайпните, чтобы увидеть следующую неделю!',
   },
-  // ...
+  {
+    selector: '[data-tour="5"]',
+    content:
+      'Это отбражение дня расписания. При нажатии на пару открывается подробная информация о ней',
+  },
 ];

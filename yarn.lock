@@ -2785,6 +2785,13 @@
     "@types/prop-types" "*"
     csstype "^3.0.2"
 
+"@types/reactour@^1.18.5":
+  version "1.18.5"
+  resolved "https://registry.yarnpkg.com/@types/reactour/-/reactour-1.18.5.tgz#0e083ea5e08a534ab38aed74e224d696a344231a"
+  integrity sha512-Pl5yh9bXeXaFcioDk6XVmUzdJGZDAKesVmwoh2KvN/1FXSd9saN8pIprLvfspnXANMcgl3AtSlD4zs0cJIhGIw==
+  dependencies:
+    "@types/react" "*"
+
 "@types/resolve@1.20.2":
   version "1.20.2"
   resolved "https://registry.yarnpkg.com/@types/resolve/-/resolve-1.20.2.tgz#97d26e00cd4a0423b4af620abecf3e6f442b7975"

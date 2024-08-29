@@ -108,7 +108,13 @@ export function AppLayout() {
     location.pathname.includes('schedule/full') ||
     location.pathname.includes('schedule/exams');
   return (
-    <div className={`${styles['app-layout']} app-layout__first-step`}>
+    <Box
+      className={styles['app-layout']}
+      data-tour="1"
+      scrollPaddingTop={
+        location.pathname.includes('schedule/full') ? '240px' : '150px'
+      }
+    >
       <Box
         className=""
         bgColor={mainColor}
@@ -139,7 +145,7 @@ export function AppLayout() {
             gap={4}
           >
             <VStack
-              className="app-layout__second-step"
+              data-tour="2"
               alignItems={'flex-start'}
               fontWeight={'medium'}
               color={mainTextColor}
@@ -159,7 +165,7 @@ export function AppLayout() {
                   'Расписание устарело'}
               </Text>
             </VStack>
-            <SelectGroup className="app-layout__third-step" onOpen={onOpen} />
+            <SelectGroup onOpen={onOpen} />
           </Box>
         </Box>
         <UiDatebar
@@ -169,7 +175,6 @@ export function AppLayout() {
             setCurrentDay,
             swiperRef,
           })}
-          className="app-layout__fourth-step"
         />
       </Box>
       <div className="pt-16">
@@ -181,6 +186,6 @@ export function AppLayout() {
         setIsOpen={onToggle}
         modalActions={() => AddGroupToFavourite(onClose)}
       />
-    </div>
+    </Box>
   );
 }
