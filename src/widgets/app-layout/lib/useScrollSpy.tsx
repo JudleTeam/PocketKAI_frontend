@@ -15,7 +15,7 @@ export function useScrollSpy(
   useEffect(() => {
     const options = {
       root: null,
-      rootMargin: '-30% 0px -70% 0px',
+      rootMargin: '-28% 0px -72% 0px',
       threshold: 0,
     };
 

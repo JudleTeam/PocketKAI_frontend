@@ -17,9 +17,9 @@ function isToday(date: string) {
   const day = DateTime.now().toFormat('yyyy-LL-dd');
   return day === date;
 }
-function isCurrentMonth(date:string){
+function isCurrentMonth(date: string) {
   const month = DateTime.now().toFormat('LL');
-  return month === date.slice(5,7);
+  return month === date.slice(5, 7);
 }
 export function DatebarContent({
   currentDay,
@@ -52,6 +52,8 @@ export function DatebarContent({
     theme.colors.dark.black_light_element
   );
   const { schedule } = useSchedule();
+  //const scheduleDays = schedule?.days;
+  //scheduleDays.push({ date: 'skeleton', lessons: [] });
   return (
     <Swiper
       onSwiper={(swiper) => {
@@ -60,6 +62,10 @@ export function DatebarContent({
       slidesPerView={7}
       spaceBetween={10}
       slidesPerGroup={7}
+      onToEdge={(swiper) => {
+        console.log('edging');
+        console.log(swiper.swipeDirection);
+      }}
       onSlideNextTransitionStart={(swiper) => {
         swiper.swipeDirection = 'next';
       }}
@@ -89,28 +95,28 @@ export function DatebarContent({
                   setCurrentDay(day.date);
                 }}
               >
-                <Box display='flex'>
-                <Text
-                  color={
-                    isToday(day.date)
-                      ? secondElementLightColor
-                      : secondElementColor
-                  }
-                >
-                  {day.date.slice(-2)}
-                </Text>
-                {isCurrentMonth(day.date) ? null :  
-                <Text 
-                color={
-                  isToday(day.date)
-                    ? secondElementLightColor
-                    : secondElementColor
-                }
-                fontSize='10px'
-                >
-                  {day.date.slice(5,7)}
-                </Text>
-                }
+                <Box display="flex">
+                  <Text
+                    color={
+                      isToday(day.date)
+                        ? secondElementLightColor
+                        : secondElementColor
+                    }
+                  >
+                    {day.date.slice(-2)}
+                  </Text>
+                  {isCurrentMonth(day.date) ? null : (
+                    <Text
+                      color={
+                        isToday(day.date)
+                          ? secondElementLightColor
+                          : secondElementColor
+                      }
+                      fontSize="10px"
+                    >
+                      {day.date.slice(5, 7)}
+                    </Text>
+                  )}
                 </Box>
                 <Text
                   color={

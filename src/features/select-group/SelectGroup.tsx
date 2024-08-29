@@ -14,13 +14,7 @@ import {
 } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 
-export function SelectGroup({
-  onOpen,
-  className,
-}: {
-  onOpen: () => void;
-  className: string;
-}) {
+export function SelectGroup({ onOpen }: { onOpen: () => void }) {
   const mainElementColor = useColorModeValue(
     'light.main_element',
     'dark.main_element'
@@ -45,58 +39,68 @@ export function SelectGroup({
   }, [getFavouriteGroups, userAuthStatus, favouriteGroupsStatus]);
   return (
     <Menu>
-      <MenuButton
-        className={className}
-        w={'50%'}
-        as={Button}
-        transition="all 0.2s"
-        rightIcon={<ChevronDownIcon />}
-        bg={mainElementColor}
-        color={'#ffffff'}
-        _hover={{ bg: mainElementColor, boxShadow: 'outline' }}
-        _focus={{ bg: mainElementColor }}
-        fontWeight={'500'}
-        fontSize={'16px'}
-      >
-        {currentGroup ? `Гр. ${currentGroup.group_name}` : 'Группа'}
-      </MenuButton>
-      <MenuList color={'#ffffff'} bg={mainElementColor} zIndex={2}>
-        <MenuItem
-          onClick={onOpen}
-          color={'#ffffff'}
-          bg={mainElementColor}
-          fontWeight={'400'}
-          fontSize={'16px'}
-          justifyContent={'center'}
-        >
-          Добавить группу
-        </MenuItem>
-        {favouriteGroups.length > 0 && (
-          <React.Fragment>
-            <MenuDivider />
-            <MenuOptionGroup
-              title="Группа"
-              type="radio"
+      {({ isOpen }) => (
+        <>
+          <MenuButton
+            className="data-tour-3"
+            data-tour="3"
+            w={isOpen ? '51%' : '50%'}
+            as={Button}
+            transition="all 0.2s"
+            rightIcon={<ChevronDownIcon />}
+            bg={mainElementColor}
+            color={'#ffffff'}
+            _hover={{ bg: mainElementColor, boxShadow: 'outline' }}
+            _focus={{ bg: mainElementColor }}
+            fontWeight={'500'}
+            fontSize={'16px'}
+          >
+            {currentGroup ? `Гр. ${currentGroup.group_name}` : 'Группа'}
+          </MenuButton>
+          <MenuList
+            className="select-group"
+            color={'#ffffff'}
+            bg={mainElementColor}
+            zIndex={2}
+          >
+            <MenuItem
+              onClick={onOpen}
               color={'#ffffff'}
               bg={mainElementColor}
-              fontWeight={'500'}
+              fontWeight={'400'}
               fontSize={'16px'}
-              value={currentGroup?.id}
+              justifyContent={'center'}
             >
-              {favouriteGroups.map((group) => (
-                <MenuItemOption
-                  key={group.id}
-                  value={group.id}
+              Добавить группу
+            </MenuItem>
+            {favouriteGroups.length > 0 && (
+              <React.Fragment>
+                <MenuDivider />
+                <MenuOptionGroup
+                  title="Группа"
+                  type="radio"
+                  color={'#ffffff'}
                   bg={mainElementColor}
-                  onClick={() => handleGroupClick(group)}
+                  fontWeight={'500'}
+                  fontSize={'16px'}
+                  value={currentGroup?.id}
                 >
-                  {group.group_name}
-                </MenuItemOption>
-              ))}
-            </MenuOptionGroup>
-          </React.Fragment>
-        )}
-      </MenuList>
+                  {favouriteGroups.map((group) => (
+                    <MenuItemOption
+                      key={group.id}
+                      value={group.id}
+                      bg={mainElementColor}
+                      onClick={() => handleGroupClick(group)}
+                    >
+                      {group.group_name}
+                    </MenuItemOption>
+                  ))}
+                </MenuOptionGroup>
+              </React.Fragment>
+            )}
+          </MenuList>
+        </>
+      )}
     </Menu>
   );
 }
