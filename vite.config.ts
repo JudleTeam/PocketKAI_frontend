@@ -89,7 +89,7 @@ export default defineConfig({
         runtimeCaching: [
           {
             urlPattern:
-              /^https:\/\/pocket-kai\.vercel\.app\/.*\.(js|css|html|svg|png|ico)$/,
+              /^https:\/\/pocket-kai\.ru\/.*\.(js|css|html|svg|png|ico)$/,
             handler: 'CacheFirst',
             options: {
               cacheName: 'pocket-kai-cache',
