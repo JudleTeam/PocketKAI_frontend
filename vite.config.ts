@@ -100,6 +100,18 @@ export default defineConfig({
             },
           },
           {
+            urlPattern:
+              /^https:\/\/pocket-kai-frontend\.vercel\.app\/.*\.(js|css|html|svg|png|ico)$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'pocket-kai-dev-cache',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 30 * 24 * 60 * 60,
+              },
+            },
+          },
+          {
             urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
             handler: 'CacheFirst',
           },

@@ -26,7 +26,6 @@ apiClient.interceptors.response.use(
       !originalRequest._retry &&
       originalRequest.url !== 'auth/login'
     ) {
-      console.log(originalRequest.url);
       originalRequest._retry = true;
 
       try {
