@@ -6,7 +6,7 @@ function PWABadge() {
   // check for updates every hour
   const period = 60 * 60 * 1000;
   const {
-    offlineReady: [offlineReady, setOfflineReady],
+    offlineReady: [, setOfflineReady],
     needRefresh: [needRefresh, setNeedRefresh],
     updateServiceWorker,
   } = useRegisterSW({
