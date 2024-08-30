@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Box, Text, Divider } from '@chakra-ui/react';
 import { useUser, accountActions, useGroup, useSchedule } from '@/entities';
-import { Auth } from '@/features';
+import { AuthNotAvailable } from '@/features';
 import {
   GraduationCapIcon,
   ProfileIcon,
@@ -14,7 +14,7 @@ import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
 import { useColor, useDisclosure } from '@/shared/lib';
 export function Account() {
   const { homeGroup } = useGroup();
-  const { isOpen, setIsOpen, onClose } = useDisclosure();
+  const { isOpen, setIsOpen } = useDisclosure();
   const { user, logout } = useUser();
   const { resetGroupState } = useGroup();
   const { resetScheduleState } = useSchedule();
@@ -125,7 +125,8 @@ export function Account() {
                 </Box>
               </DrawerTrigger>
               <DrawerContent>
-                <Auth onClose={onClose} />
+                {/* <Auth onClose={onClose} /> */}
+                <AuthNotAvailable />
               </DrawerContent>
             </Drawer>
           )}
