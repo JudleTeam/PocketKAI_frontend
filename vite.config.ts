@@ -95,7 +95,7 @@ export default defineConfig({
             handler: 'CacheFirst',
           },
           {
-            urlPattern: /^https:\/\/api\.pocket-kai\.judle\.ru\/.*$/,
+            urlPattern: /^https:\/\/api\.pocket-kai\.ru\/.*$/,
             handler: 'NetworkFirst',
             options: {
               cacheName: 'pocket-kai-api-cache',
