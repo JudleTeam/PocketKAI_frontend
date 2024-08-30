@@ -63,6 +63,7 @@
     "typescript": "^5.2.2",
     "vite": "^5.2.10",
     "vite-plugin-pwa": "^0.20.0",
+    "vite-plugin-static-copy": "^1.0.6",
     "workbox-core": "^7.1.0"
   },
   "resolutions": {

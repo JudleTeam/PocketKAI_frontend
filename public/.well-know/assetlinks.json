@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "ru.pocket_kai.www",
+        "sha256_cert_fingerprints": ["8B:A4:2B:C0:51:AA:76:7D:90:BB:D1:BF:B8:B1:C0:5B:31:AD:2F:65:C0:9B:EC:E5:08:33:CF:5F:3C:DB:CF:E3"]
+      }
+    }]
