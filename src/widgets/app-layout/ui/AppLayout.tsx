@@ -21,7 +21,7 @@ import { parityTypes } from '@/shared/constants';
 import { scrollToToday } from '@/shared/lib';
 import { isScheduleOutdated } from '@/entities';
 import logo from '../../../shared/assets/images/logo.png';
-import { useTour } from '@reactour/tour';
+//import { useTour } from '@reactour/tour';
 export type ContextType = [
   string,
   React.Dispatch<React.SetStateAction<string>>
@@ -86,7 +86,7 @@ export function AppLayout() {
   }, [location.pathname]);
 
   const { theme } = useChakra();
-  const { setIsOpen } = useTour();
+  // const { setIsOpen } = useTour();
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
   const mainColor = useColorModeValue(
     theme.colors.light.main,
@@ -152,7 +152,7 @@ export function AppLayout() {
               gap={0.4}
               onClick={() => {
                 scrollToToday(true);
-                setIsOpen(true);
+                //setIsOpen(true);
               }}
             >
               <Text fontSize={22}>
