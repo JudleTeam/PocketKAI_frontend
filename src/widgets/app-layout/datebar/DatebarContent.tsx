@@ -52,8 +52,6 @@ export function DatebarContent({
     theme.colors.dark.black_light_element
   );
   const { schedule } = useSchedule();
-  //const scheduleDays = schedule?.days;
-  //scheduleDays.push({ date: 'skeleton', lessons: [] });
   return (
     <Swiper
       onSwiper={(swiper) => {
@@ -62,10 +60,6 @@ export function DatebarContent({
       slidesPerView={7}
       spaceBetween={10}
       slidesPerGroup={7}
-      onToEdge={(swiper) => {
-        console.log('edging');
-        console.log(swiper.swipeDirection);
-      }}
       onSlideNextTransitionStart={(swiper) => {
         swiper.swipeDirection = 'next';
       }}
