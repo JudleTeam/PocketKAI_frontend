@@ -16,7 +16,7 @@ export const userService = {
   getGroupMembers: (): ApiResponse<UserGroupMember[]> => {
     return apiClient.get<UserGroupMember[]>('user/me/student/group_members');
   },
-  getIsLoginEnabled: (): ApiResponse<boolean> => {
-    return apiClient.get<boolean>('auth/check_login');
+  getIsLoginEnabled: (): ApiResponse<{ is_login_enabled: boolean }> => {
+    return apiClient.get<{ is_login_enabled: boolean }>('auth/check_login');
   },
 };

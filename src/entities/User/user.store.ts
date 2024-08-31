@@ -61,7 +61,7 @@ export const useUser = create<UserType>()(
       },
       getIsLoginEnabled: async () => {
         const response = await userService.getIsLoginEnabled();
-        set({ isLoginEnabled: response.data });
+        set({ isLoginEnabled: response.data.is_login_enabled });
       },
       getMe: async () => {
         const response = await userService.getMeStudent();
