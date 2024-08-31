@@ -18,10 +18,12 @@ type UserType = {
   userGroupMembersStatus: FetchStatus;
   token: string;
   error: Nullable<AxiosError>;
+  isLoginEnabled: boolean;
   login: (params: AuthParams) => Promise<number>;
   getMe: () => Promise<UserStudent>;
   getGroupMembers: () => Promise<void>;
   logout: () => void;
+  getIsLoginEnabled: () => Promise<void>;
 };
 
 export const useUser = create<UserType>()(
@@ -33,6 +35,7 @@ export const useUser = create<UserType>()(
       userGroupMembersStatus: 'idle',
       token: '',
       error: null,
+      isLoginEnabled: true,
       login: async (params: AuthParams) => {
         set({ userAuthStatus: 'loading' });
         try {
@@ -55,6 +58,10 @@ export const useUser = create<UserType>()(
           set({ error, userAuthStatus: 'error' });
           return 400;
         }
+      },
+      getIsLoginEnabled: async () => {
+        const response = await userService.getIsLoginEnabled();
+        set({ isLoginEnabled: response.data });
       },
       getMe: async () => {
         const response = await userService.getMeStudent();

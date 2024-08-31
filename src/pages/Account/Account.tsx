@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Box, Text, Divider } from '@chakra-ui/react';
 import { useUser, accountActions, useGroup, useSchedule } from '@/entities';
-import { AuthNotAvailable } from '@/features';
+import { Auth, AuthNotAvailable } from '@/features';
 import {
   GraduationCapIcon,
   ProfileIcon,
@@ -14,8 +14,8 @@ import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
 import { useColor, useDisclosure } from '@/shared/lib';
 export function Account() {
   const { homeGroup } = useGroup();
-  const { isOpen, setIsOpen } = useDisclosure();
-  const { user, logout } = useUser();
+  const { isOpen, setIsOpen, onClose } = useDisclosure();
+  const { user, isLoginEnabled, logout, getIsLoginEnabled } = useUser();
   const { resetGroupState } = useGroup();
   const { resetScheduleState } = useSchedule();
 
@@ -38,6 +38,10 @@ export function Account() {
       }
     }
   }, [themeColor, mainColor, isOpen]);
+
+  useEffect(() => {
+    getIsLoginEnabled();
+  }, [getIsLoginEnabled]);
   return (
     <Box className={styles['account']}>
       <Box className={styles['account__header']} bgColor={mainElementColor}>
@@ -125,8 +129,11 @@ export function Account() {
                 </Box>
               </DrawerTrigger>
               <DrawerContent>
-                {/* <Auth onClose={onClose} /> */}
-                <AuthNotAvailable />
+                {isLoginEnabled ? (
+                  <Auth onClose={onClose} />
+                ) : (
+                  <AuthNotAvailable />
+                )}
               </DrawerContent>
             </Drawer>
           )}

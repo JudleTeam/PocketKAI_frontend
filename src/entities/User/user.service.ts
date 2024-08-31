@@ -9,12 +9,14 @@ export const userService = {
       },
     });
   },
-
   getMeStudent: (): ApiResponse<UserStudent> => {
     return apiClient.get<UserStudent>('user/me/student');
   },
 
   getGroupMembers: (): ApiResponse<UserGroupMember[]> => {
     return apiClient.get<UserGroupMember[]>('user/me/student/group_members');
-  }
+  },
+  getIsLoginEnabled: (): ApiResponse<boolean> => {
+    return apiClient.get<boolean>('auth/check_login');
+  },
 };
