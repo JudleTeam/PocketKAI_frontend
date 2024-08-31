@@ -25,6 +25,6 @@ export const getFormattedWeekSchedule = (
     return header + getFormattedDaySchedule(day, parity, '', true) + footer;
   });
   return (
-    result.join('\n') + `Отправлено из Pocket KAI: ${window.location.href}`
+    result.join('\n') + `Отправлено из Pocket KAI: ${window.location.origin}`
   );
 };

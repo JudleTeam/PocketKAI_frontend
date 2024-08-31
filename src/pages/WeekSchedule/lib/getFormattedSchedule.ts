@@ -45,7 +45,7 @@ export const getFormattedWeekSchedule = (
       lessons.length === index + 1 ? '' : '\n'
     }`;
   });
-  const footer = `————————————————\n\nОтправлено из Pocket KAI: https://pocket-kai.vercel.app/`;
+  const footer = `————————————————\n\nОтправлено из Pocket KAI: ${window.location.origin}`;
   return header + formattedLessons.join('') + footer;
 };
 

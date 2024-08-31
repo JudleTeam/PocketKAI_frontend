@@ -33,7 +33,7 @@ export const getFormattedDayScheduleFull = (
       lessons.length === index + 1 ? '' : '\n'
     }`;
   });
-  const footer = `————————————————\n\nОтправлено из Pocket KAI: ${window.location.href}`;
+  const footer = `————————————————\n\nОтправлено из Pocket KAI: ${window.location.origin}`;
   if (forWeekSchedule) return formattedLessons.join('');
   return header + formattedLessons.join('') + footer;
 };
