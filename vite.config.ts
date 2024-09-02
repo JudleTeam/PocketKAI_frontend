@@ -90,7 +90,7 @@ export default defineConfig({
         runtimeCaching: [
           {
             urlPattern:
-              /^https:\/\/pocket-kai\.ru\/.*\.(js|css|html|svg|png|ico)$/,
+              /^https:\/\/pocket-kai\.ru\/.*\.(js|css|html|svg|png|ico|ttf)$/,
             handler: 'CacheFirst',
             options: {
               cacheName: 'pocket-kai-cache',
@@ -102,7 +102,7 @@ export default defineConfig({
           },
           {
             urlPattern:
-              /^https:\/\/pocket-kai-frontend\.vercel\.app\/.*\.(js|css|html|svg|png|ico)$/,
+              /^https:\/\/pocket-kai-frontend\.vercel\.app\/.*\.(js|css|html|svg|png|ico|ttf)$/,
             handler: 'CacheFirst',
             options: {
               cacheName: 'pocket-kai-dev-cache',
@@ -113,14 +113,21 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
-            handler: 'CacheFirst',
-          },
-          {
             urlPattern: /^https:\/\/api\.pocket-kai\.ru\/.*$/,
             handler: 'NetworkFirst',
             options: {
               cacheName: 'pocket-kai-api-cache',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 7 * 24 * 60 * 60,
+              },
+            },
+          },
+          {
+            urlPattern: /^https:\/\/api\.pocket-kai\.judle\.ru\/.*$/,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'pocket-kai-api-dev-cache',
               expiration: {
                 maxEntries: 50,
                 maxAgeSeconds: 7 * 24 * 60 * 60,
