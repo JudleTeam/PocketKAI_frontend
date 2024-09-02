@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { usePWAState } from '../PWABadge.store';
 import './PWABadge.css';
 
@@ -6,6 +6,7 @@ import { useRegisterSW } from 'virtual:pwa-register/react';
 
 function PWABadge() {
   const { setStoreNeedRefresh, setUpdateServiceWorker } = usePWAState();
+
   // check for updates every hour
 
   const period = 60 * 60 * 1000;
@@ -26,6 +27,11 @@ function PWABadge() {
       }
     },
   });
+  const [isOpen, setIsOpen] = useState(needRefresh);
+
+  useEffect(() => {
+    setIsOpen(needRefresh);
+  }, [needRefresh]);
 
   useEffect(() => {
     setUpdateServiceWorker(updateServiceWorker);
@@ -37,11 +43,11 @@ function PWABadge() {
 
   function close() {
     setOfflineReady(false);
-    //setNeedRefresh(false);
+    setIsOpen(false);
   }
   return (
     <div className="PWABadge" role="alert" aria-labelledby="toast-message">
-      {needRefresh && (
+      {isOpen && (
         <div className="PWABadge-toast border-1 space-y-3 bg-l-account-actions w-9/12 h-fit dark:bg-d-account-actions">
           <div className="PWABadge-message">
             <span id="toast-message" className="text-[16px]">

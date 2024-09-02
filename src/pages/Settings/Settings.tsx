@@ -9,7 +9,6 @@ export function Settings() {
   const { toggleColorMode, colorMode } = useColorMode();
   const { tabTeacher, mainColor, mainTextColor } = useColor();
   const { storeNeedRefresh, updateServiceWorker } = usePWAState();
-  console.log(storeNeedRefresh);
   const {
     showFadedLessons,
     isScheduleInfinite,
@@ -20,7 +19,6 @@ export function Settings() {
     togglePreferencedScheduleView,
     toggleIsColoredDayDate,
   } = useSettings();
-  console.log(storeNeedRefresh);
   return (
     <Box className={styles['settings']}>
       <Box
