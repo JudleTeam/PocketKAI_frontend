@@ -77,11 +77,11 @@ export function NavbarActions() {
           <Box
             key={action.label}
             onClick={() => handleNavigation(action)}
-            style={{ height: '100%' }}
+            h={'100%'}
           >
             {menuItemsToShow.length > 0 ? (
               <Menu isLazy>
-                <MenuButton>
+                <MenuButton as={Box}>
                   <Box
                     display={'flex'}
                     flexDir={{ base: 'column', md: 'row' }}
