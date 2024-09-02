@@ -135,7 +135,7 @@ export default defineConfig({
             },
           },
         ],
-        globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,ico, ttf}'],
         cleanupOutdatedCaches: true,
         clientsClaim: true,
       },

@@ -1,3 +1,7 @@
+export { usePWAState } from './PWABadge/PWABadge.store';
+
+export { default as PWABadge } from './PWABadge/ui/PWABadge';
+
 export { useSettings } from './AppSettings/app-settings.store';
 
 export { useTeachers } from './Teacher/model/teacher.store';

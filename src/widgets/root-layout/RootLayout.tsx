@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { NavbarActions } from './navbar/NavbarActions';
-import PWABadge from '@/PWABadge';
+import { PWABadge } from '@/entities';
 export function RootLayout() {
   const { theme } = useChakra();
   const themeColor = useColorModeValue(
