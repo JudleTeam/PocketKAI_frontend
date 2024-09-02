@@ -11,7 +11,7 @@ function PWABadge() {
   const period = 60 * 60 * 1000;
   const {
     offlineReady: [, setOfflineReady],
-    needRefresh: [needRefresh, setNeedRefresh],
+    needRefresh: [needRefresh],
     updateServiceWorker,
   } = useRegisterSW({
     onRegisteredSW(swUrl, r) {
@@ -37,7 +37,7 @@ function PWABadge() {
 
   function close() {
     setOfflineReady(false);
-    setNeedRefresh(false);
+    //setNeedRefresh(false);
   }
   return (
     <div className="PWABadge" role="alert" aria-labelledby="toast-message">
