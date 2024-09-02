@@ -6,7 +6,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { Calendar, CalendarDays } from 'lucide-react';
-import { useGroup, useSchedule } from '@/entities';
+import { useGroup, useSchedule, useSettings } from '@/entities';
 import { Day, getFormattedDate } from '@/shared';
 import { shareData, useColor } from '@/shared/lib';
 import { getFormattedDaySchedule } from './lib/getFormattedDaySchedule';
@@ -20,8 +20,9 @@ import {
 import { getFormattedWeekSchedule } from './lib/getFormattedWeekSchedule';
 
 export function DayNameWithShare({ day }: { day: Day }) {
-  const { mainTextColor } = useColor();
+  const { mainTextColor, mainElementColor } = useColor();
   const toast = useToast();
+  const { isColoredDayDate } = useSettings();
   const { parity, schedule } = useSchedule();
   const { currentGroup } = useGroup();
   const isDesktop = useBreakpointValue({ base: false, md: true });
@@ -29,13 +30,14 @@ export function DayNameWithShare({ day }: { day: Day }) {
     <ContextMenu>
       <ContextMenuTrigger asChild>
         <Box
+          bgColor={isColoredDayDate ? `${mainElementColor}40` : 'none'}
           _active={{ opacity: 0.5, bgColor: 'gray.200' }}
           transition={'0.2s'}
           borderRadius={3}
           py={0.5}
           px={1.5}
           w={'fit-content'}
-          color={mainTextColor}
+          color={`${mainTextColor}e6`}
           fontWeight="medium"
           fontSize="18px"
         >

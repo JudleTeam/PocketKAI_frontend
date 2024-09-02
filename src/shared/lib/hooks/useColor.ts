@@ -2,7 +2,10 @@ import { useChakra, useColorModeValue } from '@chakra-ui/react';
 
 export const useColor = () => {
   const { theme } = useChakra();
-  const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
+  const mainTextColor = useColorModeValue(
+    theme.colors.light.main_text,
+    theme.colors.dark.main_text
+  );
   const mainElementColor = useColorModeValue(
     theme.colors.light.main_element,
     theme.colors.dark.main_element
@@ -10,7 +13,7 @@ export const useColor = () => {
   const tabColor = useColorModeValue(
     theme.colors.light.tab,
     theme.colors.dark.tab
-  )
+  );
   const accountActionsColor = useColorModeValue(
     'light.account_actions',
     'dark.account_actions'
@@ -22,7 +25,7 @@ export const useColor = () => {
   const tabTeacher = useColorModeValue(
     theme.colors.light.tab_teacher,
     theme.colors.dark.tab_teacher
-  )
+  );
   const mainColor = useColorModeValue(
     theme.colors.light.main,
     theme.colors.dark.main
@@ -40,7 +43,7 @@ export const useColor = () => {
     theme.colors.dark.card
   );
   const themeColor = useColorModeValue('#999999', '#10131A');
-  const drawerColor = useColorModeValue('#fff', '#171923')
+  const drawerColor = useColorModeValue('#fff', '#171923');
   return {
     mainTextColor,
     mainElementColor,
@@ -53,6 +56,6 @@ export const useColor = () => {
     tabColor,
     tabTeacher,
     exitButtonColor,
-    accountActionsColor
+    accountActionsColor,
   };
 };

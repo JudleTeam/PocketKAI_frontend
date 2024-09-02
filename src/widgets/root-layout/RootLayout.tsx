@@ -15,12 +15,18 @@ export function RootLayout() {
     theme.colors.light.main,
     theme.colors.dark.main
   );
+
   const { colorMode } = useColorMode();
   useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
       metaThemeColor.setAttribute('content', themeColor);
     }
+  }, [themeColor, colorMode]);
+
+  useEffect(() => {
+    const htmlElement = document?.getElementsByTagName('html')[0];
+    htmlElement.setAttribute('background-color', themeColor);
   }, [themeColor, colorMode]);
   return (
     <Box minH={'100%'}>
