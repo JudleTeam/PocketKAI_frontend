@@ -24,10 +24,6 @@ export function RootLayout() {
     }
   }, [themeColor, colorMode]);
 
-  useEffect(() => {
-    const htmlElement = document?.getElementsByTagName('html')[0];
-    htmlElement.setAttribute('background-color', themeColor);
-  }, [themeColor, colorMode]);
   return (
     <Box minH={'100%'}>
       <Outlet />
