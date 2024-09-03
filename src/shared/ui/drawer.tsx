@@ -17,6 +17,8 @@ const Drawer = ({
     <DrawerPrimitive.Root
       direction={drawerDirection ?? 'bottom'}
       open={open}
+      snapPoints={drawerDirection === 'bottom' && open ? [0.6, 1] : []}
+      fadeFromIndex={-1}
       onOpenChange={onOpenChange}
       preventScrollRestoration={false}
       {...props}
@@ -53,7 +55,7 @@ const DrawerContent = React.forwardRef<
       <DrawerPrimitive.Content
         ref={ref}
         className={cn(
-          'fixed inset-x-0 md:right-0 md:left-auto h-[80%] max-h-[80%] md:max-h-[100%] md:h-[100%] md:max-w-[400px]' +
+          'fixed inset-x-0 md:right-0 md:left-auto h-[100%] max-h-[100%] md:max-h-[100%] md:h-[100%] md:max-w-[400px]' +
             ' px-3 bottom-0 z-50 mt-24 flex flex-col rounded-t-[25px] md:rounded-t-none md:rounded-tl-[15px] md:rounded-bl-[15px]' +
             ' bg-l-main dark:bg-d-main focus:outline-none border-[0px] md:p-5',
           className
