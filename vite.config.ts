@@ -114,7 +114,7 @@ export default defineConfig({
           },
           {
             urlPattern: /^https:\/\/api\.pocket-kai\.ru\/.*$/,
-            handler: 'NetworkFirst',
+            handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'pocket-kai-api-cache',
               expiration: {
@@ -125,7 +125,7 @@ export default defineConfig({
           },
           {
             urlPattern: /^https:\/\/api\.pocket-kai\.judle\.ru\/.*$/,
-            handler: 'NetworkFirst',
+            handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'pocket-kai-api-dev-cache',
               expiration: {
