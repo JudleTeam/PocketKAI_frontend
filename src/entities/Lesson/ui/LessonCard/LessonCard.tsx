@@ -1,7 +1,7 @@
 import { memo, useEffect } from 'react';
 import { HStack, Text } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
-import { getTodayDate, Lesson } from '@/shared';
+import { Lesson } from '@/shared';
 import { lessonStateIcons } from '@/shared/constants';
 import { lessonStateLine } from '../../constants/lessonStateLine';
 import { LessonTypes } from '@/shared/constants';
@@ -14,7 +14,6 @@ import LessonDrawer from '../LessonDrawer/LessonDrawer';
 const LessonCard = memo(
   ({ lesson, dayDate }: { lesson: Lesson; dayDate: string }) => {
     const { isOpen, setIsOpen } = useDisclosure();
-    const isTodayLesson = getTodayDate() === dayDate;
     const { themeColor, mainTextColor, mainColor } = useColor();
     useEffect(() => {
       const metaThemeColor = document.querySelector('meta[name="theme-color"]');
@@ -31,7 +30,6 @@ const LessonCard = memo(
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
         <DrawerTrigger asChild>
           <HStack
-            data-is-today-lesson={isTodayLesson}
             className={styles['lesson-card']}
             alignItems="flex-start"
             transition="0.2s"

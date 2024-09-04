@@ -1,12 +1,6 @@
-import { Box, Text, Divider, useColorModeValue } from '@chakra-ui/react';
+import { Box, Text, Divider } from '@chakra-ui/react';
 
-import {
-  FadedLessonCard,
-  LessonCard,
-  RestCard,
-  useSchedule,
-  useSettings,
-} from '@/entities';
+import { FadedLessonCard, LessonCard, RestCard, useSchedule } from '@/entities';
 import { TopBoundary, BottomBoundary, DayNameWithShare } from '@/features';
 
 import { useInfiniteScroll } from './lib/useInfiniteScroll';
@@ -24,11 +18,11 @@ export function Schedule() {
   const { upperRef, lowerRef } = useInfiniteScroll();
   const { showButton, position: todayBlockPosition } = useGoUpButton();
   const { mainElementColor } = useColor();
-  const { isTodayAnimated } = useSettings();
-  const todayBoxColor = useColorModeValue(
-    `${mainElementColor}36`,
-    `${mainElementColor}33`
-  );
+  // const { isTodayAnimated } = useSettings();
+  // const todayBoxColor = useColorModeValue(
+  //   `${mainElementColor}36`,
+  //   `${mainElementColor}33`
+  // );
   return (
     <Loader status={weekScheduleStatus} idleMessage="Выберите группу">
       <Box
@@ -50,12 +44,12 @@ export function Schedule() {
               key={day.date}
               id={day.date}
               className={styles['day']}
-              bgColor={
-                day.date === today && isTodayAnimated ? todayBoxColor : ''
-              }
-              borderRadius={'8px'}
-              my={day.date === today && isTodayAnimated ? '5px' : 0}
-              py={day.date === today && isTodayAnimated ? '5px' : 0}
+              // bgColor={
+              //   day.date === today && isTodayAnimated ? todayBoxColor : ''
+              // }
+              // borderRadius={'8px'}
+              // my={day.date === today && isTodayAnimated ? '5px' : 0}
+              // py={day.date === today && isTodayAnimated ? '5px' : 0}
             >
               {isFirstDayOfWeek && (
                 <Box
