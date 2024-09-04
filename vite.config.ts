@@ -25,7 +25,7 @@ export default defineConfig({
       injectRegister: false,
 
       pwaAssets: {
-        disabled: false,
+        disabled: true,
         config: true,
       },
 
@@ -103,7 +103,7 @@ export default defineConfig({
           {
             urlPattern:
               /^https:\/\/pocket-kai-frontend\.vercel\.app\/.*\.(js|css|html|svg|png|ico|ttf)$/,
-            handler: 'CacheFirst',
+            handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'pocket-kai-dev-cache',
               expiration: {

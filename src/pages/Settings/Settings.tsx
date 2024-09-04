@@ -14,10 +14,12 @@ export function Settings() {
     isScheduleInfinite,
     preferencedScheduleView,
     isColoredDayDate,
+    isTodayAnimated,
     toggleShowFadedLessons,
     toggleIsScheduleInfinite,
     togglePreferencedScheduleView,
     toggleIsColoredDayDate,
+    toggleIsTodayAnimated,
   } = useSettings();
   return (
     <Box className={styles['settings']}>
@@ -105,7 +107,7 @@ export function Settings() {
             color={mainTextColor}
             htmlFor="isScheduleInfinite"
           >
-            Визуальное выделение дня
+            Визуальное выделение дат
           </Text>
           <Switch
             id="isScheduleInfinite"
@@ -113,6 +115,28 @@ export function Settings() {
             size={'md'}
             isChecked={isColoredDayDate}
             onChange={() => toggleIsColoredDayDate(!isColoredDayDate)}
+          />
+        </Box>
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+        >
+          <Text
+            as={'label'}
+            fontSize="16px"
+            fontWeight="semibold"
+            color={mainTextColor}
+            htmlFor="isScheduleInfinite"
+          >
+            Анимированное выделение текущего дня
+          </Text>
+          <Switch
+            id="isScheduleInfinite"
+            key={3}
+            size={'md'}
+            isChecked={isTodayAnimated}
+            onChange={() => toggleIsTodayAnimated(!isTodayAnimated)}
           />
         </Box>
         <Divider />

@@ -3,6 +3,7 @@ import {
   Icon,
   Text,
   useBreakpointValue,
+  useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
 import { Calendar, CalendarDays } from 'lucide-react';
@@ -21,16 +22,20 @@ import { getFormattedWeekSchedule } from './lib/getFormattedWeekSchedule';
 
 export function DayNameWithShare({ day }: { day: Day }) {
   const { mainTextColor, mainElementColor } = useColor();
+  const dayNameColor = useColorModeValue(
+    `${mainElementColor}40`,
+    `${mainElementColor}80`
+  );
   const toast = useToast();
   const { isColoredDayDate } = useSettings();
-  const { parity, schedule } = useSchedule();
+  const { schedule } = useSchedule();
   const { currentGroup } = useGroup();
   const isDesktop = useBreakpointValue({ base: false, md: true });
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>
         <Box
-          bgColor={isColoredDayDate ? `${mainElementColor}40` : 'none'}
+          bgColor={isColoredDayDate ? dayNameColor : 'none'}
           _active={{ opacity: 0.5, bgColor: 'gray.200' }}
           transition={'0.2s'}
           borderRadius={3}
@@ -50,7 +55,7 @@ export function DayNameWithShare({ day }: { day: Day }) {
           onClick={() =>
             day.lessons.length &&
             shareData(
-              getFormattedDaySchedule(day, parity, currentGroup?.group_name),
+              getFormattedDaySchedule(day, currentGroup?.group_name),
               toast,
               isDesktop
             )
@@ -68,7 +73,7 @@ export function DayNameWithShare({ day }: { day: Day }) {
           className="space-x-2"
           onClick={() =>
             shareData(
-              getFormattedWeekSchedule(day, parity, schedule),
+              getFormattedWeekSchedule(day, schedule, currentGroup?.group_name),
               toast,
               isDesktop
             )

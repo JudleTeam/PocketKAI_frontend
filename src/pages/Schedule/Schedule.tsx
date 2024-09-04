@@ -1,6 +1,12 @@
 import { Box, Text, Divider } from '@chakra-ui/react';
 
-import { FadedLessonCard, LessonCard, RestCard, useSchedule } from '@/entities';
+import {
+  FadedLessonCard,
+  LessonCard,
+  RestCard,
+  useSchedule,
+  useSettings,
+} from '@/entities';
 import { TopBoundary, BottomBoundary, DayNameWithShare } from '@/features';
 
 import { useInfiniteScroll } from './lib/useInfiniteScroll';
@@ -18,6 +24,7 @@ export function Schedule() {
   const { upperRef, lowerRef } = useInfiniteScroll();
   const { showButton, position: todayBlockPosition } = useGoUpButton();
   const { mainElementColor } = useColor();
+  const { isTodayAnimated } = useSettings();
   return (
     <Loader status={weekScheduleStatus} idleMessage="Выберите группу">
       <Box
@@ -39,7 +46,8 @@ export function Schedule() {
               key={day.date}
               className={styles['day']}
               id={day.date}
-              data-tour={day.date === '2024-09-03' ? '5' : ''}
+              data-is-today={day.date === today}
+              data-is-today-animated={isTodayAnimated}
             >
               {isFirstDayOfWeek && (
                 <Box
