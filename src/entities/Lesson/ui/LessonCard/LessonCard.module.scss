@@ -46,3 +46,13 @@
     line-height: 1.6rem;
   }
 }
+
+.lesson-card[data-is-today-lesson='true'] {
+  width: clamp(200px, 85vw, 600px);
+  .lesson-card__info {
+    text-align: left;
+    width: 70%;
+    font-size: clamp(13px, 4vw, 18px);
+    line-height: 1.6rem;
+  }
+}

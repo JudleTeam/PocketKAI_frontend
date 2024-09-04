@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { Calendar, CalendarDays } from 'lucide-react';
 import { useGroup, useSchedule, useSettings } from '@/entities';
-import { Day, getFormattedDate } from '@/shared';
+import { Day, getFormattedDate, getTodayDate } from '@/shared';
 import { shareData, useColor } from '@/shared/lib';
 import { getFormattedDaySchedule } from './lib/getFormattedDaySchedule';
 import {
@@ -22,12 +22,13 @@ import { getFormattedWeekSchedule } from './lib/getFormattedWeekSchedule';
 
 export function DayNameWithShare({ day }: { day: Day }) {
   const { mainTextColor, mainElementColor } = useColor();
+  const isToday = day.date === getTodayDate();
   const dayNameColor = useColorModeValue(
     `${mainElementColor}40`,
     `${mainElementColor}80`
   );
   const toast = useToast();
-  const { isColoredDayDate } = useSettings();
+  const { isColoredDayDate, isTodayAnimated } = useSettings();
   const { schedule } = useSchedule();
   const { currentGroup } = useGroup();
   const isDesktop = useBreakpointValue({ base: false, md: true });
@@ -35,7 +36,11 @@ export function DayNameWithShare({ day }: { day: Day }) {
     <ContextMenu>
       <ContextMenuTrigger asChild>
         <Box
-          bgColor={isColoredDayDate ? dayNameColor : 'none'}
+          bgColor={
+            isColoredDayDate && (!isTodayAnimated || !isToday)
+              ? dayNameColor
+              : 'none'
+          }
           _active={{ opacity: 0.5, bgColor: 'gray.200' }}
           transition={'0.2s'}
           borderRadius={3}

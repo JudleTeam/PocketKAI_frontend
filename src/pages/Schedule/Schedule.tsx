@@ -1,4 +1,4 @@
-import { Box, Text, Divider } from '@chakra-ui/react';
+import { Box, Text, Divider, useColorModeValue } from '@chakra-ui/react';
 
 import {
   FadedLessonCard,
@@ -25,6 +25,10 @@ export function Schedule() {
   const { showButton, position: todayBlockPosition } = useGoUpButton();
   const { mainElementColor } = useColor();
   const { isTodayAnimated } = useSettings();
+  const todayBoxColor = useColorModeValue(
+    `${mainElementColor}36`,
+    `${mainElementColor}33`
+  );
   return (
     <Loader status={weekScheduleStatus} idleMessage="Выберите группу">
       <Box
@@ -42,12 +46,16 @@ export function Schedule() {
               ? 'Чётная неделя'
               : 'Нечётная неделя';
           return (
-            <div
+            <Box
               key={day.date}
-              className={styles['day']}
               id={day.date}
-              data-is-today={day.date === today}
-              data-is-today-animated={isTodayAnimated}
+              className={styles['day']}
+              bgColor={
+                day.date === today && isTodayAnimated ? todayBoxColor : ''
+              }
+              borderRadius={'8px'}
+              my={day.date === today && isTodayAnimated ? '5px' : 0}
+              py={day.date === today && isTodayAnimated ? '5px' : 0}
             >
               {isFirstDayOfWeek && (
                 <Box
@@ -98,7 +106,7 @@ export function Schedule() {
                   />
                 );
               })}
-            </div>
+            </Box>
           );
         })}
         <BottomBoundary ref={lowerRef} />

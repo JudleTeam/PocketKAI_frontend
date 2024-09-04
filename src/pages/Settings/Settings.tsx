@@ -129,7 +129,7 @@ export function Settings() {
             color={mainTextColor}
             htmlFor="isScheduleInfinite"
           >
-            Анимированное выделение текущего дня
+            Выделение текущего дня
           </Text>
           <Switch
             id="isScheduleInfinite"
