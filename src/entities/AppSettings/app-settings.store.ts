@@ -7,7 +7,6 @@ type SettingsState = {
   isScheduleInfinite: boolean;
   preferencedScheduleView: ScheduleView;
   isColoredDayDate: boolean;
-  isTodayAnimated: boolean;
 };
 
 type SettingsActions = {
@@ -15,7 +14,6 @@ type SettingsActions = {
   toggleIsScheduleInfinite: (value: boolean) => void;
   togglePreferencedScheduleView: (value: ScheduleView) => void;
   toggleIsColoredDayDate: (value: boolean) => void;
-  toggleIsTodayAnimated: (value: boolean) => void;
 };
 
 export const useSettings = create<SettingsState & SettingsActions>()(
@@ -24,7 +22,6 @@ export const useSettings = create<SettingsState & SettingsActions>()(
       showFadedLessons: true,
       isScheduleInfinite: true,
       isColoredDayDate: true,
-      isTodayAnimated: true,
       preferencedScheduleView: 'timeline',
       toggleShowFadedLessons: (value) => {
         set({ showFadedLessons: value });
@@ -38,9 +35,6 @@ export const useSettings = create<SettingsState & SettingsActions>()(
       toggleIsColoredDayDate(value) {
         set({ isColoredDayDate: value });
       },
-      toggleIsTodayAnimated(value) {
-        set({ isTodayAnimated: value });
-      },
     }),
     {
       name: 'settings',
@@ -49,7 +43,6 @@ export const useSettings = create<SettingsState & SettingsActions>()(
         isScheduleInfinite: state.isScheduleInfinite,
         preferencedScheduleView: state.preferencedScheduleView,
         isColoredDayDate: state.isColoredDayDate,
-        isTodayAnimated: state.isTodayAnimated,
       }),
     }
   )

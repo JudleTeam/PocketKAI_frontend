@@ -28,7 +28,7 @@ export function DayNameWithShare({ day }: { day: Day }) {
     `${mainElementColor}80`
   );
   const toast = useToast();
-  const { isTodayAnimated, isColoredDayDate } = useSettings();
+  const { isColoredDayDate } = useSettings();
   const { schedule } = useSchedule();
   const { currentGroup } = useGroup();
   const isDesktop = useBreakpointValue({ base: false, md: true });
@@ -38,22 +38,21 @@ export function DayNameWithShare({ day }: { day: Day }) {
         <Box
           display={'flex'}
           alignItems={'center'}
-          gap={isToday && isTodayAnimated ? 2 : 0}
+          gap={isToday ? 2 : 0}
           bgColor={isColoredDayDate ? dayNameColor : ''}
           _active={{ opacity: 0.5, bgColor: 'gray.200' }}
           transition={'0.2s'}
           borderRadius={3}
           py={0.5}
           px={1.5}
+          my={1}
           w={'fit-content'}
           color={`${mainTextColor}e6`}
           fontWeight="medium"
           fontSize="18px"
         >
-          <Text fontSize={'18px'}>{isToday && isTodayAnimated && '➤'}</Text>
-          {/* {isToday && isTodayAnimated && <Icon as={ChevronRight} w={5} h={5} />} */}
+          <Text fontSize={'18px'}>{isToday && '➤'}</Text>
           <Text>{getFormattedDate(day.date)}</Text>
-          {/* {isToday && isTodayAnimated && <Icon as={ChevronLeft} w={5} h={5} />} */}
         </Box>
       </ContextMenuTrigger>
       <ContextMenuContent>

@@ -18,11 +18,6 @@ export function Schedule() {
   const { upperRef, lowerRef } = useInfiniteScroll();
   const { showButton, position: todayBlockPosition } = useGoUpButton();
   const { mainElementColor } = useColor();
-  // const { isTodayAnimated } = useSettings();
-  // const todayBoxColor = useColorModeValue(
-  //   `${mainElementColor}36`,
-  //   `${mainElementColor}33`
-  // );
   return (
     <Loader status={weekScheduleStatus} idleMessage="Выберите группу">
       <Box
@@ -40,17 +35,7 @@ export function Schedule() {
               ? 'Чётная неделя'
               : 'Нечётная неделя';
           return (
-            <Box
-              key={day.date}
-              id={day.date}
-              className={styles['day']}
-              // bgColor={
-              //   day.date === today && isTodayAnimated ? todayBoxColor : ''
-              // }
-              // borderRadius={'8px'}
-              // my={day.date === today && isTodayAnimated ? '5px' : 0}
-              // py={day.date === today && isTodayAnimated ? '5px' : 0}
-            >
+            <Box key={day.date} id={day.date} className={styles['day']}>
               {isFirstDayOfWeek && (
                 <Box
                   w={'100%'}
