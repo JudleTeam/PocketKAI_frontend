@@ -115,9 +115,10 @@ export function AppLayout() {
         className=""
         bgColor={mainColor}
         pos={'fixed'}
+        boxShadow={{ base: 'none', md: `0px 5px 5px 5px ${mainColor}` }}
         display={'flex'}
         flexDir={'column'}
-        gap={{ base: 0, md: 4 }}
+        gap={{ base: 0, md: 1 }}
         top={0}
         left={0}
         w={'100%'}
@@ -125,8 +126,7 @@ export function AppLayout() {
       >
         <Box
           px={5}
-          py={2}
-          boxShadow={{ base: 'none', md: '0px 0px 5px 0px rgba(0, 0, 0, 0.2)' }}
+          py={1}
           className={styles['app-layout__header']}
           bgColor={mainColor}
         >

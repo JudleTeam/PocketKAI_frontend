@@ -19,7 +19,10 @@ export function UiDatebar({
       alignSelf={'center'}
       bgColor={mainColor}
       w={{ base: '95%', md: '60%' }}
-      boxShadow={`0px 5px 5px 5px ${mainColor}`}
+      boxShadow={{
+        base: `0px 5px 5px 5px ${mainColor}`,
+        md: 'none',
+      }}
       className={styles['datebar']}
       justifyContent={'space-around'}
       display={isNotDatebar ? 'none' : 'flex'}
