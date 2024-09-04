@@ -66,6 +66,8 @@ const ContextMenuContent = React.forwardRef<
         className
       )}
       alignOffset={-170}
+      collisionBoundary={[document.body]}
+      collisionPadding={30}
       {...props}
     />
   </ContextMenuPrimitive.Portal>

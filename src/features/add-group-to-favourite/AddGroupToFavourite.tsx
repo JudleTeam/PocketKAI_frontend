@@ -139,7 +139,7 @@ export function AddGroupToFavourite(onClose: () => void) {
               colorScheme="blue"
               type="submit"
             >
-              Сохранить
+              Выбрать
             </Button>
             <Button
               w="48%"
@@ -147,7 +147,7 @@ export function AddGroupToFavourite(onClose: () => void) {
               variant="outline"
               onClick={onClose}
             >
-              Отмена
+              Назад
             </Button>
           </Box>
         </Box>
