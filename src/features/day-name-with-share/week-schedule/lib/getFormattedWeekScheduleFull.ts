@@ -27,6 +27,6 @@ export const getFormattedWeekScheduleFull = (
   return (
     `${weekParity === 'even' ? 'Чётная' : 'Нечётная'} неделя\n\n` +
     result.join('\n') +
-    `Отправлено из Pocket KAI: ${window.location.href}`
+    `Отправлено из Pocket KAI: ${window.location.origin}`
   );
 };

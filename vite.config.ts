@@ -15,8 +15,8 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: 'public/.well-know/assetlinks.json',
-          dest: '.well-know',
+          src: 'public/.well-known/assetlinks.json',
+          dest: '.well-known',
         },
       ],
     }),
