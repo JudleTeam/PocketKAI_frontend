@@ -35,12 +35,7 @@ export function Schedule() {
               ? 'Чётная неделя'
               : 'Нечётная неделя';
           return (
-            <div
-              key={day.date}
-              className={styles['day']}
-              id={day.date}
-              data-tour={day.date === '2024-09-03' ? '5' : ''}
-            >
+            <Box key={day.date} id={day.date} className={styles['day']}>
               {isFirstDayOfWeek && (
                 <Box
                   w={'100%'}
@@ -90,7 +85,7 @@ export function Schedule() {
                   />
                 );
               })}
-            </div>
+            </Box>
           );
         })}
         <BottomBoundary ref={lowerRef} />

@@ -19,7 +19,7 @@ export function useInfiniteScroll() {
 
   useEffect(() => {
     if (!schedule || !currentGroup || !schedule.days.length) return;
-    console.log(upperGenerationCount);
+
     const options = {
       root: null,
       rootMargin: '420px 0px 120px 0px',

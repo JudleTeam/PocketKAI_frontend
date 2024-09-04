@@ -3,6 +3,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import path from 'path';
+
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
@@ -24,7 +25,7 @@ export default defineConfig({
       injectRegister: false,
 
       pwaAssets: {
-        disabled: false,
+        disabled: true,
         config: true,
       },
 
@@ -89,7 +90,7 @@ export default defineConfig({
         runtimeCaching: [
           {
             urlPattern:
-              /^https:\/\/pocket-kai\.ru\/.*\.(js|css|html|svg|png|ico)$/,
+              /^https:\/\/pocket-kai\.ru\/.*\.(js|css|html|svg|png|ico|ttf)$/,
             handler: 'CacheFirst',
             options: {
               cacheName: 'pocket-kai-cache',
@@ -101,8 +102,8 @@ export default defineConfig({
           },
           {
             urlPattern:
-              /^https:\/\/pocket-kai-frontend\.vercel\.app\/.*\.(js|css|html|svg|png|ico)$/,
-            handler: 'CacheFirst',
+              /^https:\/\/pocket-kai-frontend\.vercel\.app\/.*\.(js|css|html|svg|png|ico|ttf)$/,
+            handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'pocket-kai-dev-cache',
               expiration: {
@@ -112,12 +113,8 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
-            handler: 'CacheFirst',
-          },
-          {
             urlPattern: /^https:\/\/api\.pocket-kai\.ru\/.*$/,
-            handler: 'NetworkFirst',
+            handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'pocket-kai-api-cache',
               expiration: {
@@ -126,8 +123,19 @@ export default defineConfig({
               },
             },
           },
+          {
+            urlPattern: /^https:\/\/api\.pocket-kai\.judle\.ru\/.*$/,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'pocket-kai-api-dev-cache',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 7 * 24 * 60 * 60,
+              },
+            },
+          },
         ],
-        globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,ico, ttf}'],
         cleanupOutdatedCaches: true,
         clientsClaim: true,
       },

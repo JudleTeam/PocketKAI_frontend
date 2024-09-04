@@ -1,4 +1,4 @@
-import { Day, getFormattedDate, Lesson, Nullable, WeekParity } from '@/shared';
+import { Day, getFormattedDate, Lesson } from '@/shared';
 import { lessonTypesEmojis } from '@/shared/constants';
 import { DateTime } from 'luxon';
 
@@ -10,15 +10,14 @@ const weekParityTranslation = {
 
 export const getFormattedDaySchedule = (
   day: Day,
-  weekParity: Nullable<WeekParity>,
   groupName: string = '',
   forWeekSchedule: boolean = false
 ) => {
   const { date, lessons } = day;
-  const { parity } = weekParity!;
+  const parity = DateTime.fromISO(date).weekNumber % 2 === 0 ? 'even' : 'odd';
 
   const header = `${
-    parity === 'odd' ? 'Четная неделя' : 'Нечетная неделя'
+    parity === 'even' ? 'Четная неделя' : 'Нечетная неделя'
   }\n${getFormattedDate(date)}, гр. ${groupName}\n————————————————\n`;
   const formattedLessons = lessons.map((lesson, index) => {
     const {

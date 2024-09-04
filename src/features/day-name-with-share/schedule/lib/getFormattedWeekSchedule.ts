@@ -1,17 +1,20 @@
-import { Day, Nullable, Schedule, WeekParity } from '@/shared';
+import { Day, Schedule } from '@/shared';
 import { DateTime } from 'luxon';
 import { getFormattedDaySchedule } from './getFormattedDaySchedule';
 
 export const getFormattedWeekSchedule = (
   dayFromWeek: Day,
-  parity: Nullable<WeekParity>,
-  schedule: Schedule
+  schedule: Schedule,
+  groupName: string = ''
 ) => {
   const requiredWeekNumber = DateTime.fromISO(dayFromWeek.date).weekNumber;
   const requiredWeekSchedule = schedule.days.filter((day) => {
     const currentDay = DateTime.fromISO(day.date);
     return currentDay.weekNumber === requiredWeekNumber;
   });
+  const header = `${
+    requiredWeekNumber % 2 === 0 ? 'Четная' : 'Нечётная'
+  } неделя, гр.${groupName}\n\n`;
   const result = requiredWeekSchedule.map((day, index) => {
     const formattedDate = DateTime.fromISO(day.date)
       .setLocale('ru')
@@ -22,9 +25,11 @@ export const getFormattedWeekSchedule = (
     const footer = `————————————————————\n`;
     if (index === 6) return '';
     if (!day.lessons.length) return header + 'Выходной\n' + footer;
-    return header + getFormattedDaySchedule(day, parity, '', true) + footer;
+    return header + getFormattedDaySchedule(day, '', true) + footer;
   });
   return (
-    result.join('\n') + `Отправлено из Pocket KAI: ${window.location.origin}`
+    header +
+    result.join('\n') +
+    `Отправлено из Pocket KAI: ${window.location.href}`
   );
 };

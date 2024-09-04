@@ -10,9 +10,10 @@ import {
   Divider,
   RadioGroup,
   Radio,
+  IconButton,
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import Select, { StylesConfig } from 'react-select';
 import { useGroup, useSchedule, useUser } from '@/entities';
@@ -21,8 +22,15 @@ import { useColor } from '@/shared/lib';
 type IFormInput = {
   group: SelectItem<GroupShort>;
   addToFavourite: boolean;
-  radio: string;
 };
+
+const customStyles: StylesConfig = {
+  option: (provided) => ({
+    ...provided,
+    color: '#000',
+  }),
+};
+
 export function AddGroupToFavourite(onClose: () => void) {
   const {
     searchedGroups,
@@ -34,39 +42,36 @@ export function AddGroupToFavourite(onClose: () => void) {
     getGroupByName,
     currentGroup,
   } = useGroup();
+  const { mainTextColor, tabColor } = useColor();
   const { resetScheduleState } = useSchedule();
   const { userAuthStatus } = useUser();
-  const { resetField, handleSubmit, control, getValues, register } =
+  const { resetField, handleSubmit, control, getValues } =
     useForm<IFormInput>();
-  const [isOpen, setIsOpen] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
   const [selectGroup, setSelectGroup] = useState<string | undefined>(
     currentGroup?.group_name
   );
   const handleInputChange = (newValue: string) => {
     suggestGroupByName({ group_name: newValue });
-    setIsOpen(true);
   };
   useEffect(() => {
-    setSelectGroup(currentGroup?.group_name)
-  }, [currentGroup])
-  const handleFavoriteClick = () => {
+    setSelectGroup(currentGroup?.group_name);
+  }, [currentGroup]);
+
+  const handleAddToFavouriteClick = () => {
     const selectedGroup = getValues('group');
     if (selectedGroup) {
       addGroupToFavourite(selectedGroup.value, userAuthStatus);
-      setIsOpen(false);
-      resetField('group');
-      setSelectGroup(selectedGroup.value.group_name);
-      setCurrentGroup(selectedGroup.value)
-      resetScheduleState();
-      onClose();
+      //resetField('group');
+      //setSelectGroup(selectedGroup.value.group_name);
+      //setCurrentGroup(selectedGroup.value);
+      //resetScheduleState();
+      //onClose();
     }
   };
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const groupValue = data.group;
-    const radioValue = data.radio;
-    const group =
-      groupValue?.value ||
-      favouriteGroups.find((group) => group.group_name === radioValue);
+    const group = groupValue?.value;
     if (group) {
       setCurrentGroup(group);
       resetField('group');
@@ -75,19 +80,25 @@ export function AddGroupToFavourite(onClose: () => void) {
       const groupByName = getGroupByName(selectGroup);
       setCurrentGroup(await groupByName);
     }
-    setIsOpen(false);
     resetScheduleState();
     onClose();
   };
-  const { mainTextColor, tabColor } = useColor();
-  const customStyles: StylesConfig = {
-    option: (provided) => ({
-      ...provided,
-      color: '#000',
-    }),
+
+  const handleRadioGroupChange = (nextValue: string) => {
+    setSelectGroup(nextValue);
+    const group = favouriteGroups.find(
+      (group) => group.group_name === nextValue
+    );
+    if (group) {
+      setCurrentGroup(group);
+      resetScheduleState();
+      onClose();
+      resetField('group');
+    }
   };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
       <ModalHeader fontSize={'24px'} fontWeight={'600'} color={mainTextColor}>
         Выбор группы
       </ModalHeader>
@@ -110,18 +121,24 @@ export function AddGroupToFavourite(onClose: () => void) {
             />
           )}
         />
+
         <Box w="100%" display="flex" flexWrap={'wrap'} gap="20px">
           <Button
             w="100%"
             bg={tabColor}
-            display={isOpen ? 'block' : 'none'}
+            display={getValues('group') ? 'block' : 'none'}
             color={mainTextColor}
-            onClick={handleFavoriteClick}
+            onClick={handleAddToFavouriteClick}
           >
             Добавить в избранное
           </Button>
           <Box w="100%" display={'flex'} justifyContent="space-between">
-            <Button w="48%" colorScheme="blue" type="submit">
+            <Button
+              isDisabled={!getValues('group')}
+              w="48%"
+              colorScheme="blue"
+              type="submit"
+            >
               Сохранить
             </Button>
             <Button
@@ -143,12 +160,15 @@ export function AddGroupToFavourite(onClose: () => void) {
           >
             Избранные группы
           </Heading>
-          <RadioGroup value={selectGroup} py="10px" onChange={setSelectGroup}>
+          <RadioGroup
+            value={selectGroup}
+            py="10px"
+            onChange={handleRadioGroupChange}
+          >
             <Stack fontSize={'18px'} fontWeight={'500'} color={mainTextColor}>
               {favouriteGroups.map((group) => (
                 <React.Fragment key={group.id}>
                   <Radio
-                    {...register('radio')}
                     key={group.id}
                     value={group.group_name}
                     py={'5px'}
@@ -163,12 +183,13 @@ export function AddGroupToFavourite(onClose: () => void) {
                       <Text fontSize={'20px'} fontWeight={'normal'}>
                         {group.group_name}
                       </Text>
-                      <DeleteIcon
-                        w={'20px'}
+                      <IconButton
+                        aria-label="Delete"
                         onClick={(e) => {
                           e.stopPropagation();
                           removeGroupFromFavourite(group, userAuthStatus);
                         }}
+                        icon={<DeleteIcon />}
                       />
                     </Box>
                   </Radio>

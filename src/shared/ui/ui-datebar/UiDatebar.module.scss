@@ -1,3 +1,9 @@
 .datebar {
   padding: 5px 0;
 }
+
+@media screen and (min-width: 768px) {
+  .datebar {
+    padding: 0;
+  }
+}

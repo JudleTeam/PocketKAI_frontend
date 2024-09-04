@@ -2,19 +2,22 @@ import { AccountTabHeader, useColor } from '@/shared/lib';
 import { Button, Text, Box, Switch, Divider } from '@chakra-ui/react';
 import { useColorMode } from '@chakra-ui/react';
 import styles from './Settings.module.scss';
-import { useSettings } from '@/entities';
+import { usePWAState, useSettings } from '@/entities';
 import { Select } from '@chakra-ui/react';
 import { ScheduleView } from '@/shared';
 export function Settings() {
   const { toggleColorMode, colorMode } = useColorMode();
   const { tabTeacher, mainColor, mainTextColor } = useColor();
+  const { storeNeedRefresh, updateServiceWorker } = usePWAState();
   const {
     showFadedLessons,
     isScheduleInfinite,
+    preferencedScheduleView,
+    isColoredDayDate,
     toggleShowFadedLessons,
     toggleIsScheduleInfinite,
     togglePreferencedScheduleView,
-    preferencedScheduleView,
+    toggleIsColoredDayDate,
   } = useSettings();
   return (
     <Box className={styles['settings']}>
@@ -44,6 +47,7 @@ export function Settings() {
           {colorMode === 'light' ? 'Тёмная' : 'Светлая'} тема
         </Button>
       </Box>
+
       <Divider />
       <Box display={'flex'} flexDirection={'column'} gap={5}>
         <Box
@@ -89,6 +93,28 @@ export function Settings() {
             onChange={() => toggleIsScheduleInfinite(!isScheduleInfinite)}
           />
         </Box>
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+        >
+          <Text
+            as={'label'}
+            fontSize="16px"
+            fontWeight="semibold"
+            color={mainTextColor}
+            htmlFor="isScheduleInfinite"
+          >
+            Визуальное выделение дат
+          </Text>
+          <Switch
+            id="isScheduleInfinite"
+            key={3}
+            size={'md'}
+            isChecked={isColoredDayDate}
+            onChange={() => toggleIsColoredDayDate(!isColoredDayDate)}
+          />
+        </Box>
         <Divider />
         <Text fontSize="18px" fontWeight="bold" color={mainTextColor}>
           При открытии показывать:
@@ -104,6 +130,29 @@ export function Settings() {
           <option value="timeline">Таймлайн</option>
           <option value="full">Полное расписание</option>
         </Select>
+        <Divider />
+        <Box
+          display={'flex'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+        >
+          <Text fontSize="16px" fontWeight="semibold" color={mainTextColor}>
+            Ручное обновление
+          </Text>
+          <Button
+            isDisabled={!storeNeedRefresh}
+            onClick={() => updateServiceWorker(true)}
+          >
+            Обновить
+          </Button>
+        </Box>
+        <Divider />
+        <Text textAlign={'right'}>
+          Версия:{' '}
+          <Text as={'span'} fontWeight={'bold'}>
+            1.0.1
+          </Text>
+        </Text>
       </Box>
     </Box>
   );

@@ -3,11 +3,12 @@ import {
   Icon,
   Text,
   useBreakpointValue,
+  useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
 import { Calendar, CalendarDays } from 'lucide-react';
-import { useGroup, useSchedule } from '@/entities';
-import { Day, getFormattedDate } from '@/shared';
+import { useGroup, useSchedule, useSettings } from '@/entities';
+import { Day, getFormattedDate, getTodayDate } from '@/shared';
 import { shareData, useColor } from '@/shared/lib';
 import { getFormattedDaySchedule } from './lib/getFormattedDaySchedule';
 import {
@@ -20,26 +21,38 @@ import {
 import { getFormattedWeekSchedule } from './lib/getFormattedWeekSchedule';
 
 export function DayNameWithShare({ day }: { day: Day }) {
-  const { mainTextColor } = useColor();
+  const { mainTextColor, mainElementColor } = useColor();
+  const isToday = day.date === getTodayDate();
+  const dayNameColor = useColorModeValue(
+    `${mainElementColor}40`,
+    `${mainElementColor}80`
+  );
   const toast = useToast();
-  const { parity, schedule } = useSchedule();
+  const { isColoredDayDate } = useSettings();
+  const { schedule } = useSchedule();
   const { currentGroup } = useGroup();
   const isDesktop = useBreakpointValue({ base: false, md: true });
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>
         <Box
+          display={'flex'}
+          alignItems={'center'}
+          gap={isToday ? 2 : 0}
+          bgColor={isColoredDayDate ? dayNameColor : ''}
           _active={{ opacity: 0.5, bgColor: 'gray.200' }}
           transition={'0.2s'}
           borderRadius={3}
           py={0.5}
           px={1.5}
+          my={1}
           w={'fit-content'}
-          color={mainTextColor}
+          color={`${mainTextColor}e6`}
           fontWeight="medium"
           fontSize="18px"
         >
-          {getFormattedDate(day.date)}
+          <Text fontSize={'18px'}>{isToday && '➤'}</Text>
+          <Text>{getFormattedDate(day.date)}</Text>
         </Box>
       </ContextMenuTrigger>
       <ContextMenuContent>
@@ -48,7 +61,7 @@ export function DayNameWithShare({ day }: { day: Day }) {
           onClick={() =>
             day.lessons.length &&
             shareData(
-              getFormattedDaySchedule(day, parity, currentGroup?.group_name),
+              getFormattedDaySchedule(day, currentGroup?.group_name),
               toast,
               isDesktop
             )
@@ -66,7 +79,7 @@ export function DayNameWithShare({ day }: { day: Day }) {
           className="space-x-2"
           onClick={() =>
             shareData(
-              getFormattedWeekSchedule(day, parity, schedule),
+              getFormattedWeekSchedule(day, schedule, currentGroup?.group_name),
               toast,
               isDesktop
             )

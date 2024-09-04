@@ -6,6 +6,7 @@ import { useBreakpointValue } from '@chakra-ui/react';
 const Drawer = ({
   open = false,
   onOpenChange = () => {},
+  //setActiveSnapPoint = () => {},
 
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Root>) => {
@@ -17,8 +18,12 @@ const Drawer = ({
     <DrawerPrimitive.Root
       direction={drawerDirection ?? 'bottom'}
       open={open}
+      // snapPoints={drawerDirection === 'bottom' && open ? [0.8, 1] : []}
+      //fadeFromIndex={0}
       onOpenChange={onOpenChange}
       preventScrollRestoration={false}
+      //  activeSnapPoint={drawerDirection === 'bottom' && open ? 0.8 : 0}
+      // setActiveSnapPoint={() => setActiveSnapPoint(1)}
       {...props}
     />
   );

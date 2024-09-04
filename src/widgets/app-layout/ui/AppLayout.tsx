@@ -7,7 +7,7 @@ import {
   useChakra,
 } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { UiDatebar } from '@/shared/ui/ui-datebar/UiDatebar';
 import { DatebarContent } from '../datebar/DatebarContent';
@@ -29,12 +29,8 @@ export type ContextType = [
 
 export function AppLayout() {
   const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
-  // this is made to scroll  on certain day after navigating to other page that is not part of app layout
-  const currentDayRef = useRef<string>('');
-  const currentDayLocalStorage = sessionStorage.getItem('currentDay');
   const [currentDay, setCurrentDay] = useState<string>(
-    currentDayLocalStorage ||
-      DateTime.now().setZone('Europe/Moscow').toFormat('yyyy-LL-dd')
+    DateTime.now().setZone('Europe/Moscow').toFormat('yyyy-LL-dd')
   );
   const { currentGroup } = useGroup();
   const {
@@ -73,15 +69,15 @@ export function AppLayout() {
     getFullWeekScheduleByName,
   ]);
 
-  useEffect(() => {
-    currentDayRef.current = currentDay;
-  }, [currentDay]);
+  // useEffect(() => {
+  //   currentDayRef.current = currentDay;
+  // }, [currentDay]);
 
   useEffect(() => {
     document.getElementById(currentDay)?.scrollIntoView();
-    return () => {
-      sessionStorage.setItem('currentDay', currentDayRef.current);
-    };
+    // return () => {
+    //   sessionStorage.setItem('currentDay', currentDayRef.current);
+    // };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
@@ -119,9 +115,10 @@ export function AppLayout() {
         className=""
         bgColor={mainColor}
         pos={'fixed'}
+        boxShadow={{ base: 'none', md: `0px 5px 5px 5px ${mainColor}` }}
         display={'flex'}
         flexDir={'column'}
-        gap={{ base: 0, md: 4 }}
+        gap={{ base: 0, md: 1 }}
         top={0}
         left={0}
         w={'100%'}
@@ -129,8 +126,7 @@ export function AppLayout() {
       >
         <Box
           px={5}
-          py={2}
-          boxShadow={{ base: 'none', md: '0px 0px 5px 0px rgba(0, 0, 0, 0.2)' }}
+          py={1}
           className={styles['app-layout__header']}
           bgColor={mainColor}
         >

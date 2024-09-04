@@ -4,6 +4,11 @@
   height: 100vh;
   overflow-y: auto;
   scrollbar-width: none;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   &__header {
     display: flex;
