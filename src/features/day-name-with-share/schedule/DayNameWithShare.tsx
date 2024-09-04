@@ -48,7 +48,7 @@ export function DayNameWithShare({ day }: { day: Day }) {
           w={'fit-content'}
           color={`${mainTextColor}e6`}
           fontWeight="medium"
-          fontSize="17px"
+          fontSize="18px"
         >
           <Text fontSize={'18px'}>{isToday && isTodayAnimated && '➤'}</Text>
           {/* {isToday && isTodayAnimated && <Icon as={ChevronRight} w={5} h={5} />} */}
