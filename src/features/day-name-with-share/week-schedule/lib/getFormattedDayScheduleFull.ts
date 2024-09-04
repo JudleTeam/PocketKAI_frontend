@@ -27,13 +27,13 @@ export const getFormattedDayScheduleFull = (
       teacherName,
     } = getLessonInfo(lesson);
 
-    return `${lessonDuration} | ${lessonLocation} | __${
+    return `${lessonDuration} | ${lessonLocation} | ${
       lessonDates ?? weekParityTranslation[lesson.parsed_parity]
-    }__\n**${lessonName}**\n${teacherName} \n${
+    }\n${lessonName}\n${teacherName} \n${
       lessons.length === index + 1 ? '' : '\n'
     }`;
   });
-  const footer = `————————————————\n\nОтправлено из Pocket KAI: ${window.location.href}`;
+  const footer = `————————————————\n\nОтправлено из Pocket KAI: ${window.location.origin}`;
   if (forWeekSchedule) return formattedLessons.join('');
   return header + formattedLessons.join('') + footer;
 };
