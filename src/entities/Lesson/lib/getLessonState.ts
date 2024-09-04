@@ -6,21 +6,25 @@ type LessonState = {
 };
 export function getLessonState(lesson: Lesson, lessonDay: string): LessonState {
   const currentTime = DateTime.now();
-  if (lesson.parsed_dates || lesson.parsed_dates_status === 'need_check'){
-    return {state: 'unknown', color: '#3182ce'}
-  }
+  const lessonNeedCheck =
+    lesson.parsed_dates || lesson.parsed_dates_status === 'need_check';
   const hasDayPassed =
     DateTime.fromISO(lessonDay).startOf('day') < currentTime.startOf('day');
-
   const isNextDay =
     DateTime.fromISO(lessonDay).startOf('day') > currentTime.startOf('day');
+
   if (hasDayPassed) return { state: 'past', color: '#3182ce80' };
-  if (isNextDay) return { state: 'upcoming', color: '#3182CE' };
-  if (lesson.parsed_lesson_type === 'military'){
-    return {state: 'upcoming', color: '#3182ce'}
-  }
+
+  if (isNextDay && !lessonNeedCheck)
+    return { state: 'upcoming', color: '#3182CE' };
+
+  if (isNextDay && lessonNeedCheck)
+    return { state: 'unknown', color: '#3182CE' };
+
   if (!lesson.end_time || !lesson.start_time)
     return { state: 'unknown', color: '#3182CE' };
+
+  // Lesson is ongoing
   if (
     DateTime.fromISO(lesson.end_time) > currentTime &&
     DateTime.fromISO(lesson.start_time) < currentTime
@@ -28,12 +32,20 @@ export function getLessonState(lesson: Lesson, lessonDay: string): LessonState {
     return { state: 'current', color: '#3182CE' };
   }
 
-  if (DateTime.fromISO(lesson.end_time) > currentTime) {
-    return { state: 'upcoming', color: '#3182CE' };
+  if (lesson.parsed_lesson_type === 'military') {
+    return { state: 'upcoming', color: '#3182ce' };
   }
 
   if (DateTime.fromISO(lesson.end_time) < currentTime) {
     return { state: 'past', color: '#3182ce80' };
+  }
+
+  if (lessonNeedCheck) {
+    return { state: 'unknown', color: '#3182ce' };
+  }
+
+  if (DateTime.fromISO(lesson.end_time) > currentTime) {
+    return { state: 'upcoming', color: '#3182CE' };
   }
 
   return { state: 'unknown', color: '#3182CE' };
