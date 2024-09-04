@@ -146,6 +146,13 @@ export function Settings() {
             Обновить
           </Button>
         </Box>
+        <Divider />
+        <Text textAlign={'right'}>
+          Версия:{' '}
+          <Text as={'span'} fontWeight={'bold'}>
+            1.0.1
+          </Text>
+        </Text>
       </Box>
     </Box>
   );
