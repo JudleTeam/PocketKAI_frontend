@@ -1,3 +1,5 @@
+export { HideLesson } from './hide-lesson/hideLesson';
+
 export { AuthNotAvailable } from './auth/AuthNotAvailable';
 
 export { DayNameWithShareFull } from './day-name-with-share/week-schedule/dayNameWithShareFull';

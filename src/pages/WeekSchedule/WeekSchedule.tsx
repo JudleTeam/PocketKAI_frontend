@@ -10,9 +10,9 @@ import { SHORT_WEEK_DAYS } from '@/shared/constants';
 import { useColor } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader/Loader';
 import { DayNameWithShareFull } from '@/features';
-
+import { HideLesson } from '@/features';
 export function WeekSchedule() {
-  const { getFullWeekScheduleByName, weekSchedule, weekScheduleStatus } =
+  const { hiddenLessons, getFullWeekScheduleByName, weekSchedule, weekScheduleStatus } =
     useSchedule();
   const weekNumber = DateTime.now().weekNumber;
   const currentParity = weekNumber % 2 === 0 ? 'even' : 'odd';
@@ -154,19 +154,28 @@ export function WeekSchedule() {
                     {dayLessons.length > 0 ? (
                       <VStack gap="10px">
                         {dayLessons?.map((lesson) => {
-                          if (
-                            lesson.parsed_dates ||
-                            lesson.parsed_dates_status === 'need_check'
-                          ) {
+                          const isLessonHidden = hiddenLessons.some(
+                            (hiddenLesson) =>
+                              hiddenLesson.id === lesson.id &&
+                              (
+                                weekParity === hiddenLesson.type_hide ||
+                                hiddenLesson.type_hide === 'always')
+                          );
+                          if(!isLessonHidden){
+                            if (
+                              lesson.parsed_dates ||
+                              lesson.parsed_dates_status === 'need_check'
+                            ) {
+                              return (
+                                <Box className={styles['faded']} key={lesson.id}>
+                                  <HideLesson lesson={lesson} lessonAction={<FullLessonCard lesson={lesson} />}/>
+                                </Box>
+                              );
+                            }
                             return (
-                              <Box className={styles['faded']} key={lesson.id}>
-                                <FullLessonCard lesson={lesson} />
-                              </Box>
+                             <HideLesson lesson={lesson} lessonAction={<FullLessonCard lesson={lesson} />} />
                             );
                           }
-                          return (
-                            <FullLessonCard lesson={lesson} key={lesson.id} />
-                          );
                         })}
                       </VStack>
                     ) : (

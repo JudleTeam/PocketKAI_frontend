@@ -76,6 +76,13 @@ export function RouterComponent() {
               },
             },
             {
+              path: 'hidden',
+              lazy: async () => {
+                const { HiddenLessons } = await import('@/pages/HiddenLessons/HiddenLessons')
+                return { Component: HiddenLessons }
+              },
+            },
+            {
               path: 'profile',
               lazy: async () => {
                 const { Profile } = await import('@/pages/Profile/Profile');

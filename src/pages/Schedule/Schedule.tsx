@@ -1,7 +1,12 @@
 import { Box, Text, Divider } from '@chakra-ui/react';
 
 import { FadedLessonCard, LessonCard, RestCard, useSchedule } from '@/entities';
-import { TopBoundary, BottomBoundary, DayNameWithShare } from '@/features';
+import {
+  TopBoundary,
+  BottomBoundary,
+  DayNameWithShare,
+  HideLesson,
+} from '@/features';
 
 import { useInfiniteScroll } from './lib/useInfiniteScroll';
 import { getTodayDate } from '@/shared';
@@ -11,13 +16,14 @@ import { scrollToToday, useColor } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader/Loader';
 import styles from './Schedule.module.scss';
 import { DateTime } from 'luxon';
-
+import { getWeekParityDate } from '@/shared/lib';
 export function Schedule() {
   const today = getTodayDate();
-  const { schedule, weekScheduleStatus } = useSchedule();
+  const { hiddenLessons, schedule, weekScheduleStatus } = useSchedule();
   const { upperRef, lowerRef } = useInfiniteScroll();
   const { showButton, position: todayBlockPosition } = useGoUpButton();
   const { mainElementColor } = useColor();
+
   return (
     <Loader status={weekScheduleStatus} idleMessage="Выберите группу">
       <Box
@@ -64,26 +70,47 @@ export function Schedule() {
               </div>
               {day.lessons.length === 0 && <RestCard dayDate={day.date} />}
               {day.lessons.map((lesson) => {
-                if (
-                  lesson.parsed_dates &&
-                  !lesson.parsed_dates.includes(day.date)
-                ) {
+                const isLessonHidden = hiddenLessons.some(
+                  (hiddenLesson) =>
+                    hiddenLesson.id === lesson.id &&
+                    (day.date === hiddenLesson.type_hide ||
+                      getWeekParityDate(day.date) === hiddenLesson.type_hide ||
+                      hiddenLesson.type_hide === 'always')
+                );
+                if (!isLessonHidden) {
+                  if (
+                    lesson.parsed_dates &&
+                    !lesson.parsed_dates.includes(day.date)
+                  ) {
+                    return (
+                      <HideLesson
+                        lesson={lesson}
+                        dayDate={day.date}
+                        lessonAction={
+                          <FadedLessonCard
+                            key={lesson.id}
+                            lesson={lesson}
+                            dayDate={day.date}
+                          />
+                        }
+                      ></HideLesson>
+                    );
+                  }
+
                   return (
-                    <FadedLessonCard
-                      key={lesson.id}
+                    <HideLesson
                       lesson={lesson}
                       dayDate={day.date}
-                    />
+                      lessonAction={
+                        <LessonCard
+                          lesson={lesson}
+                          dayDate={day.date}
+                          key={lesson.id}
+                        />
+                      }
+                    ></HideLesson>
                   );
                 }
-
-                return (
-                  <LessonCard
-                    lesson={lesson}
-                    dayDate={day.date}
-                    key={lesson.id}
-                  />
-                );
               })}
             </Box>
           );

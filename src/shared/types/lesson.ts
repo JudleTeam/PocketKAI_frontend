@@ -28,3 +28,16 @@ export type TeacherLesson = Omit<Lesson, 'teacher'> & {
   teacher_id: string;
   groups: GroupShort[];
 };
+
+export type HiddenLesson = {
+  id: string;
+  discipline: Discipline;
+  number_of_day: number;
+  type_hide: string;
+  parsed_dates: string[];
+  original_dates: string;
+  parsed_lesson_type: Nullable<string>;
+  original_lesson_type: Nullable<string>;
+  start_time: Nullable<string>;
+  end_time: Nullable<string>;
+}

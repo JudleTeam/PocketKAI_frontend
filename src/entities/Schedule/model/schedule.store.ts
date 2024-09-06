@@ -7,12 +7,14 @@ import {
   WeekParity,
   FetchStatus,
   FullWeekSchedule,
+  HiddenLesson,
 } from '@/shared';
 import { generateDateSchedule } from '../lib/generateDateSchedule';
 import { formWeekSchedule } from '../lib/formWeekSchedule';
 import { DateTime } from 'luxon';
 import { getCurrentSemester } from '../lib/getCurrentSemester';
 import { persist } from 'zustand/middleware';
+import { getWeekParityDate } from '@/shared/lib';
 
 type StoreState = {
   schedule: Schedule;
@@ -23,6 +25,7 @@ type StoreState = {
   parity: Nullable<WeekParity>;
   scheduleStatus: FetchStatus;
   weekScheduleStatus: FetchStatus;
+  hiddenLessons: HiddenLesson[];
   error: Nullable<unknown>;
 };
 type StoreActions = {
@@ -35,6 +38,8 @@ type StoreActions = {
   getWeekParity: (params?: WeekParity) => Promise<void>;
   setShowFadedLessons: (showFadedLessons: boolean) => void;
   resetScheduleState: () => void;
+  addHiddenLesson: (lesson: HiddenLesson) => void;
+  deleteHiddenLesson: (id: string, type_hide: string) => void;
 };
 
 const initialState: StoreState = {
@@ -51,6 +56,7 @@ const initialState: StoreState = {
   },
   scheduleStatus: 'idle',
   weekScheduleStatus: 'idle',
+  hiddenLessons: [],
   error: null,
 };
 
@@ -109,6 +115,91 @@ export const useSchedule = create<StoreState & StoreActions>()(
           },
         });
       },
+      addHiddenLesson: async (lesson: HiddenLesson) => {
+        const currentHiddenLessons = get().hiddenLessons;
+
+        const updatedHiddenLessons = currentHiddenLessons.filter(
+          (hiddenLesson) => {
+            const isSameLesson = hiddenLesson.id === lesson.id;
+
+            // Если добавляем "скрыть навсегда", удаляем все другие состояния скрытия для этого урока
+            if (lesson.type_hide === 'always') {
+              return !isSameLesson;
+            }
+
+            // Логика для чётной и нечётной недель
+            if (lesson.type_hide === 'odd' || lesson.type_hide === 'even') {
+              const typeHideParity = lesson.type_hide;
+
+              // Удаляем уроки с конкретной датой, если они совпадают по чётности
+              if (hiddenLesson.type_hide.includes('-')) {
+                const hiddenLessonParity = getWeekParityDate(
+                  hiddenLesson.type_hide
+                );
+                return !(isSameLesson && hiddenLessonParity === typeHideParity);
+              }
+
+              // Удаляем противоположную неделю
+              if (
+                (lesson.type_hide === 'odd' &&
+                  hiddenLesson.type_hide === 'even') ||
+                (lesson.type_hide === 'even' &&
+                  hiddenLesson.type_hide === 'odd')
+              ) {
+                return !isSameLesson;
+              }
+
+              // Удаляем существующее состояние "always", если меняем его на "odd" или "even"
+              if (hiddenLesson.type_hide === 'always') {
+                return !isSameLesson;
+              }
+
+              // Удаляем существующее состояние для этого урока (чёт/нечёт), чтобы заменить его
+              return !(
+                isSameLesson && hiddenLesson.type_hide === typeHideParity
+              );
+            }
+
+            // Если добавляем конкретную дату, удаляем её, если уже есть чёт/нечёт для этой даты
+            if (lesson.type_hide.includes('-')) {
+              // Если у этого же урока уже есть чёт или нечёт, заменяем дату на чёт/нечёт
+              const hasOddOrEven = currentHiddenLessons.some(
+                (hiddenLesson) =>
+                  hiddenLesson.id === lesson.id &&
+                  (hiddenLesson.type_hide === 'odd' ||
+                    hiddenLesson.type_hide === 'even')
+              );
+              if (hasOddOrEven) {
+                return !isSameLesson; // Удаляем, если у урока уже есть чёт/нечёт
+              }
+            }
+
+            return true;
+          }
+        );
+
+        // Проверка, нет ли уже урока с таким же id и type_hide
+        const isDuplicate = updatedHiddenLessons.some(
+          (hiddenLesson) =>
+            hiddenLesson.id === lesson.id &&
+            hiddenLesson.type_hide === lesson.type_hide
+        );
+
+        // Если нет дубликатов, добавляем новое состояние скрытия для урока
+        if (!isDuplicate) {
+          set({
+            hiddenLessons: [...updatedHiddenLessons, lesson],
+          });
+        }
+      },
+      deleteHiddenLesson: async (id: string, type_hide: string) => {
+        const updatedHiddenLessons = get().hiddenLessons.filter(
+          (lesson) => lesson.id !== id || lesson.type_hide !== type_hide
+        );
+        set({
+          hiddenLessons: updatedHiddenLessons,
+        });
+      },
       getWeekParity: async (params?: WeekParity) => {
         const response = await scheduleService.getWeekParity(params);
         set({ parity: response.data });
@@ -124,6 +215,7 @@ export const useSchedule = create<StoreState & StoreActions>()(
       name: 'schedule',
       partialize: (state) => ({
         showFadedLessons: state.showFadedLessons,
+        hiddenLessons: state.hiddenLessons,
       }),
     }
   )
