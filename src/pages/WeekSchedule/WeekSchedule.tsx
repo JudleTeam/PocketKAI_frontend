@@ -11,8 +11,12 @@ import { useColor } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader/Loader';
 import { DayNameWithShareFull } from '@/features';
 export function WeekSchedule() {
-  const { hiddenLessons, getFullWeekScheduleByName, weekSchedule, weekScheduleStatus } =
-    useSchedule();
+  const {
+    hiddenLessons,
+    getFullWeekScheduleByName,
+    weekSchedule,
+    weekScheduleStatus,
+  } = useSchedule();
   const weekNumber = DateTime.now().weekNumber;
   const currentParity = weekNumber % 2 === 0 ? 'even' : 'odd';
   const [weekParity, setWeekParity] = useState<'odd' | 'even'>(currentParity);
@@ -142,42 +146,35 @@ export function WeekSchedule() {
               (weekDay) => {
                 const dayName = weekDay[0] as keyof typeof SHORT_WEEK_DAYS;
                 const dayLessons = weekDay[1];
+
                 if (weekDay[0] === 'sunday') return null;
+
+                const allLessonsHidden = dayLessons.every((lesson) =>
+                  hiddenLessons.some(
+                    (hiddenLesson) =>
+                      hiddenLesson.id === lesson.id &&
+                      (weekParity === hiddenLesson.type_hide ||
+                        hiddenLesson.type_hide === 'always')
+                  )
+                );
+                const hiddenLessonsExist = dayLessons.some((lesson) =>
+                  hiddenLessons.some(
+                    (hiddenLesson) =>
+                      hiddenLesson.id === lesson.id &&
+                      (weekParity === hiddenLesson.type_hide ||
+                        hiddenLesson.type_hide === 'always')
+                  )
+                );
+
                 return (
                   <Box id={dayName} key={dayName} scrollMarginTop={'-40px'}>
                     <DayNameWithShareFull
                       dayName={dayName}
                       dayLessons={dayLessons}
                       weekParity={weekParity}
+                      hiddenLessonsExist={hiddenLessonsExist}
                     />
-                    {dayLessons.length > 0 ? (
-                      <VStack gap="10px">
-                        {dayLessons?.map((lesson) => {
-                          const isLessonHidden = hiddenLessons.some(
-                            (hiddenLesson) =>
-                              hiddenLesson.id === lesson.id &&
-                              (
-                                weekParity === hiddenLesson.type_hide ||
-                                hiddenLesson.type_hide === 'always')
-                          );
-                          if(!isLessonHidden){
-                            if (
-                              lesson.parsed_dates ||
-                              lesson.parsed_dates_status === 'need_check'
-                            ) {
-                              return (
-                                <Box className={styles['faded']} key={lesson.id}>
-                                  <FullLessonCard lesson={lesson} />
-                                </Box>
-                              );
-                            }
-                            return (
-                             <FullLessonCard lesson={lesson} />
-                            );
-                          }
-                        })}
-                      </VStack>
-                    ) : (
+                    {allLessonsHidden ? (
                       <Box
                         w="100%"
                         bgColor={cardColor}
@@ -189,6 +186,39 @@ export function WeekSchedule() {
                       >
                         Время отдыхать
                       </Box>
+                    ) : (
+                      <VStack gap="10px">
+                        {dayLessons.map((lesson) => {
+
+                          const isLessonHidden = hiddenLessons.some(
+                            (hiddenLesson) =>
+                              hiddenLesson.id === lesson.id &&
+                              (weekParity === hiddenLesson.type_hide ||
+                                hiddenLesson.type_hide === 'always')
+                          );
+
+                          if (!isLessonHidden) {
+                            if (
+                              lesson.parsed_dates ||
+                              lesson.parsed_dates_status === 'need_check'
+                            ) {
+                              return (
+                                <Box
+                                  className={styles['faded']}
+                                  key={lesson.id}
+                                >
+                                  <FullLessonCard lesson={lesson} />
+                                </Box>
+                              );
+                            }
+                            return (
+                              <FullLessonCard lesson={lesson} key={lesson.id} />
+                            );
+                          }
+
+                          return null;
+                        })}
+                      </VStack>
                     )}
                   </Box>
                 );

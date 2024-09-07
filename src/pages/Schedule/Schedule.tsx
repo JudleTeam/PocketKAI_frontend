@@ -1,11 +1,7 @@
 import { Box, Text, Divider } from '@chakra-ui/react';
 
 import { FadedLessonCard, LessonCard, RestCard, useSchedule } from '@/entities';
-import {
-  TopBoundary,
-  BottomBoundary,
-  DayNameWithShare,
-} from '@/features';
+import { TopBoundary, BottomBoundary, DayNameWithShare } from '@/features';
 
 import { useInfiniteScroll } from './lib/useInfiniteScroll';
 import { getTodayDate } from '@/shared';
@@ -39,6 +35,28 @@ export function Schedule() {
             DateTime.fromISO(day.date).weekNumber % 2 === 0
               ? 'Чётная неделя'
               : 'Нечётная неделя';
+
+          const visibleLessons = day.lessons.filter((lesson) => {
+            const isLessonHidden = hiddenLessons.some(
+              (hiddenLesson) =>
+                hiddenLesson.id === lesson.id &&
+                (day.date === hiddenLesson.type_hide ||
+                  getWeekParityDate(day.date) === hiddenLesson.type_hide ||
+                  hiddenLesson.type_hide === 'always')
+            );
+            return !isLessonHidden;
+          });
+
+          // Проверяем, есть ли скрытые занятия
+          const hiddenLessonsExist = day.lessons.some((lesson) => {
+            return hiddenLessons.some(
+              (hiddenLesson) =>
+                hiddenLesson.id === lesson.id &&
+                (day.date === hiddenLesson.type_hide ||
+                  getWeekParityDate(day.date) === hiddenLesson.type_hide ||
+                  hiddenLesson.type_hide === 'always')
+            );
+          });
           return (
             <Box key={day.date} id={day.date} className={styles['day']}>
               {isFirstDayOfWeek && (
@@ -57,7 +75,10 @@ export function Schedule() {
                   <Text>{weekParity}</Text>
                 </Box>
               )}
-              <DayNameWithShare day={day} />
+              <DayNameWithShare
+                day={day}
+                hiddenLessonsExist={hiddenLessonsExist}
+              />
               <div className={styles['day__timeline']}>
                 <div className={styles['day__timeline-stub']} />
                 <div className={styles['day__timeline-part']}>
@@ -67,38 +88,26 @@ export function Schedule() {
                   />
                 </div>
               </div>
-              {day.lessons.length === 0 && <RestCard dayDate={day.date} />}
-              {day.lessons.map((lesson) => {
-                const isLessonHidden = hiddenLessons.some(
-                  (hiddenLesson) =>
-                    hiddenLesson.id === lesson.id &&
-                    (day.date === hiddenLesson.type_hide ||
-                      getWeekParityDate(day.date) === hiddenLesson.type_hide ||
-                      hiddenLesson.type_hide === 'always')
-                );
-                if (!isLessonHidden) {
-                  if (
-                    lesson.parsed_dates &&
-                    !lesson.parsed_dates.includes(day.date)
-                  ) {
-                    return (
-                          <FadedLessonCard
-                            key={lesson.id}
-                            lesson={lesson}
-                            dayDate={day.date}
-                          />
-                    );
-                  }
-
-                  return (
-                        <LessonCard
-                          lesson={lesson}
-                          dayDate={day.date}
-                          key={lesson.id}
-                        />
+              {visibleLessons.length === 0 ? (
+                <RestCard dayDate={day.date} /> // Выводим RestCard, если нет нескрытых занятий
+              ) : (
+                visibleLessons.map((lesson) => {
+                  return lesson.parsed_dates &&
+                    !lesson.parsed_dates.includes(day.date) ? (
+                    <FadedLessonCard
+                      key={lesson.id}
+                      lesson={lesson}
+                      dayDate={day.date}
+                    />
+                  ) : (
+                    <LessonCard
+                      lesson={lesson}
+                      dayDate={day.date}
+                      key={lesson.id}
+                    />
                   );
-                }
-              })}
+                })
+              )}
             </Box>
           );
         })}

@@ -20,9 +20,9 @@ import styles from './HiddenLessons.module.scss';
 import { useSchedule, useSettings } from '@/entities';
 import { LessonTypes } from '@/entities';
 import { DateTime } from 'luxon';
-import { HiddenLesson } from '@/shared';
+import { getTodayDate, HiddenLesson } from '@/shared';
 import { Popover } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ElipsisIcon } from '@/shared/assets/chakraIcons/ElipsisIcon';
 import { ShowIcon } from '@/shared/assets/chakraIcons/ShowIcon';
 import { HideIcon } from '@/shared/assets/chakraIcons/HideIcon';
@@ -39,7 +39,10 @@ const getTypeHide = (type: string) => {
     return `${DateTime.fromISO(type).setLocale('ru').toFormat('d MMMM')}`;
   }
 };
+
 export function HiddenLessons() {
+  const today = getTodayDate();
+
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
   const weekDaysOrder = [
     'Понедельник',
@@ -56,7 +59,16 @@ export function HiddenLessons() {
     `${mainElementColor}80`
   );
   const { isColoredDayDate } = useSettings();
-  const { hiddenLessons, addHiddenLesson, deleteAllHiddenLesson, deleteHiddenLesson } = useSchedule();
+  const {
+    hiddenLessons,
+    addHiddenLesson,
+    deleteAllHiddenLesson,
+    updateHiddenLesson,
+    deleteHiddenLesson,
+  } = useSchedule();
+  useEffect(() => {
+    updateHiddenLesson(today);
+  }, [updateHiddenLesson, today]);
   const groupedLessons: Record<string, HiddenLesson[]> = hiddenLessons.reduce(
     (acc: Record<string, HiddenLesson[]>, lesson: HiddenLesson) => {
       const dayName = weekDaysOrder[lesson.number_of_day - 1];
@@ -87,12 +99,32 @@ export function HiddenLessons() {
         overflowY="auto"
         h="88vh"
       >
-        {hiddenLessons.length > 0 && <Box w="100%" pt="5px" display="flex" justifyContent="end">
-          <Button onClick={deleteAllHiddenLesson} size="sm" px="0" variant="ghost" color={mainElementColor}>
-            Вернуть все пары
-          </Button>
-        </Box>}
-        {hiddenLessons.length <= 0 && <Box w='100%' h='10vh' fontSize='18px' display='flex' justifyContent='center' alignItems='center' textAlign='center'>Скрытых пар нет!</Box>}
+        {hiddenLessons.length > 0 && (
+          <Box w="100%" pt="5px" display="flex" justifyContent="end">
+            <Button
+              onClick={deleteAllHiddenLesson}
+              size="sm"
+              px="0"
+              variant="ghost"
+              color="#3182CE"
+            >
+              Вернуть все пары
+            </Button>
+          </Box>
+        )}
+        {hiddenLessons.length <= 0 && (
+          <Box
+            w="100%"
+            h="10vh"
+            fontSize="18px"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            textAlign="center"
+          >
+            Скрытых пар нет!
+          </Box>
+        )}
         {weekDaysOrder.map((dayName) =>
           groupedLessons[dayName] ? (
             <Box display={'flex'} flexDir={'column'} key={dayName} pb="10px">
@@ -197,69 +229,70 @@ export function HiddenLessons() {
                           />
                         </VStack>
                       </MenuButton>
-                      <MenuList my='35px'>
+                      <MenuList my="35px">
                         {lesson.type_hide !== 'always' && (
                           <>
-                          <MenuItem
-                            onClick={() => {
-                              addHiddenLesson({
-                                ...lesson,
-                                type_hide: 'always',
-                              });
-                            }}
-                            display="flex"
-                            alignItems="center"
-                            justifyContent="space-between"
-                          >
-                            <Text color={mainTextColor}>
-                              Скрыть на каждой неделе
-                            </Text>
-
-                          </MenuItem>
-                                                      <MenuDivider></MenuDivider></>
+                            <MenuItem
+                              onClick={() => {
+                                addHiddenLesson({
+                                  ...lesson,
+                                  type_hide: 'always',
+                                });
+                              }}
+                              display="flex"
+                              alignItems="center"
+                              justifyContent="space-between"
+                            >
+                              <Text color={mainTextColor}>
+                                Скрыть на каждой неделе
+                              </Text>
+                            </MenuItem>
+                            <MenuDivider></MenuDivider>
+                          </>
                         )}
                         {lesson.type_hide !== 'odd' &&
                           lesson.parsed_dates_status === 'need_check' &&
                           !lesson.parsed_dates && (
                             <>
-          
-                            <MenuItem
-                              onClick={() => {
-                                addHiddenLesson({
-                                  ...lesson,
-                                  type_hide: 'odd',
-                                });
-                              }}
-                              display="flex"
-                              alignItems="center"
-                              justifyContent="space-between"
-                            >
-                              <Text color={mainTextColor}>
-                                Скрыть на нечётной неделе
-                              </Text>
-                            </MenuItem>
-                            <MenuDivider></MenuDivider></>
+                              <MenuItem
+                                onClick={() => {
+                                  addHiddenLesson({
+                                    ...lesson,
+                                    type_hide: 'odd',
+                                  });
+                                }}
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="space-between"
+                              >
+                                <Text color={mainTextColor}>
+                                  Скрыть на нечётной неделе
+                                </Text>
+                              </MenuItem>
+                              <MenuDivider></MenuDivider>
+                            </>
                           )}
                         {lesson.type_hide !== 'even' &&
                           lesson.parsed_dates_status === 'need_check' &&
                           !lesson.parsed_dates && (
                             <>
-                            <MenuItem
-                              onClick={() => {
-                                addHiddenLesson({
-                                  ...lesson,
-                                  type_hide: 'even',
-                                });
-                              }}
-                              display="flex"
-                              alignItems="center"
-                              justifyContent="space-between"
-                            >
-                              <Text color={mainTextColor}>
-                                Скрыть на чётной неделе
-                              </Text>
-                            </MenuItem>
-                            <MenuDivider></MenuDivider></>
+                              <MenuItem
+                                onClick={() => {
+                                  addHiddenLesson({
+                                    ...lesson,
+                                    type_hide: 'even',
+                                  });
+                                }}
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="space-between"
+                              >
+                                <Text color={mainTextColor}>
+                                  Скрыть на чётной неделе
+                                </Text>
+                              </MenuItem>
+                              <MenuDivider></MenuDivider>
+                            </>
                           )}
 
                         {/* Опция "Показать урок" */}
