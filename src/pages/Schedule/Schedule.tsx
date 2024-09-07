@@ -5,7 +5,6 @@ import {
   TopBoundary,
   BottomBoundary,
   DayNameWithShare,
-  HideLesson,
 } from '@/features';
 
 import { useInfiniteScroll } from './lib/useInfiniteScroll';
@@ -83,32 +82,20 @@ export function Schedule() {
                     !lesson.parsed_dates.includes(day.date)
                   ) {
                     return (
-                      <HideLesson
-                        lesson={lesson}
-                        dayDate={day.date}
-                        lessonAction={
                           <FadedLessonCard
                             key={lesson.id}
                             lesson={lesson}
                             dayDate={day.date}
                           />
-                        }
-                      ></HideLesson>
                     );
                   }
 
                   return (
-                    <HideLesson
-                      lesson={lesson}
-                      dayDate={day.date}
-                      lessonAction={
                         <LessonCard
                           lesson={lesson}
                           dayDate={day.date}
                           key={lesson.id}
                         />
-                      }
-                    ></HideLesson>
                   );
                 }
               })}

@@ -13,6 +13,7 @@ import {
   MenuItem,
   Divider,
   Button,
+  MenuDivider,
 } from '@chakra-ui/react';
 import { AccountTabHeader, useColor } from '@/shared/lib';
 import styles from './HiddenLessons.module.scss';
@@ -84,8 +85,7 @@ export function HiddenLessons() {
         w="100%"
         style={{ scrollbarWidth: 'none' }}
         overflowY="auto"
-        h="90vh"
-        padding="0 0 130px 0"
+        h="88vh"
       >
         {hiddenLessons.length > 0 && <Box w="100%" pt="5px" display="flex" justifyContent="end">
           <Button onClick={deleteAllHiddenLesson} size="sm" px="0" variant="ghost" color={mainElementColor}>
@@ -194,12 +194,12 @@ export function HiddenLessons() {
                             w="25px"
                             h="25px"
                             color={mainTextColor}
-                            _active={{ color: '#fff' }}
                           />
                         </VStack>
                       </MenuButton>
-                      <MenuList>
+                      <MenuList my='35px'>
                         {lesson.type_hide !== 'always' && (
+                          <>
                           <MenuItem
                             onClick={() => {
                               addHiddenLesson({
@@ -214,11 +214,15 @@ export function HiddenLessons() {
                             <Text color={mainTextColor}>
                               Скрыть на каждой неделе
                             </Text>
+
                           </MenuItem>
+                                                      <MenuDivider></MenuDivider></>
                         )}
                         {lesson.type_hide !== 'odd' &&
                           lesson.parsed_dates_status === 'need_check' &&
                           !lesson.parsed_dates && (
+                            <>
+          
                             <MenuItem
                               onClick={() => {
                                 addHiddenLesson({
@@ -234,10 +238,12 @@ export function HiddenLessons() {
                                 Скрыть на нечётной неделе
                               </Text>
                             </MenuItem>
+                            <MenuDivider></MenuDivider></>
                           )}
                         {lesson.type_hide !== 'even' &&
                           lesson.parsed_dates_status === 'need_check' &&
                           !lesson.parsed_dates && (
+                            <>
                             <MenuItem
                               onClick={() => {
                                 addHiddenLesson({
@@ -253,6 +259,7 @@ export function HiddenLessons() {
                                 Скрыть на чётной неделе
                               </Text>
                             </MenuItem>
+                            <MenuDivider></MenuDivider></>
                           )}
 
                         {/* Опция "Показать урок" */}

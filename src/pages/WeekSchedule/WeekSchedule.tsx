@@ -10,7 +10,6 @@ import { SHORT_WEEK_DAYS } from '@/shared/constants';
 import { useColor } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader/Loader';
 import { DayNameWithShareFull } from '@/features';
-import { HideLesson } from '@/features';
 export function WeekSchedule() {
   const { hiddenLessons, getFullWeekScheduleByName, weekSchedule, weekScheduleStatus } =
     useSchedule();
@@ -168,12 +167,12 @@ export function WeekSchedule() {
                             ) {
                               return (
                                 <Box className={styles['faded']} key={lesson.id}>
-                                  <HideLesson lesson={lesson} lessonAction={<FullLessonCard lesson={lesson} />}/>
+                                  <FullLessonCard lesson={lesson} />
                                 </Box>
                               );
                             }
                             return (
-                             <HideLesson lesson={lesson} lessonAction={<FullLessonCard lesson={lesson} />} />
+                             <FullLessonCard lesson={lesson} />
                             );
                           }
                         })}

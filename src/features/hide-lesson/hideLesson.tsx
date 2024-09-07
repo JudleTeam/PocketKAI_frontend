@@ -12,11 +12,11 @@ import { useSchedule } from '@/entities';
 
 export function HideLesson({
   dayDate,
-  lessonAction,
+  children,
   lesson,
 }: {
   dayDate?: string;
-  lessonAction: ReactNode;
+  children: ReactNode;
   lesson: Lesson;
 }) {
   const { mainTextColor } = useColor();
@@ -62,7 +62,7 @@ export function HideLesson({
           fontWeight="medium"
           fontSize="18px"
         >
-          {lessonAction}
+          {children}
         </Box>
       </ContextMenuTrigger>
       <ContextMenuContent className='flex flex-col gap-1'>
@@ -72,7 +72,7 @@ export function HideLesson({
             <ContextMenuItem onClick={() => handleClick('always')}>
               <Text>Скрыть на каждой неделе</Text>
             </ContextMenuItem>
-            <Divider />
+            {(!isHiddenOnEven || !isHiddenOnOdd) && <Divider />}
           </React.Fragment>
         )}
         {/* Скрыть на нечётной неделе */}
@@ -95,7 +95,7 @@ export function HideLesson({
               <ContextMenuItem onClick={() => handleClick('even')}>
                 <Text>Скрыть на чётной неделе</Text>
               </ContextMenuItem>
-              <Divider />
+              {dayDate &&  <Divider />}
             </React.Fragment>
           )}
 
