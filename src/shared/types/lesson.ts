@@ -40,4 +40,5 @@ export type HiddenLesson = {
   original_lesson_type: Nullable<string>;
   start_time: Nullable<string>;
   end_time: Nullable<string>;
+  parsed_dates_status: 'good' | 'need_check';
 }

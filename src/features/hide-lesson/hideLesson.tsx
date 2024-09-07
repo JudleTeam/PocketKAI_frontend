@@ -1,7 +1,7 @@
 import { Box, Text, Divider } from '@chakra-ui/react';
 import { HiddenLesson, Lesson } from '@/shared';
 import { useColor } from '@/shared/lib';
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import {
   ContextMenu,
   ContextMenuContent,
@@ -46,6 +46,7 @@ export function HideLesson({
       start_time: lesson.start_time,
       end_time: lesson.end_time,
       number_of_day: lesson.number_of_day,
+      parsed_dates_status: lesson.parsed_dates_status,
     };
     addHiddenLesson(hideLesson);
   };
@@ -54,7 +55,6 @@ export function HideLesson({
     <ContextMenu>
       <ContextMenuTrigger asChild>
         <Box
-          _active={{ opacity: 0.5, bgColor: 'gray.200' }}
           transition={'0.2s'}
           borderRadius={3}
           w={'full'}
@@ -65,28 +65,40 @@ export function HideLesson({
           {lessonAction}
         </Box>
       </ContextMenuTrigger>
-      <ContextMenuContent>
-        {/* Скрыть навсегда */}
+      <ContextMenuContent className='flex flex-col gap-1'>
+        {/* Скрыть на каждой неделе */}
         {!isHiddenAlways && (
-          <ContextMenuItem onClick={() => handleClick('always')}>
-            <Text>Скрыть навсегда</Text>
-          </ContextMenuItem>
+          <React.Fragment>
+            <ContextMenuItem onClick={() => handleClick('always')}>
+              <Text>Скрыть на каждой неделе</Text>
+            </ContextMenuItem>
+            <Divider />
+          </React.Fragment>
         )}
-        <Divider />
         {/* Скрыть на нечётной неделе */}
-        {!isHiddenOnOdd && (
-          <ContextMenuItem onClick={() => handleClick('odd')}>
-            <Text>Скрыть на нечётной неделе</Text>
-          </ContextMenuItem>
-        )}
-        <Divider />
+        {!isHiddenOnOdd &&
+          lesson.parsed_dates_status === 'need_check' &&
+          !lesson.parsed_dates && (
+            <React.Fragment>
+              <ContextMenuItem onClick={() => handleClick('odd')}>
+                <Text>Скрыть на нечётной неделе</Text>
+              </ContextMenuItem>
+              <Divider />
+            </React.Fragment>
+          )}
+
         {/* Скрыть на чётной неделе */}
-        {!isHiddenOnEven && (
-          <ContextMenuItem onClick={() => handleClick('even')}>
-            <Text>Скрыть на чётной неделе</Text>
-          </ContextMenuItem>
-        )}
-        <Divider />
+        {!isHiddenOnEven &&
+          lesson.parsed_dates_status === 'need_check' &&
+          !lesson.parsed_dates && (
+            <React.Fragment>
+              <ContextMenuItem onClick={() => handleClick('even')}>
+                <Text>Скрыть на чётной неделе</Text>
+              </ContextMenuItem>
+              <Divider />
+            </React.Fragment>
+          )}
+
         {/* Скрыть на конкретную дату */}
         {dayDate && (
           <ContextMenuItem onClick={() => handleClick(dayDate)}>
