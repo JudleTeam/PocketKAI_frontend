@@ -151,7 +151,7 @@ const groupedLessons: GroupedLessons = hiddenLessons.reduce((acc, { group, lesso
                               <MenuDivider />
                             </>
                           )}
-                          {lesson.type_hide !== 'odd' && (lesson.parsed_dates_status === 'need_check' && !lesson.parsed_dates || lesson.parsed_parity === 'odd' ) && (
+                          {lesson.type_hide !== 'odd' && (lesson.parsed_dates_status === 'need_check' && !lesson.parsed_dates && lesson.parsed_parity === 'any' || lesson.parsed_parity === 'odd' ) && (
                             <>
                               <MenuItem
                                 onClick={() => {
@@ -166,7 +166,7 @@ const groupedLessons: GroupedLessons = hiddenLessons.reduce((acc, { group, lesso
                               <MenuDivider />
                             </>
                           )}
-                          {lesson.type_hide !== 'even' && (lesson.parsed_dates_status === 'need_check' && !lesson.parsed_dates || lesson.parsed_parity === 'even' ) && (
+                          {lesson.type_hide !== 'even' && (lesson.parsed_dates_status === 'need_check' && !lesson.parsed_dates && lesson.parsed_parity === 'any' || lesson.parsed_parity === 'even' ) && (
                             <>
                               <MenuItem
                                 onClick={() => {
