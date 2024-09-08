@@ -8,7 +8,7 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from '@/shared/ui/context-menu';
-import { useSchedule } from '@/entities';
+import { useGroup } from '@/entities';
 
 export function HideLesson({
   dayDate,
@@ -20,20 +20,35 @@ export function HideLesson({
   lesson: Lesson;
 }) {
   const { mainTextColor } = useColor();
-  const { hiddenLessons, addHiddenLesson } = useSchedule();
+  const { currentGroup, hiddenLessons, addHiddenLesson } = useGroup();
   const isHiddenAlways = hiddenLessons.some(
     (hiddenLesson) =>
-      hiddenLesson.id === lesson.id && hiddenLesson.type_hide === 'always'
+      hiddenLesson.lesson.id === lesson.id &&
+      hiddenLesson.lesson.type_hide === 'always'
   );
   const isHiddenOnOdd = hiddenLessons.some(
     (hiddenLesson) =>
-      hiddenLesson.id === lesson.id && hiddenLesson.type_hide === 'odd'
+      hiddenLesson.lesson.id === lesson.id &&
+      hiddenLesson.lesson.type_hide === 'odd'
   );
   const isHiddenOnEven = hiddenLessons.some(
     (hiddenLesson) =>
-      hiddenLesson.id === lesson.id && hiddenLesson.type_hide === 'even'
+      hiddenLesson.lesson.id === lesson.id &&
+      hiddenLesson.lesson.type_hide === 'even'
   );
 
+  const hasAlways =
+    !isHiddenAlways &&
+    lesson.parsed_parity !== 'even' &&
+    lesson.parsed_parity !== 'odd';
+  const hasOdd =
+    !isHiddenOnOdd &&
+    ((lesson.parsed_dates_status === 'need_check' && !lesson.parsed_dates) ||
+      lesson.parsed_parity === 'odd');
+  const hasEven =
+    !isHiddenOnEven &&
+    ((lesson.parsed_dates_status === 'need_check' && !lesson.parsed_dates) ||
+      lesson.parsed_parity === 'even');
   const handleClick = (type_hide: string) => {
     const hideLesson: HiddenLesson = {
       id: lesson.id,
@@ -47,8 +62,11 @@ export function HideLesson({
       end_time: lesson.end_time,
       number_of_day: lesson.number_of_day,
       parsed_dates_status: lesson.parsed_dates_status,
+      parsed_parity: lesson.parsed_parity,
     };
-    addHiddenLesson(hideLesson);
+    if (currentGroup) {
+      addHiddenLesson(hideLesson, currentGroup);
+    }
   };
   console.log(hiddenLessons);
   return (
@@ -65,39 +83,36 @@ export function HideLesson({
           {children}
         </Box>
       </ContextMenuTrigger>
-      <ContextMenuContent className='flex flex-col gap-1'>
+      <ContextMenuContent avoidCollisions className="flex flex-col gap-1">
         {/* Скрыть на каждой неделе */}
-        {!isHiddenAlways && (
+        {hasAlways && (
           <React.Fragment>
             <ContextMenuItem onClick={() => handleClick('always')}>
               <Text>Скрыть на каждой неделе</Text>
             </ContextMenuItem>
-            {(!isHiddenOnEven || !isHiddenOnOdd) && <Divider />}
+            {(hasOdd || hasEven || dayDate) && <Divider />}
           </React.Fragment>
         )}
+
         {/* Скрыть на нечётной неделе */}
-        {!isHiddenOnOdd &&
-          lesson.parsed_dates_status === 'need_check' &&
-          !lesson.parsed_dates && (
-            <React.Fragment>
-              <ContextMenuItem onClick={() => handleClick('odd')}>
-                <Text>Скрыть на нечётной неделе</Text>
-              </ContextMenuItem>
-              <Divider />
-            </React.Fragment>
-          )}
+        {hasOdd && (
+          <React.Fragment>
+            <ContextMenuItem onClick={() => handleClick('odd')}>
+              <Text>Скрыть на нечётной неделе</Text>
+            </ContextMenuItem>
+            {(hasEven || dayDate) && <Divider />}
+          </React.Fragment>
+        )}
 
         {/* Скрыть на чётной неделе */}
-        {!isHiddenOnEven &&
-          lesson.parsed_dates_status === 'need_check' &&
-          !lesson.parsed_dates && (
-            <React.Fragment>
-              <ContextMenuItem onClick={() => handleClick('even')}>
-                <Text>Скрыть на чётной неделе</Text>
-              </ContextMenuItem>
-              {dayDate &&  <Divider />}
-            </React.Fragment>
-          )}
+        {hasEven && (
+          <React.Fragment>
+            <ContextMenuItem onClick={() => handleClick('even')}>
+              <Text>Скрыть на чётной неделе</Text>
+            </ContextMenuItem>
+            {dayDate && <Divider />}
+          </React.Fragment>
+        )}
 
         {/* Скрыть на конкретную дату */}
         {dayDate && (

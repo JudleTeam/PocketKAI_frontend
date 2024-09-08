@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import { Drawer, DrawerTrigger, DrawerContent } from '@/shared/ui/drawer';
 import { useColor, useDisclosure } from '@/shared/lib';
 import { useSettings } from '@/entities';
+import { HideLesson } from '@/features';
 
 export function FadedLessonCard({
   lesson,
@@ -34,6 +35,7 @@ export function FadedLessonCard({
 
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
+      <HideLesson lesson={lesson} dayDate={dayDate}>
       <DrawerTrigger asChild>
         <HStack
           display={showFadedLessons ? 'flex' : 'none'}
@@ -75,6 +77,7 @@ export function FadedLessonCard({
           </div>
         </HStack>
       </DrawerTrigger>
+      </HideLesson>
       <DrawerContent>
         <LessonDrawer lesson={lesson} dayDate={dayDate} />
       </DrawerContent>

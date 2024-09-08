@@ -6,7 +6,11 @@ import { lessonStateIcons } from '@/shared/constants';
 import { lessonStateLine } from '../../constants/lessonStateLine';
 import { LessonTypes } from '@/shared/constants';
 import { getLessonState } from '../../lib/getLessonState';
-import { getLessonBuilding, useColor, useDisclosure } from '@/shared/lib';
+import {
+  getLessonBuilding,
+  useColor,
+  useDisclosure,
+} from '@/shared/lib';
 import styles from './LessonCard.module.scss';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
 import LessonDrawer from '../LessonDrawer/LessonDrawer';
@@ -14,8 +18,10 @@ import { HideLesson } from '@/features';
 
 const LessonCard = memo(
   ({ lesson, dayDate }: { lesson: Lesson; dayDate: string }) => {
+
     const { isOpen, setIsOpen } = useDisclosure();
-    const { themeColor, mainTextColor, mainColor } = useColor();
+    const { themeColor, mainTextColor, mainColor } =
+      useColor();
     useEffect(() => {
       const metaThemeColor = document.querySelector('meta[name="theme-color"]');
       if (metaThemeColor) {
@@ -26,7 +32,6 @@ const LessonCard = memo(
         }
       }
     }, [themeColor, mainColor, isOpen]);
-
     return (
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
         <HideLesson lesson={lesson} dayDate={dayDate}>
@@ -74,7 +79,7 @@ const LessonCard = memo(
                     lesson.audience_number
                   )}
                 </Text>
-                <Text fontWeight={'meduim'}>
+                <Text fontWeight={'meduim'} display={'flex'} gap={'10px'}>
                   {lesson.parsed_lesson_type &&
                     LessonTypes[lesson.parsed_lesson_type]}
                 </Text>

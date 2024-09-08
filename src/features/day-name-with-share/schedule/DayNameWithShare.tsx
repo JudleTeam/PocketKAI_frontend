@@ -60,7 +60,7 @@ export function DayNameWithShare({ day, hiddenLessonsExist }: { day: Day, hidden
           {hiddenLessonsExist && <Box onClick={() => navigate('/account/hidden')} pl={2}><HideIcon opacity={'0.3'} color={mainTextColor}/></Box>}
         </Box>
       </ContextMenuTrigger>
-      <ContextMenuContent>
+      <ContextMenuContent avoidCollisions>
         <ContextMenuItem
           className={`space-x-2 ${day.lessons.length ? '' : 'hidden'}`}
           onClick={() =>

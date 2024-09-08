@@ -1,7 +1,7 @@
 import { Nullable } from './common';
 import { Department } from './department';
 import { Discipline } from './discipline';
-import { GroupShort } from './group';
+import { Group, GroupShort } from './group';
 import { Teacher } from './teacher';
 
 export type Lesson = {
@@ -29,6 +29,10 @@ export type TeacherLesson = Omit<Lesson, 'teacher'> & {
   groups: GroupShort[];
 };
 
+export type IHiddenLessons = {
+  group?: Group | GroupShort;
+  lesson: HiddenLesson;
+}
 export type HiddenLesson = {
   id: string;
   discipline: Discipline;
@@ -41,4 +45,5 @@ export type HiddenLesson = {
   start_time: Nullable<string>;
   end_time: Nullable<string>;
   parsed_dates_status: 'good' | 'need_check';
+  parsed_parity: 'odd' | 'even' | 'any';
 }

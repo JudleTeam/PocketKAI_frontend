@@ -1,6 +1,6 @@
 import { Box, Text, Divider } from '@chakra-ui/react';
 
-import { FadedLessonCard, LessonCard, RestCard, useSchedule } from '@/entities';
+import { FadedLessonCard, LessonCard, RestCard, useGroup, useSchedule } from '@/entities';
 import { TopBoundary, BottomBoundary, DayNameWithShare } from '@/features';
 
 import { useInfiniteScroll } from './lib/useInfiniteScroll';
@@ -12,12 +12,17 @@ import { Loader } from '@/shared/ui/loader/Loader';
 import styles from './Schedule.module.scss';
 import { DateTime } from 'luxon';
 import { getWeekParityDate } from '@/shared/lib';
+import { useEffect } from 'react';
 export function Schedule() {
   const today = getTodayDate();
-  const { hiddenLessons, schedule, weekScheduleStatus } = useSchedule();
+  const { schedule, weekScheduleStatus } = useSchedule();
   const { upperRef, lowerRef } = useInfiniteScroll();
   const { showButton, position: todayBlockPosition } = useGoUpButton();
   const { mainElementColor } = useColor();
+  const { hiddenLessons, updateHiddenLesson} = useGroup();
+  useEffect(()=>{
+    updateHiddenLesson(today);
+  }, [updateHiddenLesson, today])
 
   return (
     <Loader status={weekScheduleStatus} idleMessage="Выберите группу">
@@ -39,10 +44,10 @@ export function Schedule() {
           const visibleLessons = day.lessons.filter((lesson) => {
             const isLessonHidden = hiddenLessons.some(
               (hiddenLesson) =>
-                hiddenLesson.id === lesson.id &&
-                (day.date === hiddenLesson.type_hide ||
-                  getWeekParityDate(day.date) === hiddenLesson.type_hide ||
-                  hiddenLesson.type_hide === 'always')
+                hiddenLesson.lesson.id === lesson.id &&
+                (day.date === hiddenLesson.lesson.type_hide ||
+                  getWeekParityDate(day.date) === hiddenLesson.lesson.type_hide ||
+                  hiddenLesson.lesson.type_hide === 'always')
             );
             return !isLessonHidden;
           });
@@ -51,10 +56,10 @@ export function Schedule() {
           const hiddenLessonsExist = day.lessons.some((lesson) => {
             return hiddenLessons.some(
               (hiddenLesson) =>
-                hiddenLesson.id === lesson.id &&
-                (day.date === hiddenLesson.type_hide ||
-                  getWeekParityDate(day.date) === hiddenLesson.type_hide ||
-                  hiddenLesson.type_hide === 'always')
+                hiddenLesson.lesson.id === lesson.id &&
+                (day.date === hiddenLesson.lesson.type_hide ||
+                  getWeekParityDate(day.date) === hiddenLesson.lesson.type_hide ||
+                  hiddenLesson.lesson.type_hide === 'always')
             );
           });
           return (

@@ -40,7 +40,9 @@ const LessonDrawer = ({
     <>
       <div className="flex flex-col gap-3 pt-5 text-l-main-text dark:text-d-main-text">
         <DrawerTitle className="text-2xl font-bold">
-          <Text onClick={() => copyToast(lesson.discipline.name, toast)}>{lesson.discipline.name}</Text>
+          <Text onClick={() => copyToast(lesson.discipline.name, toast)}>
+            {lesson.discipline.name}
+          </Text>
         </DrawerTitle>
         <p className="text-2xl font-medium">
           {lesson.start_time?.slice(0, -3)} {lesson.end_time && '-'}{' '}

@@ -4,7 +4,8 @@
   display: flex;
   cursor: pointer;
   opacity: 0.5;
-  width: clamp(200px, 90vw, 800px);
+  height: 100%;
+  width: clamp(200px, 90vw, 600px);
   &::after {
     content: url('../../../../shared/assets/icons/right-arrow.svg');
     width: 10px;
@@ -42,7 +43,7 @@
   }
   &__info {
     text-align: left;
-    width: 58%;
+    width: 100%;
     font-size: clamp(13px, 4vw, 18px);
     line-height: 1.6rem;
   }

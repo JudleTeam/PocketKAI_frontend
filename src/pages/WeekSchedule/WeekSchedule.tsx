@@ -10,9 +10,9 @@ import { SHORT_WEEK_DAYS } from '@/shared/constants';
 import { useColor } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader/Loader';
 import { DayNameWithShareFull } from '@/features';
+import { getTodayDate } from '@/shared';
 export function WeekSchedule() {
   const {
-    hiddenLessons,
     getFullWeekScheduleByName,
     weekSchedule,
     weekScheduleStatus,
@@ -20,14 +20,15 @@ export function WeekSchedule() {
   const weekNumber = DateTime.now().weekNumber;
   const currentParity = weekNumber % 2 === 0 ? 'even' : 'odd';
   const [weekParity, setWeekParity] = useState<'odd' | 'even'>(currentParity);
-  const { currentGroup } = useGroup();
+  const { currentGroup,     hiddenLessons,
+    updateHiddenLesson } = useGroup();
   const dayIndex = DateTime.now().setLocale('en').weekdayLong.toLowerCase();
   useEffect(() => {
+    updateHiddenLesson(getTodayDate());
     if (currentGroup && weekScheduleStatus === 'idle') {
       getFullWeekScheduleByName(currentGroup?.group_name);
     }
-  }, [currentGroup, weekScheduleStatus, getFullWeekScheduleByName]);
-
+  }, [currentGroup, weekScheduleStatus, getFullWeekScheduleByName, updateHiddenLesson]);
   useEffect(() => {
     const todayWeekDay = DateTime.now()
       .setLocale('en')
@@ -152,17 +153,17 @@ export function WeekSchedule() {
                 const allLessonsHidden = dayLessons.every((lesson) =>
                   hiddenLessons.some(
                     (hiddenLesson) =>
-                      hiddenLesson.id === lesson.id &&
-                      (weekParity === hiddenLesson.type_hide ||
-                        hiddenLesson.type_hide === 'always')
+                      hiddenLesson.lesson.id === lesson.id &&
+                      (weekParity === hiddenLesson.lesson.type_hide ||
+                        hiddenLesson.lesson.type_hide === 'always')
                   )
                 );
                 const hiddenLessonsExist = dayLessons.some((lesson) =>
                   hiddenLessons.some(
                     (hiddenLesson) =>
-                      hiddenLesson.id === lesson.id &&
-                      (weekParity === hiddenLesson.type_hide ||
-                        hiddenLesson.type_hide === 'always')
+                      hiddenLesson.lesson.id === lesson.id &&
+                      (weekParity === hiddenLesson.lesson.type_hide ||
+                        hiddenLesson.lesson.type_hide === 'always')
                   )
                 );
 
@@ -192,9 +193,9 @@ export function WeekSchedule() {
 
                           const isLessonHidden = hiddenLessons.some(
                             (hiddenLesson) =>
-                              hiddenLesson.id === lesson.id &&
-                              (weekParity === hiddenLesson.type_hide ||
-                                hiddenLesson.type_hide === 'always')
+                              hiddenLesson.lesson.id === lesson.id &&
+                              (weekParity === hiddenLesson.lesson.type_hide ||
+                                hiddenLesson.lesson.type_hide === 'always')
                           );
 
                           if (!isLessonHidden) {
@@ -207,7 +208,7 @@ export function WeekSchedule() {
                                   className={styles['faded']}
                                   key={lesson.id}
                                 >
-                                  <FullLessonCard lesson={lesson} />
+                                  <FullLessonCard lesson={lesson}/>
                                 </Box>
                               );
                             }

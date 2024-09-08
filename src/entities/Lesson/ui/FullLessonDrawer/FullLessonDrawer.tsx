@@ -20,7 +20,11 @@ import { LessonTypes } from '@/shared/constants';
 import { parityTypes } from '@/shared/constants';
 import { HashLink } from 'react-router-hash-link';
 
-export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
+export function FullLessonDrawer({
+  lesson,
+}: {
+  lesson: Lesson;
+}) {
   const { theme } = useChakra();
   const tab = useColorModeValue(theme.colors.light.tab, theme.colors.dark.tab);
   const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
@@ -38,7 +42,11 @@ export function FullLessonDrawer({ lesson }: { lesson: Lesson }) {
       flexDirection="column"
       gap="5px"
     >
-      <Text fontSize="24px" fontWeight="bold" onClick={() => copyToast(lesson.discipline.name, toast)}>
+      <Text
+        fontSize="24px"
+        fontWeight="bold"
+        onClick={() => copyToast(lesson.discipline.name, toast)}
+      >
         {lesson.discipline.name}
       </Text>
       <Text fontSize="24px" fontWeight="medium">

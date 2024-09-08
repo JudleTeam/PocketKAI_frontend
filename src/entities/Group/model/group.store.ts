@@ -1,4 +1,4 @@
-import { FetchStatus, Group, Lesson, GroupDisciplines } from '@/shared';
+import { FetchStatus, Group, Lesson, GroupDisciplines, HiddenLesson, IHiddenLessons } from '@/shared';
 import { Nullable, GroupShort, ExamType } from '@/shared';
 import { create } from 'zustand';
 import { groupService } from './group.service';
@@ -6,6 +6,8 @@ import { GroupSearchParams } from './types';
 
 import { ExamParams } from './types';
 import { persist } from 'zustand/middleware';
+import { getCurrentSemester } from '../lib/getCurrentSemester';
+import { getWeekParityDate } from '@/shared/lib';
 
 type GroupState = {
   groups: Group[];
@@ -20,8 +22,14 @@ type GroupState = {
   groupDisciplinesStatus: FetchStatus;
   exams: ExamType[];
   error: Nullable<unknown>;
+  hiddenLessons: IHiddenLessons[];
 };
 type GroupActions = {
+  addHiddenLesson: (lesson: HiddenLesson, group?: Group | GroupShort, isAlways?: boolean) => void;
+  updateHiddenLesson: (today: string) => void;
+  deleteHiddenLesson: (id: string, type_hide: string) => void;
+  deleteAllHiddenLesson: () => void;
+  deleteGroupHiddenLesson: (group_name: string) => void;
   getAllGroups: () => Promise<void>;
   getGroupByName: (name: string) => Promise<Group>;
   getGroupById: (id: string) => Promise<Nullable<Group>>;
@@ -57,6 +65,7 @@ const initialState: GroupState = {
   groupDisciplinesStatus: 'idle',
   exams: [],
   error: null,
+  hiddenLessons: []
 };
 export const useGroup = create<GroupState & GroupActions>()(
   persist(
@@ -160,7 +169,108 @@ export const useGroup = create<GroupState & GroupActions>()(
           };
         });
       },
+      addHiddenLesson: async (lesson: HiddenLesson, group?: Group | GroupShort, isAlways?:boolean) => {
+        const currentHiddenLessons = get().hiddenLessons;
+      
+        const updatedHiddenLessons = currentHiddenLessons.filter(
+          (hiddenLesson) => {
+            const isSameLesson = hiddenLesson.lesson.id === lesson.id;
 
+            // Обрабатываем "скрыть навсегда"
+            if (lesson.type_hide === 'always') {
+              return !isSameLesson;
+            }
+
+            // Обрабатываем чётные/нечётные недели
+            if (lesson.type_hide === 'odd' || lesson.type_hide === 'even') {
+              const typeHideParity = lesson.type_hide;
+
+              const hasOppositeParity = currentHiddenLessons.some(
+                (hiddenLesson) =>
+                  hiddenLesson.lesson.id === lesson.id &&
+                  ((hiddenLesson.lesson.type_hide === 'odd' &&
+                    typeHideParity === 'even') ||
+                    (hiddenLesson.lesson.type_hide === 'even' &&
+                      typeHideParity === 'odd'))
+              );
+
+              if (hasOppositeParity) {
+                // Удаляем противоположную запись (чёт/нечёт)
+                if (isAlways) {
+                  hiddenLesson.lesson.type_hide = 'always';
+                }
+                return !isSameLesson;
+              }
+
+              // Удаляем записи с конкретной датой, если совпадают по чётности
+              if (hiddenLesson.lesson.type_hide.includes('-')) {
+                const hiddenLessonParity = getWeekParityDate(
+                  hiddenLesson.lesson.type_hide
+                );
+                return !(isSameLesson && hiddenLessonParity === typeHideParity);
+              }
+
+              // Удаляем существующие "always"
+              if (hiddenLesson.lesson.type_hide === 'always') {
+                return !isSameLesson;
+              }
+
+              return true;
+            }
+
+            return true;
+          }
+        );
+
+        // Проверка на дубликаты
+        const isDuplicate = updatedHiddenLessons.some(
+          (hiddenLesson) =>
+            hiddenLesson.lesson.id === lesson.id &&
+            hiddenLesson.lesson.type_hide === lesson.type_hide
+        );
+
+        if (!isDuplicate) {
+          const updatedLesson = {
+            lesson,
+            group
+          }
+          set({
+            hiddenLessons: [...updatedHiddenLessons, updatedLesson],
+          });
+        }
+      },
+      updateHiddenLesson: async (today: string) => {
+        const updatedHiddenLessons = get().hiddenLessons.filter((lesson) => {
+          return !(
+            (lesson.lesson.type_hide.includes('-') && lesson.lesson.type_hide < today) ||
+            getCurrentSemester() === 'holiday'
+          );
+        });
+        set({
+          hiddenLessons: updatedHiddenLessons,
+        });
+      },
+      deleteHiddenLesson: async (id: string, type_hide: string) => {
+        const updatedHiddenLessons = get().hiddenLessons.filter(
+          (lesson) => lesson.lesson.id !== id || lesson.lesson.type_hide !== type_hide
+        );
+        set({
+          hiddenLessons: updatedHiddenLessons,
+        });
+      },
+      deleteGroupHiddenLesson: async (group_name: string) => {
+        const updatedHiddenLessons = get().hiddenLessons.filter(
+          (lesson) => lesson.group?.group_name !== group_name
+        )
+        set({
+          hiddenLessons: updatedHiddenLessons
+        })
+      },
+      deleteAllHiddenLesson: async () => {
+        set({
+          hiddenLessons: [],
+        });
+      },
       synchronizeFavouriteGroupsOnAuth: async () => {
         const favouriteGroupsIds = get().favouriteGroups.map(
           (group) => group.id
@@ -176,6 +286,7 @@ export const useGroup = create<GroupState & GroupActions>()(
         homeGroup: state.homeGroup,
         currentGroup: state.currentGroup,
         favouriteGroups: state.favouriteGroups,
+        hiddenLessons: state.hiddenLessons
       }),
     }
   )
