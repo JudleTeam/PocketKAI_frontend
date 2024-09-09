@@ -117,9 +117,6 @@ export function Group() {
                   <Text fontWeight="bold" w="95%" color={mainTextColor}>
                     {groupMember.full_name}
                   </Text>
-                  <Text fontWeight="medium" fontSize="14px" color="gray.500">
-                    {groupMember.email}
-                  </Text>
                 </Box>
                 <CopyIcon position="absolute" right="0" />
               </Box>
