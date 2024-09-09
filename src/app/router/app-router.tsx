@@ -83,13 +83,6 @@ export function RouterComponent() {
               },
             },
             {
-              path: 'profile',
-              lazy: async () => {
-                const { Profile } = await import('@/pages/Profile/Profile');
-                return { Component: Profile };
-              },
-            },
-            {
               path: 'group',
               lazy: async () => {
                 const { Group } = await import('@/pages/Group/Group');

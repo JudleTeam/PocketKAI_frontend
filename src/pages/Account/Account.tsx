@@ -63,7 +63,7 @@ export function Account() {
               color="#fff"
               textAlign="center"
             >
-              {user.status}, {homeGroup?.group_name}
+              Группа {homeGroup?.group_name}
             </Text>
           </>
         ) : (
@@ -141,7 +141,7 @@ export function Account() {
         <Box
           className={styles['account__account-actions']}
           bgColor={accountActionsColor}
-          top={user ? '170px' : '80px'}
+          top={user ? '140px' : '80px'}
         >
           {ACCOUNT_ACTIONS.map((action, index) => (
             <React.Fragment key={action.label}>
