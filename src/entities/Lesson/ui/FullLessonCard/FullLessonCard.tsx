@@ -47,7 +47,7 @@ export const FullLessonCard = memo(function FullLessonCard({
                 color={mainTextColor}
                 w="95%"
                 fontWeight="bold"
-                fontSize={'clamp(15px, 4.5vw, 18px)'}
+                fontSize={'clamp(15px, 4vw, 18px)'}
                 noOfLines={2}
               >
                 {lesson.discipline.name}

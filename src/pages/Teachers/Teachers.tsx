@@ -27,7 +27,7 @@ export function Teachers() {
       <Menu>
         <Box
           position="fixed"
-          top={'55px'}
+          top={['55px', '65px']}
           textAlign="left"
           w="90%"
           zIndex="10"
