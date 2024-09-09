@@ -6,6 +6,8 @@ export const getErrorText = (error: AxiosError) => {
       return 'Неверный логин или пароль';
     case 503:
       return 'Проблемы на стороне КАИ. Попробуйте позже.';
+    case 429:
+      return 'Слишком много запросов. Попробуйте позже.';
     default:
       break;
   }

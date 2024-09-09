@@ -2,7 +2,7 @@ import { Box, Text, Avatar } from '@chakra-ui/react';
 import { ArrowIcon } from '@/shared/assets';
 import { LessonTypes } from '@/shared/constants';
 import { TeacherDrawer } from '../TeacherDrawer/TeacherDrawer';
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { TeacherDisciplineType } from '../../model/types';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
 import { useColor, useDisclosure } from '@/shared/lib';
@@ -17,6 +17,7 @@ export const TeacherCard = memo(function TeacherCard({
   disciplineId: string[];
 }) {
   const { isOpen, setIsOpen } = useDisclosure();
+  const [activeSnapPoint, setActiveSnapPoint] = useState<string | number>(0.8);
 
   const { mainTextColor, themeColor, mainColor, mainElementColor } = useColor();
   useEffect(() => {
@@ -43,7 +44,14 @@ export const TeacherCard = memo(function TeacherCard({
     }
   }, [themeColor, mainColor, isOpen]);
   return (
-    <Drawer open={isOpen} onOpenChange={setIsOpen}>
+    <Drawer
+      open={isOpen}
+      onOpenChange={setIsOpen}
+      activeSnapPoint={activeSnapPoint}
+      setActiveSnapPoint={(newSnapPoint) =>
+        setActiveSnapPoint(newSnapPoint ?? 0.8)
+      }
+    >
       <DrawerTrigger asChild>
         <Box
           className="flex justify-between items-center py-[10px]"
@@ -86,6 +94,8 @@ export const TeacherCard = memo(function TeacherCard({
         <TeacherDrawer
           disciplineName={disciplineName}
           disciplineType={disciplineType}
+          activeSnapPoint={activeSnapPoint}
+          setActiveSnapPoint={setActiveSnapPoint}
         />
       </DrawerContent>
     </Drawer>

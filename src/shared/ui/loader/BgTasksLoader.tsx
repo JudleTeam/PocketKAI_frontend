@@ -2,16 +2,21 @@ import { BackgroundTaskStatus, FetchStatus } from '@/shared';
 import { Box, Spinner } from '@chakra-ui/react';
 import React from 'react';
 
-export const Loader = ({
+export const BgTasksLoader = ({
   children,
   status,
   idleMessage,
 }: React.PropsWithChildren<{
-  status: FetchStatus | BackgroundTaskStatus;
+  status: {
+    fetchStatus: FetchStatus;
+    backgroundTaskStatus: BackgroundTaskStatus;
+  };
   idleMessage: string;
 }>) => {
-  switch (status) {
-    case 'loading' || 'PENDING' || 'STARTED':
+  switch (true) {
+    case status.fetchStatus === 'loading' ||
+      status.backgroundTaskStatus === 'PENDING' ||
+      status.backgroundTaskStatus === 'STARTED':
       return (
         <Box
           pos={'absolute'}
@@ -26,7 +31,8 @@ export const Loader = ({
           <Spinner size={'xl'} />
         </Box>
       );
-    case 'error' || 'FAILED':
+    case status.fetchStatus === 'error' ||
+      status.backgroundTaskStatus === 'FAILED':
       return (
         <Box
           pos={'absolute'}
@@ -41,7 +47,8 @@ export const Loader = ({
           Что-то пошло не так...
         </Box>
       );
-    case 'idle' || 'IDLE':
+    case status.fetchStatus === 'idle' ||
+      status.backgroundTaskStatus === 'IDLE':
       return (
         <Box
           pos={'absolute'}
@@ -56,7 +63,8 @@ export const Loader = ({
           {idleMessage}
         </Box>
       );
-    case 'success' || 'SUCCESS':
+    case status.fetchStatus === 'success' ||
+      status.backgroundTaskStatus === 'SUCCESS':
       return children;
   }
 };

@@ -43,11 +43,15 @@ export function HideLesson({
     lesson.parsed_parity !== 'odd';
   const hasOdd =
     !isHiddenOnOdd &&
-    ((lesson.parsed_dates_status === 'need_check' && !lesson.parsed_dates && lesson.parsed_parity === 'any') ||
+    ((lesson.parsed_dates_status === 'need_check' &&
+      !lesson.parsed_dates &&
+      lesson.parsed_parity === 'any') ||
       lesson.parsed_parity === 'odd');
   const hasEven =
     !isHiddenOnEven &&
-    ((lesson.parsed_dates_status === 'need_check' && !lesson.parsed_dates && lesson.parsed_parity === 'any') ||
+    ((lesson.parsed_dates_status === 'need_check' &&
+      !lesson.parsed_dates &&
+      lesson.parsed_parity === 'any') ||
       lesson.parsed_parity === 'even');
   const handleClick = (type_hide: string) => {
     const hideLesson: HiddenLesson = {
@@ -68,7 +72,6 @@ export function HideLesson({
       addHiddenLesson(hideLesson, currentGroup);
     }
   };
-  console.log(hiddenLessons);
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>

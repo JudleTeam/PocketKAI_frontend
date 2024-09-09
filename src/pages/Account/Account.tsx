@@ -15,10 +15,10 @@ import { useColor, useDisclosure } from '@/shared/lib';
 export function Account() {
   const { homeGroup } = useGroup();
   const { isOpen, setIsOpen, onClose } = useDisclosure();
-  const { user, isLoginEnabled, logout, getIsLoginEnabled } = useUser();
+  const { user, userAuthStatus, isLoginEnabled, logout, getIsLoginEnabled } =
+    useUser();
   const { resetGroupState } = useGroup();
   const { resetScheduleState } = useSchedule();
-
   const {
     mainTextColor,
     tabColor,
@@ -28,6 +28,7 @@ export function Account() {
     mainColor,
     mainElementColor,
   } = useColor();
+
   useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
@@ -40,8 +41,10 @@ export function Account() {
   }, [themeColor, mainColor, isOpen]);
 
   useEffect(() => {
-    getIsLoginEnabled();
-  }, [getIsLoginEnabled]);
+    if (userAuthStatus !== 'success') {
+      getIsLoginEnabled();
+    }
+  }, [userAuthStatus, getIsLoginEnabled]);
   return (
     <Box className={styles['account']}>
       <Box className={styles['account__header']} bgColor={mainElementColor}>

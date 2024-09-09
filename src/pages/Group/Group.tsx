@@ -11,19 +11,30 @@ import { AccountTabHeader } from '@/shared/lib';
 import styles from './Group.module.scss';
 import { CrownIcon } from '@/shared/assets/chakraIcons/CrownIcon';
 import React, { useEffect } from 'react';
-import { Loader } from '@/shared/ui/loader/Loader';
 import { copyToast } from '@/shared';
 import { CopyIcon } from '@chakra-ui/icons';
+import { BgTasksLoader } from '@/shared/ui/loader/BgTasksLoader';
 export function Group() {
   const { theme } = useChakra();
   const { homeGroup } = useGroup();
-  const { userGroupMembers, userGroupMembersStatus, user, getGroupMembers } =
-    useUser();
+  const {
+    userGroupMembers,
+    userGroupMembersStatus,
+    user,
+    backgroundTasks,
+    getGroupMembers,
+  } = useUser();
   useEffect(() => {
-    if (userGroupMembersStatus === 'idle') {
+    const groupMembersBackgroundTaskStatus =
+      backgroundTasks.find((task) => task.name === 'group_members')?.status ??
+      'IDLE';
+    const isTaskPending =
+      groupMembersBackgroundTaskStatus === 'PENDING' ||
+      groupMembersBackgroundTaskStatus === 'STARTED';
+    if (userGroupMembersStatus === 'idle' && !isTaskPending) {
       getGroupMembers();
     }
-  }, [userGroupMembersStatus, getGroupMembers]);
+  }, [userGroupMembersStatus, backgroundTasks, getGroupMembers]);
 
   const mainTextColor = useColorModeValue(
     theme.colors.light.main_text,
@@ -56,75 +67,83 @@ export function Group() {
         w="100%"
         style={{ scrollbarWidth: 'none' }}
         overflowY="auto"
-        h='90vh'
-        padding='15px 0 70px 0'
-      > 
-      <Loader status={userGroupMembersStatus} idleMessage="">
-        <Box display="flex" flexDirection="column" gap="10px">
-          {userGroupMembers.map((groupMember) => (
-            <React.Fragment key={groupMember.id}>
-              <Box
-                position="relative"
-                display="flex"
-                alignItems="center"
-                gap="10px"
-                onClick={() => copyToast(groupMember.full_name, toast)}
-                _active={{ opacity: 0.5, transition: '0.2s' }}
-              >
+        h="90vh"
+        padding="15px 0 70px 0"
+      >
+        <BgTasksLoader
+          status={{
+            fetchStatus: userGroupMembersStatus,
+            backgroundTaskStatus:
+              backgroundTasks.find((task) => task.name === 'group_members')
+                ?.status ?? 'IDLE',
+          }}
+          idleMessage=""
+        >
+          <Box display="flex" flexDirection="column" gap="10px">
+            {userGroupMembers.map((groupMember) => (
+              <React.Fragment key={groupMember.id}>
                 <Box
-                  w="35px"
-                  h="35px"
                   position="relative"
-                  border={
-                    user?.full_name === groupMember.full_name
-                      ? `3.5px solid ${blueElement}`
-                      : '3px solid #3182ce'
-                  }
-                  borderRadius="50%"
-                >
-                  {groupMember.is_leader ? (
-                    <CrownIcon
-                      position="absolute"
-                      top="-14px"
-                      left="-2px"
-                      zIndex="1"
-                      transform="rotate(-23deg)"
-                      color="yellow.500"
-                    />
-                  ) : null}
-                  <Text
-                    position="absolute"
-                    top="50%"
-                    left="50%"
-                    transform="translate(-50%, -50%)"
-                    color={
-                      user?.full_name === groupMember.full_name
-                        ? mainTextColor
-                        : mainTextColor
-                    }
-                    fontWeight="bold"
-                  >
-                    {groupMember.position}
-                  </Text>
-                </Box>
-                <Box
                   display="flex"
-                  flexDirection="column"
-                  justifyContent="center"
-                  gap="0px"
-                  w="80%"
+                  alignItems="center"
+                  gap="10px"
+                  onClick={() => copyToast(groupMember.full_name, toast)}
+                  _active={{ opacity: 0.5, transition: '0.2s' }}
                 >
-                  <Text fontWeight="bold" w="95%" color={mainTextColor}>
-                    {groupMember.full_name}
-                  </Text>
+                  <Box
+                    w="35px"
+                    h="35px"
+                    position="relative"
+                    border={
+                      user?.full_name === groupMember.full_name
+                        ? `3.5px solid ${blueElement}`
+                        : '3px solid #3182ce'
+                    }
+                    borderRadius="50%"
+                  >
+                    {groupMember.is_leader ? (
+                      <CrownIcon
+                        position="absolute"
+                        top="-14px"
+                        left="-2px"
+                        zIndex="1"
+                        transform="rotate(-23deg)"
+                        color="yellow.500"
+                      />
+                    ) : null}
+                    <Text
+                      position="absolute"
+                      top="50%"
+                      left="50%"
+                      transform="translate(-50%, -50%)"
+                      color={
+                        user?.full_name === groupMember.full_name
+                          ? mainTextColor
+                          : mainTextColor
+                      }
+                      fontWeight="bold"
+                    >
+                      {groupMember.position}
+                    </Text>
+                  </Box>
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="center"
+                    gap="0px"
+                    w="80%"
+                  >
+                    <Text fontWeight="bold" w="95%" color={mainTextColor}>
+                      {groupMember.full_name}
+                    </Text>
+                  </Box>
+                  <CopyIcon position="absolute" right="0" />
                 </Box>
-                <CopyIcon position="absolute" right="0" />
-              </Box>
-              <Divider />
-            </React.Fragment>
-          ))}
-        </Box>
-      </Loader>
+                <Divider />
+              </React.Fragment>
+            ))}
+          </Box>
+        </BgTasksLoader>
       </Box>
     </Box>
   );
