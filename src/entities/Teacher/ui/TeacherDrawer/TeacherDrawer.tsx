@@ -146,11 +146,11 @@ export const TeacherDrawer = function TeacherDrawer({
             <Tab
               _selected={{
                 color: secondElementLightColor,
-                fontSize: '16px',
                 boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
                 borderRadius: '4px',
                 bgColor: cardColor,
               }}
+              fontSize={'clamp(14px, 4vw, 20px)'}
               color={secondElementColor}
               fontWeight="medium"
               onClick={() => setWeekParity('even')}
@@ -160,11 +160,11 @@ export const TeacherDrawer = function TeacherDrawer({
             <Tab
               _selected={{
                 color: secondElementLightColor,
-                fontSize: '16px',
                 boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
                 borderRadius: '4px',
                 bgColor: cardColor,
               }}
+              fontSize={'clamp(14px, 4vw, 20px)'}
               color={secondElementColor}
               fontWeight="medium"
               onClick={() => setWeekParity('odd')}

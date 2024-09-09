@@ -12,23 +12,24 @@ import { Loader } from '@/shared/ui/loader/Loader';
 import { DayNameWithShareFull } from '@/features';
 import { getTodayDate } from '@/shared';
 export function WeekSchedule() {
-  const {
-    getFullWeekScheduleByName,
-    weekSchedule,
-    weekScheduleStatus,
-  } = useSchedule();
+  const { getFullWeekScheduleByName, weekSchedule, weekScheduleStatus } =
+    useSchedule();
   const weekNumber = DateTime.now().weekNumber;
   const currentParity = weekNumber % 2 === 0 ? 'even' : 'odd';
   const [weekParity, setWeekParity] = useState<'odd' | 'even'>(currentParity);
-  const { currentGroup,     hiddenLessons,
-    updateHiddenLesson } = useGroup();
+  const { currentGroup, hiddenLessons, updateHiddenLesson } = useGroup();
   const dayIndex = DateTime.now().setLocale('en').weekdayLong.toLowerCase();
   useEffect(() => {
     updateHiddenLesson(getTodayDate());
     if (currentGroup && weekScheduleStatus === 'idle') {
       getFullWeekScheduleByName(currentGroup?.group_name);
     }
-  }, [currentGroup, weekScheduleStatus, getFullWeekScheduleByName, updateHiddenLesson]);
+  }, [
+    currentGroup,
+    weekScheduleStatus,
+    getFullWeekScheduleByName,
+    updateHiddenLesson,
+  ]);
   useEffect(() => {
     const todayWeekDay = DateTime.now()
       .setLocale('en')
@@ -73,10 +74,10 @@ export function WeekSchedule() {
             _selected={{
               color: secondElementLightColor,
               bgColor: cardColor,
-              fontSize: '16px',
               boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
               borderRadius: '4px',
             }}
+            fontSize={'clamp(14px, 4vw, 20px)'}
             color={secondElementColor}
             fontWeight="medium"
             onClick={() => setWeekParity('even')}
@@ -87,10 +88,10 @@ export function WeekSchedule() {
             _selected={{
               color: secondElementLightColor,
               bgColor: cardColor,
-              fontSize: '16px',
               boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
               borderRadius: '4px',
             }}
+            fontSize={'clamp(14px, 4vw, 20px)'}
             color={secondElementColor}
             fontWeight="medium"
             onClick={() => setWeekParity('odd')}
@@ -107,7 +108,7 @@ export function WeekSchedule() {
                   ? secondElementLightColor
                   : secondElementColor
               }
-              fontSize="18px"
+              fontSize={'clamp(16px, 4.5vw, 18px)'}
               fontWeight="medium"
               borderRadius="8px"
               bgColor={currentDay === day[0] ? cardColor : ''}
@@ -136,7 +137,7 @@ export function WeekSchedule() {
         padding={
           weekScheduleStatus === 'loading'
             ? '70vh 4px 60px 4px'
-            : '115px 4px 60px 4px'
+            : '95px 4px 60px 4px'
         }
         style={{ scrollbarWidth: 'none' }}
         overflowY="auto"
@@ -183,14 +184,13 @@ export function WeekSchedule() {
                         padding="10px 15px"
                         color={mainTextColor}
                         fontWeight="bold"
-                        fontSize="18px"
+                        fontSize={'clamp(15px, 4.5vw, 18px)'}
                       >
                         Время отдыхать
                       </Box>
                     ) : (
                       <VStack gap="10px">
                         {dayLessons.map((lesson) => {
-
                           const isLessonHidden = hiddenLessons.some(
                             (hiddenLesson) =>
                               hiddenLesson.lesson.id === lesson.id &&
@@ -208,7 +208,7 @@ export function WeekSchedule() {
                                   className={styles['faded']}
                                   key={lesson.id}
                                 >
-                                  <FullLessonCard lesson={lesson}/>
+                                  <FullLessonCard lesson={lesson} />
                                 </Box>
                               );
                             }

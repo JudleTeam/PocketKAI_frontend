@@ -22,7 +22,13 @@ import { getFormattedWeekSchedule } from './lib/getFormattedWeekSchedule';
 import { HideIcon } from '@/shared/assets/chakraIcons/HideIcon';
 import { useNavigate } from 'react-router-dom';
 
-export function DayNameWithShare({ day, hiddenLessonsExist }: { day: Day, hiddenLessonsExist: boolean }) {
+export function DayNameWithShare({
+  day,
+  hiddenLessonsExist,
+}: {
+  day: Day;
+  hiddenLessonsExist: boolean;
+}) {
   const { mainTextColor, mainElementColor } = useColor();
 
   const isToday = day.date === getTodayDate();
@@ -31,7 +37,7 @@ export function DayNameWithShare({ day, hiddenLessonsExist }: { day: Day, hidden
     `${mainElementColor}80`
   );
   const toast = useToast();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { isColoredDayDate } = useSettings();
   const { schedule } = useSchedule();
   const { currentGroup } = useGroup();
@@ -56,8 +62,14 @@ export function DayNameWithShare({ day, hiddenLessonsExist }: { day: Day, hidden
           fontSize="18px"
         >
           <Text fontSize={'18px'}>{isToday && '➤'}</Text>
-          <Text>{getFormattedDate(day.date)}</Text>
-          {hiddenLessonsExist && <Box onClick={() => navigate('/account/hidden')} pl={2}><HideIcon opacity={'0.3'} color={mainTextColor}/></Box>}
+          <Text fontSize={'clamp(16px, 5vw, 18px)'}>
+            {getFormattedDate(day.date)}
+          </Text>
+          {hiddenLessonsExist && (
+            <Box onClick={() => navigate('/account/hidden')} pl={2}>
+              <HideIcon opacity={'0.3'} color={mainTextColor} />
+            </Box>
+          )}
         </Box>
       </ContextMenuTrigger>
       <ContextMenuContent avoidCollisions>

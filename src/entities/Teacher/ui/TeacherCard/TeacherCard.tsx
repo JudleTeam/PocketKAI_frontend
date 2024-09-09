@@ -62,7 +62,11 @@ export const TeacherCard = memo(function TeacherCard({
           <div className="flex items-center gap-[10px]">
             <Avatar bg={mainElementColor} />
             <div>
-              <Text color={mainTextColor} fontWeight="medium" fontSize="16px">
+              <Text
+                color={mainTextColor}
+                fontWeight="medium"
+                fontSize={'clamp(15px, 4vw, 18px)'}
+              >
                 {disciplineType.teacher?.name ?? 'Преподаватель кафедры'}
               </Text>
               <Box

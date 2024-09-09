@@ -19,15 +19,15 @@ export function Teachers() {
   const { currentGroup } = useGroup();
   const [layoutType, setLayoutType] = useState<'group' | 'searched'>('group');
   useEffect(() => {
-    document.getElementById('teacher')?.scrollIntoView()
-  }, [])
+    document.getElementById('teacher')?.scrollIntoView();
+  }, []);
 
   return (
     <Box id="teacher" className={styles['teachers']}>
       <Menu>
         <Box
           position="fixed"
-          top={'65px'}
+          top={'55px'}
           textAlign="left"
           w="90%"
           zIndex="10"
@@ -39,7 +39,7 @@ export function Teachers() {
             as={Button}
             p={0}
             rightIcon={<ChevronDownIcon />}
-            fontSize="20px"
+            fontSize={'clamp(18px, 5vw, 20px)'}
             fontWeight="bold"
             color={mainTextColor}
             bgColor={mainColor}
