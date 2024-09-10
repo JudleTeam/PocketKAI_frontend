@@ -1,4 +1,11 @@
-import { FetchStatus, Group, Lesson, GroupDisciplines, HiddenLesson, IHiddenLessons } from '@/shared';
+import {
+  FetchStatus,
+  Group,
+  Lesson,
+  GroupDisciplines,
+  HiddenLesson,
+  IHiddenLessons,
+} from '@/shared';
 import { Nullable, GroupShort, ExamType } from '@/shared';
 import { create } from 'zustand';
 import { groupService } from './group.service';
@@ -25,7 +32,11 @@ type GroupState = {
   hiddenLessons: IHiddenLessons[];
 };
 type GroupActions = {
-  addHiddenLesson: (lesson: HiddenLesson, group?: Group | GroupShort, isAlways?: boolean) => void;
+  addHiddenLesson: (
+    lesson: HiddenLesson,
+    group?: Group | GroupShort,
+    isAlways?: boolean
+  ) => void;
   updateHiddenLesson: (today: string) => void;
   deleteHiddenLesson: (id: string, type_hide: string) => void;
   deleteAllHiddenLesson: () => void;
@@ -65,7 +76,7 @@ const initialState: GroupState = {
   groupDisciplinesStatus: 'idle',
   exams: [],
   error: null,
-  hiddenLessons: []
+  hiddenLessons: [],
 };
 export const useGroup = create<GroupState & GroupActions>()(
   persist(
@@ -169,9 +180,13 @@ export const useGroup = create<GroupState & GroupActions>()(
           };
         });
       },
-      addHiddenLesson: async (lesson: HiddenLesson, group?: Group | GroupShort, isAlways?:boolean) => {
+      addHiddenLesson: async (
+        lesson: HiddenLesson,
+        group?: Group | GroupShort,
+        isAlways?: boolean
+      ) => {
         const currentHiddenLessons = get().hiddenLessons;
-      
+
         const updatedHiddenLessons = currentHiddenLessons.filter(
           (hiddenLesson) => {
             const isSameLesson = hiddenLesson.lesson.id === lesson.id;
@@ -232,8 +247,8 @@ export const useGroup = create<GroupState & GroupActions>()(
         if (!isDuplicate) {
           const updatedLesson = {
             lesson,
-            group
-          }
+            group,
+          };
           set({
             hiddenLessons: [...updatedHiddenLessons, updatedLesson],
           });
@@ -242,7 +257,8 @@ export const useGroup = create<GroupState & GroupActions>()(
       updateHiddenLesson: async (today: string) => {
         const updatedHiddenLessons = get().hiddenLessons.filter((lesson) => {
           return !(
-            (lesson.lesson.type_hide.includes('-') && lesson.lesson.type_hide < today) ||
+            (lesson.lesson.type_hide.includes('-') &&
+              lesson.lesson.type_hide < today) ||
             getCurrentSemester() === 'holiday'
           );
         });
@@ -252,7 +268,8 @@ export const useGroup = create<GroupState & GroupActions>()(
       },
       deleteHiddenLesson: async (id: string, type_hide: string) => {
         const updatedHiddenLessons = get().hiddenLessons.filter(
-          (lesson) => lesson.lesson.id !== id || lesson.lesson.type_hide !== type_hide
+          (lesson) =>
+            lesson.lesson.id !== id || lesson.lesson.type_hide !== type_hide
         );
         set({
           hiddenLessons: updatedHiddenLessons,
@@ -261,10 +278,10 @@ export const useGroup = create<GroupState & GroupActions>()(
       deleteGroupHiddenLesson: async (group_name: string) => {
         const updatedHiddenLessons = get().hiddenLessons.filter(
           (lesson) => lesson.group?.group_name !== group_name
-        )
+        );
         set({
-          hiddenLessons: updatedHiddenLessons
-        })
+          hiddenLessons: updatedHiddenLessons,
+        });
       },
       deleteAllHiddenLesson: async () => {
         set({
@@ -278,7 +295,11 @@ export const useGroup = create<GroupState & GroupActions>()(
         await groupService.addBulkFavouriteGroup(favouriteGroupsIds);
       },
 
-      resetGroupState: () => set(initialState),
+      resetGroupState: () =>
+        set({
+          ...initialState,
+          hiddenLessons: get().hiddenLessons,
+        }),
     }),
     {
       name: 'group',
@@ -286,7 +307,7 @@ export const useGroup = create<GroupState & GroupActions>()(
         homeGroup: state.homeGroup,
         currentGroup: state.currentGroup,
         favouriteGroups: state.favouriteGroups,
-        hiddenLessons: state.hiddenLessons
+        hiddenLessons: state.hiddenLessons,
       }),
     }
   )
