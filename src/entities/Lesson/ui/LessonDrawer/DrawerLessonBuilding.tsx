@@ -33,33 +33,54 @@ export function DrawerLessonBuilding({ lesson }: { lesson: Lesson }) {
     }
   }, [buildingsStatus, getBuildings]);
   return (
-    <Popover isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
-      <PopoverTrigger>
+    <>
+      {lesson.building_number && buildings[lesson.building_number] ? (
+        <Popover isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
+          <PopoverTrigger>
+            <Box display={'flex'} alignItems="center" gap={1}>
+              <Text>
+                {getLessonBuilding(
+                  lesson.building_number,
+                  lesson.audience_number
+                )}
+              </Text>
+              <Icon as={MapPin} />
+            </Box>
+          </PopoverTrigger>
+          <PopoverContent>
+            <PopoverArrow />
+            <PopoverBody
+              fontSize="14px"
+              textAlign={'left'}
+              bgColor={popoverColor}
+            >
+              <Text
+                fontSize={'16px'}
+                fontWeight={'semibold'}
+                color={mainTextColor}
+              >
+                {lesson.building_number}{' '}
+                {lesson.building_number?.length === 1 ? 'здание' : ''}
+              </Text>
+              <Text
+                fontSize={'15px'}
+                fontWeight={'medium'}
+                color={mainTextColor}
+                onClick={() => copyToast(lessonBuildingAddress, toast)}
+              >
+                {lessonBuildingAddress}
+                <CopyIcon ml={1.5} opacity={0.5} />
+              </Text>
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
+      ) : (
         <Box display={'flex'} alignItems="center" gap={1}>
           <Text>
             {getLessonBuilding(lesson.building_number, lesson.audience_number)}
           </Text>
-          <Icon as={MapPin} />
         </Box>
-      </PopoverTrigger>
-      <PopoverContent>
-        <PopoverArrow />
-        <PopoverBody fontSize="14px" textAlign={'left'} bgColor={popoverColor}>
-          <Text fontSize={'16px'} fontWeight={'semibold'} color={mainTextColor}>
-            {lesson.building_number}{' '}
-            {lesson.building_number?.length === 1 ? 'здание' : ''}
-          </Text>
-          <Text
-            fontSize={'15px'}
-            fontWeight={'medium'}
-            color={mainTextColor}
-            onClick={() => copyToast(lessonBuildingAddress, toast)}
-          >
-            {lessonBuildingAddress}
-            <CopyIcon ml={1.5} opacity={0.5} />
-          </Text>
-        </PopoverBody>
-      </PopoverContent>
-    </Popover>
+      )}
+    </>
   );
 }

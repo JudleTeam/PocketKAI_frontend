@@ -110,12 +110,12 @@ export function SearchedTeacherDrawer({
             <Tab
               _selected={{
                 color: secondElementLightColor,
-                fontSize: '16px',
                 boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
                 borderRadius: '4px',
                 bgColor: cardColor,
               }}
               color={secondElementColor}
+              fontSize={'clamp(14px, 4vw, 20px)'}
               fontWeight="medium"
               onClick={() => setWeekParity('even')}
             >
@@ -124,11 +124,11 @@ export function SearchedTeacherDrawer({
             <Tab
               _selected={{
                 color: secondElementLightColor,
-                fontSize: '16px',
                 boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
                 borderRadius: '4px',
                 bgColor: cardColor,
               }}
+              fontSize={'clamp(14px, 4vw, 20px)'}
               color={secondElementColor}
               fontWeight="medium"
               onClick={() => setWeekParity('odd')}
