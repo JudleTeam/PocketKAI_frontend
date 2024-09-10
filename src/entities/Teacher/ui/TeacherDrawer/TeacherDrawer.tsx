@@ -12,6 +12,7 @@ import {
   PopoverHeader,
   PopoverBody,
   useToast,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 import { Link } from 'react-router-dom';
@@ -58,6 +59,7 @@ export const TeacherDrawer = function TeacherDrawer({
     return () => clearTimeout(timeoutId);
   }, [disciplineType.teacher, getTeacherScheduleById, clearTeacherSchedule]);
   const toast = useToast();
+  const popoverColor = useColorModeValue('gray.50', 'gray.700');
   const {
     mainTextColor,
     mainColor,
@@ -219,8 +221,8 @@ export const TeacherDrawer = function TeacherDrawer({
                                 />
                               </button>
                             </PopoverTrigger>
-                            <PopoverContent bgColor={mainColor}>
-                              <PopoverArrow bg={mainColor} />
+                            <PopoverContent bgColor={popoverColor}>
+                              <PopoverArrow bg={popoverColor} />
                               <PopoverHeader
                                 fontSize="16px"
                                 fontWeight={'bold'}
