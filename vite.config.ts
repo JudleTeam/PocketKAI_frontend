@@ -102,6 +102,18 @@ export default defineConfig({
           },
           {
             urlPattern:
+              /^https:\/\/api\.pocket-kai\.judle\.ru\/user\/me\/favorite_groups$/,
+            handler: 'NetworkFirst', // Используем NetworkFirst для этого эндпоинта
+            options: {
+              cacheName: 'pocket-kai-favorite-groups-dev-cache', // Название кэша для этого эндпоинта
+              expiration: {
+                maxEntries: 10, // Кэшируем максимум 10 записей
+                maxAgeSeconds: 24 * 60 * 60, // Данные кэшируются на 1 день
+              },
+            },
+          },
+          {
+            urlPattern:
               /^https:\/\/pocket-kai-frontend\.vercel\.app\/.*\.(js|css|html|svg|png|ico|ttf)$/,
             handler: 'StaleWhileRevalidate',
             options: {
