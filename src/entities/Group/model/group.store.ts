@@ -293,6 +293,9 @@ export const useGroup = create<GroupState & GroupActions>()(
           (group) => group.id
         );
         await groupService.addBulkFavouriteGroup(favouriteGroupsIds);
+        set({
+          favouriteGroupsStatus: 'idle',
+        });
       },
 
       resetGroupState: () =>

@@ -45,8 +45,8 @@ export function Auth({ onClose }: { onClose: () => void }) {
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const validData = {
       login: data.login.trim(),
-      password: data.password.trim()
-    }
+      password: data.password.trim(),
+    };
     const status = await login(validData);
     if (status === 200) {
       const user = await getMe();
@@ -56,7 +56,7 @@ export function Auth({ onClose }: { onClose: () => void }) {
           addGroupToFavourite(group, userAuthStatus);
           setCurrentGroup(group);
         }
-        synchronizeFavouriteGroupsOnAuth();
+        await synchronizeFavouriteGroupsOnAuth();
       }
       reset();
       onClose();
