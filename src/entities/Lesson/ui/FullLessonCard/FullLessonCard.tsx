@@ -3,10 +3,10 @@ import { Box, VStack, Text } from '@chakra-ui/react';
 import { LessonTypes } from '@/shared/constants';
 import { getLessonBuilding, useColor, useDisclosure } from '@/shared/lib';
 import { ArrowIcon } from '@/shared/assets/chakraIcons/ArrowIcon';
-import { FullLessonDrawer } from '../FullLessonDrawer/FullLessonDrawer';
 import { memo, useEffect } from 'react';
 import { Drawer, DrawerTrigger, DrawerContent } from '@/shared/ui/drawer';
 import { HideLesson } from '@/features';
+import { LessonDrawer } from '../LessonDrawer/LessonDrawer';
 export const FullLessonCard = memo(function FullLessonCard({
   lesson,
   variant = 'dark',
@@ -81,7 +81,7 @@ export const FullLessonCard = memo(function FullLessonCard({
         </DrawerTrigger>
       </HideLesson>
       <DrawerContent>
-        <FullLessonDrawer lesson={lesson} />
+        <LessonDrawer lesson={lesson} />
       </DrawerContent>
     </Drawer>
   );

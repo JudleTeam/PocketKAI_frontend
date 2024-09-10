@@ -6,22 +6,16 @@ import { lessonStateIcons } from '@/shared/constants';
 import { lessonStateLine } from '../../constants/lessonStateLine';
 import { LessonTypes } from '@/shared/constants';
 import { getLessonState } from '../../lib/getLessonState';
-import {
-  getLessonBuilding,
-  useColor,
-  useDisclosure,
-} from '@/shared/lib';
+import { getLessonBuilding, useColor, useDisclosure } from '@/shared/lib';
 import styles from './LessonCard.module.scss';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
-import LessonDrawer from '../LessonDrawer/LessonDrawer';
 import { HideLesson } from '@/features';
+import { LessonDrawer } from '../LessonDrawer/LessonDrawer';
 
 const LessonCard = memo(
   ({ lesson, dayDate }: { lesson: Lesson; dayDate: string }) => {
-
     const { isOpen, setIsOpen } = useDisclosure();
-    const { themeColor, mainTextColor, mainColor } =
-      useColor();
+    const { themeColor, mainTextColor, mainColor } = useColor();
     useEffect(() => {
       const metaThemeColor = document.querySelector('meta[name="theme-color"]');
       if (metaThemeColor) {
