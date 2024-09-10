@@ -62,7 +62,6 @@ export const TeacherDrawer = function TeacherDrawer({
   const popoverColor = useColorModeValue('gray.50', 'gray.700');
   const {
     mainTextColor,
-    mainColor,
     drawerColor,
     secondElementColor,
     secondElementLightColor,
