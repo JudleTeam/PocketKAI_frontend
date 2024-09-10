@@ -56,7 +56,7 @@ export function Auth({ onClose }: { onClose: () => void }) {
           addGroupToFavourite(group, userAuthStatus);
           setCurrentGroup(group);
         }
-        await synchronizeFavouriteGroupsOnAuth();
+        synchronizeFavouriteGroupsOnAuth();
       }
       reset();
       onClose();
