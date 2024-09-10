@@ -28,10 +28,10 @@ export function Group() {
     const groupMembersBackgroundTaskStatus =
       backgroundTasks.find((task) => task.name === 'group_members')?.status ??
       'IDLE';
-    const isTaskPending =
+    const isTaskRunning =
       groupMembersBackgroundTaskStatus === 'PENDING' ||
       groupMembersBackgroundTaskStatus === 'STARTED';
-    if (userGroupMembersStatus === 'idle' && !isTaskPending) {
+    if (userGroupMembersStatus === 'idle' && !isTaskRunning) {
       getGroupMembers();
     }
   }, [userGroupMembersStatus, backgroundTasks, getGroupMembers]);
@@ -77,7 +77,7 @@ export function Group() {
               backgroundTasks.find((task) => task.name === 'group_members')
                 ?.status ?? 'IDLE',
           }}
-          idleMessage=""
+          hasData={!!userGroupMembers.length}
         >
           <Box display="flex" flexDirection="column" gap="10px">
             {userGroupMembers.map((groupMember) => (

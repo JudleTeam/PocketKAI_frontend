@@ -5,13 +5,13 @@ import React from 'react';
 export const BgTasksLoader = ({
   children,
   status,
-  idleMessage,
+  hasData,
 }: React.PropsWithChildren<{
   status: {
     fetchStatus: FetchStatus;
     backgroundTaskStatus: BackgroundTaskStatus;
   };
-  idleMessage: string;
+  hasData: boolean;
 }>) => {
   switch (true) {
     case status.fetchStatus === 'loading' ||
@@ -31,8 +31,9 @@ export const BgTasksLoader = ({
           <Spinner size={'xl'} />
         </Box>
       );
-    case status.fetchStatus === 'error' ||
-      status.backgroundTaskStatus === 'FAILED':
+    case (status.fetchStatus === 'error' ||
+      status.backgroundTaskStatus === 'FAILED') &&
+      !hasData:
       return (
         <Box
           pos={'absolute'}
@@ -60,7 +61,7 @@ export const BgTasksLoader = ({
           w={'fit-content'}
           fontSize={'20px'}
         >
-          {idleMessage}
+          {''}
         </Box>
       );
     case status.fetchStatus === 'success' ||

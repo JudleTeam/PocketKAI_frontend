@@ -22,18 +22,23 @@ export function Speciality() {
     theme.colors.light.card,
     theme.colors.dark.card
   );
-
+  const hasGroupDocuments = !!(
+    homeGroup?.educational_program_url ||
+    homeGroup?.study_schedule_url ||
+    homeGroup?.syllabus_url
+  );
   useEffect(() => {
     const groupDocsBgTaskStatus = backgroundTasks.find(
       (task) => task.name === 'group_documents'
     )?.status;
-    const isTaskPending =
-      groupDocsBgTaskStatus === 'PENDING' ||
-      groupDocsBgTaskStatus === 'STARTED';
-    if (!isTaskPending && homeGroup?.id) {
+    if (
+      groupDocsBgTaskStatus === 'SUCCESS' &&
+      !hasGroupDocuments &&
+      homeGroup?.id
+    ) {
       getGroupById(homeGroup?.id);
     }
-  }, [backgroundTasks, homeGroup, getGroupById]);
+  }, [backgroundTasks, homeGroup?.id, hasGroupDocuments, getGroupById]);
 
   const specialityDetails = getSpecialtyDetails(homeGroup);
   const urls = [
@@ -66,7 +71,7 @@ export function Speciality() {
             backgroundTasks.find((task) => task.name === 'group_documents')
               ?.status ?? 'FAILED',
         }}
-        idleMessage=""
+        hasData={hasGroupDocuments}
       >
         <Box display={'flex'} flexDirection={'column'} gap={'20px'}>
           <Box

@@ -1,3 +1,6 @@
+export { useGoUpButton } from './hooks/useGoUpButton';
+export { useInfiniteScroll } from './hooks/useInfiniteScroll';
+
 export { getWeekParityDate } from './helpers/getWeekParityDate';
 
 export { shareData } from './helpers/shareData';

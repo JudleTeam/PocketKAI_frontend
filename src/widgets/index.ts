@@ -1,3 +1,7 @@
+export { TeacherScheduleLayout } from './teacher-schedule-layout/TeacherScheduleLayout';
+
+export { ScheduleLayout } from './schedule-layout/ScheduleLayout';
+
 export { GroupTeachers } from './group-teachers/GroupTeachers';
 export { SearchedTeachers } from './searched-teachers/SearchedTeachers';
 
