@@ -42,14 +42,14 @@ export function Speciality() {
 
   const specialityDetails = getSpecialtyDetails(homeGroup);
   const urls = [
-    { label: 'Учебный план ', value: homeGroup?.syllabus_url },
+    { label: 'Учебный план ', value: homeGroup?.syllabus_url ?? 'Неизвестно' },
     {
       label: 'Календарный учебный график',
-      value: homeGroup?.study_schedule_url,
+      value: homeGroup?.study_schedule_url ?? 'Неизвестно',
     },
     {
       label: 'Образовательная программа',
-      value: homeGroup?.educational_program_url,
+      value: homeGroup?.educational_program_url ?? 'Неизвестно',
     },
   ];
   return (
@@ -64,53 +64,57 @@ export function Speciality() {
       >
         <AccountTabHeader color={mainTextColor}>Специальность</AccountTabHeader>
       </Box>
-      <BgTasksLoader
-        status={{
-          fetchStatus: 'success',
-          backgroundTaskStatus:
-            backgroundTasks.find((task) => task.name === 'group_documents')
-              ?.status ?? 'FAILED',
-        }}
-        hasData={hasGroupDocuments}
-      >
-        <Box display={'flex'} flexDirection={'column'} gap={'20px'}>
-          <Box
-            bgColor={card}
-            borderRadius="8px"
-            padding="10px"
-            display="flex"
-            flexDirection="column"
-            gap="10px"
-            fontWeight="medium"
+
+      <Box display={'flex'} flexDirection={'column'} gap={'20px'}>
+        <Box
+          bgColor={card}
+          borderRadius="8px"
+          padding="10px"
+          display="flex"
+          flexDirection="column"
+          gap="10px"
+          fontWeight="medium"
+        >
+          <Text color={mainTextColor} fontSize="20px" fontWeight="bold">
+            Информация
+          </Text>
+          {specialityDetails.map((detail) => (
+            <Box
+              key={detail.label}
+              onClick={() => detail.value && copyToast(detail.value, toast)}
+            >
+              <Text fontSize="14px" color={'gray.500'}>
+                {detail.label} {detail.value ? <CopyIcon /> : null}
+              </Text>
+              <Text color={mainTextColor} fontSize="16px">
+                {detail.value}
+              </Text>
+            </Box>
+          ))}
+        </Box>
+
+        <Box
+          position={'relative'}
+          minH={'200px'}
+          bgColor={card}
+          padding="10px"
+          borderRadius="8px"
+          display="flex"
+          flexDirection="column"
+          gap="10px"
+        >
+          <Text color={mainTextColor} fontSize="20px" fontWeight="bold">
+            Документы
+          </Text>
+          <BgTasksLoader
+            status={{
+              fetchStatus: 'success',
+              backgroundTaskStatus:
+                backgroundTasks.find((task) => task.name === 'group_documents')
+                  ?.status ?? 'FAILED',
+            }}
+            hasData={hasGroupDocuments}
           >
-            <Text color={mainTextColor} fontSize="20px" fontWeight="bold">
-              Информация
-            </Text>
-            {specialityDetails.map((detail) => (
-              <Box
-                key={detail.label}
-                onClick={() => detail.value && copyToast(detail.value, toast)}
-              >
-                <Text fontSize="14px" color={'gray.500'}>
-                  {detail.label} {detail.value ? <CopyIcon /> : null}
-                </Text>
-                <Text color={mainTextColor} fontSize="16px">
-                  {detail.value}
-                </Text>
-              </Box>
-            ))}
-          </Box>
-          <Box
-            bgColor={card}
-            padding="10px"
-            borderRadius="8px"
-            display="flex"
-            flexDirection="column"
-            gap="10px"
-          >
-            <Text color={mainTextColor} fontSize="20px" fontWeight="bold">
-              Документы
-            </Text>
             {urls.map(
               (url) =>
                 url.value && (
@@ -131,9 +135,9 @@ export function Speciality() {
                   </Box>
                 )
             )}
-          </Box>
+          </BgTasksLoader>
         </Box>
-      </BgTasksLoader>
+      </Box>
     </Box>
   );
 }

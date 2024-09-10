@@ -1,6 +1,7 @@
 import { useCommon } from '@/entities';
-import { Lesson } from '@/shared';
+import { copyToast, Lesson } from '@/shared';
 import { getLessonBuilding, useColor } from '@/shared/lib';
+import { CopyIcon } from '@chakra-ui/icons';
 import {
   Box,
   Icon,
@@ -12,6 +13,7 @@ import {
   Text,
   useColorModeValue,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
 import { MapPin } from 'lucide-react';
 import { useEffect } from 'react';
@@ -20,6 +22,7 @@ export function DrawerLessonBuilding({ lesson }: { lesson: Lesson }) {
   const { onOpen, onClose, isOpen } = useDisclosure();
   const { buildings, buildingsStatus, getBuildings } = useCommon();
   const { mainTextColor } = useColor();
+  const toast = useToast();
   const popoverColor = useColorModeValue('gray.50', 'gray.700');
   const lessonBuildingAddress = lesson.building_number
     ? buildings[lesson.building_number]
@@ -46,8 +49,14 @@ export function DrawerLessonBuilding({ lesson }: { lesson: Lesson }) {
             {lesson.building_number}{' '}
             {lesson.building_number?.length === 1 ? 'здание' : ''}
           </Text>
-          <Text fontSize={'14px'} fontWeight={'medium'} color={mainTextColor}>
+          <Text
+            fontSize={'15px'}
+            fontWeight={'medium'}
+            color={mainTextColor}
+            onClick={() => copyToast(lessonBuildingAddress, toast)}
+          >
             {lessonBuildingAddress}
+            <CopyIcon ml={1.5} opacity={0.5} />
           </Text>
         </PopoverBody>
       </PopoverContent>

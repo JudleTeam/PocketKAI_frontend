@@ -16,7 +16,8 @@ export const BgTasksLoader = ({
   switch (true) {
     case status.fetchStatus === 'loading' ||
       status.backgroundTaskStatus === 'PENDING' ||
-      status.backgroundTaskStatus === 'STARTED':
+      status.backgroundTaskStatus === 'STARTED' ||
+      status.backgroundTaskStatus === 'IDLE':
       return (
         <Box
           pos={'absolute'}
@@ -31,8 +32,8 @@ export const BgTasksLoader = ({
           <Spinner size={'xl'} />
         </Box>
       );
-    case (status.fetchStatus === 'error' ||
-      status.backgroundTaskStatus === 'FAILED') &&
+    case (status.backgroundTaskStatus === 'FAILED' ||
+      status.fetchStatus === 'error') &&
       !hasData:
       return (
         <Box
@@ -48,8 +49,12 @@ export const BgTasksLoader = ({
           Что-то пошло не так...
         </Box>
       );
-    case status.fetchStatus === 'idle' ||
-      status.backgroundTaskStatus === 'IDLE':
+    case status.fetchStatus === 'success' ||
+      status.backgroundTaskStatus === 'SUCCESS':
+      return children;
+
+    case status.backgroundTaskStatus === 'IDLE' ||
+      status.fetchStatus === 'idle':
       return (
         <Box
           pos={'absolute'}
@@ -64,8 +69,5 @@ export const BgTasksLoader = ({
           {''}
         </Box>
       );
-    case status.fetchStatus === 'success' ||
-      status.backgroundTaskStatus === 'SUCCESS':
-      return children;
   }
 };
