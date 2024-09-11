@@ -83,22 +83,22 @@ export function Account() {
           className={styles['account__user-actions']}
           bgColor={accountActionsColor}
         >
-          {user ? (
-            <Box display="flex" flexDirection="column">
-              {USER_ACTIONS.map((action, index) => (
-                <React.Fragment key={action.label}>
-                  {accountActions({
-                    tabColor,
-                    mainTextColor,
-                    action,
-                    index,
-                    lastIndex: USER_ACTIONS.length - 1,
-                  })}
-                </React.Fragment>
-              ))}
-            </Box>
-          ) : (
-            <Drawer open={isOpen} onOpenChange={setIsOpen}>
+          <Drawer open={isOpen} onOpenChange={setIsOpen}>
+            {user ? (
+              <Box display="flex" flexDirection="column">
+                {USER_ACTIONS.map((action, index) => (
+                  <React.Fragment key={action.label}>
+                    {accountActions({
+                      tabColor,
+                      mainTextColor,
+                      action,
+                      index,
+                      lastIndex: USER_ACTIONS.length - 1,
+                    })}
+                  </React.Fragment>
+                ))}
+              </Box>
+            ) : (
               <DrawerTrigger asChild>
                 <Box
                   onClick={() => setIsOpen(true)}
@@ -131,15 +131,15 @@ export function Account() {
                   />
                 </Box>
               </DrawerTrigger>
-              <DrawerContent>
-                {isLoginEnabled ? (
-                  <Auth onClose={onClose} />
-                ) : (
-                  <AuthNotAvailable />
-                )}
-              </DrawerContent>
-            </Drawer>
-          )}
+            )}
+            <DrawerContent>
+              {isLoginEnabled ? (
+                <Auth onClose={onClose} />
+              ) : (
+                <AuthNotAvailable />
+              )}
+            </DrawerContent>
+          </Drawer>
         </Box>
         <Box
           className={styles['account__account-actions']}

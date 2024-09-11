@@ -126,7 +126,7 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: /^https:\/\/api\.pocket-kai\.ru\/user\/me$/,
+            urlPattern: /^https:\/\/api\.pocket-kai\.ru\/user\/me\/student$/,
             handler: 'NetworkFirst', // Используем NetworkFirst для этого эндпоинта
             options: {
               cacheName: 'pocket-kai-api-cache--me', // Название кэша для этого эндпоинта
@@ -161,7 +161,7 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: /^https:\/\/api\.pocket-kai\.judle\.ru\/user\/me$/,
+            urlPattern: /^https:\/\/api\.pocket-kai\.ru\/user\/me\/student$/,
             handler: 'NetworkFirst', // Используем NetworkFirst для этого эндпоинта
             options: {
               cacheName: 'pocket-kai-api-dev-cache--me', // Название кэша для этого эндпоинта
