@@ -114,6 +114,17 @@ export default defineConfig({
           },
           // API CACHE
           {
+            urlPattern: /^https:\/\/api\.pocket-kai\.ru\/auth\/check_login$/,
+            handler: 'NetworkFirst', // Используем NetworkFirst для этого эндпоинта
+            options: {
+              cacheName: 'pocket-kai-api-cache--check_login', // Название кэша для этого эндпоинта
+              expiration: {
+                maxEntries: 10, // Кэшируем максимум 10 записей
+                maxAgeSeconds: 24 * 60 * 60, // Данные кэшируются на 1 день
+              },
+            },
+          },
+          {
             urlPattern:
               /^https:\/\/api\.pocket-kai\.ru\/user\/me\/favorite_groups$/,
             handler: 'NetworkFirst', // Используем NetworkFirst для этого эндпоинта
@@ -154,6 +165,18 @@ export default defineConfig({
             handler: 'NetworkFirst', // Используем NetworkFirst для этого эндпоинта
             options: {
               cacheName: 'pocket-kai-api-dev-cache--favourite_groups', // Название кэша для этого эндпоинта
+              expiration: {
+                maxEntries: 10, // Кэшируем максимум 10 записей
+                maxAgeSeconds: 24 * 60 * 60, // Данные кэшируются на 1 день
+              },
+            },
+          },
+          {
+            urlPattern:
+              /^https:\/\/api\.pocket-kai\.judle\.ru\/auth\/check_login$/,
+            handler: 'NetworkFirst', // Используем NetworkFirst для этого эндпоинта
+            options: {
+              cacheName: 'pocket-kai-api-dev-cache--check_login', // Название кэша для этого эндпоинта
               expiration: {
                 maxEntries: 10, // Кэшируем максимум 10 записей
                 maxAgeSeconds: 24 * 60 * 60, // Данные кэшируются на 1 день
