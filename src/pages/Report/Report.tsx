@@ -42,8 +42,8 @@ export function Report() {
             style={{ borderRadius: '8px', overflowY: 'auto' }}
             src={
               colorMode === 'light'
-                ? 'https://forms.yandex.ru/cloud/66b65dab84227c1b171b2fc2/?iframe=1&version=1.0.1'
-                : 'https://forms.yandex.ru/cloud/66b790f384227c34e21b2f91/?iframe=1&version=1.0.1'
+                ? 'https://forms.yandex.ru/cloud/66b65dab84227c1b171b2fc2/?iframe=1&version=1.0.2'
+                : 'https://forms.yandex.ru/cloud/66b790f384227c34e21b2f91/?iframe=1&version=1.0.2'
             }
             height="100%"
             frameBorder="0"

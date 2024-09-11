@@ -1,4 +1,10 @@
-import { apiClient, ApiResponse, UserStudent, UserGroupMember } from '@/shared';
+import {
+  apiClient,
+  ApiResponse,
+  UserStudent,
+  UserGroupMember,
+  BackgroundTaskStatus,
+} from '@/shared';
 import { AuthParams, AuthResponse } from './types';
 
 export const userService = {
@@ -11,6 +17,14 @@ export const userService = {
   },
   getMeStudent: (): ApiResponse<UserStudent> => {
     return apiClient.get<UserStudent>('user/me/student');
+  },
+
+  getBackgroundTaskStatus: (
+    taskId: string
+  ): ApiResponse<{ id: string; status: BackgroundTaskStatus }> => {
+    return apiClient.get<{ id: string; status: BackgroundTaskStatus }>(
+      `task/${taskId}`
+    );
   },
 
   getGroupMembers: (): ApiResponse<UserGroupMember[]> => {

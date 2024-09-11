@@ -12,6 +12,7 @@ import {
   PopoverHeader,
   PopoverBody,
   useToast,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 import { Link } from 'react-router-dom';
@@ -27,9 +28,13 @@ import { copyToast } from '@/shared';
 export const TeacherDrawer = function TeacherDrawer({
   disciplineType,
   disciplineName,
+  activeSnapPoint,
+  setActiveSnapPoint,
 }: {
   disciplineType: TeacherDisciplineType;
   disciplineName: string;
+  activeSnapPoint: number | string;
+  setActiveSnapPoint: (snapPoint: number) => void;
 }) {
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
 
@@ -53,10 +58,10 @@ export const TeacherDrawer = function TeacherDrawer({
     }, 200);
     return () => clearTimeout(timeoutId);
   }, [disciplineType.teacher, getTeacherScheduleById, clearTeacherSchedule]);
-  const toast = useToast()
+  const toast = useToast();
+  const popoverColor = useColorModeValue('gray.50', 'gray.700');
   const {
     mainTextColor,
-    mainColor,
     drawerColor,
     secondElementColor,
     secondElementLightColor,
@@ -72,7 +77,16 @@ export const TeacherDrawer = function TeacherDrawer({
       flexDirection="column"
       gap="5px"
     >
-      <Text fontSize="24px" fontWeight="bold" onClick={() => copyToast(disciplineType.teacher?.name || 'Преподаватель кафедры', toast)}>
+      <Text
+        fontSize="24px"
+        fontWeight="bold"
+        onClick={() =>
+          copyToast(
+            disciplineType.teacher?.name || 'Преподаватель кафедры',
+            toast
+          )
+        }
+      >
         {disciplineType.teacher?.name
           ? disciplineType.teacher?.name
           : 'Преподаватель кафедры'}
@@ -113,6 +127,11 @@ export const TeacherDrawer = function TeacherDrawer({
           overflowY={'auto'}
           style={{ scrollbarWidth: 'none' }}
           defaultIndex={numberParity[weekParity]}
+          onScroll={() => {
+            if (activeSnapPoint !== 1) {
+              setActiveSnapPoint(1);
+            }
+          }}
         >
           <TabList
             padding="5px"
@@ -128,11 +147,11 @@ export const TeacherDrawer = function TeacherDrawer({
             <Tab
               _selected={{
                 color: secondElementLightColor,
-                fontSize: '16px',
                 boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
                 borderRadius: '4px',
                 bgColor: cardColor,
               }}
+              fontSize={'clamp(14px, 4vw, 20px)'}
               color={secondElementColor}
               fontWeight="medium"
               onClick={() => setWeekParity('even')}
@@ -142,11 +161,11 @@ export const TeacherDrawer = function TeacherDrawer({
             <Tab
               _selected={{
                 color: secondElementLightColor,
-                fontSize: '16px',
                 boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
                 borderRadius: '4px',
                 bgColor: cardColor,
               }}
+              fontSize={'clamp(14px, 4vw, 20px)'}
               color={secondElementColor}
               fontWeight="medium"
               onClick={() => setWeekParity('odd')}
@@ -173,7 +192,7 @@ export const TeacherDrawer = function TeacherDrawer({
                     <Box
                       position="relative"
                       key={day}
-                      {...(index !== 0 ? { 'data-vaul-no-drag': true } : {})}
+                      // {...(index !== 0 ? { 'data-vaul-no-drag': true } : {})}
                     >
                       <Text
                         fontSize={20}
@@ -201,8 +220,8 @@ export const TeacherDrawer = function TeacherDrawer({
                                 />
                               </button>
                             </PopoverTrigger>
-                            <PopoverContent bgColor={mainColor}>
-                              <PopoverArrow bg={mainColor} />
+                            <PopoverContent bgColor={popoverColor}>
+                              <PopoverArrow bg={popoverColor} />
                               <PopoverHeader
                                 fontSize="16px"
                                 fontWeight={'bold'}

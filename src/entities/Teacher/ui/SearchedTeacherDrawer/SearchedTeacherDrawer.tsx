@@ -22,7 +22,15 @@ import { useColor } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader/Loader';
 import { TeacherLessonCard } from '../TeacherLessonCard';
 import React from 'react';
-export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
+export function SearchedTeacherDrawer({
+  teacher,
+  setActiveSnapPoint,
+  activeSnapPoint,
+}: {
+  teacher: Teacher;
+  activeSnapPoint: number | string;
+  setActiveSnapPoint: (snapPoint: number) => void;
+}) {
   const [weekParity, setWeekParity] = useState<'even' | 'odd'>('even');
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
   const { teacherScheduleStatus, teacherSchedule, getTeacherScheduleById } =
@@ -43,15 +51,21 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
   } = useColor();
   return (
     <Box
-    h="100%"
-    position="relative"
-    pt={3}
-    color={mainTextColor}
-    display="flex"
-    flexDirection="column"
-    gap="5px"
+      h="100%"
+      position="relative"
+      pt={3}
+      color={mainTextColor}
+      display="flex"
+      flexDirection="column"
+      gap="5px"
     >
-      <Text fontSize="24px" fontWeight="bold" onClick={() => copyToast(teacher?.name || 'Преподаватель кафедры', toast)}>
+      <Text
+        fontSize="24px"
+        fontWeight="bold"
+        onClick={() =>
+          copyToast(teacher?.name || 'Преподаватель кафедры', toast)
+        }
+      >
         {' '}
         {teacher?.name ?? 'Преподаватель кафедры'}
       </Text>
@@ -76,6 +90,11 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
           variant="unstyled"
           overflowY={'auto'}
           style={{ scrollbarWidth: 'none' }}
+          onScroll={() => {
+            if (activeSnapPoint !== 1) {
+              setActiveSnapPoint(1);
+            }
+          }}
         >
           <TabList
             padding="5px"
@@ -91,12 +110,12 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
             <Tab
               _selected={{
                 color: secondElementLightColor,
-                fontSize: '16px',
                 boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
                 borderRadius: '4px',
                 bgColor: cardColor,
               }}
               color={secondElementColor}
+              fontSize={'clamp(14px, 4vw, 20px)'}
               fontWeight="medium"
               onClick={() => setWeekParity('even')}
             >
@@ -105,11 +124,11 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
             <Tab
               _selected={{
                 color: secondElementLightColor,
-                fontSize: '16px',
                 boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
                 borderRadius: '4px',
                 bgColor: cardColor,
               }}
+              fontSize={'clamp(14px, 4vw, 20px)'}
               color={secondElementColor}
               fontWeight="medium"
               onClick={() => setWeekParity('odd')}
@@ -133,10 +152,7 @@ export function SearchedTeacherDrawer({ teacher }: { teacher: Teacher }) {
                     weekParity
                   ].filter((lesson) => lesson.number_of_day === index + 1);
                   return (
-                    <Box
-                      key={day}
-                      {...(index !== 0 ? { 'data-vaul-no-drag': true } : {})}
-                    >
+                    <Box key={day}>
                       <Text
                         fontSize={20}
                         fontWeight={'medium'}

@@ -5,7 +5,7 @@
   &__time {
     display: flex;
     flex-direction: column;
-    cursor:auto;
+    cursor: auto;
     opacity: 0;
     p {
       font-family: 'Chivo Mono', monospace;
@@ -23,7 +23,7 @@
     flex-direction: column;
     align-items: center;
     gap: 3px;
-    &-line{
+    &-line {
       height: 24px;
       width: 2px;
     }
@@ -31,7 +31,7 @@
   &__info {
     text-align: left;
     width: 60%;
-    font-size: clamp(13px, 4vw, 18px);
+    font-size: clamp(15px, 4vw, 18px);
     line-height: 1.6rem;
   }
 }

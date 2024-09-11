@@ -14,6 +14,11 @@ export const getLessonBuilding = (
   if (!audience) {
     return `Здание: ${build}`;
   }
+
+  if (build === 'КСК КАИ ОЛИМП') {
+    return 'Здание: ОЛИМП';
+  }
+
   if (build.toLocaleLowerCase() === audience.toLocaleLowerCase()) {
     return `Здание: ${build}`;
   }

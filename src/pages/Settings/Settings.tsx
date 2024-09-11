@@ -115,7 +115,30 @@ export function Settings() {
             onChange={() => toggleIsColoredDayDate(!isColoredDayDate)}
           />
         </Box>
+        {/* <Box
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+        >
+          <Text
+            as={'label'}
+            fontSize="16px"
+            fontWeight="semibold"
+            color={mainTextColor}
+            htmlFor="teacherMode"
+          >
+            Режим преподавателя
+          </Text>
+          <Switch
+            id="teacherMode"
+            key={3}
+            size={'md'}
+            isChecked={teacherMode}
+            onChange={() => toggleTeacherMode(!teacherMode)}
+          />
+        </Box> */}
         <Divider />
+
         <Text fontSize="18px" fontWeight="bold" color={mainTextColor}>
           При открытии показывать:
         </Text>
@@ -147,10 +170,11 @@ export function Settings() {
           </Button>
         </Box>
         <Divider />
+
         <Text textAlign={'right'}>
           Версия:{' '}
           <Text as={'span'} fontWeight={'bold'}>
-            1.0.1
+            1.0.2
           </Text>
         </Text>
       </Box>

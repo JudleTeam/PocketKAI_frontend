@@ -151,12 +151,14 @@ export function AppLayout() {
                 //setIsOpen(true);
               }}
             >
-              <Text fontSize={22}>
+              <Text fontSize={'clamp(20px, 5vw, 24px)'}>
                 {DateTime.now().setLocale('ru').toFormat('d MMMM')}
               </Text>
 
-              <Text>{parity && parityTypes[parity?.parity]}</Text>
-              <Text fontSize={12} color={'#ed8936'}>
+              <Text fontSize={'clamp(14px, 4vw, 20px)'}>
+                {parity && parityTypes[parity?.parity]}
+              </Text>
+              <Text color={'#ed8936'}>
                 {isScheduleOutdated(schedule.parsed_at) &&
                   'Расписание устарело'}
               </Text>

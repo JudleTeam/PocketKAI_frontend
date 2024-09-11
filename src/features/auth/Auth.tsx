@@ -43,7 +43,11 @@ export function Auth({ onClose }: { onClose: () => void }) {
     setCurrentGroup,
   } = useGroup();
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    const status = await login(data);
+    const validData = {
+      login: data.login.trim(),
+      password: data.password.trim(),
+    };
+    const status = await login(validData);
     if (status === 200) {
       const user = await getMe();
       if (user.group_id && homeGroupStatus === 'idle') {

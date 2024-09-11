@@ -1,51 +1,54 @@
 import { copyToast, Lesson } from '@/shared';
 import { DateTime } from 'luxon';
-import { getLessonBuilding, useColor } from '@/shared/lib';
+import { useColor } from '@/shared/lib';
 import { LessonTypes } from '@/shared/constants';
 import {
-  Avatar,
   Popover,
   PopoverArrow,
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
-  useChakra,
-  useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
 import { parityTypes } from '@/shared/constants';
 import { Link } from 'react-router-dom';
-import { HashLink } from 'react-router-hash-link';
 import { Text, VStack, Box } from '@chakra-ui/react';
 import { DrawerTitle } from '@/shared/ui/drawer';
-const LessonDrawer = ({
-  dayDate,
+import { DrawerTeacherCard } from './DrawerTeacherCard';
+import { DrawerLessonBuilding } from './DrawerLessonBuilding';
+export function LessonDrawer({
   lesson,
+  dayDate,
 }: {
-  dayDate: string;
   lesson: Lesson;
-}) => {
-  const specificDate = DateTime.fromISO(dayDate);
-  const formattedDate = specificDate.toFormat('d MMMM', { locale: 'ru' });
-  const { theme } = useChakra();
-  const tab = useColorModeValue(theme.colors.light.tab, theme.colors.dark.tab);
-  const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
-  const mainElementColor = useColorModeValue(
-    'light.main_element',
-    'dark.main_element'
-  );
-  const { cardColor, tabTeacher } = useColor();
+  dayDate?: string;
+}) {
+  const specificDate = dayDate ? DateTime.fromISO(dayDate) : '';
+  const formattedDate = specificDate
+    ? specificDate.toFormat('d MMMM', { locale: 'ru' })
+    : '';
+  const { mainTextColor } = useColor();
   const toast = useToast();
   return (
     <>
-      <div className="flex flex-col gap-3 pt-5 text-l-main-text dark:text-d-main-text">
-        <DrawerTitle className="text-2xl font-bold">
-          <Text onClick={() => copyToast(lesson.discipline.name, toast)}>{lesson.discipline.name}</Text>
+      <Box
+        display="flex"
+        flexDirection="column"
+        className="gap-2 pt-5 text-l-main-text dark:text-d-main-text"
+      >
+        <DrawerTitle asChild>
+          <Text
+            fontSize={'clamp(22px, 4vw, 24px)'}
+            fontWeight="bold"
+            onClick={() => copyToast(lesson.discipline.name, toast)}
+          >
+            {lesson.discipline.name}
+          </Text>
         </DrawerTitle>
-        <p className="text-2xl font-medium">
+        <Text fontSize={'25px'} fontWeight="medium">
           {lesson.start_time?.slice(0, -3)} {lesson.end_time && '-'}{' '}
           {lesson.end_time?.slice(0, -3)}
-        </p>
+        </Text>
         <Box
           display="flex"
           justifyContent="space-between"
@@ -53,7 +56,7 @@ const LessonDrawer = ({
           padding="10px 0"
         >
           <VStack
-            w="45%"
+            w="44%"
             display="flex"
             alignItems="start"
             gap="2px"
@@ -63,18 +66,13 @@ const LessonDrawer = ({
             <Text>{parityTypes[lesson.parsed_parity]}</Text>
           </VStack>
           <VStack
-            w="55%"
+            w="56%"
             display="flex"
             alignItems="end"
             gap="2px"
             textAlign="end"
           >
-            <Text>
-              {getLessonBuilding(
-                lesson.building_number,
-                lesson.audience_number
-              )}
-            </Text>
+            <DrawerLessonBuilding lesson={lesson} />
             <Text>
               {lesson.parsed_lesson_type &&
                 LessonTypes[lesson.parsed_lesson_type]}
@@ -102,7 +100,7 @@ const LessonDrawer = ({
                   width: '100%',
                   color: '#ED8936',
                   fontWeight: '500',
-                  fontSize: '18px',
+                  fontSize: '15px',
                 }}
               >
                 Даты проведения пары: {lesson.original_dates}
@@ -137,36 +135,8 @@ const LessonDrawer = ({
         >
           Сообщить об ошибке
         </Text>
-        <Box
-          as={HashLink}
-          to={
-            lesson.teacher
-              ? `/teachers#${lesson?.teacher?.id}&${lesson.discipline.id}`
-              : '/teachers'
-          }
-          boxShadow={`0px 0px 5px 0px ${tab}`}
-          bgColor={cardColor}
-          borderRadius="16px"
-          padding="14px"
-          display="flex"
-          alignItems="center"
-          gap="15px"
-          transition="0.2s"
-          _active={{ bgColor: tabTeacher, transition: '0.2s' }}
-        >
-          <Avatar bg={mainElementColor} />
-          <Box>
-            <Text fontSize="16px" fontWeight="medium">
-              {lesson?.teacher?.name
-                ? lesson.teacher.name
-                : 'Преподаватель кафедры'}
-            </Text>
-            <Text fontSize="12px" fontWeight="medium">
-              {lesson.department?.name}
-            </Text>
-          </Box>
-        </Box>
-      </div>
+        <DrawerTeacherCard lesson={lesson} />
+      </Box>
       {/* <DrawerBody w="100%">
         <Tabs w="100%">
           <TabList w="100%">
@@ -203,6 +173,4 @@ const LessonDrawer = ({
       </DrawerBody> */}
     </>
   );
-};
-
-export default LessonDrawer;
+}

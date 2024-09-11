@@ -76,10 +76,10 @@ export function RouterComponent() {
               },
             },
             {
-              path: 'profile',
+              path: 'hidden',
               lazy: async () => {
-                const { Profile } = await import('@/pages/Profile/Profile');
-                return { Component: Profile };
+                const { HiddenLessons } = await import('@/pages/HiddenLessons/HiddenLessons')
+                return { Component: HiddenLessons }
               },
             },
             {

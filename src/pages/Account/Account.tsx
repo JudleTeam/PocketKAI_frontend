@@ -15,10 +15,10 @@ import { useColor, useDisclosure } from '@/shared/lib';
 export function Account() {
   const { homeGroup } = useGroup();
   const { isOpen, setIsOpen, onClose } = useDisclosure();
-  const { user, isLoginEnabled, logout, getIsLoginEnabled } = useUser();
+  const { user, userAuthStatus, isLoginEnabled, logout, getIsLoginEnabled } =
+    useUser();
   const { resetGroupState } = useGroup();
   const { resetScheduleState } = useSchedule();
-
   const {
     mainTextColor,
     tabColor,
@@ -28,6 +28,7 @@ export function Account() {
     mainColor,
     mainElementColor,
   } = useColor();
+
   useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
@@ -40,8 +41,10 @@ export function Account() {
   }, [themeColor, mainColor, isOpen]);
 
   useEffect(() => {
-    getIsLoginEnabled();
-  }, [getIsLoginEnabled]);
+    if (userAuthStatus !== 'success') {
+      getIsLoginEnabled();
+    }
+  }, [userAuthStatus, getIsLoginEnabled]);
   return (
     <Box className={styles['account']}>
       <Box className={styles['account__header']} bgColor={mainElementColor}>
@@ -63,7 +66,7 @@ export function Account() {
               color="#fff"
               textAlign="center"
             >
-              {user.status}, {homeGroup?.group_name}
+              Группа {homeGroup?.group_name}
             </Text>
           </>
         ) : (
@@ -80,22 +83,22 @@ export function Account() {
           className={styles['account__user-actions']}
           bgColor={accountActionsColor}
         >
-          {user ? (
-            <Box display="flex" flexDirection="column">
-              {USER_ACTIONS.map((action, index) => (
-                <React.Fragment key={action.label}>
-                  {accountActions({
-                    tabColor,
-                    mainTextColor,
-                    action,
-                    index,
-                    lastIndex: USER_ACTIONS.length - 1,
-                  })}
-                </React.Fragment>
-              ))}
-            </Box>
-          ) : (
-            <Drawer open={isOpen} onOpenChange={setIsOpen}>
+          <Drawer open={isOpen} onOpenChange={setIsOpen}>
+            {user ? (
+              <Box display="flex" flexDirection="column">
+                {USER_ACTIONS.map((action, index) => (
+                  <React.Fragment key={action.label}>
+                    {accountActions({
+                      tabColor,
+                      mainTextColor,
+                      action,
+                      index,
+                      lastIndex: USER_ACTIONS.length - 1,
+                    })}
+                  </React.Fragment>
+                ))}
+              </Box>
+            ) : (
               <DrawerTrigger asChild>
                 <Box
                   onClick={() => setIsOpen(true)}
@@ -128,20 +131,20 @@ export function Account() {
                   />
                 </Box>
               </DrawerTrigger>
-              <DrawerContent>
-                {isLoginEnabled ? (
-                  <Auth onClose={onClose} />
-                ) : (
-                  <AuthNotAvailable />
-                )}
-              </DrawerContent>
-            </Drawer>
-          )}
+            )}
+            <DrawerContent>
+              {isLoginEnabled ? (
+                <Auth onClose={onClose} />
+              ) : (
+                <AuthNotAvailable />
+              )}
+            </DrawerContent>
+          </Drawer>
         </Box>
         <Box
           className={styles['account__account-actions']}
           bgColor={accountActionsColor}
-          top={user ? '170px' : '80px'}
+          top={user ? '140px' : '80px'}
         >
           {ACCOUNT_ACTIONS.map((action, index) => (
             <React.Fragment key={action.label}>

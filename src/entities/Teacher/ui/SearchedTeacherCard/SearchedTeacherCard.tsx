@@ -2,12 +2,13 @@ import { Box, Text, Divider, Avatar } from '@chakra-ui/react';
 import { ArrowIcon } from '@/shared/assets';
 import { Teacher } from '@/shared';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { SearchedTeacherDrawer } from '../SearchedTeacherDrawer/SearchedTeacherDrawer';
 import { useColor, useDisclosure } from '@/shared/lib';
 
 export function SearchedTeacherCard({ teacher }: { teacher: Teacher }) {
   const { isOpen, setIsOpen } = useDisclosure();
+  const [activeSnapPoint, setActiveSnapPoint] = useState<string | number>(0.8);
   const { mainTextColor, themeColor, mainColor, mainElementColor } = useColor();
   useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
@@ -21,7 +22,14 @@ export function SearchedTeacherCard({ teacher }: { teacher: Teacher }) {
   }, [themeColor, mainColor, isOpen]);
 
   return (
-    <Drawer open={isOpen} onOpenChange={setIsOpen}>
+    <Drawer
+      open={isOpen}
+      onOpenChange={setIsOpen}
+      activeSnapPoint={activeSnapPoint}
+      setActiveSnapPoint={(newSnapPoint) =>
+        setActiveSnapPoint(newSnapPoint ?? 0.8)
+      }
+    >
       <DrawerTrigger asChild>
         <Box
           onClick={() => setIsOpen(true)}
@@ -37,7 +45,11 @@ export function SearchedTeacherCard({ teacher }: { teacher: Teacher }) {
             <Box display="flex" gap="10px" alignItems="center">
               <Avatar bg={mainElementColor} />
               <Box>
-                <Text color={mainTextColor} fontWeight="medium" fontSize="16px">
+                <Text
+                  color={mainTextColor}
+                  fontWeight="medium"
+                  fontSize={'clamp(14px, 4vw, 18px)'}
+                >
                   {teacher?.name}
                 </Text>
                 <Box fontSize="14px"></Box>
@@ -49,7 +61,11 @@ export function SearchedTeacherCard({ teacher }: { teacher: Teacher }) {
         </Box>
       </DrawerTrigger>
       <DrawerContent>
-        <SearchedTeacherDrawer teacher={teacher} />
+        <SearchedTeacherDrawer
+          teacher={teacher}
+          activeSnapPoint={activeSnapPoint}
+          setActiveSnapPoint={setActiveSnapPoint}
+        />
       </DrawerContent>
     </Drawer>
   );

@@ -19,18 +19,23 @@ import {
 } from '@/shared/ui/context-menu';
 import { getFormattedWeekScheduleFull } from './lib/getFormattedWeekScheduleFull';
 import { SHORT_WEEK_DAYS, WEEK_DAYS } from '@/shared/constants';
+import { HideIcon } from '@/shared/assets/chakraIcons/HideIcon';
+import { useNavigate } from 'react-router-dom';
 
 export function DayNameWithShareFull({
   dayName,
   dayLessons,
   weekParity,
+  hiddenLessonsExist
 }: {
   dayName: keyof typeof SHORT_WEEK_DAYS;
   dayLessons: Lesson[];
   weekParity: 'even' | 'odd';
+  hiddenLessonsExist: boolean
 }) {
   const { mainTextColor } = useColor();
   const toast = useToast();
+  const navigate = useNavigate()
   const { weekSchedule } = useSchedule();
   const { currentGroup } = useGroup();
   const isDesktop = useBreakpointValue({ base: false, md: true });
@@ -48,11 +53,14 @@ export function DayNameWithShareFull({
           color={mainTextColor}
           fontWeight="medium"
           fontSize="18px"
+          display='flex'
+          alignItems='center'
         >
-          {dayName && WEEK_DAYS[dayName]}
+          <Text>{dayName && WEEK_DAYS[dayName]}</Text>
+          {hiddenLessonsExist && <Box onClick={() => navigate('/account/hidden')} pl={2}><HideIcon opacity={'0.3'} color={mainTextColor}/></Box>}
         </Box>
       </ContextMenuTrigger>
-      <ContextMenuContent>
+      <ContextMenuContent avoidCollisions>
         <ContextMenuItem
           className={`space-x-2 ${dayLessons.length ? '' : 'hidden'}`}
           onClick={() =>
