@@ -102,18 +102,6 @@ export default defineConfig({
           },
           {
             urlPattern:
-              /^https:\/\/api\.pocket-kai\.judle\.ru\/user\/me\/favorite_groups$/,
-            handler: 'NetworkFirst', // Используем NetworkFirst для этого эндпоинта
-            options: {
-              cacheName: 'pocket-kai-favorite-groups-dev-cache', // Название кэша для этого эндпоинта
-              expiration: {
-                maxEntries: 10, // Кэшируем максимум 10 записей
-                maxAgeSeconds: 24 * 60 * 60, // Данные кэшируются на 1 день
-              },
-            },
-          },
-          {
-            urlPattern:
               /^https:\/\/pocket-kai-frontend\.vercel\.app\/.*\.(js|css|html|svg|png|ico|ttf)$/,
             handler: 'StaleWhileRevalidate',
             options: {
@@ -121,6 +109,30 @@ export default defineConfig({
               expiration: {
                 maxEntries: 50,
                 maxAgeSeconds: 30 * 24 * 60 * 60,
+              },
+            },
+          },
+          // API CACHE
+          {
+            urlPattern:
+              /^https:\/\/api\.pocket-kai\.ru\/user\/me\/favorite_groups$/,
+            handler: 'NetworkFirst', // Используем NetworkFirst для этого эндпоинта
+            options: {
+              cacheName: 'pocket-kai-api-cache--favourite_groups', // Название кэша для этого эндпоинта
+              expiration: {
+                maxEntries: 10, // Кэшируем максимум 10 записей
+                maxAgeSeconds: 24 * 60 * 60, // Данные кэшируются на 1 день
+              },
+            },
+          },
+          {
+            urlPattern: /^https:\/\/api\.pocket-kai\.ru\/user\/me$/,
+            handler: 'NetworkFirst', // Используем NetworkFirst для этого эндпоинта
+            options: {
+              cacheName: 'pocket-kai-api-cache--me', // Название кэша для этого эндпоинта
+              expiration: {
+                maxEntries: 10, // Кэшируем максимум 10 записей
+                maxAgeSeconds: 24 * 60 * 60, // Данные кэшируются на 1 день
               },
             },
           },
@@ -132,6 +144,30 @@ export default defineConfig({
               expiration: {
                 maxEntries: 50,
                 maxAgeSeconds: 7 * 24 * 60 * 60,
+              },
+            },
+          },
+          // API DEV CACHE
+          {
+            urlPattern:
+              /^https:\/\/api\.pocket-kai\.judle\.ru\/user\/me\/favorite_groups$/,
+            handler: 'NetworkFirst', // Используем NetworkFirst для этого эндпоинта
+            options: {
+              cacheName: 'pocket-kai-api-dev-cache--favourite_groups', // Название кэша для этого эндпоинта
+              expiration: {
+                maxEntries: 10, // Кэшируем максимум 10 записей
+                maxAgeSeconds: 24 * 60 * 60, // Данные кэшируются на 1 день
+              },
+            },
+          },
+          {
+            urlPattern: /^https:\/\/api\.pocket-kai\.judle\.ru\/user\/me$/,
+            handler: 'NetworkFirst', // Используем NetworkFirst для этого эндпоинта
+            options: {
+              cacheName: 'pocket-kai-api-dev-cache--me', // Название кэша для этого эндпоинта
+              expiration: {
+                maxEntries: 10, // Кэшируем максимум 10 записей
+                maxAgeSeconds: 24 * 60 * 60, // Данные кэшируются на 1 день
               },
             },
           },
