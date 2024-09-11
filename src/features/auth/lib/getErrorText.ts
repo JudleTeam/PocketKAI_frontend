@@ -8,6 +8,8 @@ export const getErrorText = (error: AxiosError) => {
       return 'Проблемы на стороне КАИ. Попробуйте позже.';
     case 429:
       return 'Слишком много запросов. Попробуйте позже.';
+    case 504:
+      return 'Проблемы на стороне КАИ. Попробуйте позже.';
     default:
       break;
   }
