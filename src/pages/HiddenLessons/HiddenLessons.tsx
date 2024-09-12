@@ -24,7 +24,9 @@ export function HiddenLessons() {
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
   const weekDaysOrder = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
   const { mainColor, mainTextColor, mainElementColor } = useColor();
-  const dayNameColor = useColorModeValue(`${mainElementColor}40`, `${mainElementColor}80`);
+  const dayNameColor = useColorModeValue(    
+    `${mainElementColor}40`,
+    `${mainElementColor}`)
   const { isColoredDayDate } = useSettings();
   const { hiddenLessons, addHiddenLesson, deleteAllHiddenLesson, updateHiddenLesson, deleteHiddenLesson, deleteGroupHiddenLesson } = useGroup();
 

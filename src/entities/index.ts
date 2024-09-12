@@ -1,3 +1,5 @@
+export { RenderWeekSchedule } from './Schedule/ui/RenderWeekSchedule/RenderWeekSchedule';
+
 export { useCommon } from './Common/common.store';
 
 export { usePWAState } from './PWABadge/PWABadge.store';

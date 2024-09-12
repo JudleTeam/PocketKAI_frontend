@@ -7,7 +7,7 @@
   &__tab-list {
     position: fixed;
     z-index: 10;
-    padding: 15px 15px 5px 15px;
+    padding: 15px 15px 0px 15px;
     left: 0;
     top: 55px;
     width: 100%;
@@ -29,8 +29,3 @@
   }
 }
 
-.faded {
-  width: 100%;
-  border-radius: 8px;
-  box-shadow: 0 0 5px 0 #ed8936;
-}

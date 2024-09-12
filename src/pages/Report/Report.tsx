@@ -7,6 +7,7 @@ import {
 } from '@chakra-ui/react';
 import { AccountTabHeader } from '@/shared/lib';
 import styles from './Report.module.scss';
+import { useEffect } from 'react';
 export function Report() {
   const { theme } = useChakra();
   const { colorMode } = useColorMode();
@@ -18,6 +19,12 @@ export function Report() {
     theme.colors.light.main_text,
     theme.colors.dark.main_text
   );
+  useEffect(() => {
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) {
+        metaThemeColor.setAttribute('content', mainColor);
+      }
+  }, [mainColor]);
   return (
     <Box className={styles['report']}>
       <Box
