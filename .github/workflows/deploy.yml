@@ -37,5 +37,6 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           REMOTE_HOST: ${{ secrets.HOST }}
+          REMOTE_PORT: $${{ secrets.PORT }}
           TARGET: /var/www/pocket-kai
           SOURCE: dist/
