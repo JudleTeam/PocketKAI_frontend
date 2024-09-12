@@ -45,7 +45,7 @@ export function WeekSchedule() {
       }
   
       setTimeout(() => {
-        const target = document.getElementById(todayWeekDay);
+        const target = document.getElementById(todayWeekDay+weekParity);
         if (target) {
           target.scrollIntoView();
         }
@@ -61,7 +61,7 @@ export function WeekSchedule() {
   } = useColor();
   const currentDayOfWeek = dayIndex;
   const longDaysOfWeek = Object.keys(SHORT_WEEK_DAYS);
-  useScrollSpyFull(longDaysOfWeek, currentDay, setCurrentDay);
+  useScrollSpyFull(longDaysOfWeek, currentDay, weekParity ,setCurrentDay);
   const handleSwipeChange = (index: number) => {
     const parity = index === 0 ? 'even' : 'odd';
     setWeekParity(parity);
@@ -138,16 +138,16 @@ export function WeekSchedule() {
               fontSize={'clamp(16px, 1em, 18px)'}
               fontWeight="medium"
               borderRadius="6px"
-              bgColor={currentDay === day[0] ? cardColor : ''}
+              bgColor={currentDay === day[0]+weekParity ? cardColor : ''}
               boxShadow={
-                currentDay === day[0] ? `0 0 5px 0 rgba(0, 0, 0, 0.2)` : ''
+                currentDay === day[0]+weekParity ? `0 0 5px 0 rgba(0, 0, 0, 0.2)` : ''
               }
               padding={'6px 8px'}
             >
               <button
                 onClick={() => {
-                  setCurrentDay(day[0]);
-                  const target = document.getElementById(day[0]);
+                  setCurrentDay(day[0]+weekParity);
+                  const target = document.getElementById(day[0]+weekParity);
                   {
                     target && target.scrollIntoView();
                   }

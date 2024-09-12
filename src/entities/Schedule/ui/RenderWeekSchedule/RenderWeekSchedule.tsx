@@ -4,7 +4,6 @@ import { DayNameWithShareFull } from "@/features";
 import { getTodayDate, Lesson } from "@/shared";
 import { useColor } from "@/shared/lib";
 import { VStack,Box } from "@chakra-ui/react";
-import { DateTime } from "luxon";
 import { useEffect } from "react";
 import { useSchedule } from "../../model/schedule.store";
 import { Loader } from "@/shared/ui/loader/Loader";
@@ -26,25 +25,6 @@ export function RenderWeekSchedule({ weekDays, weekParity }: { weekDays: { [key:
     getFullWeekScheduleByName,
     updateHiddenLesson,
   ]);
-  useEffect(() => {
-    if (weekScheduleStatus === 'success') {
-      const todayWeekDay = DateTime.now()
-        .setLocale('en')
-        .setZone('Europe/Moscow')
-        .weekdayLong?.toLowerCase();
-      if (todayWeekDay === 'sunday' || !todayWeekDay) {
-        window.scrollTo(0, 0);
-        return;
-      }
-  
-      setTimeout(() => {
-        const target = document.getElementById(todayWeekDay);
-        if (target) {
-          target.scrollIntoView();
-        }
-      }, 100);
-    }
-  }, [weekScheduleStatus]);
   const {
     mainTextColor,
     cardColor,
@@ -80,9 +60,8 @@ export function RenderWeekSchedule({ weekDays, weekParity }: { weekDays: { [key:
                     hiddenLesson.lesson.type_hide === 'always')
               )
             );
-  
             return (
-              <Box id={dayName} key={dayName} scrollMarginTop={'-65px'}>
+              <Box id={dayName+weekParity} key={dayName+weekParity} scrollMarginTop={'-55px'}>
                 <DayNameWithShareFull
                   dayName={dayName as DayName}
                   dayLessons={dayLessons}
