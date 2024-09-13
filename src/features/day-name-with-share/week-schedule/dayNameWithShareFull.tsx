@@ -46,7 +46,7 @@ export function DayNameWithShareFull({
           _active={{ opacity: 0.5, bgColor: 'gray.200' }}
           transition={'0.2s'}
           borderRadius={3}
-          mt={5}
+          pt={5}
           pb={1}
           px={1.5}
           w={'fit-content'}

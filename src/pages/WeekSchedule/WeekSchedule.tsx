@@ -165,7 +165,6 @@ export function WeekSchedule() {
         style={{
           width: '100%',
         }}
-        autoHeight
         onSlideChange={({ activeIndex }) => handleSwipeChange(activeIndex)}
         initialSlide={weekParity === 'even' ? 0 : 1}
         modules={[Pagination]}
