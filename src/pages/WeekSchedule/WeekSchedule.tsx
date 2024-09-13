@@ -10,11 +10,11 @@ import { useColor } from '@/shared/lib';
 import { getTodayDate } from '@/shared';
 import 'swiper/css';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import {Pagination} from 'swiper/modules'
+import { Pagination } from 'swiper/modules';
 import { RenderWeekSchedule } from '@/entities';
 
 export function WeekSchedule() {
-  const swiperRef = useRef<any>(null)
+  const swiperRef = useRef<any>(null);
   const { getFullWeekScheduleByName, weekSchedule, weekScheduleStatus } =
     useSchedule();
   const weekNumber = DateTime.now().weekNumber;
@@ -43,9 +43,9 @@ export function WeekSchedule() {
         window.scrollTo(0, 0);
         return;
       }
-  
+
       setTimeout(() => {
-        const target = document.getElementById(todayWeekDay+weekParity);
+        const target = document.getElementById(todayWeekDay + weekParity);
         if (target) {
           target.scrollIntoView();
         }
@@ -53,15 +53,11 @@ export function WeekSchedule() {
     }
   }, [weekScheduleStatus]);
   const [currentDay, setCurrentDay] = useState<string>('');
-  const {
-    mainColor,
-    secondElementColor,
-    secondElementLightColor,
-    cardColor,
-  } = useColor();
+  const { mainColor, secondElementColor, secondElementLightColor, cardColor } =
+    useColor();
   const currentDayOfWeek = dayIndex;
   const longDaysOfWeek = Object.keys(SHORT_WEEK_DAYS);
-  useScrollSpyFull(longDaysOfWeek, currentDay, weekParity ,setCurrentDay);
+  useScrollSpyFull(longDaysOfWeek, currentDay, weekParity, setCurrentDay);
   const handleSwipeChange = (index: number) => {
     const parity = index === 0 ? 'even' : 'odd';
     setWeekParity(parity);
@@ -102,8 +98,8 @@ export function WeekSchedule() {
             color={secondElementColor}
             fontWeight="medium"
             onClick={() => {
-              setWeekParity('even')
-              handleTabChange(0)
+              setWeekParity('even');
+              handleTabChange(0);
             }}
           >
             Чётная неделя
@@ -119,8 +115,8 @@ export function WeekSchedule() {
             color={secondElementColor}
             fontWeight="medium"
             onClick={() => {
-              setWeekParity('odd')
-              handleTabChange(1)
+              setWeekParity('odd');
+              handleTabChange(1);
             }}
           >
             Нечётная неделя
@@ -129,7 +125,7 @@ export function WeekSchedule() {
         <HStack justifyContent="space-between">
           {Object.entries(SHORT_WEEK_DAYS).map((day) => (
             <Box
-              key={day[0]+weekParity}
+              key={day[0] + weekParity}
               color={
                 currentDayOfWeek === day[0]
                   ? secondElementLightColor
@@ -138,16 +134,18 @@ export function WeekSchedule() {
               fontSize={'clamp(16px, 1em, 18px)'}
               fontWeight="medium"
               borderRadius="6px"
-              bgColor={currentDay === day[0]+weekParity ? cardColor : ''}
+              bgColor={currentDay === day[0] + weekParity ? cardColor : ''}
               boxShadow={
-                currentDay === day[0]+weekParity ? `0 0 5px 0 rgba(0, 0, 0, 0.2)` : ''
+                currentDay === day[0] + weekParity
+                  ? `0 0 5px 0 rgba(0, 0, 0, 0.2)`
+                  : ''
               }
               padding={'6px 8px'}
             >
               <button
                 onClick={() => {
-                  setCurrentDay(day[0]+weekParity);
-                  const target = document.getElementById(day[0]+weekParity);
+                  setCurrentDay(day[0] + weekParity);
+                  const target = document.getElementById(day[0] + weekParity);
                   {
                     target && target.scrollIntoView();
                   }
@@ -160,28 +158,33 @@ export function WeekSchedule() {
         </HStack>
       </Box>
       <Swiper
-      onSwiper={swiper => {swiperRef.current = swiper}}
-      ref={swiperRef}
-      style={{
-        width: '100%'
-      }}
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+        }}
+        ref={swiperRef}
+        style={{
+          width: '100%',
+        }}
+        autoHeight
         onSlideChange={({ activeIndex }) => handleSwipeChange(activeIndex)}
         initialSlide={weekParity === 'even' ? 0 : 1}
         modules={[Pagination]}
       >
         <SwiperSlide
-        style={{
-          width: '100%'
-        }}>
+          style={{
+            width: '100%',
+          }}
+        >
           <RenderWeekSchedule
             weekDays={weekSchedule ? weekSchedule['even'].week_days : {}}
             weekParity="even"
           />
         </SwiperSlide>
-        <SwiperSlide 
-        style={{
-          width: '100%'
-        }}>
+        <SwiperSlide
+          style={{
+            width: '100%',
+          }}
+        >
           <RenderWeekSchedule
             weekDays={weekSchedule ? weekSchedule['odd'].week_days : {}}
             weekParity="odd"
