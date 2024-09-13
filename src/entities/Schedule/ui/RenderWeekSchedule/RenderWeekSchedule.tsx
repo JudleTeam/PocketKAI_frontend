@@ -35,7 +35,7 @@ export function RenderWeekSchedule({ weekDays, weekParity }: { weekDays: { [key:
       padding={
         weekScheduleStatus === 'loading' || weekScheduleStatus === 'idle'
           ? '70vh 4px 60px 4px'
-          : '85px 4px 60px 4px'
+          : '75px 4px 60px 4px'
       }
       style={{ scrollbarWidth: 'none' }}
       overflowY="auto"
@@ -61,7 +61,7 @@ export function RenderWeekSchedule({ weekDays, weekParity }: { weekDays: { [key:
               )
             );
             return (
-              <Box id={dayName+weekParity} key={dayName+weekParity} scrollMarginTop={'-55px'}>
+              <Box id={dayName+weekParity} key={dayName+weekParity} scrollMarginTop={'-75px'}>
                 <DayNameWithShareFull
                   dayName={dayName as DayName}
                   dayLessons={dayLessons}

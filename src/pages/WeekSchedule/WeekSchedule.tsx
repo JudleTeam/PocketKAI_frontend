@@ -129,7 +129,7 @@ export function WeekSchedule() {
         <HStack justifyContent="space-between">
           {Object.entries(SHORT_WEEK_DAYS).map((day) => (
             <Box
-              key={day[0]}
+              key={day[0]+weekParity}
               color={
                 currentDayOfWeek === day[0]
                   ? secondElementLightColor
