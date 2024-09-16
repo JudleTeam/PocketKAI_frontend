@@ -245,6 +245,7 @@ export function SearchedTeacherDrawer({
         >
           <Loader status={teacherScheduleStatus} idleMessage="">
             <Swiper
+              autoHeight
               onSwiper={(swiper) => (swiperRef.current = swiper)}
               onSlideChange={({ activeIndex }) =>
                 handleSwipeChange(activeIndex)

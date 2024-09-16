@@ -273,6 +273,7 @@ export const TeacherDrawer = function TeacherDrawer({
           >
             <Loader status={teacherScheduleStatus} idleMessage="">
               <Swiper
+                autoHeight
                 onSwiper={(swiper) => (swiperRef.current = swiper)}
                 onSlideChange={({ activeIndex }) =>
                   handleSwipeChange(activeIndex)
