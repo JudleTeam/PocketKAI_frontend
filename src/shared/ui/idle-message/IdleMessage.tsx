@@ -38,7 +38,7 @@ export function IdleMessage() {
       <Text color={mainTextColor}>или</Text>
       <Box>
         <Drawer open={drawer.isOpen} onOpenChange={drawer.setIsOpen}>
-          <DrawerTrigger>
+          <DrawerTrigger asChild>
             <Button variant="outline" colorScheme="blue">
               Войдите в аккаунт
             </Button>
