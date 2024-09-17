@@ -1,4 +1,4 @@
-import { Box, Button, Text } from '@chakra-ui/react';
+import { Box, Button, Text, useColorModeValue } from '@chakra-ui/react';
 import { UiModal } from '../ui-modal/UiModal';
 import { AddGroupToFavourite } from '@/features';
 import { useColor } from '@/shared/lib';
@@ -12,16 +12,21 @@ export function IdleMessage() {
   const drawer = useDisclosure();
   const {isOpen, onOpen, onClose, onToggle} = useDrawerDisclosure()
   const { mainTextColor, themeColor, mainColor } = useColor();
+  const modalColor = useColorModeValue('#858585', '#0E1117');
   useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
-      if (isOpen) {
+      if (drawer.isOpen) {
         metaThemeColor.setAttribute('content', themeColor);
-      } else {
+      } 
+      if (isOpen){
+        metaThemeColor.setAttribute('content', modalColor)
+      }
+      else {
         metaThemeColor.setAttribute('content', mainColor);
       }
     }
-  }, [themeColor, mainColor, isOpen, drawer.isOpen]);
+  }, [themeColor, modalColor, mainColor, drawer.isOpen, isOpen]);
   return (
     <Box display="flex" flexDir="column" alignItems="center" gap="10px">
       <Text color={mainTextColor}>Добро пожаловать!</Text>
