@@ -22,7 +22,7 @@ export function IdleMessage() {
       if (isOpen){
         metaThemeColor.setAttribute('content', modalColor)
       }
-      else {
+      if(!drawer.isOpen && !isOpen) {
         metaThemeColor.setAttribute('content', mainColor);
       }
     }
