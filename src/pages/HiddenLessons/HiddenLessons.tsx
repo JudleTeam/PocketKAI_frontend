@@ -68,7 +68,7 @@ const groupedLessons: GroupedLessons = hiddenLessons.reduce((acc, { group, lesso
       <Box w="100%" style={{ scrollbarWidth: 'none' }} overflowY="auto" h="88vh">
         {hiddenLessons.length > 0 && (
           <Box w="100%" py="10px" display="flex" justifyContent="end">
-            <Button onClick={deleteAllHiddenLesson} size="sm" px="0" variant="ghost" color="#3182CE">
+            <Button onClick={deleteAllHiddenLesson} size="sm" px="0" variant="ghost" fontSize='16px' color="#3182CE">
               Вернуть все пары
             </Button>
           </Box>
@@ -82,7 +82,7 @@ const groupedLessons: GroupedLessons = hiddenLessons.reduce((acc, { group, lesso
           <Box key={groupName}>
             <Box fontSize="18px" fontWeight="medium" py="10px" display='flex' justifyContent='space-between' alignItems='center'>
               <Text fontWeight="bold" fontSize='20px'>{groupName}</Text>
-              <Button onClick={() => deleteGroupHiddenLesson(groupName)} size="sm" px="0" variant="ghost" color="#3182CE">
+              <Button onClick={() => deleteGroupHiddenLesson(groupName)} size="sm" px="0" variant="ghost" fontSize='16px' color="#3182CE">
                 Вернуть пары группы
               </Button>
             </Box>

@@ -4,7 +4,7 @@ import { useGroup } from '@/entities';
 import { useEffect } from 'react';
 import { ExamCard } from '@/entities';
 import { DateTime } from 'luxon';
-import { getTodayDate } from '@/shared';
+import { getTodayDate, IdleMessage } from '@/shared';
 import { lessonStateIcons } from '@/shared/constants';
 export function Exams() {
   const { getExamsByGroupId, exams, currentGroup } = useGroup();
@@ -93,14 +93,14 @@ export function Exams() {
       ) : (
         <Box
           position="absolute"
-          top="50%"
+          top="40%"
           left="50%"
           zIndex="2"
           transform="translate(-50%, -50%)"
           fontSize="20px"
           color={mainTextColor}
         >
-          Выберите группу
+          <IdleMessage/>
         </Box>
       )}
     </Box>

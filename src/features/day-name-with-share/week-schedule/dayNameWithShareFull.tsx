@@ -7,7 +7,7 @@ import {
 } from '@chakra-ui/react';
 import { Calendar, CalendarDays } from 'lucide-react';
 import { useGroup, useSchedule } from '@/entities';
-import { Lesson } from '@/shared';
+import { getTodayDate, Lesson } from '@/shared';
 import { shareData, useColor } from '@/shared/lib';
 import { getFormattedDayScheduleFull } from './lib/getFormattedDayScheduleFull';
 import {
@@ -21,43 +21,59 @@ import { getFormattedWeekScheduleFull } from './lib/getFormattedWeekScheduleFull
 import { SHORT_WEEK_DAYS, WEEK_DAYS } from '@/shared/constants';
 import { HideIcon } from '@/shared/assets/chakraIcons/HideIcon';
 import { useNavigate } from 'react-router-dom';
+import { DateTime } from 'luxon';
 
 export function DayNameWithShareFull({
   dayName,
   dayLessons,
   weekParity,
-  hiddenLessonsExist
+  hiddenLessonsExist,
 }: {
   dayName: keyof typeof SHORT_WEEK_DAYS;
   dayLessons: Lesson[];
   weekParity: 'even' | 'odd';
-  hiddenLessonsExist: boolean
+  hiddenLessonsExist: boolean;
 }) {
-  const { mainTextColor } = useColor();
+  const { mainTextColor,   } = useColor();
   const toast = useToast();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { weekSchedule } = useSchedule();
   const { currentGroup } = useGroup();
   const isDesktop = useBreakpointValue({ base: false, md: true });
+  const today = getTodayDate();
+  const todayDayOfWeek = DateTime.fromISO(today)
+    .setLocale('en')
+    .weekdayLong?.toLocaleLowerCase();
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>
         <Box
-          _active={{ opacity: 0.5, bgColor: 'gray.200' }}
           transition={'0.2s'}
-          borderRadius={3}
           pt={5}
           pb={1}
-          px={1.5}
           w={'fit-content'}
           color={mainTextColor}
           fontWeight="medium"
           fontSize="18px"
-          display='flex'
-          alignItems='center'
+          display="flex"
+          alignItems="center"
         >
-          <Text>{dayName && WEEK_DAYS[dayName]}</Text>
-          {hiddenLessonsExist && <Box onClick={() => navigate('/account/hidden')} pl={2}><HideIcon opacity={'0.3'} color={mainTextColor}/></Box>}
+          <Box
+            display={'flex'}
+            _active={{ opacity: 0.5, bgColor: 'gray.200' }}
+            borderRadius={3}
+            px={1.5}
+          >
+            <Text color={                todayDayOfWeek === dayName 
+                  ? 'blue.400'
+                  : mainTextColor}
+                  >{dayName && WEEK_DAYS[dayName]}</Text>
+            {hiddenLessonsExist && (
+              <Box onClick={() => navigate('/account/hidden')} pl={2}>
+                <HideIcon opacity={'0.3'} color={mainTextColor} />
+              </Box>
+            )}
+          </Box>
         </Box>
       </ContextMenuTrigger>
       <ContextMenuContent avoidCollisions>

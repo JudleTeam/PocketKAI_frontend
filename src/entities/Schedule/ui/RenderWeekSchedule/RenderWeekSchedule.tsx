@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 import { useSchedule } from '../../model/schedule.store';
 import { Loader } from '@/shared/ui/loader/Loader';
 import styles from './RenderWeekSchedule.module.scss';
-
+import { IdleMessage } from '@/shared';
 type DayName =
   | 'monday'
   | 'tuesday'
@@ -48,7 +48,7 @@ export function RenderWeekSchedule({
       style={{ scrollbarWidth: 'none' }}
       overflowY="auto"
     >
-      <Loader status={weekScheduleStatus} idleMessage="Выберите группу">
+      <Loader status={weekScheduleStatus} idleMessage={<IdleMessage/>}>
         {Object.entries(weekDays).map(([dayName, dayLessons]) => {
           if (dayName === 'sunday') return null;
 

@@ -4,6 +4,7 @@ import { TeacherCard } from '@/entities';
 import { useEffect } from 'react';
 import { Loader } from '@/shared/ui/loader/Loader';
 import { useColor } from '@/shared/lib';
+import { IdleMessage } from '@/shared';
 export function GroupTeachers() {
   const { mainTextColor } = useColor();
   const {
@@ -18,7 +19,7 @@ export function GroupTeachers() {
     }
   }, [currentGroup, groupDisciplinesStatus, getGroupDisciplines]);
   return (
-    <Loader status={groupDisciplinesStatus} idleMessage="Выберите группу">
+    <Loader status={groupDisciplinesStatus} idleMessage={<IdleMessage/>}>
       <Box id="teacher">
         <Box pt="20px" display="flex" flexDirection="column" gap="10px">
           {groupDisciplines &&

@@ -4,7 +4,7 @@ type LessonState = {
   state: 'upcoming' | 'past' | 'current' | 'unknown';
   color: string;
 };
-export function getLessonState(lesson: Lesson, lessonDay: string): LessonState {
+export function getLessonState(lesson: Lesson, lessonDay: string, fadedLesson?: boolean): LessonState {
   const currentTime = DateTime.now();
   const lessonNeedCheck =
     lesson.parsed_dates || lesson.parsed_dates_status === 'need_check';
@@ -24,6 +24,9 @@ export function getLessonState(lesson: Lesson, lessonDay: string): LessonState {
   if (!lesson.end_time || !lesson.start_time)
     return { state: 'unknown', color: '#3182CE' };
 
+  if (fadedLesson){
+    return {state: 'unknown', color: '#3182CE'}
+  }
   // Lesson is ongoing
   if (
     DateTime.fromISO(lesson.end_time) > currentTime &&

@@ -1,3 +1,5 @@
+export { shareGroupMembers } from './helpers/shareGroupMembers';
+
 export { useGoUpButton } from './hooks/useGoUpButton';
 export { useInfiniteScroll } from './hooks/useInfiniteScroll';
 
@@ -26,3 +28,4 @@ export { AccountTabHeader } from './ui-helpers/AccountTabHeader';
 export { getLessonBuilding } from './helpers/getLessonBuilding';
 
 export { decryptToken, encryptToken } from './helpers/encryptTokenByPW';
+
