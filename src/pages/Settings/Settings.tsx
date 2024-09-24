@@ -22,7 +22,7 @@ export function Settings() {
     toggleFullScheduleView,
   } = useSettings();
   return (
-    <Box className={styles['settings']}>
+    <Box className={styles['settings']}  w={{md: '40%'}}>
       <Box
         padding="20px 0 0 0"
         bgColor={mainColor}

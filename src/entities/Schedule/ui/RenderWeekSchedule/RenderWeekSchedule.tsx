@@ -72,7 +72,7 @@ export function RenderWeekSchedule({
             <Box
               id={dayName + weekParity}
               key={dayName + weekParity}
-              scrollMarginTop={'-85px'}
+              scrollMarginTop={{base: '-85px', md: '-60px'}}
             >
               <DayNameWithShareFull
                 dayName={dayName as DayName}

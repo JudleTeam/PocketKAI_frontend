@@ -54,6 +54,7 @@ export const TeacherCard = memo(function TeacherCard({
     >
       <DrawerTrigger asChild>
         <Box
+          cursor={'pointer'}
           className="flex justify-between items-center py-[10px]"
           id={disciplineType.teacher?.id}
           transition="0.2s"

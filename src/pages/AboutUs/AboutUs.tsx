@@ -18,7 +18,7 @@ export function AboutUs() {
     theme.colors.dark.main_text
   );
   return (
-    <Box className={styles['about']}>
+    <Box className={styles['about']}  w={{md: '40%'}}>
       <Box
         padding="20px 0 0 0"
         position={'sticky'}

@@ -66,7 +66,7 @@ export function SwiperWeekSchedule({
   const { mainTextColor, cardColor } = useColor();
   return (
     <Box
-      w="100%"
+      w={{base: "100%", md: '40%'}}
       padding={
         weekScheduleStatus === 'loading' || weekScheduleStatus === 'idle'
           ? '70vh 4px 60px 4px'
@@ -74,6 +74,8 @@ export function SwiperWeekSchedule({
       }
       style={{ scrollbarWidth: 'none' }}
       overflowY="auto"
+      cursor={'grab'}
+      _active={{cursor: 'grabbing'}}
     >
       <Loader status={weekScheduleStatus} idleMessage={<IdleMessage />}>
         <Swiper
@@ -156,7 +158,7 @@ export function SwiperWeekSchedule({
                             );
                           }
                           return (
-                            <FullLessonCard lesson={lesson} key={lesson.id} />
+                              <FullLessonCard lesson={lesson} key={lesson.id} />
                           );
                         }
                         return null;

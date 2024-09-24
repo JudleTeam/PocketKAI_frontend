@@ -26,7 +26,7 @@ export function Report() {
       }
   }, [mainColor]);
   return (
-    <Box className={styles['report']}>
+    <Box className={styles['report']} w={{md: '40%'}}>
       <Box
         padding="20px 0 0 0"
         position={'sticky'}

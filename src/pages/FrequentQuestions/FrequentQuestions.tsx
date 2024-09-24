@@ -26,7 +26,7 @@ export function FrequentQuestions() {
   const card = useColorModeValue('light.card', 'dark.card');
 
   return (
-    <Box className={styles['faq']}>
+    <Box className={styles['faq']}  w={{md: '40%'}}>
       <Box
         padding="20px 0 0 0"
         position={'sticky'}

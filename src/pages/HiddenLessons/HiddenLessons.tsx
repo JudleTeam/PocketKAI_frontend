@@ -61,7 +61,7 @@ const groupedLessons: GroupedLessons = hiddenLessons.reduce((acc, { group, lesso
 }, {} as GroupedLessons);
 
   return (
-    <Box className={styles['hidden']}>
+    <Box className={styles['hidden']}  w={{md: '40%'}}>
       <Box padding="20px 0 0 0" position={'sticky'} top={'0px'} bgColor={mainColor} zIndex={'2'} boxShadow={`0px 0px 20px 20px ${mainColor}`}>
         <AccountTabHeader color={mainTextColor}>Скрытые пары</AccountTabHeader>
       </Box>

@@ -39,5 +39,3 @@ export { accountActions } from './User/ui/AccountActions';
 export { FullLessonCard } from './Lesson/ui/FullLessonCard/FullLessonCard';
 
 export { RestCard } from './Lesson/ui/RestCard/RestCard';
-
-export { AddGroupToFavourite } from '../features/add-group-to-favourite/AddGroupToFavourite';

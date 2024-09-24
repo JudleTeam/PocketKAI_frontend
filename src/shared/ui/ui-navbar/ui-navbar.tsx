@@ -19,14 +19,19 @@ export function UiNavbar({
   return (
     <HStack
       pos={'fixed'}
-      bottom={'15px'}
+      bottom={{base: '15px', md: 'auto'}}
       w={{ base: '90%', md: 'auto' }}
       py={1}
       px={{ base: 2, md: 7 }}
       bgColor={mainElement}
       className={styles['navbar']}
       boxShadow={{ base: `0px 15px 20px 30px ${mainColor}`, md: 'none' }}
-      justifyContent={{ base: 'space-around', md: 'space-between' }}
+      justifyContent={{ base: 'space-around', md: 'space-around' }}
+      alignItems={{md: 'start'}}
+      flexDir={{md: 'column'}}
+      left={{md: '7%'}}
+      top={{md: '10%'}}
+      zIndex={{md: '50'}}
     >
       {navbarActions()}
     </HStack>

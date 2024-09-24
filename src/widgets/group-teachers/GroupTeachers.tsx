@@ -20,8 +20,8 @@ export function GroupTeachers() {
   }, [currentGroup, groupDisciplinesStatus, getGroupDisciplines]);
   return (
     <Loader status={groupDisciplinesStatus} idleMessage={<IdleMessage/>}>
-      <Box id="teacher">
-        <Box pt="20px" display="flex" flexDirection="column" gap="10px">
+      <Box w={{md: '40%'}} id="teacher">
+        <Box pt={{base: "20px", md: "50px"}} display="flex" flexDirection="column" gap="10px">
           {groupDisciplines &&
             groupDisciplines.map((discipline) => {
               const uniqueTeachers = new Map();

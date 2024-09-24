@@ -8,7 +8,7 @@ import {
 import { Calendar, CalendarDays } from 'lucide-react';
 import { useGroup, useSchedule } from '@/entities';
 import { getTodayDate, Lesson } from '@/shared';
-import { shareData, useColor } from '@/shared/lib';
+import { getWeekParity, shareData, useColor } from '@/shared/lib';
 import { getFormattedDayScheduleFull } from './lib/getFormattedDayScheduleFull';
 import {
   ContextMenu,
@@ -41,6 +41,7 @@ export function DayNameWithShareFull({
   const { currentGroup } = useGroup();
   const isDesktop = useBreakpointValue({ base: false, md: true });
   const today = getTodayDate();
+  const currentParity = getWeekParity();
   const todayDayOfWeek = DateTime.fromISO(today)
     .setLocale('en')
     .weekdayLong?.toLocaleLowerCase();
@@ -64,7 +65,9 @@ export function DayNameWithShareFull({
             borderRadius={3}
             px={1.5}
           >
-            <Text color={                todayDayOfWeek === dayName 
+            <Text color={                
+              
+              todayDayOfWeek+currentParity === dayName+weekParity
                   ? 'blue.400'
                   : mainTextColor}
                   >{dayName && WEEK_DAYS[dayName]}</Text>

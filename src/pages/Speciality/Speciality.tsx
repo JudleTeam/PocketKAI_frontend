@@ -53,7 +53,7 @@ export function Speciality() {
     },
   ];
   return (
-    <Box className={styles['speciality']}>
+    <Box className={styles['speciality']}  w={{md: '40%'}}>
       <Box
         padding="20px 0 0 0"
         position={'sticky'}

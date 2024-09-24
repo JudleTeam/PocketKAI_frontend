@@ -32,6 +32,7 @@ export function SearchedTeacherCard({ teacher }: { teacher: Teacher }) {
     >
       <DrawerTrigger asChild>
         <Box
+          cursor={'pointer'}
           onClick={() => setIsOpen(true)}
           transition="0.1s"
           _active={{ opacity: 0.5, transition: '0.1s' }}

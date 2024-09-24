@@ -64,6 +64,8 @@ export function WeekDaySchedule() {
   return (
     <Tabs
       className={styles['full-schedule']}
+      pt={{md: '40px'}}
+      alignItems={{md: 'center'}}
       defaultIndex={weekNumber % 2}
       variant="unstyled"
       index={weekParity === 'even' ? 0 : 1}
@@ -71,11 +73,14 @@ export function WeekDaySchedule() {
     >
       <Box
         className={styles['full-schedule__tab-list']}
+        pt={{ md: '35px' }}
+        alignItems={{md: 'center'}}
         bgColor={mainColor}
         boxShadow={`0 5px 5px 5px ${mainColor}`}
       >
         <TabList
           display="flex"
+          w={{md: "40%"}}
           justifyContent="space-between"
           alignItems="center"
           position="sticky"
@@ -116,12 +121,12 @@ export function WeekDaySchedule() {
             Нечётная неделя
           </Tab>
         </TabList>
-        <HStack justifyContent="space-between">
+        <HStack w={{xl: "40%"}} justifyContent="space-between">
           {Object.entries(SHORT_WEEK_DAYS).map((day, index) => (
             <Box
               key={day[0] + weekParity}
               color={
-                currentDayOfWeek === day[0]
+                currentDayOfWeek+currentParity === day[0]+weekParity
                   ? secondElementLightColor
                   : secondElementColor
               }

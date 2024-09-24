@@ -78,10 +78,12 @@ export function Account() {
           </>
         )}
       </Box>
-      <Box className={styles['account__body']}>
+      <Box className={styles['account__body']}
+      >
         <Box
           className={styles['account__user-actions']}
           bgColor={accountActionsColor}
+          w={{md: '40%'}}
         >
           <Drawer open={isOpen} onOpenChange={setIsOpen}>
             {user ? (
@@ -101,6 +103,7 @@ export function Account() {
             ) : (
               <DrawerTrigger asChild>
                 <Box
+                  cursor={'pointer'}
                   onClick={() => setIsOpen(true)}
                   display="flex"
                   justifyContent="space-between"
@@ -142,6 +145,7 @@ export function Account() {
           </Drawer>
         </Box>
         <Box
+              w={{md: '40%'}}
           className={styles['account__account-actions']}
           bgColor={accountActionsColor}
           top={user ? '140px' : '80px'}
