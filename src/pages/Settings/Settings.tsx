@@ -4,7 +4,7 @@ import { useColorMode } from '@chakra-ui/react';
 import styles from './Settings.module.scss';
 import { usePWAState, useSettings } from '@/entities';
 import { Select } from '@chakra-ui/react';
-import { ScheduleView } from '@/shared';
+import { FullScheduleView, ScheduleView } from '@/shared';
 export function Settings() {
   const { toggleColorMode, colorMode } = useColorMode();
   const { tabTeacher, mainColor, mainTextColor } = useColor();
@@ -13,11 +13,13 @@ export function Settings() {
     showFadedLessons,
     isScheduleInfinite,
     preferencedScheduleView,
+    fullScheduleView,
     isColoredDayDate,
     toggleShowFadedLessons,
     toggleIsScheduleInfinite,
     togglePreferencedScheduleView,
     toggleIsColoredDayDate,
+    toggleFullScheduleView,
   } = useSettings();
   return (
     <Box className={styles['settings']}>
@@ -139,6 +141,7 @@ export function Settings() {
         </Box> */}
         <Divider />
 
+        <Box>
         <Text fontSize="18px" fontWeight="bold" color={mainTextColor}>
           При открытии показывать:
         </Text>
@@ -153,6 +156,24 @@ export function Settings() {
           <option value="timeline">Таймлайн</option>
           <option value="full">Полное расписание</option>
         </Select>
+        </Box>
+        <Divider />
+        <Box>
+        <Text fontSize="18px" fontWeight="bold" color={mainTextColor}>
+          Полное расписание:
+        </Text>
+        <Select
+          color={mainTextColor}
+          defaultValue={fullScheduleView}
+          padding={'4px'}
+          onChange={(event) =>
+            toggleFullScheduleView(event.target.value as FullScheduleView)
+          }
+        >
+          <option value="week">Полная неделя</option>
+          <option value="day">По дням</option>
+        </Select>
+        </Box>
         <Divider />
         <Box
           display={'flex'}

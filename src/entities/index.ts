@@ -1,3 +1,5 @@
+export { SwiperWeekSchedule } from './Schedule/ui/SwiperWeekSchedule/SwiperWeekSchedule';
+
 export { RenderWeekSchedule } from './Schedule/ui/RenderWeekSchedule/RenderWeekSchedule';
 
 export { useCommon } from './Common/common.store';

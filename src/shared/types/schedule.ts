@@ -30,3 +30,5 @@ export type WeekParity = {
 };
 
 export type ScheduleView = 'timeline' | 'full'
+
+export type FullScheduleView = 'week' | 'day'

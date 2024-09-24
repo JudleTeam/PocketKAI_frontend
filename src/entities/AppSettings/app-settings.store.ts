@@ -1,12 +1,13 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { ScheduleView } from '@/shared';
+import { FullScheduleView, ScheduleView } from '@/shared';
 
 type SettingsState = {
   showFadedLessons: boolean;
   isScheduleInfinite: boolean;
   preferencedScheduleView: ScheduleView;
   isColoredDayDate: boolean;
+  fullScheduleView: FullScheduleView
 };
 
 type SettingsActions = {
@@ -14,6 +15,7 @@ type SettingsActions = {
   toggleIsScheduleInfinite: (value: boolean) => void;
   togglePreferencedScheduleView: (value: ScheduleView) => void;
   toggleIsColoredDayDate: (value: boolean) => void;
+  toggleFullScheduleView: (value: FullScheduleView) => void;
 };
 
 export const useSettings = create<SettingsState & SettingsActions>()(
@@ -23,6 +25,7 @@ export const useSettings = create<SettingsState & SettingsActions>()(
       isScheduleInfinite: true,
       isColoredDayDate: true,
       preferencedScheduleView: 'timeline',
+      fullScheduleView: 'day',
       toggleShowFadedLessons: (value) => {
         set({ showFadedLessons: value });
       },
@@ -35,6 +38,9 @@ export const useSettings = create<SettingsState & SettingsActions>()(
       toggleIsColoredDayDate(value) {
         set({ isColoredDayDate: value });
       },
+      toggleFullScheduleView(value) {
+        set({ fullScheduleView: value });
+      }
     }),
     {
       name: 'settings',
@@ -43,6 +49,7 @@ export const useSettings = create<SettingsState & SettingsActions>()(
         isScheduleInfinite: state.isScheduleInfinite,
         preferencedScheduleView: state.preferencedScheduleView,
         isColoredDayDate: state.isColoredDayDate,
+        fullScheduleView: state.fullScheduleView,
       }),
     }
   )
