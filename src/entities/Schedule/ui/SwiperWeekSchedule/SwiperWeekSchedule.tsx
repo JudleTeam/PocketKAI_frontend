@@ -54,7 +54,6 @@ export function SwiperWeekSchedule({
     setCurrentDay(selectedDay + weekParity);
   };
   const handleWeekChange = (slideToIndex: number, dayName: string) => {
-
     setWeekParity((prevParity) => (prevParity === 'even' ? 'odd' : 'even'));
 
     setTimeout(() => {
@@ -84,10 +83,14 @@ export function SwiperWeekSchedule({
           autoHeight
           onSlideChange={({ activeIndex }) => handleDaySwipeChange(activeIndex)}
           onReachEnd={() => {
-            handleWeekChange(1, 'monday');
+            setTimeout(() => {
+                handleWeekChange(1, 'monday');
+            }, 100)
           }}
           onReachBeginning={() => {
-            handleWeekChange(6, 'saturday');
+            setTimeout(() => {
+                handleWeekChange(6, 'saturday');
+            }, 100)
           }}
         >
           <SwiperSlide key="start-slide"></SwiperSlide>
