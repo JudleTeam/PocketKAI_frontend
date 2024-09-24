@@ -53,7 +53,17 @@ export function SwiperWeekSchedule({
     const selectedDay = dayKeys[activeIndex - 1];
     setCurrentDay(selectedDay + weekParity);
   };
+  const handleWeekChange = (slideToIndex: number, dayName: string) => {
 
+    setWeekParity((prevParity) => (prevParity === 'even' ? 'odd' : 'even'));
+
+    setTimeout(() => {
+      swiperRef.current?.slideTo(slideToIndex, 0); // Переместиться на нужный слайд без анимации
+      setCurrentDayIndex(slideToIndex);
+      setCurrentDay(dayName + (weekParity === 'even' ? 'odd' : 'even'));
+
+    }, 100); 
+  };
   const { mainTextColor, cardColor } = useColor();
   return (
     <Box
@@ -74,28 +84,10 @@ export function SwiperWeekSchedule({
           autoHeight
           onSlideChange={({ activeIndex }) => handleDaySwipeChange(activeIndex)}
           onReachEnd={() => {
-            setWeekParity((prevParity) =>
-              prevParity === 'even' ? 'odd' : 'even'
-            );
-            setTimeout(() => {
-              swiperRef.current?.slideTo(1);
-              setCurrentDayIndex(1);
-              setCurrentDay(
-                'monday' + (weekParity === 'even' ? 'odd' : 'even')
-              );
-            }, 100);
+            handleWeekChange(1, 'monday');
           }}
           onReachBeginning={() => {
-            setWeekParity((prevParity) =>
-              prevParity === 'even' ? 'odd' : 'even'
-            );
-            setTimeout(() => {
-              swiperRef.current?.slideTo(6);
-              setCurrentDayIndex(6);
-              setCurrentDay(
-                'saturday' + (weekParity === 'even' ? 'odd' : 'even')
-              );
-            }, 100);
+            handleWeekChange(6, 'saturday');
           }}
         >
           <SwiperSlide key="start-slide"></SwiperSlide>
@@ -120,7 +112,7 @@ export function SwiperWeekSchedule({
             );
             return (
               <SwiperSlide key={dayName + weekParity}>
-                <Box id={dayName + weekParity} minH={'70vh'} px="3px" pb="5px">
+                <Box id={dayName + weekParity} minH={'70vh'} px="5px" pb="5px">
                   <DayNameWithShareFull
                     dayName={dayName as DayName}
                     dayLessons={dayLessons}
