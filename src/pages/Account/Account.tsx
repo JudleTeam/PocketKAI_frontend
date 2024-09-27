@@ -146,7 +146,7 @@ export function Account() {
           </Drawer>
         </Box>
         <Box
-              w={{md: '40%'}}
+          style={isDesktop ? { width: '40%' } : {}}
           className={styles['account__account-actions']}
           bgColor={accountActionsColor}
           top={user ? '140px' : '80px'}
