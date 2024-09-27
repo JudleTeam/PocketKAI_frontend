@@ -56,7 +56,7 @@ export function Group() {
   const toast = useToast();
   const isDesktop = useBreakpointValue({ base: false, md: true });
   return (
-    <Box className={styles['group']}  w={{md: '40%'}}>
+    <Box className={styles['group']} style={isDesktop ? { width: '40%' } : {}}>
       <Box
         padding="20px 0 0 0"
         position={'sticky'}

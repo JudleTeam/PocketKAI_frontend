@@ -1,5 +1,5 @@
 import { AccountTabHeader, useColor } from '@/shared/lib';
-import { Button, Text, Box, Switch, Divider } from '@chakra-ui/react';
+import { Button, Text, Box, Switch, Divider, useBreakpointValue } from '@chakra-ui/react';
 import { useColorMode } from '@chakra-ui/react';
 import styles from './Settings.module.scss';
 import { usePWAState, useSettings } from '@/entities';
@@ -21,8 +21,9 @@ export function Settings() {
     toggleIsColoredDayDate,
     toggleFullScheduleView,
   } = useSettings();
+  const isDesktop = useBreakpointValue({ base: false, md: true });
   return (
-    <Box className={styles['settings']}  w={{md: '40%'}}>
+    <Box className={styles['settings']} style={isDesktop ? { width: '40%' } : {}}>
       <Box
         padding="20px 0 0 0"
         bgColor={mainColor}

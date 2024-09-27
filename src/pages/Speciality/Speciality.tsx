@@ -1,5 +1,5 @@
 import { useGroup, useUser } from '@/entities';
-import { Box, Text, useToast } from '@chakra-ui/react';
+import { Box, Text, useBreakpointValue, useToast } from '@chakra-ui/react';
 import { useChakra, useColorModeValue } from '@chakra-ui/react';
 import { getSpecialtyDetails } from './lib/getSpecialtyDetails';
 import { AccountTabHeader } from '@/shared/lib';
@@ -52,8 +52,9 @@ export function Speciality() {
       value: homeGroup?.educational_program_url ?? 'Неизвестно',
     },
   ];
+  const isDesktop = useBreakpointValue({ base: false, md: true });
   return (
-    <Box className={styles['speciality']}  w={{md: '40%'}}>
+    <Box className={styles['speciality']} style={isDesktop ? { width: '40%' } : {}}>
       <Box
         padding="20px 0 0 0"
         position={'sticky'}

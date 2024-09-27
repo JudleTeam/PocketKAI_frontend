@@ -4,6 +4,7 @@ import {
   useColorModeValue,
   Text,
   useColorMode,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import { AccountTabHeader } from '@/shared/lib';
 import styles from './Report.module.scss';
@@ -25,8 +26,9 @@ export function Report() {
         metaThemeColor.setAttribute('content', mainColor);
       }
   }, [mainColor]);
+  const isDesktop = useBreakpointValue({ base: false, md: true });
   return (
-    <Box className={styles['report']} w={{md: '40%'}}>
+    <Box className={styles['report']} style={isDesktop ? { width: '40%' } : {}}>
       <Box
         padding="20px 0 0 0"
         position={'sticky'}

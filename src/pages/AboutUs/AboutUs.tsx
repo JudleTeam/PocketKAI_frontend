@@ -4,6 +4,7 @@ import {
   useColorModeValue,
   Text,
   Divider,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import { AccountTabHeader } from '@/shared/lib';
 import styles from './AboutUs.module.scss';
@@ -17,8 +18,9 @@ export function AboutUs() {
     theme.colors.light.main_text,
     theme.colors.dark.main_text
   );
+  const isDesktop = useBreakpointValue({ base: false, md: true }); 
   return (
-    <Box className={styles['about']}  w={{md: '40%'}}>
+    <Box className={styles['about']} style={isDesktop ? { width: '40%' } : {}}>
       <Box
         padding="20px 0 0 0"
         position={'sticky'}

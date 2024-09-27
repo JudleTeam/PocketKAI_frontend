@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, Text, Divider } from '@chakra-ui/react';
+import { Box, Text, Divider, useBreakpointValue } from '@chakra-ui/react';
 import { useUser, accountActions, useGroup, useSchedule } from '@/entities';
 import { Auth, AuthNotAvailable } from '@/features';
 import {
@@ -44,7 +44,8 @@ export function Account() {
     if (userAuthStatus !== 'success') {
       getIsLoginEnabled();
     }
-  }, [userAuthStatus, getIsLoginEnabled]);
+  }, [userAuthStatus, getIsLoginEnabled]);  
+  const isDesktop = useBreakpointValue({ base: false, md: true }); 
   return (
     <Box className={styles['account']}>
       <Box className={styles['account__header']} bgColor={mainElementColor}>
@@ -83,7 +84,7 @@ export function Account() {
         <Box
           className={styles['account__user-actions']}
           bgColor={accountActionsColor}
-          w={{md: '40%'}}
+          style={isDesktop ? { width: '40%' } : {}}
         >
           <Drawer open={isOpen} onOpenChange={setIsOpen}>
             {user ? (
