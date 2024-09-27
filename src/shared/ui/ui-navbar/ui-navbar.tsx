@@ -30,7 +30,7 @@ export function UiNavbar({
       alignItems={{md: 'start'}}
       flexDir={{md: 'column'}}
       left={{md: '7%'}}
-      top={{md: '10%'}}
+      top={{md: '15%'}}
       zIndex={{md: '50'}}
     >
       {navbarActions()}
