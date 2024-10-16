@@ -110,6 +110,28 @@ export default defineConfig({
                 maxEntries: 50,
                 maxAgeSeconds: 30 * 24 * 60 * 60,
               },
+              plugins: [
+                {
+                  cacheDidUpdate: async () => {
+                    const currentDate = new Date();
+                    const year = currentDate.getFullYear();
+                    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Добавляем 1, так как месяцы отсчитываются с 0
+                    const day = String(currentDate.getDate()).padStart(2, '0'); // Добавляем ведущий ноль, если день меньше 10
+
+                    const currentTime = `${year}-${month}-${day}`;
+
+
+                    // Отправляем сообщение основному скрипту
+                    const clients = await self.clients.matchAll();
+                    clients.forEach((client) => {
+                      client.postMessage({
+                        type: 'UPDATE_TIME',
+                        time: currentTime,
+                      });
+                    });
+                  },
+                },
+              ],
             },
           },
           // API CACHE
@@ -203,6 +225,28 @@ export default defineConfig({
                 maxEntries: 50,
                 maxAgeSeconds: 7 * 24 * 60 * 60,
               },
+              plugins: [
+                {
+                  cacheDidUpdate: async () => {
+                    const currentDate = new Date();
+                    const year = currentDate.getFullYear();
+                    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Добавляем 1, так как месяцы отсчитываются с 0
+                    const day = String(currentDate.getDate()).padStart(2, '0'); // Добавляем ведущий ноль, если день меньше 10
+                    
+                    const currentTime = `${year}-${month}-${day}`;
+                    
+
+                    // Отправляем сообщение основному скрипту
+                    const clients = await self.clients.matchAll();
+                    clients.forEach((client) => {
+                      client.postMessage({
+                        type: 'UPDATE_TIME',
+                        time: currentTime,
+                      });
+                    });
+                  },
+                },
+              ],
             },
           },
         ],

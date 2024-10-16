@@ -5,10 +5,11 @@ import {
   useChakra,
   useColorMode,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { NavbarActions } from './navbar/NavbarActions';
-import { PWABadge, useUser } from '@/entities';
+import { isScheduleOutdated, PWABadge, useSchedule, useUser } from '@/entities';
 export function RootLayout() {
   const { theme } = useChakra();
   const themeColor = useColorModeValue(
@@ -19,7 +20,20 @@ export function RootLayout() {
 
   const { userAuthStatus, backgroundTasks, getBackgroundTaskStatus } =
     useUser();
-
+  const { schedule } = useSchedule();
+  const toast = useToast();
+  useEffect(() => {
+    if (isScheduleOutdated(schedule.parsed_at)) {
+      toast({
+        title: 'Расписание устарело',
+        isClosable: true,
+        status: 'info',
+        colorScheme: 'infoColor',
+        position: 'top',
+        duration: null
+      });
+    }
+  }, [schedule.parsed_at, toast]);
   useEffect(() => {
     if (!backgroundTasks) return;
     const getStatuses = () => {

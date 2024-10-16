@@ -11,3 +11,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <RouterComponent/>
   </AppProvider>
 );
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('message', (event) => {
+      if (event.data.type === 'UPDATE_TIME') {
+          localStorage.setItem('cacheUpdateDate', event.data.time);
+      }
+  });
+}

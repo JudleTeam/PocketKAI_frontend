@@ -36,7 +36,11 @@ const theme = extendTheme({
             tab: '#1A202C', // gray.800
             blue_element: '#53A6E7', //gray.500
             tab_teacher: '#4A5568'
-        }
+        },
+        infoColor: {
+          200: '#F6AD55',
+          600: '#F6AD55',
+        } 
     },
     styles: {
         global: (props: { colorMode: string }) => ({

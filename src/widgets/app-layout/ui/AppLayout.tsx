@@ -5,6 +5,12 @@ import {
   useDisclosure,
   VStack,
   useChakra,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverBody,
 } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
@@ -15,12 +21,13 @@ import styles from './AppLayout.module.scss';
 import { UiModal } from '@/shared/ui/ui-modal/UiModal';
 import { AddGroupToFavourite } from '@/features';
 import { SelectGroup } from '@/features';
-import { useGroup, useSchedule } from '@/entities';
+import { isScheduleOutdated, useGroup, useSchedule } from '@/entities';
 import { useScrollSpy } from '../lib/useScrollSpy';
 import { parityTypes } from '@/shared/constants';
 import { scrollToToday } from '@/shared/lib';
-import { isScheduleOutdated } from '@/entities';
 import logo from '../../../shared/assets/images/logo.png';
+import { CloudIcon } from '@/shared/assets/chakraIcons/CloudIcon';
+import { isScheduleOutdatedInternet } from '../lib/isScheduleOutdatedInternet';
 //import { useTour } from '@reactour/tour';
 export type ContextType = [
   string,
@@ -68,7 +75,6 @@ export function AppLayout() {
     getWeekParity,
     getFullWeekScheduleByName,
   ]);
-
   // useEffect(() => {
   //   currentDayRef.current = currentDay;
   // }, [currentDay]);
@@ -99,6 +105,7 @@ export function AppLayout() {
       }
     }
   }, [themeColor, mainColor, isOpen]);
+  console.log(isScheduleOutdatedInternet());
   const isNotDatebar =
     location.pathname.includes('teachers') ||
     location.pathname.includes('schedule/full') ||
@@ -138,7 +145,7 @@ export function AppLayout() {
             display={'flex'}
             alignItems={'center'}
             justifyContent={{ base: 'space-between', md: 'flex-end' }}
-            gap={4}
+            gap={{ md: 4 }}
           >
             <VStack
               data-tour="2"
@@ -158,12 +165,32 @@ export function AppLayout() {
               <Text fontSize={'clamp(14px, 4vw, 20px)'}>
                 {parity && parityTypes[parity?.parity]}
               </Text>
-              <Text color={'#ed8936'}>
-                {isScheduleOutdated(schedule.parsed_at) &&
-                  'Расписание устарело'}
-              </Text>
             </VStack>
             <SelectGroup onOpen={onOpen} />
+            {isScheduleOutdated(schedule.parsed_at) && (
+              <Popover>
+                <PopoverTrigger>
+                  <CloudIcon color="#F6AD55" w={25} h={25} />
+                </PopoverTrigger>
+                <PopoverContent marginY={{base: '10px', md: '0px'}}>
+                  <PopoverArrow />
+                  <PopoverCloseButton />
+                  <PopoverBody>
+                    {isScheduleOutdatedInternet() ? (
+                      <p>
+                        Расписание устарело, чтобы увидеть актуальное расписание
+                        - включите интернет.
+                      </p>
+                    ) : (
+                      <p>
+                        Расписание устарело, проблема на нашей стороне, следите
+                        за актуальными новостями!
+                      </p>
+                    )}
+                  </PopoverBody>
+                </PopoverContent>
+              </Popover>
+            )}
           </Box>
         </Box>
         <UiDatebar

@@ -34,19 +34,21 @@ export function WeekLineSchedule() {
     updateHiddenLesson,
   ]);
   useEffect(() => {
+    console.log(weekScheduleStatus)
     if (weekScheduleStatus === 'success') {
+      const targetUp = document.getElementById('monday' + weekParity);
       const todayWeekDay = DateTime.now()
         .setLocale('en')
         .setZone('Europe/Moscow')
         .weekdayLong?.toLowerCase();
       if (todayWeekDay === 'sunday' || !todayWeekDay) {
-        window.scrollTo(0, 0);
+        targetUp?.scrollIntoView()
         return;
       }
 
       setTimeout(() => {
         const target = document.getElementById(todayWeekDay + weekParity);
-        if (target) {
+        if (target && todayWeekDay !== 'sunday') {
           target.scrollIntoView();
         }
       }, 100);
