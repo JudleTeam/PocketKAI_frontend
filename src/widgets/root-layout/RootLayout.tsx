@@ -34,7 +34,7 @@ export function RootLayout() {
         duration: null
       });
     }
-  }, [schedule.parsed_at, toast]);
+  }, [toast]);
   useEffect(() => {
     if (!backgroundTasks) return;
     const getStatuses = () => {

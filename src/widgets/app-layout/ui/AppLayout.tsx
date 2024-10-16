@@ -105,7 +105,6 @@ export function AppLayout() {
       }
     }
   }, [themeColor, mainColor, isOpen]);
-  console.log(isScheduleOutdatedInternet());
   const isNotDatebar =
     location.pathname.includes('teachers') ||
     location.pathname.includes('schedule/full') ||
