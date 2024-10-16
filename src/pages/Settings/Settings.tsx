@@ -196,7 +196,7 @@ export function Settings() {
         <Text textAlign={'right'}>
           Версия:{' '}
           <Text as={'span'} fontWeight={'bold'}>
-            1.0.2
+            1.0.3
           </Text>
         </Text>
       </Box>
