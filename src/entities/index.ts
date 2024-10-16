@@ -1,3 +1,5 @@
+export { isScheduleOutdatedInternet } from './Schedule/lib/isScheduleOutdatedInternet';
+
 export { SwiperWeekSchedule } from './Schedule/ui/SwiperWeekSchedule/SwiperWeekSchedule';
 
 export { RenderWeekSchedule } from './Schedule/ui/RenderWeekSchedule/RenderWeekSchedule';
@@ -39,3 +41,4 @@ export { accountActions } from './User/ui/AccountActions';
 export { FullLessonCard } from './Lesson/ui/FullLessonCard/FullLessonCard';
 
 export { RestCard } from './Lesson/ui/RestCard/RestCard';
+

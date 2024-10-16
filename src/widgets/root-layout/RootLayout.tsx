@@ -10,6 +10,7 @@ import {
 import { useEffect } from 'react';
 import { NavbarActions } from './navbar/NavbarActions';
 import { isScheduleOutdated, PWABadge, useSchedule, useUser } from '@/entities';
+import { isScheduleOutdatedInternet } from '@/entities';
 export function RootLayout() {
   const { theme } = useChakra();
   const themeColor = useColorModeValue(
@@ -23,7 +24,7 @@ export function RootLayout() {
   const { schedule } = useSchedule();
   const toast = useToast();
   useEffect(() => {
-    if (isScheduleOutdated(schedule.parsed_at)) {
+    if (isScheduleOutdated(schedule.parsed_at) || isScheduleOutdatedInternet()) {
       toast({
         title: 'Расписание устарело',
         isClosable: true,

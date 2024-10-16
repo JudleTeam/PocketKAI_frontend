@@ -27,7 +27,7 @@ import { parityTypes } from '@/shared/constants';
 import { scrollToToday } from '@/shared/lib';
 import logo from '../../../shared/assets/images/logo.png';
 import { CloudIcon } from '@/shared/assets/chakraIcons/CloudIcon';
-import { isScheduleOutdatedInternet } from '../lib/isScheduleOutdatedInternet';
+import { isScheduleOutdatedInternet } from '@/entities';
 //import { useTour } from '@reactour/tour';
 export type ContextType = [
   string,
@@ -167,7 +167,7 @@ export function AppLayout() {
               </Text>
             </VStack>
             <SelectGroup onOpen={onOpen} />
-            {isScheduleOutdated(schedule.parsed_at) && (
+            {(isScheduleOutdated(schedule.parsed_at) || isScheduleOutdatedInternet()) && (
               <Popover>
                 <PopoverTrigger>
                   <CloudIcon color="#F6AD55" w={25} h={25} />
