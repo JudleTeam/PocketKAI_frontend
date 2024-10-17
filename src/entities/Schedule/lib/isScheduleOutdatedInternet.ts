@@ -10,6 +10,5 @@ export const isScheduleOutdatedInternet = () => {
         const todayDate = DateTime.fromISO(today).setZone('Europe/Moscow');
         return todayDate.diff(scheduleParsedDate, 'days').days > 7;
     }
-    return true;
 };
     
