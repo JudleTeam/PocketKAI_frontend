@@ -36,10 +36,12 @@ export function WeekDaySchedule() {
     if (weekScheduleStatus === 'success') {
       const todayIndexDay = DateTime.now().setLocale('ru').weekday;
       if (todayIndexDay === 7) {
-        swiperRef.current.slideTo(0);
+        swiperRef.current.slideTo(6);
         return;
       }
-      swiperRef.current.slideTo(todayIndexDay);
+      else{
+        swiperRef.current.slideTo(todayIndexDay);
+      }
     }
   }, [weekScheduleStatus]);
   const [currentDay, setCurrentDay] = useState<string>(dayName + weekParity);
