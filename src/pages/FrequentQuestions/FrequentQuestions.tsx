@@ -8,6 +8,7 @@ import {
   AccordionIcon,
   AccordionPanel,
   AccordionItem,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import { AccountTabHeader } from '@/shared/lib';
 import { getFAQ } from './lib/getFAQ';
@@ -24,9 +25,9 @@ export function FrequentQuestions() {
     theme.colors.dark.main_text
   );
   const card = useColorModeValue('light.card', 'dark.card');
-
+  const isDesktop = useBreakpointValue({ base: false, md: true });
   return (
-    <Box className={styles['faq']}>
+    <Box className={styles['faq']} style={isDesktop ? { width: '40%' } : {}}>
       <Box
         padding="20px 0 0 0"
         position={'sticky'}

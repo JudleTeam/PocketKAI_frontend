@@ -1,3 +1,7 @@
+export { WeekDaySchedule } from './week-day-schedule/WeekDaySchedule';
+
+export { WeekLineSchedule } from './week-line-schedule/WeekLineSchedule';
+
 export { TeacherScheduleLayout } from './teacher-schedule-layout/TeacherScheduleLayout';
 
 export { ScheduleLayout } from './schedule-layout/ScheduleLayout';

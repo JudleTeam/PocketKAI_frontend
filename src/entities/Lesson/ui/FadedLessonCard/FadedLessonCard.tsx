@@ -22,6 +22,7 @@ export function FadedLessonCard({
   const { isOpen, setIsOpen } = useDisclosure();
   const { mainTextColor, themeColor, mainColor } = useColor();
   const { showFadedLessons } = useSettings();
+  const fadedLesson = true;
   useEffect(() => {
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
@@ -54,7 +55,7 @@ export function FadedLessonCard({
               </Text>
             </div>
             <div className={styles['lesson-card__timeline']}>
-              {lessonStateIcons[getLessonState(lesson, dayDate).state]}
+              {lessonStateIcons[getLessonState(lesson, dayDate, fadedLesson).state]}
               {lessonStateLine(getLessonState(lesson, dayDate).color)}
             </div>
             <div className={styles['lesson-card__info']}>

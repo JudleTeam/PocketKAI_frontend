@@ -6,6 +6,8 @@ import {
   useColorModeValue,
   Divider,
   useToast,
+  Button,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import { AccountTabHeader } from '@/shared/lib';
 import styles from './Group.module.scss';
@@ -14,6 +16,8 @@ import React, { useEffect } from 'react';
 import { copyToast } from '@/shared';
 import { CopyIcon } from '@chakra-ui/icons';
 import { BgTasksLoader } from '@/shared/ui/loader/BgTasksLoader';
+import { shareGroupMembers } from '@/shared/lib';
+import { Share2Icon } from 'lucide-react';
 export function Group() {
   const { theme } = useChakra();
   const { homeGroup } = useGroup();
@@ -50,8 +54,9 @@ export function Group() {
     theme.colors.dark.blue_element
   );
   const toast = useToast();
+  const isDesktop = useBreakpointValue({ base: false, md: true });
   return (
-    <Box className={styles['group']}>
+    <Box className={styles['group']} style={isDesktop ? { width: '40%' } : {}}>
       <Box
         padding="20px 0 0 0"
         position={'sticky'}
@@ -59,17 +64,36 @@ export function Group() {
         bgColor={mainColor}
         zIndex={'2'}
         boxShadow={`0px 0px 20px 20px ${mainColor}`}
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
       >
         <AccountTabHeader color={mainTextColor}>
           Группа {homeGroup?.group_name}
         </AccountTabHeader>
+        <Button
+          onClick={() =>
+            shareGroupMembers(
+              userGroupMembers,
+              toast,
+              homeGroup?.group_name,
+              isDesktop
+            )
+          }
+          size="sm"
+          variant="ghost"
+          color="#3182CE"
+          fontSize="16px"
+        >
+          <Share2Icon />
+        </Button>
       </Box>
       <Box
         w="100%"
         style={{ scrollbarWidth: 'none' }}
         overflowY="auto"
         h="90vh"
-        padding="15px 0 70px 0"
+        padding="10px 0 70px 0"
       >
         <BgTasksLoader
           status={{
@@ -80,7 +104,7 @@ export function Group() {
           }}
           hasData={userGroupMembers.length > 1}
         >
-          <Box display="flex" flexDirection="column" gap="10px">
+          <Box pt="10px" display="flex" flexDirection="column" gap="10px">
             {userGroupMembers.map((groupMember) => (
               <React.Fragment key={groupMember.id}>
                 <Box

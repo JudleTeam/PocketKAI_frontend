@@ -1,10 +1,10 @@
 import { AccountTabHeader, useColor } from '@/shared/lib';
-import { Button, Text, Box, Switch, Divider } from '@chakra-ui/react';
+import { Button, Text, Box, Switch, Divider, useBreakpointValue } from '@chakra-ui/react';
 import { useColorMode } from '@chakra-ui/react';
 import styles from './Settings.module.scss';
 import { usePWAState, useSettings } from '@/entities';
 import { Select } from '@chakra-ui/react';
-import { ScheduleView } from '@/shared';
+import { FullScheduleView, ScheduleView } from '@/shared';
 export function Settings() {
   const { toggleColorMode, colorMode } = useColorMode();
   const { tabTeacher, mainColor, mainTextColor } = useColor();
@@ -13,14 +13,17 @@ export function Settings() {
     showFadedLessons,
     isScheduleInfinite,
     preferencedScheduleView,
+    fullScheduleView,
     isColoredDayDate,
     toggleShowFadedLessons,
     toggleIsScheduleInfinite,
     togglePreferencedScheduleView,
     toggleIsColoredDayDate,
+    toggleFullScheduleView,
   } = useSettings();
+  const isDesktop = useBreakpointValue({ base: false, md: true });
   return (
-    <Box className={styles['settings']}>
+    <Box className={styles['settings']} style={isDesktop ? { width: '40%' } : {}}>
       <Box
         padding="20px 0 0 0"
         bgColor={mainColor}
@@ -139,6 +142,7 @@ export function Settings() {
         </Box> */}
         <Divider />
 
+        <Box>
         <Text fontSize="18px" fontWeight="bold" color={mainTextColor}>
           При открытии показывать:
         </Text>
@@ -153,6 +157,24 @@ export function Settings() {
           <option value="timeline">Таймлайн</option>
           <option value="full">Полное расписание</option>
         </Select>
+        </Box>
+        <Divider />
+        <Box>
+        <Text fontSize="18px" fontWeight="bold" color={mainTextColor}>
+          Полное расписание:
+        </Text>
+        <Select
+          color={mainTextColor}
+          defaultValue={fullScheduleView}
+          padding={'4px'}
+          onChange={(event) =>
+            toggleFullScheduleView(event.target.value as FullScheduleView)
+          }
+        >
+          <option value="week">Полная неделя</option>
+          <option value="day">По дням</option>
+        </Select>
+        </Box>
         <Divider />
         <Box
           display={'flex'}
@@ -174,7 +196,7 @@ export function Settings() {
         <Text textAlign={'right'}>
           Версия:{' '}
           <Text as={'span'} fontWeight={'bold'}>
-            1.0.2
+            1.0.3
           </Text>
         </Text>
       </Box>

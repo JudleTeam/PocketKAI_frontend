@@ -8,6 +8,7 @@ import {
   useColorModeValue,
   useChakra,
   Divider,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from './NavbarActions.module.scss';
@@ -64,7 +65,7 @@ export function NavbarActions() {
     if (location.pathname === '/schedule/exams') return menuItems.exams;
     return menuItems.default;
   };
-
+  const isDesktop = useBreakpointValue({ base: false, md: true });
   return (
     <>
       {navbarActions.map((action) => {
@@ -81,7 +82,7 @@ export function NavbarActions() {
           >
             {menuItemsToShow.length > 0 ? (
               <Menu isLazy>
-                <MenuButton as={Box}>
+                <MenuButton as={Box} cursor={'pointer'}>
                   <Box
                     display={'flex'}
                     flexDir={{ base: 'column', md: 'row' }}
@@ -90,7 +91,7 @@ export function NavbarActions() {
                     justifyContent={'space-between'}
                     className={styles['stack']}
                   >
-                    <Box className={styles['icons']}>
+                    <Box className={styles['icons']} >
                       <Icon
                         color={
                           isCurrent || isSchedulePage ? mainElement : '#fff'
@@ -100,9 +101,10 @@ export function NavbarActions() {
                           styles['icon--active']
                         }`}
                       />
-                      <ArrowIcon w={3} h={3} color="#fff" />
+                      {isDesktop ? null : <ArrowIcon w={3} h={3} color="#fff"/>}
                     </Box>
                     <Box color="#fff">{action.label}</Box>
+                    {isDesktop ? <ArrowIcon w={3} h={3} color="#fff" transform="rotate(180deg)" /> : null}
                   </Box>
                 </MenuButton>
                 <MenuList
@@ -148,6 +150,7 @@ export function NavbarActions() {
                   }`}
                 />
                 <Box color="#fff">{action.label}</Box>
+                {isDesktop ? <Box w={3}></Box> : null}
               </Box>
             )}
           </Box>

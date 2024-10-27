@@ -4,9 +4,11 @@ import {
   useColorModeValue,
   Text,
   useColorMode,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import { AccountTabHeader } from '@/shared/lib';
 import styles from './Report.module.scss';
+import { useEffect } from 'react';
 export function Report() {
   const { theme } = useChakra();
   const { colorMode } = useColorMode();
@@ -18,8 +20,15 @@ export function Report() {
     theme.colors.light.main_text,
     theme.colors.dark.main_text
   );
+  useEffect(() => {
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) {
+        metaThemeColor.setAttribute('content', mainColor);
+      }
+  }, [mainColor]);
+  const isDesktop = useBreakpointValue({ base: false, md: true });
   return (
-    <Box className={styles['report']}>
+    <Box className={styles['report']} style={isDesktop ? { width: '40%' } : {}}>
       <Box
         padding="20px 0 0 0"
         position={'sticky'}
@@ -42,8 +51,8 @@ export function Report() {
             style={{ borderRadius: '8px', overflowY: 'auto' }}
             src={
               colorMode === 'light'
-                ? 'https://forms.yandex.ru/cloud/66b65dab84227c1b171b2fc2/?iframe=1&version=1.0.2'
-                : 'https://forms.yandex.ru/cloud/66b790f384227c34e21b2f91/?iframe=1&version=1.0.2'
+                ? 'https://forms.yandex.ru/cloud/66b65dab84227c1b171b2fc2/?iframe=1&version=1.0.3'
+                : 'https://forms.yandex.ru/cloud/66b790f384227c34e21b2f91/?iframe=1&version=1.0.3'
             }
             height="100%"
             frameBorder="0"

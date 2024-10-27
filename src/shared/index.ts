@@ -1,3 +1,5 @@
+export { IdleMessage } from './ui/idle-message/IdleMessage';
+
 export { copyToast } from './ui/copy-toast/CopyToast';
 
 export { getTodayDate } from './lib/helpers/getTodayDate';

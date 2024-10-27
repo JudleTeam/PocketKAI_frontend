@@ -4,7 +4,7 @@ import { useGroup } from '@/entities';
 import { useEffect } from 'react';
 import { ExamCard } from '@/entities';
 import { DateTime } from 'luxon';
-import { getTodayDate } from '@/shared';
+import { getTodayDate, IdleMessage } from '@/shared';
 import { lessonStateIcons } from '@/shared/constants';
 export function Exams() {
   const { getExamsByGroupId, exams, currentGroup } = useGroup();
@@ -27,18 +27,19 @@ export function Exams() {
     }
   }, [getExamsByGroupId, currentGroup]);
   return (
-    <Box className={styles['exams']}>
+    <Box className={styles['exams']} alignItems={{md: 'center'}}>
       <Text
         fontSize="22px"
         padding="5px 0"
         fontWeight="medium"
         color={mainTextColor}
+        w={{md:'40%'}}
       >
         Экзамены
       </Text>
       {exams.length > 0 ? (
         exams.map((exam, index) => (
-          <Box key={exam.id} display="flex" flexDirection="column" gap="3px">
+          <Box key={exam.id}         w={{md:'40%'}} display="flex" flexDirection="column" gap="3px">
             <Text color={mainTextColor} fontWeight="regular" fontSize="18px">
               {exam.parsed_date
                 ? getFormattedDate(exam.parsed_date)
@@ -59,7 +60,7 @@ export function Exams() {
             </div>
             <ExamCard key={exam.id} exam={exam} />
             {exams.length - 1 === index ? (
-              <Box display="flex" flexDirection="column" gap="10px">
+              <Box         w={{md:'40%'}} display="flex" flexDirection="column" gap="10px">
                 <div className={styles['exam__timeline']}>
                   <div className={styles['exam__timeline-stub']} />
                   <div className={styles['exam__timeline-part']}>
@@ -93,14 +94,14 @@ export function Exams() {
       ) : (
         <Box
           position="absolute"
-          top="50%"
+          top="40%"
           left="50%"
           zIndex="2"
           transform="translate(-50%, -50%)"
           fontSize="20px"
           color={mainTextColor}
         >
-          Выберите группу
+          <IdleMessage/>
         </Box>
       )}
     </Box>

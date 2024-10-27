@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, Text, Divider } from '@chakra-ui/react';
+import { Box, Text, Divider, useBreakpointValue } from '@chakra-ui/react';
 import { useUser, accountActions, useGroup, useSchedule } from '@/entities';
 import { Auth, AuthNotAvailable } from '@/features';
 import {
@@ -44,7 +44,8 @@ export function Account() {
     if (userAuthStatus !== 'success') {
       getIsLoginEnabled();
     }
-  }, [userAuthStatus, getIsLoginEnabled]);
+  }, [userAuthStatus, getIsLoginEnabled]);  
+  const isDesktop = useBreakpointValue({ base: false, md: true }); 
   return (
     <Box className={styles['account']}>
       <Box className={styles['account__header']} bgColor={mainElementColor}>
@@ -78,10 +79,12 @@ export function Account() {
           </>
         )}
       </Box>
-      <Box className={styles['account__body']}>
+      <Box className={styles['account__body']}
+      >
         <Box
           className={styles['account__user-actions']}
           bgColor={accountActionsColor}
+          style={isDesktop ? { width: '40%' } : {}}
         >
           <Drawer open={isOpen} onOpenChange={setIsOpen}>
             {user ? (
@@ -101,6 +104,7 @@ export function Account() {
             ) : (
               <DrawerTrigger asChild>
                 <Box
+                  cursor={'pointer'}
                   onClick={() => setIsOpen(true)}
                   display="flex"
                   justifyContent="space-between"
@@ -142,6 +146,7 @@ export function Account() {
           </Drawer>
         </Box>
         <Box
+          style={isDesktop ? { width: '40%' } : {}}
           className={styles['account__account-actions']}
           bgColor={accountActionsColor}
           top={user ? '140px' : '80px'}

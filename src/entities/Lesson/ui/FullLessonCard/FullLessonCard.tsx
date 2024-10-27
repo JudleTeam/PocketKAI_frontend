@@ -35,6 +35,7 @@ export const FullLessonCard = memo(function FullLessonCard({
           <Box
             w="100%"
             bgColor={variant === 'dark' ? cardColor : 'none'}
+            cursor={'pointer'}
             borderRadius="8px"
             padding="10px 15px"
             display="flex"

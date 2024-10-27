@@ -13,6 +13,7 @@ export const AccountTabHeader = ({
       <ChevronLeftIcon
         fontSize={'24px'}
         color={color}
+        cursor={'pointer'} 
         onClick={() => navigate(-1)}
       />
       <Text fontSize="24px" fontWeight="bold" color={color}>

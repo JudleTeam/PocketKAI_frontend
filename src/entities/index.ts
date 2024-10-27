@@ -1,3 +1,9 @@
+export { isScheduleOutdatedInternet } from './Schedule/lib/isScheduleOutdatedInternet';
+
+export { SwiperWeekSchedule } from './Schedule/ui/SwiperWeekSchedule/SwiperWeekSchedule';
+
+export { RenderWeekSchedule } from './Schedule/ui/RenderWeekSchedule/RenderWeekSchedule';
+
 export { useCommon } from './Common/common.store';
 
 export { usePWAState } from './PWABadge/PWABadge.store';
@@ -36,4 +42,3 @@ export { FullLessonCard } from './Lesson/ui/FullLessonCard/FullLessonCard';
 
 export { RestCard } from './Lesson/ui/RestCard/RestCard';
 
-export { AddGroupToFavourite } from '../features/add-group-to-favourite/AddGroupToFavourite';

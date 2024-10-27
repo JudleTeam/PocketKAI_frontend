@@ -5,19 +5,13 @@ import {
   Tab,
   Tabs,
   Divider,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverArrow,
-  PopoverHeader,
-  PopoverBody,
   useToast,
   useColorModeValue,
 } from '@chakra-ui/react';
 
 import { Link } from 'react-router-dom';
 import { LessonTypes, WEEK_DAYS } from '@/shared/constants';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTeachers } from '../../model/teacher.store';
 import { useColor } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader/Loader';
@@ -25,6 +19,9 @@ import { TeacherLessonCard } from '../TeacherLessonCard';
 import { TeacherDisciplineType } from '../../model/types';
 import { getWeekParity } from '@/shared/lib';
 import { copyToast } from '@/shared';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
+import { useSettings } from '@/entities';
 export const TeacherDrawer = function TeacherDrawer({
   disciplineType,
   disciplineName,
@@ -36,8 +33,10 @@ export const TeacherDrawer = function TeacherDrawer({
   activeSnapPoint: number | string;
   setActiveSnapPoint: (snapPoint: number) => void;
 }) {
-  const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
-
+  const [openPopoverIdEven, setOpenPopoverIdEven] = useState<string | null>(
+    null
+  ); // Состояние для четной недели
+  const [openPopoverIdOdd, setOpenPopoverIdOdd] = useState<string | null>(null); // Состояние для нечетной недели
   const [weekParity, setWeekParity] = useState<'even' | 'odd'>(getWeekParity());
   const numberParity = {
     even: 0,
@@ -49,6 +48,7 @@ export const TeacherDrawer = function TeacherDrawer({
     getTeacherScheduleById,
     clearTeacherSchedule,
   } = useTeachers();
+  const { isColoredDayDate } = useSettings();
   useEffect(() => {
     clearTeacherSchedule();
     const timeoutId = setTimeout(() => {
@@ -59,14 +59,95 @@ export const TeacherDrawer = function TeacherDrawer({
     return () => clearTimeout(timeoutId);
   }, [disciplineType.teacher, getTeacherScheduleById, clearTeacherSchedule]);
   const toast = useToast();
-  const popoverColor = useColorModeValue('gray.50', 'gray.700');
+  const swiperRef = useRef<any>(null);
+  const handleSwipeChange = (index: number) => {
+    const parity = index === 0 ? 'even' : 'odd';
+    setWeekParity(parity);
+  };
+  const handleTabChange = (index: number) => {
+    setWeekParity(index === 0 ? 'even' : 'odd');
+    swiperRef.current?.slideTo(index);
+  };
   const {
     mainTextColor,
+    mainElementColor,
     drawerColor,
     secondElementColor,
     secondElementLightColor,
     cardColor,
   } = useColor();
+  const dayNameColor = useColorModeValue(
+    `${mainElementColor}40`,
+    `${mainElementColor}`
+  );
+
+  useEffect(() => {
+    if (weekParity === 'even') {
+      setOpenPopoverIdOdd(null);
+    }
+    if (weekParity === 'odd') {
+      setOpenPopoverIdEven(null);
+    }
+  }, [weekParity]);
+  const handlePopoverOpen = (lessonId: string | null, week: 'even' | 'odd') => {
+    if (week === 'even') {
+      setOpenPopoverIdEven((prevId) => (prevId === lessonId ? null : lessonId));
+    } else {
+      setOpenPopoverIdOdd((prevId) => (prevId === lessonId ? null : lessonId));
+    }
+  };
+  const renderWeekSchedule = (week: 'even' | 'odd') => {
+    const openPopoverId =
+      week === 'even' ? openPopoverIdEven : openPopoverIdOdd;
+    return teacherSchedule[week].length > 0 ? (
+      Object.values(WEEK_DAYS).map((day, index) => {
+        const filteredTeacherSchedule = teacherSchedule[week].filter(
+          (lesson) => lesson.number_of_day === index + 1
+        );
+        return (
+          <Box key={day} py={2}>
+            <Box
+              display={'flex'}
+              alignItems={'center'}
+              bgColor={isColoredDayDate ? dayNameColor : ''}
+              _active={{ opacity: 0.5, bgColor: 'gray.200' }}
+              transition={'0.2s'}
+              borderRadius={3}
+              py={1}
+              px={1.5}
+              my={1}
+              w={'fit-content'}
+              color={`${mainTextColor}e6`}
+              fontWeight="medium"
+              fontSize="18px"
+            >
+              <Text>{day}</Text>
+            </Box>
+            {filteredTeacherSchedule.length > 0 ? (
+              filteredTeacherSchedule.map((lesson) => (
+                <TeacherLessonCard
+                  key={lesson.id}
+                  lesson={lesson}
+                  openPopoverId={openPopoverId}
+                  setOpenPopoverId={handlePopoverOpen}
+                  week={week}
+                />
+              ))
+            ) : (
+              <Text padding="5px 0" fontSize="16px" fontWeight="bold">
+                Выходной
+              </Text>
+            )}
+            <Divider padding="10px 0" />
+          </Box>
+        );
+      })
+    ) : (
+      <Text padding="15px 0" textAlign={'center'}>
+        Пар нет
+      </Text>
+    );
+  };
   return (
     <Box
       h="100%"
@@ -127,6 +208,8 @@ export const TeacherDrawer = function TeacherDrawer({
           overflowY={'auto'}
           style={{ scrollbarWidth: 'none' }}
           defaultIndex={numberParity[weekParity]}
+          index={weekParity === 'even' ? 0 : 1}
+          onChange={handleTabChange}
           onScroll={() => {
             if (activeSnapPoint !== 1) {
               setActiveSnapPoint(1);
@@ -154,7 +237,10 @@ export const TeacherDrawer = function TeacherDrawer({
               fontSize={'clamp(14px, 4vw, 20px)'}
               color={secondElementColor}
               fontWeight="medium"
-              onClick={() => setWeekParity('even')}
+              onClick={() => {
+                setWeekParity('even');
+                handleTabChange(0);
+              }}
             >
               Чётная неделя
             </Tab>
@@ -168,7 +254,10 @@ export const TeacherDrawer = function TeacherDrawer({
               fontSize={'clamp(14px, 4vw, 20px)'}
               color={secondElementColor}
               fontWeight="medium"
-              onClick={() => setWeekParity('odd')}
+              onClick={() => {
+                setWeekParity('odd');
+                handleTabChange(1);
+              }}
             >
               Нечётная неделя
             </Tab>
@@ -183,96 +272,24 @@ export const TeacherDrawer = function TeacherDrawer({
             position="relative"
           >
             <Loader status={teacherScheduleStatus} idleMessage="">
-              {teacherSchedule[weekParity].length > 0 ? (
-                Object.values(WEEK_DAYS).map((day, index) => {
-                  const filteredTeacherSchedule = teacherSchedule[
-                    weekParity
-                  ].filter((lesson) => lesson.number_of_day === index + 1);
-                  return (
-                    <Box
-                      position="relative"
-                      key={day}
-                      // {...(index !== 0 ? { 'data-vaul-no-drag': true } : {})}
-                    >
-                      <Text
-                        fontSize={20}
-                        fontWeight={'medium'}
-                        padding="10px 0"
-                      >
-                        {day}
-                      </Text>
-                      {filteredTeacherSchedule.length > 0 ? (
-                        filteredTeacherSchedule.map((lesson) => (
-                          <Popover
-                            isLazy
-                            key={lesson.id}
-                            isOpen={openPopoverId === lesson.id}
-                            onOpen={() =>
-                              lesson.id && setOpenPopoverId(lesson.id)
-                            }
-                            onClose={() => setOpenPopoverId(null)}
-                          >
-                            <PopoverTrigger>
-                              <button style={{ width: '100%' }}>
-                                <TeacherLessonCard
-                                  lesson={lesson}
-                                  key={lesson.id}
-                                />
-                              </button>
-                            </PopoverTrigger>
-                            <PopoverContent bgColor={popoverColor}>
-                              <PopoverArrow bg={popoverColor} />
-                              <PopoverHeader
-                                fontSize="16px"
-                                fontWeight={'bold'}
-                                color={mainTextColor}
-                              >
-                                {lesson.discipline.name}
-                              </PopoverHeader>
-                              <PopoverBody
-                                fontSize={'16px'}
-                                fontWeight={'medium'}
-                                color={mainTextColor}
-                                display="flex"
-                                flexDirection={'column'}
-                                gap="5px"
-                              >
-                                {lesson.parsed_dates_status ===
-                                'good' ? null : (
-                                  <Text>
-                                    Даты проведения: {lesson.original_dates}
-                                  </Text>
-                                )}
-                                <Box display="flex" flexWrap={'wrap'}>
-                                  <Text>Группы:&nbsp;</Text>
-                                  {lesson.groups.map((group, index) => (
-                                    <React.Fragment key={group.id}>
-                                      {`${group.group_name}${
-                                        lesson.groups.length - 1 === index
-                                          ? ''
-                                          : ', '
-                                      }`}
-                                    </React.Fragment>
-                                  ))}
-                                </Box>
-                              </PopoverBody>
-                            </PopoverContent>
-                          </Popover>
-                        ))
-                      ) : (
-                        <Text padding="5px 0" fontSize="16px" fontWeight="bold">
-                          Выходной
-                        </Text>
-                      )}
-                      <Divider padding="10px 0" />
-                    </Box>
-                  );
-                })
-              ) : (
-                <Text padding="15px 0" textAlign={'center'}>
-                  Пар нет
-                </Text>
-              )}
+              <Swiper
+                autoHeight
+                onSwiper={(swiper) => (swiperRef.current = swiper)}
+                onSlideChange={({ activeIndex }) =>
+                  handleSwipeChange(activeIndex)
+                }
+                initialSlide={weekParity === 'even' ? 0 : 1}
+                modules={[Pagination]}
+                style={{ width: '100%' }}
+              >
+                <SwiperSlide>
+                  <Box>{renderWeekSchedule('even')}</Box>
+                </SwiperSlide>
+
+                <SwiperSlide>
+                  <Box>{renderWeekSchedule('odd')}</Box>
+                </SwiperSlide>
+              </Swiper>
             </Loader>
           </Box>
         </Tabs>

@@ -34,6 +34,7 @@ const LessonCard = memo(
               className={styles['lesson-card']}
               alignItems="flex-start"
               transition="0.2s"
+              cursor={'pointer'}
               _active={{ opacity: 0.5, transition: '0.2s' }}
             >
               <div className={styles['lesson-card__time']}>

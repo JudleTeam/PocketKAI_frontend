@@ -34,7 +34,7 @@ export function DayNameWithShare({
   const isToday = day.date === getTodayDate();
   const dayNameColor = useColorModeValue(
     `${mainElementColor}40`,
-    `${mainElementColor}80`
+    `${mainElementColor}`
   );
   const toast = useToast();
   const navigate = useNavigate();

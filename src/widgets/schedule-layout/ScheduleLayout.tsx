@@ -10,7 +10,7 @@ import {
 import { TopBoundary, BottomBoundary, DayNameWithShare } from '@/features';
 
 import { useInfiniteScroll, useGoUpButton } from '@/shared/lib';
-import { getTodayDate } from '@/shared';
+import { getTodayDate, IdleMessage } from '@/shared';
 import { ArrowIcon } from '@/shared/assets';
 import { scrollToToday, useColor } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader/Loader';
@@ -30,7 +30,7 @@ export function ScheduleLayout() {
   }, [updateHiddenLesson, today]);
 
   return (
-    <Loader status={weekScheduleStatus} idleMessage="Выберите группу">
+    <Loader status={weekScheduleStatus} idleMessage={<IdleMessage/>}>
       <Box
         id="schedule"
         className={styles['schedule']}

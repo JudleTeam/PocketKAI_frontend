@@ -23,15 +23,17 @@ export function Teachers() {
   }, []);
 
   return (
-    <Box id="teacher" className={styles['teachers']}>
+    <Box id="teacher" className={styles['teachers']}
+    alignItems={{md: 'center'}}
+    >
       <Menu>
         <Box
           position="fixed"
           top={['55px', '65px']}
-          textAlign="left"
+          textAlign={{base: "left", md: "center"}}
           w="90%"
           zIndex="10"
-          padding="10px 0 0 0"
+          pt={{base: '10px', md: '30px'}}
           boxShadow={`0px 0px 10px 10px ${mainColor}`}
           bgColor={mainColor}
         >
