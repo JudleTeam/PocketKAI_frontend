@@ -9,8 +9,8 @@ import { lessonTypesEmojis } from '../constants/lessonTypesEmojis';
 import { DateTime } from 'luxon';
 
 const weekParityTranslation = {
-  odd: 'чет',
-  even: 'неч',
+  odd: 'неч',
+  even: 'чет',
   any: 'чет/неч',
 };
 

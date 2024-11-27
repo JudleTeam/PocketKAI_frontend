@@ -3,8 +3,8 @@ import { lessonTypesEmojis } from '@/shared/constants';
 import { DateTime } from 'luxon';
 
 const weekParityTranslation = {
-  odd: 'чет',
-  even: 'неч',
+  odd: 'неч',
+  even: 'чет',
   any: 'чет/неч',
 };
 
