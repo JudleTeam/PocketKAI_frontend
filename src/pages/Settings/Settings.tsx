@@ -19,7 +19,7 @@ export function Settings() {
     toggleIsScheduleInfinite,
     togglePreferencedScheduleView,
     toggleIsColoredDayDate,
-    toggleFullScheduleView,
+    toggleFullScheduleView  ,
   } = useSettings();
   const isDesktop = useBreakpointValue({ base: false, md: true });
   return (
@@ -196,7 +196,7 @@ export function Settings() {
         <Text textAlign={'right'}>
           Версия:{' '}
           <Text as={'span'} fontWeight={'bold'}>
-            1.0.3
+            1.0.3-hotfix
           </Text>
         </Text>
       </Box>
