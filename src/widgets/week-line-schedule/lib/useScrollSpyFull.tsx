@@ -11,19 +11,19 @@ export function useScrollSpyFull(
   useEffect(() => {
     const options = {
       root: null,
-      rootMargin: '-20% 0px -80% 0px',
-      threshold: 0,
+      rootMargin: '0px 0px -10% 0px',
+      threshold: 0.1,
     };
 
     observers.current = longDaysOfWeek.map((day) => {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setCurrentDay(day+weekParity);
+            setCurrentDay(day + weekParity);
           }
         });
       }, options);
-      const target = document.getElementById(day+weekParity);
+      const target = document.getElementById(day + weekParity);
       if (target) observer.observe(target);
       return observer;
     });

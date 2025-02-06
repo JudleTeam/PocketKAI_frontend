@@ -12,8 +12,6 @@ export { WeekSchedule } from './WeekSchedule/WeekSchedule';
 
 export { Assignments } from './Assignments/Assignments';
 
-export { Account } from './Account/Account';
-
 export { Report } from './Report/Report';
 
 export { FrequentQuestions } from './FrequentQuestions/FrequentQuestions';

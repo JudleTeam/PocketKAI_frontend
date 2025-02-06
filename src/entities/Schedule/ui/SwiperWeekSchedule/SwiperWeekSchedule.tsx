@@ -60,22 +60,16 @@ export function SwiperWeekSchedule({
       swiperRef.current?.slideTo(slideToIndex, 0); // Переместиться на нужный слайд без анимации
       setCurrentDayIndex(slideToIndex);
       setCurrentDay(dayName + (weekParity === 'even' ? 'odd' : 'even'));
-
-    }, 100); 
+    }, 100);
   };
-  const { mainTextColor, cardColor } = useColor();
+
+  const { mainTextColor, cardColor, mainColor } = useColor();
   return (
     <Box
-      w={{base: "100%", md: '40%'}}
-      padding={
-        weekScheduleStatus === 'loading' || weekScheduleStatus === 'idle'
-          ? '70vh 4px 60px 4px'
-          : '75px 4px 60px 4px'
-      }
-      style={{ scrollbarWidth: 'none' }}
-      overflowY="auto"
       cursor={'grab'}
-      _active={{cursor: 'grabbing'}}
+      w={{ md: '70%', lg: '40%' }}
+      height={'80vh'}
+      _active={{ cursor: 'grabbing' }}
     >
       <Loader status={weekScheduleStatus} idleMessage={<IdleMessage />}>
         <Swiper
@@ -86,13 +80,13 @@ export function SwiperWeekSchedule({
           onSlideChange={({ activeIndex }) => handleDaySwipeChange(activeIndex)}
           onReachEnd={() => {
             setTimeout(() => {
-                handleWeekChange(1, 'monday');
-            }, 100)
+              handleWeekChange(1, 'monday');
+            }, 100);
           }}
           onReachBeginning={() => {
             setTimeout(() => {
-                handleWeekChange(6, 'saturday');
-            }, 100)
+              handleWeekChange(6, 'saturday');
+            }, 100);
           }}
         >
           <SwiperSlide key="start-slide"></SwiperSlide>
@@ -117,13 +111,19 @@ export function SwiperWeekSchedule({
             );
             return (
               <SwiperSlide key={dayName + weekParity}>
-                <Box id={dayName + weekParity} minH={'70vh'} px="5px" pb="5px">
-                  <DayNameWithShareFull
-                    dayName={dayName as DayName}
-                    dayLessons={dayLessons}
-                    weekParity={weekParity}
-                    hiddenLessonsExist={hiddenLessonsExist}
-                  />
+                <Box id={dayName + weekParity}>
+                  <Box
+                    zIndex={20}
+                    position="relative"
+                    boxShadow={`0 5px 5px 5px ${mainColor}`}
+                  >
+                    <DayNameWithShareFull
+                      dayName={dayName as DayName}
+                      dayLessons={dayLessons}
+                      weekParity={weekParity}
+                      hiddenLessonsExist={hiddenLessonsExist}
+                    />
+                  </Box>
                   {allLessonsHidden ? (
                     <Box
                       w="100%"
@@ -137,7 +137,16 @@ export function SwiperWeekSchedule({
                       Время отдыхать
                     </Box>
                   ) : (
-                    <VStack gap="10px">
+                    <VStack
+                      gap="10px"
+                      height="70vh"
+                      pt={4}
+                      pb={10}
+                      px={1}
+                      overflowY={'scroll'}
+                      overflowX={'hidden'}
+                      style={{ scrollbarWidth: 'none' }}
+                    >
                       {dayLessons.map((lesson) => {
                         const isLessonHidden = hiddenLessons.some(
                           (hiddenLesson) =>
@@ -158,7 +167,7 @@ export function SwiperWeekSchedule({
                             );
                           }
                           return (
-                              <FullLessonCard lesson={lesson} key={lesson.id} />
+                            <FullLessonCard lesson={lesson} key={lesson.id} />
                           );
                         }
                         return null;

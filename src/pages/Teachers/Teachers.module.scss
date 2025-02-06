@@ -1,7 +1,36 @@
-.teachers {
-  display: flex !important;
-  flex-direction: column;
-  gap: 20px;
-  height: 90%;
-  padding: 30px 0px 80px 0px;
+.root {
+  &__list {
+    position: sticky;
+    z-index: 10;
+    padding-top: 10px;
+    left: 0;
+    top: 55px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__center {
+    display: flex;
+    justify-content: space-between !important;
+    align-items: center;
+    position: sticky;
+  }
+
+  &__item {
+    font-size: clamp(14px, 4vw, 20px);
+    font-weight: 500;
+  }
+
+  &__swiper {
+    height: 80vh;
+  }
+  &__slide {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow-y: scroll;
+    scrollbar-width: none;
+  }
 }

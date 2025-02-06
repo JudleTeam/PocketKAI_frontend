@@ -1,9 +1,9 @@
-import { Lesson } from '@/shared';
+import { Lesson, useMetaThemeColor } from '@/shared';
 import { Box, VStack, Text } from '@chakra-ui/react';
 import { LessonTypes } from '@/shared/constants';
 import { getLessonBuilding, useColor, useDisclosure } from '@/shared/lib';
 import { ArrowIcon } from '@/shared/assets/chakraIcons/ArrowIcon';
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 import { Drawer, DrawerTrigger, DrawerContent } from '@/shared/ui/drawer';
 import { HideLesson } from '@/features';
 import { LessonDrawer } from '../LessonDrawer/LessonDrawer';
@@ -17,16 +17,8 @@ export const FullLessonCard = memo(function FullLessonCard({
   const { isOpen, setIsOpen } = useDisclosure();
   const { mainTextColor, themeColor, mainColor, cardColor, tabTeacher } =
     useColor();
-  useEffect(() => {
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor) {
-      if (isOpen) {
-        metaThemeColor.setAttribute('content', themeColor);
-      } else {
-        metaThemeColor.setAttribute('content', mainColor);
-      }
-    }
-  }, [themeColor, mainColor, isOpen]);
+
+  useMetaThemeColor(mainColor, isOpen, themeColor);
 
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>

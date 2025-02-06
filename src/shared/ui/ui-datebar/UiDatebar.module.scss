@@ -1,9 +1,18 @@
-.datebar {
-  padding: 5px 0;
-}
+@import "@/app/styles/variables.scss";
 
-@media screen and (min-width: 768px) {
-  .datebar {
+.root {
+  width: 95%;
+  padding: 5px 0;
+  display: flex;
+  justify-content: space-around;
+  align-self: center;
+
+  &-none {
+    display: none !important;
+  }
+
+  @include media(md) {
+    width: 60%;
     padding: 0;
   }
 }

@@ -1,5 +1,5 @@
 import { DateTime, Interval } from 'luxon';
-const currentYear = DateTime.now().year;
+const currentYear = DateTime.now().setZone('Europe/Moscow').year;
 const firstSemesterStart = DateTime.fromISO(`${currentYear}-09-01`);
 const firstSemesterEnd = DateTime.fromISO(`${currentYear + 1}-01-01`);
 const secondSemesterStart = DateTime.fromISO(`${currentYear}-02-01`);

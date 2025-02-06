@@ -3,7 +3,6 @@ import {
   Icon,
   Text,
   useBreakpointValue,
-  useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
 import { Calendar, CalendarDays } from 'lucide-react';
@@ -29,19 +28,16 @@ export function DayNameWithShare({
   day: Day;
   hiddenLessonsExist: boolean;
 }) {
-  const { mainTextColor, mainElementColor } = useColor();
+  const { mainTextColor, blueVeryLightColor } = useColor();
 
   const isToday = day.date === getTodayDate();
-  const dayNameColor = useColorModeValue(
-    `${mainElementColor}40`,
-    `${mainElementColor}`
-  );
   const toast = useToast();
   const navigate = useNavigate();
   const { isColoredDayDate } = useSettings();
   const { schedule } = useSchedule();
   const { currentGroup } = useGroup();
   const isDesktop = useBreakpointValue({ base: false, md: true });
+
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>
@@ -49,12 +45,12 @@ export function DayNameWithShare({
           display={'flex'}
           alignItems={'center'}
           gap={isToday ? 2 : 0}
-          bgColor={isColoredDayDate ? dayNameColor : ''}
+          bgColor={isColoredDayDate ? blueVeryLightColor : ''}
           _active={{ opacity: 0.5, bgColor: 'gray.200' }}
           transition={'0.2s'}
-          borderRadius={3}
-          py={0.5}
-          px={1.5}
+          borderRadius="24px"
+          py="2px"
+          px={isColoredDayDate ? '15px' : '10px'}
           my={1}
           w={'fit-content'}
           color={`${mainTextColor}e6`}
@@ -62,11 +58,9 @@ export function DayNameWithShare({
           fontSize="18px"
         >
           <Text fontSize={'18px'}>{isToday && '➤'}</Text>
-          <Text fontSize={'clamp(16px, 5vw, 18px)'}>
-            {getFormattedDate(day.date)}
-          </Text>
+          <Text fontSize={'18px '}>{getFormattedDate(day.date)}</Text>
           {hiddenLessonsExist && (
-            <Box onClick={() => navigate('/account/hidden')} pl={2}>
+            <Box onClick={() => navigate('/hidden')} pl={2}>
               <HideIcon opacity={'0.3'} color={mainTextColor} />
             </Box>
           )}

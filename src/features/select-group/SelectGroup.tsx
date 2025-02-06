@@ -1,5 +1,5 @@
 import { useGroup, useSchedule, useUser } from '@/entities';
-import { GroupShort } from '@/shared';
+import { GroupShort, useColor } from '@/shared';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
   Menu,
@@ -10,15 +10,12 @@ import {
   MenuOptionGroup,
   MenuDivider,
   Button,
-  useColorModeValue,
 } from '@chakra-ui/react';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
+import s from './SelectGroup.module.scss';
 
 export function SelectGroup({ onOpen }: { onOpen: () => void }) {
-  const mainElementColor = useColorModeValue(
-    'light.main_element',
-    'dark.main_element'
-  );
+  const { mainElementColor } = useColor();
   const { userAuthStatus } = useUser();
   const {
     favouriteGroups,
@@ -28,61 +25,65 @@ export function SelectGroup({ onOpen }: { onOpen: () => void }) {
     getFavouriteGroups,
   } = useGroup();
   const { resetScheduleState } = useSchedule();
-  const handleGroupClick = (group: GroupShort) => {
-    setCurrentGroup(group);
-    resetScheduleState();
-  };
+
   useEffect(() => {
     if (userAuthStatus === 'success' && favouriteGroupsStatus === 'idle') {
       getFavouriteGroups();
     }
   }, [getFavouriteGroups, userAuthStatus, favouriteGroupsStatus]);
+
+  const handleGroupClick = useCallback(
+    (group: GroupShort) => {
+      setCurrentGroup(group);
+      resetScheduleState();
+    },
+    [resetScheduleState, setCurrentGroup]
+  );
+
   return (
-    <Menu>
-      {({ isOpen }) => (
+    <Menu placement="bottom-end">
+      {() => (
         <>
           <MenuButton
-            className="data-tour-3"
-            data-tour="3"
-            w={isOpen ? '51%' : '50%'}
+            className={s.root__button}
             as={Button}
-            transition="all 0.2s"
+            color={'white'}
+            fontSize={'16px'}
+            fontWeight={'regular'}
+            paddingY="5px"
+            paddingX="40px"
+            borderRadius={24}
             rightIcon={<ChevronDownIcon />}
+            data-tour="3"
             bg={mainElementColor}
-            color={'#ffffff'}
             _hover={{ bg: mainElementColor, boxShadow: 'outline' }}
             _focus={{ bg: mainElementColor }}
-            fontWeight={'500'}
-            fontSize={'16px'}
           >
-            {currentGroup ? `Гр. ${currentGroup.group_name}` : 'Группа'}
+            {currentGroup ? `${currentGroup.group_name}` : 'Группа'}
           </MenuButton>
           <MenuList
-            className="select-group"
-            color={'#ffffff'}
-            bg={mainElementColor}
+            className={s.root__list}
+            borderRadius={'24px'}
             zIndex={2}
+            color="white"
+            bg={mainElementColor}
           >
             <MenuItem
+              className={s.root__item}
               onClick={onOpen}
-              color={'#ffffff'}
               bg={mainElementColor}
-              fontWeight={'400'}
-              fontSize={'16px'}
-              justifyContent={'center'}
+              borderRadius="24px"
             >
-              Добавить группу
+              Новая группа
             </MenuItem>
             {favouriteGroups.length > 0 && (
               <React.Fragment>
                 <MenuDivider />
                 <MenuOptionGroup
+                  className={s.root__group}
                   title="Группа"
                   type="radio"
-                  color={'#ffffff'}
                   bg={mainElementColor}
-                  fontWeight={'500'}
-                  fontSize={'16px'}
                   value={currentGroup?.id}
                 >
                   {favouriteGroups.map((group) => (
@@ -90,6 +91,7 @@ export function SelectGroup({ onOpen }: { onOpen: () => void }) {
                       key={group.id}
                       value={group.id}
                       bg={mainElementColor}
+                      borderRadius="24px"
                       onClick={() => handleGroupClick(group)}
                     >
                       {group.group_name}

@@ -1,0 +1,44 @@
+.root {
+  width: 100%;
+  border-radius: 8px;
+  padding: 8px 0;
+  display: flex;
+  justify-content: space-between;
+
+  &__txt {
+    width: 100%;
+    align-items: flex-start !important;
+    gap: 2px !important;
+
+    &-types {
+      text-align: center;
+      font-size: 14px;
+    }
+
+    &-time {
+      font-weight: 500;
+      font-size: 20px;
+    }
+  }
+
+  &__build {
+    width: 42%;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0;
+
+    &-txt {
+      font-weight: 500;
+      font-size: 14px;
+      width: 100%;
+      word-break: break-all;
+      text-align: center;
+    }
+  }
+
+  &__popover {
+    align-items: center;
+    padding: 0 5px;
+    justify-content: center;
+  }
+}

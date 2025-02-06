@@ -24,7 +24,6 @@ import { ElipsisIcon } from '@/shared/assets/chakraIcons/ElipsisIcon';
 import { ShowIcon } from '@/shared/assets/chakraIcons/ShowIcon';
 import { HideIcon } from '@/shared/assets/chakraIcons/HideIcon';
 import styles from './HiddenLessons.module.scss';
-import { useColorModeValue } from '@chakra-ui/react';
 import { useColor } from '@/shared/lib';
 import { useEffect, useState } from 'react';
 import { AccountTabHeader } from '@/shared/lib';
@@ -48,11 +47,7 @@ export function HiddenLessons() {
     'Суббота',
     'Воскресенье',
   ];
-  const { mainColor, mainTextColor, mainElementColor } = useColor();
-  const dayNameColor = useColorModeValue(
-    `${mainElementColor}40`,
-    `${mainElementColor}`
-  );
+  const { mainColor, mainTextColor, blueVeryLightColor } = useColor();
   const { isColoredDayDate } = useSettings();
   const {
     hiddenLessons,
@@ -181,13 +176,19 @@ export function HiddenLessons() {
                     <Box w="100%" fontSize="18px" fontWeight="medium">
                       <Box
                         as="span"
-                        borderRadius={3}
-                        py={0.5}
-                        px={1.5}
                         my={1}
                         w={'fit-content'}
                         color={`${mainTextColor}e6`}
-                        bgColor={isColoredDayDate ? dayNameColor : ''}
+                        display={'flex'}
+                        alignItems={'center'}
+                        bgColor={isColoredDayDate ? blueVeryLightColor : ''}
+                        _active={{ opacity: 0.5, bgColor: 'gray.200' }}
+                        transition={'0.2s'}
+                        borderRadius="16px"
+                        py="2px"
+                        px={isColoredDayDate ? '15px' : '10px'}
+                        fontWeight="medium"
+                        fontSize="16px"
                       >
                         {dayName}
                       </Box>

@@ -39,16 +39,13 @@ export function RenderWeekSchedule({
   const { mainTextColor, cardColor } = useColor();
   return (
     <Box
-      w="100%"
-      padding={
-        weekScheduleStatus === 'loading' || weekScheduleStatus === 'idle'
-          ? '70vh 4px 60px 4px'
-          : '75px 4px 60px 4px'
-      }
+      h={'75vh'}
       style={{ scrollbarWidth: 'none' }}
       overflowY="auto"
+      pb={8}
+      px={1}
     >
-      <Loader status={weekScheduleStatus} idleMessage={<IdleMessage/>}>
+      <Loader status={weekScheduleStatus} idleMessage={<IdleMessage />}>
         {Object.entries(weekDays).map(([dayName, dayLessons]) => {
           if (dayName === 'sunday') return null;
 
@@ -69,11 +66,7 @@ export function RenderWeekSchedule({
             )
           );
           return (
-            <Box
-              id={dayName + weekParity}
-              key={dayName + weekParity}
-              scrollMarginTop={{base: '-85px', md: '-60px'}}
-            >
+            <Box id={dayName + weekParity} key={dayName + weekParity}>
               <DayNameWithShareFull
                 dayName={dayName as DayName}
                 dayLessons={dayLessons}

@@ -3,12 +3,11 @@ import {
   useChakra,
   useColorModeValue,
   Text,
-  useColorMode,
   useBreakpointValue,
+  useColorMode,
 } from '@chakra-ui/react';
-import { AccountTabHeader } from '@/shared/lib';
+import { AccountTabHeader, useMetaThemeColor } from '@/shared/lib';
 import styles from './Report.module.scss';
-import { useEffect } from 'react';
 export function Report() {
   const { theme } = useChakra();
   const { colorMode } = useColorMode();
@@ -20,12 +19,7 @@ export function Report() {
     theme.colors.light.main_text,
     theme.colors.dark.main_text
   );
-  useEffect(() => {
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor) {
-        metaThemeColor.setAttribute('content', mainColor);
-      }
-  }, [mainColor]);
+  useMetaThemeColor(mainColor);
   const isDesktop = useBreakpointValue({ base: false, md: true });
   return (
     <Box className={styles['report']} style={isDesktop ? { width: '40%' } : {}}>

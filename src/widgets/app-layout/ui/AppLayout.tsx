@@ -1,44 +1,34 @@
-import {
-  Text,
-  Box,
-  useColorModeValue,
-  useDisclosure,
-  VStack,
-  useChakra,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverBody,
-} from '@chakra-ui/react';
+import { Text, Box, useDisclosure, VStack } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { UiDatebar } from '@/shared/ui/ui-datebar/UiDatebar';
-import { DatebarContent } from '../datebar/DatebarContent';
-import styles from './AppLayout.module.scss';
-import { UiModal } from '@/shared/ui/ui-modal/UiModal';
-import { AddGroupToFavourite } from '@/features';
-import { SelectGroup } from '@/features';
-import { isScheduleOutdated, useGroup, useSchedule } from '@/entities';
+import { AddGroupToFavourite, SelectGroup } from '@/features';
+import { useGroup, useSchedule } from '@/entities';
+import logo from '@/shared/assets/images/logo.png';
+import {
+  UiDatebar,
+  UiModal,
+  parityTypes,
+  scrollToToday,
+  useColor,
+  useMetaThemeColor,
+} from '@/shared';
+import { BadgeContent } from '../badge/BadgeContent';
 import { useScrollSpy } from '../lib/useScrollSpy';
-import { parityTypes } from '@/shared/constants';
-import { scrollToToday } from '@/shared/lib';
-import logo from '../../../shared/assets/images/logo.png';
-import { CloudIcon } from '@/shared/assets/chakraIcons/CloudIcon';
-import { isScheduleOutdatedInternet } from '@/entities';
-//import { useTour } from '@reactour/tour';
+import { DatebarContent } from '../datebar/DatebarContent';
+import s from './AppLayout.module.scss';
+
 export type ContextType = [
   string,
   React.Dispatch<React.SetStateAction<string>>
 ];
 
 export function AppLayout() {
-  const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
   const [currentDay, setCurrentDay] = useState<string>(
     DateTime.now().setZone('Europe/Moscow').toFormat('yyyy-LL-dd')
   );
+  const { mainColor, mainTextColor, modalThemeColor } = useColor();
+  const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
   const { currentGroup } = useGroup();
   const {
     schedule,
@@ -50,6 +40,14 @@ export function AppLayout() {
   } = useSchedule();
   const swiperRef = useScrollSpy(schedule, setCurrentDay);
   const location = useLocation();
+
+  useMetaThemeColor(mainColor, isOpen, modalThemeColor);
+
+  const isNotDatebar =
+    location.pathname.includes('teachers') ||
+    location.pathname.includes('schedule/full') ||
+    location.pathname.includes('schedule/exams');
+
   useEffect(() => {
     const weekAgo = DateTime.now()
       .setZone('Europe/Moscow')
@@ -66,6 +64,7 @@ export function AppLayout() {
         }).then(() => {
           scrollToToday(false);
         });
+        5;
       });
     }
   }, [
@@ -75,121 +74,51 @@ export function AppLayout() {
     getWeekParity,
     getFullWeekScheduleByName,
   ]);
-  // useEffect(() => {
-  //   currentDayRef.current = currentDay;
-  // }, [currentDay]);
 
   useEffect(() => {
     document.getElementById(currentDay)?.scrollIntoView();
-    // return () => {
-    //   sessionStorage.setItem('currentDay', currentDayRef.current);
-    // };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
-  const { theme } = useChakra();
-  // const { setIsOpen } = useTour();
-  const mainTextColor = useColorModeValue('light.main_text', 'dark.main_text');
-  const mainColor = useColorModeValue(
-    theme.colors.light.main,
-    theme.colors.dark.main
-  );
-  const themeColor = useColorModeValue('#858585', '#0E1117');
-  useEffect(() => {
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor) {
-      if (isOpen) {
-        metaThemeColor.setAttribute('content', themeColor);
-      } else {
-        metaThemeColor.setAttribute('content', mainColor);
-      }
-    }
-  }, [themeColor, mainColor, isOpen]);
-  const isNotDatebar =
-    location.pathname.includes('teachers') ||
-    location.pathname.includes('schedule/full') ||
-    location.pathname.includes('schedule/exams');
   return (
     <Box
-      className={styles['app-layout']}
+      className={s.root}
       data-tour="1"
       scrollPaddingTop={
-        location.pathname.includes('schedule/full') ? '240px' : '150px'
+        location.pathname.includes('schedule/full') ? '240px' : '220px'
       }
     >
       <Box
-        className=""
+        className={s.root__content}
         bgColor={mainColor}
-        pos={'fixed'}
         boxShadow={{ base: 'none', md: `0px 5px 5px 5px ${mainColor}` }}
-        display={'flex'}
-        flexDir={'column'}
         gap={{ base: 0, md: 1 }}
-        top={0}
-        left={0}
-        w={'100%'}
-        zIndex={20}
       >
-        <Box
-          px={5}
-          py={1}
-          className={styles['app-layout__header']}
-          bgColor={mainColor}
-        >
-          <Box display={{ base: 'none', md: 'block' }} w={12}>
-            <img src={logo} />
-          </Box>
-          <Box
-            w={{ base: '100%', md: '40%' }}
-            display={'flex'}
-            alignItems={'center'}
-            justifyContent={{ base: 'space-between', md: 'flex-end' }}
-            gap={{ md: 4 }}
-          >
+        <Box px={5} py={1} className={s.root__header} bgColor={mainColor}>
+          <Box className={s['root__info']}>
             <VStack
+              className={s['root__info-text']}
               data-tour="2"
               alignItems={'flex-start'}
-              fontWeight={'medium'}
-              color={mainTextColor}
               gap={0.4}
-              onClick={() => {
-                scrollToToday(true);
-                //setIsOpen(true);
-              }}
+              color={mainTextColor}
+              onClick={() => scrollToToday(true)}
             >
-              <Text fontSize={'clamp(20px, 5vw, 24px)'}>
-                {DateTime.now().setLocale('ru').toFormat('d MMMM')}
+              <Text fontSize={'clamp(20px, 5vw, 20px)'}>
+                {DateTime.now()
+                  .setZone('Europe/Moscow')
+                  .setLocale('ru')
+                  .toFormat('d MMMM')}
               </Text>
-
-              <Text fontSize={'clamp(14px, 4vw, 20px)'}>
+              <Text fontSize={'clamp(14px, 4vw, 16px)'}>
                 {parity && parityTypes[parity?.parity]}
               </Text>
             </VStack>
             <SelectGroup onOpen={onOpen} />
-            {(isScheduleOutdated(schedule.parsed_at) || isScheduleOutdatedInternet()) && (
-              <Popover>
-                <PopoverTrigger>
-                  <CloudIcon color="#F6AD55" w={25} h={25} />
-                </PopoverTrigger>
-                <PopoverContent marginY={{base: '10px', md: '0px'}}>
-                  <PopoverArrow />
-                  <PopoverCloseButton />
-                  <PopoverBody>
-                    {isScheduleOutdatedInternet() ? (
-                      <p>
-                        Расписание устарело, чтобы увидеть актуальное расписание
-                        - включите интернет.
-                      </p>
-                    ) : (
-                      <p>
-                        Расписание устарело, проблема на нашей стороне, следите
-                        за актуальными новостями!
-                      </p>
-                    )}
-                  </PopoverBody>
-                </PopoverContent>
-              </Popover>
-            )}
+            <BadgeContent schedule={schedule} />
+          </Box>
+          <Box display={{ base: 'none', md: 'block' }} w={12}>
+            <img src={logo} />
           </Box>
         </Box>
         <UiDatebar

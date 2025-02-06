@@ -7,9 +7,9 @@ import { examStateLine } from '../../constants/examStateLine';
 import { DateTime } from 'luxon';
 import styles from './ExamCard.module.scss';
 import { ExamDrawer } from '../ExamDrawer/ExamDrawer';
-import { useEffect } from 'react';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
 import { useDisclosure } from '@/shared/lib';
+import { useMetaThemeColor } from '@/shared';
 export function ExamCard({ exam }: { exam: ExamType }) {
   const { isOpen, setIsOpen } = useDisclosure();
   const { theme } = useChakra();
@@ -22,16 +22,8 @@ export function ExamCard({ exam }: { exam: ExamType }) {
     theme.colors.light.main,
     theme.colors.dark.main
   );
-  useEffect(() => {
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor) {
-      if (isOpen) {
-        metaThemeColor.setAttribute('content', themeColor);
-      } else {
-        metaThemeColor.setAttribute('content', mainColor);
-      }
-    }
-  }, [themeColor, mainColor, isOpen]);
+
+  useMetaThemeColor(mainColor, isOpen, themeColor);
 
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>

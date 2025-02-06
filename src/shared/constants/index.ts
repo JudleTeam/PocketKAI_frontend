@@ -1,21 +1,11 @@
-export { lessonTypesEmojis } from './lessonTypesEmojis';
-
-export { SEMESTER_BREAKPOINTS } from './SEMESTER_BREAKPOINTS';
-
-export { SHORT_WEEK_DAYS, WEEK_DAYS } from './WEEK_DAYS';
-
-export { LessonTypes } from './lessonTypes';
-
-export { lessonStateIcons } from './lessonStateIcons';
-
-export { parityTypes } from './PARITY_TYPES';
-
-export type { NavbarAction } from './NAVBAR_ACTIONS';
-
-export { getNavbarActions } from './NAVBAR_ACTIONS';
-
-export { USER_ACTIONS } from './USER_ACTIONS';
-
-export { ACCOUNT_ACTIONS } from './ACCOUNT_ACTIONS';
-
-export { AUTH_PHRASES } from './AUTH_PHRASES';
+export * from './BURGER_ACTIONS';
+export * from './AUTH_PHRASES';
+export * from './NAVBAR_ACTIONS';
+export * from './PARITY_TYPES';
+export * from './ROUTES';
+export * from './SEMESTER_BREAKPOINTS';
+export * from './USER_ACTIONS';
+export * from './WEEK_DAYS';
+export * from './lessonStateIcons';
+export * from './lessonTypes';
+export * from './lessonTypesEmojis';

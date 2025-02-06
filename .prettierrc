@@ -4,6 +4,17 @@
     "semi": true,
     "singleQuote": true,
     "jsxSingleQuote": false,
-    "printWidth": 80
+    "printWidth": 80,
+    "bracketSameLine": false,
+    "bracketSpacing": true,
+    "endOfLine": "auto",
+    "overrides": [
+      {
+        "files": ["**.*.scss", "*.scss"],
+        "options": {
+          "singleQuote": false
+        }
+      }
+    ]
   }
   

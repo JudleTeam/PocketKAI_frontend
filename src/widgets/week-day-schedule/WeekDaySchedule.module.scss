@@ -1,9 +1,9 @@
-@import '../../app/styles/variables.scss';
-.full-schedule {
+@import "../../app/styles/variables.scss";
+.root {
   display: flex !important;
   flex-direction: column;
-  padding: 10px 0 30px 0;
   height: 92%;
+
   &__tab-list {
     position: fixed;
     z-index: 10;
@@ -28,4 +28,3 @@
     width: 100%;
   }
 }
-

@@ -7,8 +7,15 @@ import {
 } from '@chakra-ui/react';
 import { Calendar, CalendarDays } from 'lucide-react';
 import { useGroup, useSchedule } from '@/entities';
-import { getTodayDate, Lesson } from '@/shared';
-import { getWeekParity, shareData, useColor } from '@/shared/lib';
+import {
+  getTodayDate,
+  Lesson,
+  getWeekParity,
+  shareData,
+  useColor,
+  SHORT_WEEK_DAYS,
+  WEEK_DAYS,
+} from '@/shared';
 import { getFormattedDayScheduleFull } from './lib/getFormattedDayScheduleFull';
 import {
   ContextMenu,
@@ -18,7 +25,6 @@ import {
   ContextMenuTrigger,
 } from '@/shared/ui/context-menu';
 import { getFormattedWeekScheduleFull } from './lib/getFormattedWeekScheduleFull';
-import { SHORT_WEEK_DAYS, WEEK_DAYS } from '@/shared/constants';
 import { HideIcon } from '@/shared/assets/chakraIcons/HideIcon';
 import { useNavigate } from 'react-router-dom';
 import { DateTime } from 'luxon';
@@ -34,7 +40,7 @@ export function DayNameWithShareFull({
   weekParity: 'even' | 'odd';
   hiddenLessonsExist: boolean;
 }) {
-  const { mainTextColor,   } = useColor();
+  const { mainTextColor } = useColor();
   const toast = useToast();
   const navigate = useNavigate();
   const { weekSchedule } = useSchedule();
@@ -45,12 +51,13 @@ export function DayNameWithShareFull({
   const todayDayOfWeek = DateTime.fromISO(today)
     .setLocale('en')
     .weekdayLong?.toLocaleLowerCase();
+
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>
         <Box
           transition={'0.2s'}
-          pt={5}
+          pt={3}
           pb={1}
           w={'fit-content'}
           color={mainTextColor}
@@ -65,14 +72,17 @@ export function DayNameWithShareFull({
             borderRadius={3}
             px={1.5}
           >
-            <Text color={                
-              
-              todayDayOfWeek+currentParity === dayName+weekParity
+            <Text
+              color={
+                todayDayOfWeek + currentParity === dayName + weekParity
                   ? 'blue.400'
-                  : mainTextColor}
-                  >{dayName && WEEK_DAYS[dayName]}</Text>
+                  : mainTextColor
+              }
+            >
+              {dayName && WEEK_DAYS[dayName]}
+            </Text>
             {hiddenLessonsExist && (
-              <Box onClick={() => navigate('/account/hidden')} pl={2}>
+              <Box onClick={() => navigate('/hidden')} pl={2}>
                 <HideIcon opacity={'0.3'} color={mainTextColor} />
               </Box>
             )}

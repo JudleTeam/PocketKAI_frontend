@@ -1,7 +1,6 @@
 .schedule {
   display: flex;
   flex-direction: column;
-  padding: 80px 0 90px 0;
 }
 
 .day {
@@ -28,9 +27,9 @@
   }
 }
 
-html[data-theme='dark']
-  .day[data-is-today='true'][data-is-today-animated='true']:after {
-  content: '';
+html[data-theme="dark"]
+  .day[data-is-today="true"][data-is-today-animated="true"]:after {
+  content: "";
   top: 0;
   transform: translateX(150%);
   width: 100%;
@@ -47,9 +46,9 @@ html[data-theme='dark']
   );
 }
 
-html[data-theme='light']
-  .day[data-is-today='true'][data-is-today-animated='true']:after {
-  content: '';
+html[data-theme="light"]
+  .day[data-is-today="true"][data-is-today-animated="true"]:after {
+  content: "";
   top: 0;
   transform: translateX(150%);
   width: 100%;

@@ -1,7 +1,7 @@
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 import { HStack, Text } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
-import { Lesson } from '@/shared';
+import { Lesson, useMetaThemeColor } from '@/shared';
 import { lessonStateIcons } from '@/shared/constants';
 import { lessonStateLine } from '../../constants/lessonStateLine';
 import { LessonTypes } from '@/shared/constants';
@@ -16,16 +16,9 @@ const LessonCard = memo(
   ({ lesson, dayDate }: { lesson: Lesson; dayDate: string }) => {
     const { isOpen, setIsOpen } = useDisclosure();
     const { themeColor, mainTextColor, mainColor } = useColor();
-    useEffect(() => {
-      const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-      if (metaThemeColor) {
-        if (isOpen) {
-          metaThemeColor.setAttribute('content', themeColor);
-        } else {
-          metaThemeColor.setAttribute('content', mainColor);
-        }
-      }
-    }, [themeColor, mainColor, isOpen]);
+
+    useMetaThemeColor(mainColor, isOpen, themeColor);
+
     return (
       <Drawer open={isOpen} onOpenChange={setIsOpen}>
         <HideLesson lesson={lesson} dayDate={dayDate}>

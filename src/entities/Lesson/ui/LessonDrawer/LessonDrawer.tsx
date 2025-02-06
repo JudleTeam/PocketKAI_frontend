@@ -131,7 +131,7 @@ export function LessonDrawer({
           fontSize="14px"
           fontWeight="medium"
           color="orange.300"
-          to="/account/report"
+          to="/report"
         >
           Сообщить об ошибке
         </Text>

@@ -1,26 +1,16 @@
 import { useSchedule } from '@/entities';
-import { Box, useChakra, useColorModeValue, Text } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import styles from './DatebarContent.module.scss';
-import { MutableRefObject } from 'react';
+import s from './DatebarContent.module.scss';
+import { MutableRefObject, useCallback } from 'react';
 import { Swiper as SwiperType } from 'swiper';
-import { Nullable } from '@/shared';
+import { Day, Nullable, useColor } from '@/shared';
 import { DateTime } from 'luxon';
+import { isToday } from '@/shared';
+import { getDayOfWeek } from '@/shared';
+import cn from 'classnames';
 
-function getDayOfWeek(date: string) {
-  const daysOfWeek = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
-  const dayIndex = new Date(date).getDay();
-  return daysOfWeek[dayIndex];
-}
-function isToday(date: string) {
-  const day = DateTime.now().toFormat('yyyy-LL-dd');
-  return day === date;
-}
-function isCurrentMonth(date: string) {
-  const month = DateTime.now().toFormat('LL');
-  return month === date.slice(5, 7);
-}
 export function DatebarContent({
   currentDay,
   setCurrentDay,
@@ -30,28 +20,32 @@ export function DatebarContent({
   setCurrentDay: React.Dispatch<React.SetStateAction<string>>;
   swiperRef: MutableRefObject<Nullable<SwiperType>>;
 }) {
-  const { theme } = useChakra();
-  const cardColor = useColorModeValue(
-    theme.colors.light.card,
-    theme.colors.dark.card
-  );
-  const secondElementLightColor = useColorModeValue(
-    theme.colors.light.second_element_light,
-    theme.colors.dark.second_element_light
-  );
-  const secondElementColor = useColorModeValue(
-    theme.colors.light.second_element,
-    theme.colors.dark.second_element
-  );
-  const blueLightElementColor = useColorModeValue(
-    theme.colors.light.blue_light_element,
-    theme.colors.dark.blue_light_element
-  );
-  const blackLightElementColor = useColorModeValue(
-    theme.colors.light.black_light_element,
-    theme.colors.dark.black_light_element
-  );
+  const {
+    blueVeryLightColor,
+    secondElementColor,
+    secondElementLightColor,
+    blackLightElementColor,
+    blueLightElementColor,
+  } = useColor();
   const { schedule } = useSchedule();
+
+  const handleClick = useCallback(
+    (day: Day) => {
+      document.getElementById(day.date)?.scrollIntoView();
+      setCurrentDay(day.date);
+    },
+    [setCurrentDay]
+  );
+
+  const changeColor = (day: Day, todayColor: string, defaultColor: string) => {
+    return isToday(day.date) ? todayColor : defaultColor;
+  };
+
+  const isCurrentMonth = (date: string) => {
+    const month = DateTime.now().setZone('Europe/Moscow').toFormat('LL');
+    return month === date.slice(5, 7);
+  };
+
   return (
     <Swiper
       onSwiper={(swiper) => {
@@ -66,7 +60,7 @@ export function DatebarContent({
       onSlidePrevTransitionStart={(swiper) => {
         swiper.swipeDirection = 'prev';
       }}
-      className={`${styles['date-wrapper']}`}
+      className={s.root}
     >
       {schedule?.days.map((day) => {
         return (
@@ -76,36 +70,34 @@ export function DatebarContent({
                 style={
                   currentDay === day.date
                     ? {
-                        backgroundColor: cardColor,
-                        boxShadow: `0 0 5px 0 rgba(0, 0, 0, 0.2)`,
+                        backgroundColor: blueVeryLightColor,
                       }
                     : {}
                 }
-                className={`${styles['date']} ${
-                  isToday(day.date) ? styles['current'] : ''
-                } ${currentDay === day.date ? styles['today'] : ''}`}
-                onClick={() => {
-                  document.getElementById(day.date)?.scrollIntoView();
-                  setCurrentDay(day.date);
-                }}
+                className={cn({
+                  [s.root__date]: true,
+                  [s.root__current]: currentDay === day.date,
+                  [s.root__today]: isToday(day.date),
+                })}
+                onClick={() => handleClick(day)}
               >
                 <Box display="flex">
                   <Text
-                    color={
-                      isToday(day.date)
-                        ? secondElementLightColor
-                        : secondElementColor
-                    }
+                    color={changeColor(
+                      day,
+                      secondElementLightColor,
+                      secondElementColor
+                    )}
                   >
                     {day.date.slice(-2)}
                   </Text>
                   {isCurrentMonth(day.date) ? null : (
                     <Text
-                      color={
-                        isToday(day.date)
-                          ? secondElementLightColor
-                          : secondElementColor
-                      }
+                      color={changeColor(
+                        day,
+                        secondElementLightColor,
+                        secondElementColor
+                      )}
                       fontSize="10px"
                     >
                       {day.date.slice(5, 7)}
@@ -113,11 +105,11 @@ export function DatebarContent({
                   )}
                 </Box>
                 <Text
-                  color={
-                    isToday(day.date)
-                      ? blueLightElementColor
-                      : blackLightElementColor
-                  }
+                  color={changeColor(
+                    day,
+                    blueLightElementColor,
+                    blackLightElementColor
+                  )}
                 >
                   {getDayOfWeek(day.date)}
                 </Text>
