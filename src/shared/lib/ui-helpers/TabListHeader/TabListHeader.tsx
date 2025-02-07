@@ -43,7 +43,6 @@ export const TabListHeader: React.FC<TabListHeaderProps> = ({
   const weekSelected = {
     color: secondElementLightColor,
     bgColor: blueVeryLightColor,
-    borderRadius: '24px',
   };
 
   return (

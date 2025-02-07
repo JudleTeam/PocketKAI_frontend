@@ -22,7 +22,7 @@ export function ScheduleLayout() {
   const { schedule, weekScheduleStatus } = useSchedule();
   const { upperRef, lowerRef } = useInfiniteScroll();
   const { showButton, position: todayBlockPosition } = useGoUpButton();
-  const { blueVeryLightColor, mainElementColor, mainColor } = useColor();
+  const { blueVeryLightColor, navIconColor, mainColor } = useColor();
   const { hiddenLessons, updateHiddenLesson } = useGroup();
   useEffect(() => {
     updateHiddenLesson(today);
@@ -146,10 +146,10 @@ export function ScheduleLayout() {
               bgColor={blueVeryLightColor}
             >
               {todayBlockPosition === 'above' ? (
-                <ArrowIcon color={mainElementColor} w={'20px'} h={'20px'} />
+                <ArrowIcon color={navIconColor} w={'20px'} h={'20px'} />
               ) : (
                 <ArrowIcon
-                  color={mainElementColor}
+                  color={navIconColor}
                   w={'20px'}
                   h={'20px'}
                   transform="rotate(180deg)"

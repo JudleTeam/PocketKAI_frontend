@@ -9,3 +9,4 @@ export * from './WEEK_DAYS';
 export * from './lessonStateIcons';
 export * from './lessonTypes';
 export * from './lessonTypesEmojis';
+export * from './DAY_NAME';

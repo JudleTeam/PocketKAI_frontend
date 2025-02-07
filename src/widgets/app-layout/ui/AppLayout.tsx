@@ -2,12 +2,11 @@ import { Text, Box, useDisclosure, VStack } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { AddGroupToFavourite, SelectGroup } from '@/features';
+import { SelectGroup } from '@/features';
 import { useGroup, useSchedule } from '@/entities';
 import logo from '@/shared/assets/images/logo.png';
 import {
   UiDatebar,
-  UiModal,
   parityTypes,
   scrollToToday,
   useColor,
@@ -20,7 +19,7 @@ import s from './AppLayout.module.scss';
 
 export type ContextType = [
   string,
-  React.Dispatch<React.SetStateAction<string>>
+  React.Dispatch<React.SetStateAction<string>>,
 ];
 
 export function AppLayout() {
@@ -28,7 +27,7 @@ export function AppLayout() {
     DateTime.now().setZone('Europe/Moscow').toFormat('yyyy-LL-dd')
   );
   const { mainColor, mainTextColor, modalThemeColor } = useColor();
-  const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
+  const { isOpen } = useDisclosure();
   const { currentGroup } = useGroup();
   const {
     schedule,
@@ -114,7 +113,7 @@ export function AppLayout() {
                 {parity && parityTypes[parity?.parity]}
               </Text>
             </VStack>
-            <SelectGroup onOpen={onOpen} />
+            <SelectGroup />
             <BadgeContent schedule={schedule} />
           </Box>
           <Box display={{ base: 'none', md: 'block' }} w={12}>
@@ -133,12 +132,6 @@ export function AppLayout() {
       <div className="pt-16">
         <Outlet context={[currentDay, setCurrentDay] satisfies ContextType} />
       </div>
-      <UiModal
-        isOpen={isOpen}
-        onClose={onClose}
-        setIsOpen={onToggle}
-        modalActions={() => AddGroupToFavourite(onClose)}
-      />
     </Box>
   );
 }

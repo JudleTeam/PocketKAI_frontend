@@ -1,23 +1,14 @@
 import { useGroup } from '@/entities';
-import { FullLessonCard } from '@/entities';
-import { DayNameWithShareFull } from '@/features';
 import { getTodayDate, Lesson } from '@/shared';
-import { useColor } from '@/shared/lib';
-import { VStack, Box } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useSchedule } from '../../model/schedule.store';
 import { Loader } from '@/shared/ui/loader/Loader';
-import styles from './SwiperWeekSchedule.module.scss';
 import { IdleMessage } from '@/shared';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { SHORT_WEEK_DAYS } from '@/shared/constants';
-type DayName =
-  | 'monday'
-  | 'tuesday'
-  | 'wednesday'
-  | 'thursday'
-  | 'friday'
-  | 'saturday';
+import WeekDay from '../WeekDay';
+
 export function SwiperWeekSchedule({
   weekDays,
   weekParity,
@@ -46,24 +37,25 @@ export function SwiperWeekSchedule({
     getFullWeekScheduleByName,
     updateHiddenLesson,
   ]);
+
   const handleDaySwipeChange = (activeIndex: number) => {
     const dayKeys = Object.keys(SHORT_WEEK_DAYS);
 
-    setCurrentDayIndex(activeIndex); // Update the current day index
+    setCurrentDayIndex(activeIndex);
     const selectedDay = dayKeys[activeIndex - 1];
     setCurrentDay(selectedDay + weekParity);
   };
+
   const handleWeekChange = (slideToIndex: number, dayName: string) => {
     setWeekParity((prevParity) => (prevParity === 'even' ? 'odd' : 'even'));
 
     setTimeout(() => {
-      swiperRef.current?.slideTo(slideToIndex, 0); // Переместиться на нужный слайд без анимации
+      swiperRef.current?.slideTo(slideToIndex, 0);
       setCurrentDayIndex(slideToIndex);
       setCurrentDay(dayName + (weekParity === 'even' ? 'odd' : 'even'));
     }, 100);
   };
 
-  const { mainTextColor, cardColor, mainColor } = useColor();
   return (
     <Box
       cursor={'grab'}
@@ -111,70 +103,15 @@ export function SwiperWeekSchedule({
             );
             return (
               <SwiperSlide key={dayName + weekParity}>
-                <Box id={dayName + weekParity}>
-                  <Box
-                    zIndex={20}
-                    position="relative"
-                    boxShadow={`0 5px 5px 5px ${mainColor}`}
-                  >
-                    <DayNameWithShareFull
-                      dayName={dayName as DayName}
-                      dayLessons={dayLessons}
-                      weekParity={weekParity}
-                      hiddenLessonsExist={hiddenLessonsExist}
-                    />
-                  </Box>
-                  {allLessonsHidden ? (
-                    <Box
-                      w="100%"
-                      bgColor={cardColor}
-                      borderRadius="8px"
-                      padding="10px 15px"
-                      color={mainTextColor}
-                      fontWeight="bold"
-                      fontSize={'clamp(15px, 4.5vw, 18px)'}
-                    >
-                      Время отдыхать
-                    </Box>
-                  ) : (
-                    <VStack
-                      gap="10px"
-                      height="70vh"
-                      pt={4}
-                      pb={10}
-                      px={1}
-                      overflowY={'scroll'}
-                      overflowX={'hidden'}
-                      style={{ scrollbarWidth: 'none' }}
-                    >
-                      {dayLessons.map((lesson) => {
-                        const isLessonHidden = hiddenLessons.some(
-                          (hiddenLesson) =>
-                            hiddenLesson.lesson.id === lesson.id &&
-                            (weekParity === hiddenLesson.lesson.type_hide ||
-                              hiddenLesson.lesson.type_hide === 'always')
-                        );
-
-                        if (!isLessonHidden) {
-                          if (
-                            lesson.parsed_dates ||
-                            lesson.parsed_dates_status === 'need_check'
-                          ) {
-                            return (
-                              <Box className={styles['faded']} key={lesson.id}>
-                                <FullLessonCard lesson={lesson} />
-                              </Box>
-                            );
-                          }
-                          return (
-                            <FullLessonCard lesson={lesson} key={lesson.id} />
-                          );
-                        }
-                        return null;
-                      })}
-                    </VStack>
-                  )}
-                </Box>
+                <WeekDay
+                  dayName={dayName}
+                  dayLessons={dayLessons}
+                  weekParity={weekParity}
+                  allLessonsHidden={allLessonsHidden}
+                  hiddenLessons={hiddenLessons}
+                  hiddenLessonsExist={hiddenLessonsExist}
+                  isSwiper
+                />
               </SwiperSlide>
             );
           })}

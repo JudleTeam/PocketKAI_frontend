@@ -12,10 +12,12 @@ import { useCallback, useEffect, useRef } from 'react';
 import { SearchedTeacherCard } from '@/entities';
 import { DeleteIcon } from '@chakra-ui/icons';
 import { Loader } from '@/shared/ui/loader/Loader';
+import { useColor } from '@/shared';
 
 export function SearchTeacher() {
   const { suggestTeacherByName, searchedTeachers, searchedTeachersStatus } =
     useTeachers();
+  const { navIconColor, blueVeryLightColor } = useColor();
   const inputRef = useRef<HTMLInputElement>(null);
   const debouncedSuggestTeacherByName = debounce((value) => {
     suggestTeacherByName(value);
@@ -48,7 +50,7 @@ export function SearchTeacher() {
           placeholder="Поиск преподавателя"
           onChange={handleInputChange}
           ref={inputRef}
-          borderRadius={'8px'}
+          borderRadius={'24px'}
         />
         {inputRef.current?.value && (
           <InputRightElement width="4.5rem">
@@ -56,9 +58,10 @@ export function SearchTeacher() {
               aria-label="clear"
               top="50%"
               transform={'translate(0, -50%)'}
-              h="2rem"
               size="sm"
-              icon={<DeleteIcon />}
+              borderRadius={'24px'}
+              backgroundColor={blueVeryLightColor}
+              icon={<DeleteIcon color={navIconColor} />}
               onClick={handleInputClear}
             />
           </InputRightElement>

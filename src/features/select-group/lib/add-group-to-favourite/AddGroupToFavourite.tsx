@@ -1,16 +1,13 @@
 import {
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
   Text,
   Box,
-  Heading,
   Stack,
   Button,
   Divider,
   RadioGroup,
   Radio,
   IconButton,
+  useColorMode,
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 import React, { useEffect, useRef, useState } from 'react';
@@ -19,19 +16,57 @@ import Select, { StylesConfig } from 'react-select';
 import { useGroup, useSchedule, useUser } from '@/entities';
 import { GroupShort, SelectItem } from '@/shared';
 import { useColor } from '@/shared/lib';
+
+type AddGroupToFavouriteProps = {
+  onClose: () => void;
+};
+
 type IFormInput = {
   group: SelectItem<GroupShort>;
   addToFavourite: boolean;
 };
 
-const customStyles: StylesConfig = {
-  option: (provided) => ({
-    ...provided,
-    color: '#000',
-  }),
-};
+const AddGroupToFavourite: React.FC<AddGroupToFavouriteProps> = ({
+  onClose,
+}) => {
+  const { colorMode } = useColorMode();
+  const customStyles: StylesConfig = {
+    control: (provided) => ({
+      ...provided,
+      borderRadius: '24px',
+      padding: '0 10px',
+      backgroundColor: colorMode === 'dark' ? '#2D3748' : '#fff',
+      borderColor: colorMode === 'dark' ? '#4A5568' : '#E2E8F0',
+    }),
+    menu: (provided) => ({
+      ...provided,
+      borderRadius: '16px',
+      overflow: 'hidden',
+      backgroundColor: colorMode === 'dark' ? '#1A202C' : '#fff',
+    }),
+    option: (provided, { isFocused }) => ({
+      ...provided,
+      color: colorMode === 'dark' ? '#E2E8F0' : '#000',
+      backgroundColor: isFocused
+        ? colorMode === 'dark'
+          ? '#2D3748'
+          : '#EDF2F7'
+        : 'transparent',
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: colorMode === 'dark' ? '#E2E8F0' : '#000',
+    }),
+    input: (provided) => ({
+      ...provided,
+      color: colorMode === 'dark' ? '#E2E8F0' : '#000',
+    }),
+    placeholder: (provided) => ({
+      ...provided,
+      color: colorMode === 'dark' ? '#9CA3AF' : '#6B7280',
+    }),
+  };
 
-export function AddGroupToFavourite(onClose: () => void) {
   const {
     searchedGroups,
     suggestGroupByName,
@@ -42,7 +77,8 @@ export function AddGroupToFavourite(onClose: () => void) {
     getGroupByName,
     currentGroup,
   } = useGroup();
-  const { mainTextColor, tabColor } = useColor();
+  const { mainTextColor, navIconColor, mainColor, blueVeryLightColor } =
+    useColor();
   const { resetScheduleState } = useSchedule();
   const { userAuthStatus } = useUser();
   const { resetField, handleSubmit, control, getValues } =
@@ -99,11 +135,7 @@ export function AddGroupToFavourite(onClose: () => void) {
 
   return (
     <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
-      <ModalHeader fontSize={'24px'} fontWeight={'600'} color={mainTextColor}>
-        Выбор группы
-      </ModalHeader>
-      <ModalCloseButton />
-      <ModalBody display="flex" flexDirection="column" gap="20px">
+      <Box display="flex" flexDirection="column" gap="20px">
         <Controller
           name="group"
           control={control}
@@ -125,10 +157,11 @@ export function AddGroupToFavourite(onClose: () => void) {
         <Box w="100%" display="flex" flexWrap={'wrap'} gap="20px">
           <Button
             w="100%"
-            bg={tabColor}
+            bg={blueVeryLightColor}
             display={getValues('group') ? 'block' : 'none'}
-            color={mainTextColor}
+            color={navIconColor}
             onClick={handleAddToFavouriteClick}
+            borderRadius={'24px'}
           >
             Добавить в избранное
           </Button>
@@ -136,15 +169,19 @@ export function AddGroupToFavourite(onClose: () => void) {
             <Button
               isDisabled={!getValues('group')}
               w="48%"
-              colorScheme="blue"
+              bgColor={navIconColor}
               type="submit"
+              color={mainColor}
+              borderRadius={'24px'}
             >
               Выбрать
             </Button>
             <Button
               w="48%"
-              colorScheme="blue"
               variant="outline"
+              borderRadius={'24px'}
+              borderColor={navIconColor}
+              color={navIconColor}
               onClick={onClose}
             >
               Назад
@@ -152,14 +189,15 @@ export function AddGroupToFavourite(onClose: () => void) {
           </Box>
         </Box>
         <Box>
-          <Heading
+          <Text
             display={favouriteGroups.length > 0 ? 'block' : 'none'}
-            fontSize={'20px'}
-            fontWeight={'600'}
             color={mainTextColor}
+            fontWeight={'semibold'}
+            fontSize={'large'}
+            textAlign={'start'}
           >
             Избранные группы
-          </Heading>
+          </Text>
           <RadioGroup
             value={selectGroup}
             py="10px"
@@ -173,6 +211,22 @@ export function AddGroupToFavourite(onClose: () => void) {
                     value={group.group_name}
                     py={'5px'}
                     w={'100%'}
+                    _checked={{
+                      bg: navIconColor,
+                      borderColor: navIconColor,
+                      position: 'relative',
+                      _before: {
+                        content: '""',
+                        position: 'absolute',
+                        width: '50%',
+                        height: '50%',
+                        borderRadius: '50%',
+                        bg: mainColor,
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                      },
+                    }}
                   >
                     <Box
                       display={'flex'}
@@ -184,12 +238,14 @@ export function AddGroupToFavourite(onClose: () => void) {
                         {group.group_name}
                       </Text>
                       <IconButton
+                        borderRadius={'24px'}
+                        bgColor={blueVeryLightColor}
                         aria-label="Delete"
                         onClick={(e) => {
                           e.stopPropagation();
                           removeGroupFromFavourite(group, userAuthStatus);
                         }}
-                        icon={<DeleteIcon />}
+                        icon={<DeleteIcon color={navIconColor} />}
                       />
                     </Box>
                   </Radio>
@@ -199,7 +255,9 @@ export function AddGroupToFavourite(onClose: () => void) {
             </Stack>
           </RadioGroup>
         </Box>
-      </ModalBody>
+      </Box>
     </form>
   );
-}
+};
+
+export default AddGroupToFavourite;

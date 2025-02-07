@@ -19,7 +19,6 @@ export function Teachers() {
   const weekSelected = {
     color: secondElementLightColor,
     bgColor: blueVeryLightColor,
-    borderRadius: '24px',
   };
 
   const handleTabChange = useCallback((index: number) => {
@@ -64,6 +63,7 @@ export function Teachers() {
             Ваши педагоги
           </Tab>
           <Tab
+            outlineColor={'none'}
             className={s.root__item}
             _selected={weekSelected}
             color={blueLightElementColor}

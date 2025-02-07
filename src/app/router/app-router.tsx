@@ -42,15 +42,6 @@ export function RouterComponent() {
               },
             },
             {
-              path: 'assignments',
-              lazy: async () => {
-                const { Assignments } = await import(
-                  '@/pages/Assignments/Assignments'
-                );
-                return { Component: Assignments };
-              },
-            },
-            {
               path: 'teachers',
               lazy: async () => {
                 const { Teachers } = await import('@/pages/Teachers/Teachers');
@@ -73,22 +64,6 @@ export function RouterComponent() {
               '@/pages/HiddenLessons/HiddenLessons'
             );
             return { Component: HiddenLessons };
-          },
-        },
-        {
-          path: 'group',
-          lazy: async () => {
-            const { Group } = await import('@/pages/Group/Group');
-            return { Component: Group };
-          },
-        },
-        {
-          path: 'speciality',
-          lazy: async () => {
-            const { Speciality } = await import(
-              '@/pages/Speciality/Speciality'
-            );
-            return { Component: Speciality };
           },
         },
         {
