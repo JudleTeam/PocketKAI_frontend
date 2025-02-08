@@ -1,4 +1,4 @@
-import { useColor, useMetaThemeColor } from '@/shared';
+import { useColor } from '@/shared';
 import {
   Box,
   ComponentWithAs,
@@ -22,14 +22,12 @@ type ActionBlockProps = {
 };
 
 const ActionBlock: React.FC<ActionBlockProps> = ({ item }) => {
-  const { blueVeryLightColor, navIconColor, mainColor, themeColor } =
-    useColor();
+  const { blueVeryLightColor, navIconColor } = useColor();
   const { toggleColorMode, colorMode } = useColorMode();
   const { pathname } = useLocation();
   const isCurrent = pathname.slice(1) === item.path;
   const defaultColor = colorMode === 'light' ? 'Светлая тема' : 'Темная тема';
 
-  useMetaThemeColor(mainColor, true, themeColor);
   if (!item.path) {
     if (defaultColor !== item.label) {
       return (

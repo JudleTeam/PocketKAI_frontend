@@ -30,9 +30,9 @@ export type TeacherLesson = Omit<Lesson, 'teacher'> & {
 };
 
 export type IHiddenLessons = {
-  group?: Group | GroupShort;
+  group: Group | GroupShort | null;
   lesson: HiddenLesson;
-}
+};
 export type HiddenLesson = {
   id: string;
   discipline: Discipline;
@@ -46,4 +46,4 @@ export type HiddenLesson = {
   end_time: Nullable<string>;
   parsed_dates_status: 'good' | 'need_check';
   parsed_parity: 'odd' | 'even' | 'any';
-}
+};

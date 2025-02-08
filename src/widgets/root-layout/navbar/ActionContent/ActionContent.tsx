@@ -15,6 +15,7 @@ import BurgerActions from './BurgerActions';
 import { useLocation } from 'react-router-dom';
 import { isOtherPage } from '../../lib/isOtherPage';
 import { isSchedulePage } from '../../lib/isSchedulePage';
+import { useColorMode } from '@chakra-ui/react';
 
 type ActionContentProps = {
   action: NavbarAction;
@@ -37,12 +38,13 @@ export const ActionContent: React.FC<ActionContentProps> = ({ action }) => {
 
   const Icon = action.icon;
   const { isOpen, setIsOpen } = useDisclosure();
+  const theme = useColorMode();
 
   useEffect(() => {
     if (pathname) {
       setIsOpen(false);
     }
-  }, [pathname, setIsOpen]);
+  }, [isOpen, pathname, setIsOpen, theme]);
 
   useMetaThemeColor(mainColor, isOpen, themeColor);
   const isDrawerAllowed = action.action;

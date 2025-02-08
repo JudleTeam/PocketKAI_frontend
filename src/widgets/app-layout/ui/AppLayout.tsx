@@ -45,7 +45,8 @@ export function AppLayout() {
   const isNotDatebar =
     location.pathname.includes('teachers') ||
     location.pathname.includes('schedule/full') ||
-    location.pathname.includes('schedule/exams');
+    location.pathname.includes('schedule/exams') ||
+    location.pathname.includes('hidden');
 
   useEffect(() => {
     const weekAgo = DateTime.now()

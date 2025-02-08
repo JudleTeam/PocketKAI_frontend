@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 
 type TabListHeaderProps = {
   top?: string;
+  pt?: string;
   currentDay?: string;
   currentParity?: string;
   currentDayOfWeek?: string;
@@ -23,6 +24,7 @@ export const TabListHeader: React.FC<TabListHeaderProps> = ({
   handleTabChange,
   handleClick,
   top,
+  pt,
 }) => {
   const {
     mainColor,
@@ -49,12 +51,12 @@ export const TabListHeader: React.FC<TabListHeaderProps> = ({
     <Box
       className={s.root__list}
       top={top && top}
-      pt={{ md: '35px' }}
+      pt={{ base: pt && pt, md: '35px' }}
       alignItems={{ md: 'center' }}
       bgColor={mainColor}
       boxShadow={`0 5px 5px 5px ${mainColor}`}
     >
-      <TabList className={s.root__center} w={{ md: '70%', lg: '40%' }}>
+      <TabList className={s.root__center} w={{ md: '70%', lg: '100%' }}>
         <Tab
           className={s.root__item}
           _selected={weekSelected}

@@ -42,6 +42,15 @@ export function RouterComponent() {
               },
             },
             {
+              path: 'hidden',
+              lazy: async () => {
+                const { HiddenLessons } = await import(
+                  '@/pages/HiddenLessons/HiddenLessons'
+                );
+                return { Component: HiddenLessons };
+              },
+            },
+            {
               path: 'teachers',
               lazy: async () => {
                 const { Teachers } = await import('@/pages/Teachers/Teachers');
@@ -57,15 +66,7 @@ export function RouterComponent() {
             return { Component: Settings };
           },
         },
-        {
-          path: 'hidden',
-          lazy: async () => {
-            const { HiddenLessons } = await import(
-              '@/pages/HiddenLessons/HiddenLessons'
-            );
-            return { Component: HiddenLessons };
-          },
-        },
+
         {
           path: 'faq',
           lazy: async () => {

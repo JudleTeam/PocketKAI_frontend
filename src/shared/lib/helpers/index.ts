@@ -13,3 +13,5 @@ export { shareData } from './shareData';
 export { shareGroupMembers } from './shareGroupMembers';
 export { isToday } from './isToday';
 export { getDayOfWeek } from './getDayOfWeek';
+export { getFullDayOfWeek } from './getFullDayOfWeek';
+export { getWeekTypeLessons } from './getWeekTypeLessons';

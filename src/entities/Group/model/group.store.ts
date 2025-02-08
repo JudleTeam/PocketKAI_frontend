@@ -23,7 +23,7 @@ type GroupState = {
   favouriteGroupsStatus: FetchStatus;
   homeGroup: Nullable<Group>;
   homeGroupStatus: FetchStatus;
-  currentGroup: Nullable<Group | GroupShort>;
+  currentGroup: Group | GroupShort | null;
   lessonsCurrentGroup: Lesson[];
   groupDisciplines: Nullable<GroupDisciplines[]>;
   groupDisciplinesStatus: FetchStatus;
@@ -34,7 +34,7 @@ type GroupState = {
 type GroupActions = {
   addHiddenLesson: (
     lesson: HiddenLesson,
-    group?: Group | GroupShort,
+    group: Group | GroupShort | null,
     isAlways?: boolean
   ) => void;
   updateHiddenLesson: (today: string) => void;
@@ -182,7 +182,7 @@ export const useGroup = create<GroupState & GroupActions>()(
       },
       addHiddenLesson: async (
         lesson: HiddenLesson,
-        group?: Group | GroupShort,
+        group: Group | GroupShort | null,
         isAlways?: boolean
       ) => {
         const currentHiddenLessons = get().hiddenLessons;
@@ -191,12 +191,10 @@ export const useGroup = create<GroupState & GroupActions>()(
           (hiddenLesson) => {
             const isSameLesson = hiddenLesson.lesson.id === lesson.id;
 
-            // Обрабатываем "скрыть навсегда"
             if (lesson.type_hide === 'always') {
               return !isSameLesson;
             }
 
-            // Обрабатываем чётные/нечётные недели
             if (lesson.type_hide === 'odd' || lesson.type_hide === 'even') {
               const typeHideParity = lesson.type_hide;
 
@@ -210,14 +208,12 @@ export const useGroup = create<GroupState & GroupActions>()(
               );
 
               if (hasOppositeParity) {
-                // Удаляем противоположную запись (чёт/нечёт)
                 if (isAlways) {
                   hiddenLesson.lesson.type_hide = 'always';
                 }
                 return !isSameLesson;
               }
 
-              // Удаляем записи с конкретной датой, если совпадают по чётности
               if (hiddenLesson.lesson.type_hide.includes('-')) {
                 const hiddenLessonParity = getWeekParityDate(
                   hiddenLesson.lesson.type_hide
@@ -225,7 +221,6 @@ export const useGroup = create<GroupState & GroupActions>()(
                 return !(isSameLesson && hiddenLessonParity === typeHideParity);
               }
 
-              // Удаляем существующие "always"
               if (hiddenLesson.lesson.type_hide === 'always') {
                 return !isSameLesson;
               }
@@ -237,7 +232,6 @@ export const useGroup = create<GroupState & GroupActions>()(
           }
         );
 
-        // Проверка на дубликаты
         const isDuplicate = updatedHiddenLessons.some(
           (hiddenLesson) =>
             hiddenLesson.lesson.id === lesson.id &&
