@@ -51,7 +51,7 @@ export function HiddenLessons() {
   return (
     <Box className={s['hidden']} style={isDesktop ? { width: '40%' } : {}}>
       <Box w="100%">
-        {hiddenLessons.length <= 0 && (
+        {hiddenLessons.length <= 0 ? (
           <Box
             w="100%"
             h="60vh"
@@ -64,90 +64,93 @@ export function HiddenLessons() {
           >
             Скрытых пар нет!
           </Box>
-        )}
-        <Tabs
-          className={s.tabs}
-          alignItems={{ md: 'center' }}
-          defaultIndex={weekNumber % 2}
-          variant="unstyled"
-          index={weekParity === 'even' ? 0 : 1}
-          onChange={handleTabChange}
-        >
-          <Box
-            position={'sticky'}
-            display={'flex'}
-            flexDir={'column'}
-            gap="5px"
-            w={'100%'}
-            top={'0px'}
-            bgColor={mainColor}
-            zIndex={2}
+        ) : (
+          <Tabs
+            className={s.tabs}
+            alignItems={{ md: 'center' }}
+            defaultIndex={weekNumber % 2}
+            variant="unstyled"
+            index={weekParity === 'even' ? 0 : 1}
+            onChange={handleTabChange}
           >
             <Box
-              padding="10px 0 0 0"
+              position={'sticky'}
               display={'flex'}
-              alignItems={'center'}
-              justifyContent={'space-between'}
+              flexDir={'column'}
+              gap="5px"
+              w={'100%'}
+              top={'0px'}
+              bgColor={mainColor}
+              zIndex={2}
             >
-              <Text
-                color={mainTextColor}
-                fontSize={'18px'}
-                fontWeight={'medium'}
+              <Box
+                padding="10px 0 0 0"
+                display={'flex'}
+                alignItems={'center'}
+                justifyContent={'space-between'}
               >
-                Скрытые пары
-              </Text>
-              {hiddenLessons.length > 0 && (
+                <Text
+                  color={mainTextColor}
+                  fontSize={'18px'}
+                  fontWeight={'medium'}
+                >
+                  Скрытые пары
+                </Text>
+                {hiddenLessons.length > 0 && (
+                  <Button
+                    onClick={deleteAllHiddenLesson}
+                    size="sm"
+                    px="0"
+                    py="0"
+                    variant="ghost"
+                    fontSize="16px"
+                    color="#3182CE"
+                  >
+                    Вернуть все пары
+                  </Button>
+                )}
+              </Box>
+              {currentGroup && (
                 <Button
-                  onClick={deleteAllHiddenLesson}
+                  alignSelf={'end'}
+                  onClick={() =>
+                    deleteGroupHiddenLesson(currentGroup?.group_name)
+                  }
                   size="sm"
                   px="0"
-                  py="0"
                   variant="ghost"
                   fontSize="16px"
                   color="#3182CE"
                 >
-                  Вернуть все пары
+                  Вернуть пары группы
                 </Button>
               )}
+              <TabListHeader
+                top="0"
+                pt="0"
+                currentParity={currentParity}
+                handleTabChange={handleTabChange}
+                weekParity={weekParity}
+              />
             </Box>
-            {currentGroup && (
-              <Button
-                alignSelf={'end'}
-                onClick={() =>
-                  deleteGroupHiddenLesson(currentGroup?.group_name)
-                }
-                size="sm"
-                px="0"
-                variant="ghost"
-                fontSize="16px"
-                color="#3182CE"
-              >
-                Вернуть пары группы
-              </Button>
-            )}
-            <TabListHeader
-              top="0"
-              pt="0"
-              currentParity={currentParity}
-              handleTabChange={handleTabChange}
-              weekParity={weekParity}
-            />
-          </Box>
-          <Swiper
-            className={s.root__swiper}
-            onSwiper={(swiper) => {
-              swiperRef.current = swiper;
-            }}
-            onSlideChange={({ activeIndex }) => handleSwipeChange(activeIndex)}
-            initialSlide={weekParity === 'even' ? 0 : 1}
-          >
-            {lessonsForCurrentGroup.map((parity) => (
-              <SwiperSlide className={s.root__slide}>
-                <HiddenLessonsList weekDays={parity.week_days} />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </Tabs>
+            <Swiper
+              className={s.root__swiper}
+              onSwiper={(swiper) => {
+                swiperRef.current = swiper;
+              }}
+              onSlideChange={({ activeIndex }) =>
+                handleSwipeChange(activeIndex)
+              }
+              initialSlide={weekParity === 'even' ? 0 : 1}
+            >
+              {lessonsForCurrentGroup.map((parity) => (
+                <SwiperSlide className={s.root__slide}>
+                  <HiddenLessonsList weekDays={parity.week_days} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </Tabs>
+        )}
       </Box>
     </Box>
   );
