@@ -51,7 +51,7 @@ export function HiddenLessons() {
   return (
     <Box className={s['hidden']} style={isDesktop ? { width: '40%' } : {}}>
       <Box w="100%">
-        {hiddenLessons.length <= 0 ? (
+        {lessonsForCurrentGroup[0].week_days.length <= 0 ? (
           <Box
             w="100%"
             h="60vh"
