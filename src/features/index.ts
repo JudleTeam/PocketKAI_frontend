@@ -1,3 +1,5 @@
+export { default as AddGroupToFavourite } from './add-group-to-favourite/AddGroupToFavourite';
+
 export { HideLesson } from './hide-lesson/hideLesson';
 
 export { AuthNotAvailable } from './auth/AuthNotAvailable';
@@ -13,4 +15,4 @@ export { SearchTeacher } from './search-teacher/SearchTeacher';
 
 export { Auth } from './auth/Auth';
 
-export { SelectGroup } from './select-group/SelectGroup';
+export { SelectGroup } from '../widgets/select-group/SelectGroup';

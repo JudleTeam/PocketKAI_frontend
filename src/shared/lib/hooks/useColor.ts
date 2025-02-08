@@ -63,7 +63,7 @@ export const useColor = () => {
     theme.colors.light.navbar,
     theme.colors.dark.navbar
   );
-  const themeColor = useColorModeValue('#999999', '#10131A');
+  const themeColor = useColorModeValue('#999999', '#0E0F15');
   const modalThemeColor = useColorModeValue('#858585', '#0E1117');
   const drawerColor = useColorModeValue('#fff', '#171923');
   return {

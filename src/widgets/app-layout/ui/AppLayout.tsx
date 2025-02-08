@@ -26,7 +26,7 @@ export function AppLayout() {
   const [currentDay, setCurrentDay] = useState<string>(
     DateTime.now().setZone('Europe/Moscow').toFormat('yyyy-LL-dd')
   );
-  const { mainColor, mainTextColor, modalThemeColor } = useColor();
+  const { mainColor, mainTextColor, themeColor } = useColor();
   const { isOpen } = useDisclosure();
   const { currentGroup } = useGroup();
   const {
@@ -40,7 +40,7 @@ export function AppLayout() {
   const swiperRef = useScrollSpy(schedule, setCurrentDay);
   const location = useLocation();
 
-  useMetaThemeColor(mainColor, isOpen, modalThemeColor);
+  useMetaThemeColor(mainColor, isOpen, themeColor);
 
   const isNotDatebar =
     location.pathname.includes('teachers') ||

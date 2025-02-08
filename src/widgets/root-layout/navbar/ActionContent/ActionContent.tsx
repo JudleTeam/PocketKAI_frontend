@@ -45,7 +45,8 @@ export const ActionContent: React.FC<ActionContentProps> = ({ action }) => {
   }, [pathname, setIsOpen]);
 
   useMetaThemeColor(mainColor, isOpen, themeColor);
-  const isDrawerOpen = isOpen && action.action;
+  const isDrawerAllowed = action.action;
+  const isDrawerOpen = isOpen && isDrawerAllowed;
 
   return (
     <Drawer open={isDrawerOpen} onOpenChange={setIsOpen}>
@@ -58,6 +59,7 @@ export const ActionContent: React.FC<ActionContentProps> = ({ action }) => {
             width: isCurrent ? 200 : 40,
           }}
           transition={{ duration: 0.1, ease: 'easeOut' }}
+          onClick={() => isDrawerAllowed && setIsOpen(true)}
         >
           <Icon
             fill={isCurrent || isOther ? navIconColor : blueLightElementColor}

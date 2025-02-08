@@ -10,7 +10,7 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import Select, { StylesConfig } from 'react-select';
 import { useGroup, useSchedule, useUser } from '@/entities';
@@ -87,9 +87,14 @@ const AddGroupToFavourite: React.FC<AddGroupToFavouriteProps> = ({
   const [selectGroup, setSelectGroup] = useState<string | undefined>(
     currentGroup?.group_name
   );
-  const handleInputChange = (newValue: string) => {
-    suggestGroupByName({ group_name: newValue });
-  };
+  const handleInputChange = useCallback(
+    (newValue: string) => {
+      if (newValue) {
+        suggestGroupByName({ group_name: newValue });
+      }
+    },
+    [suggestGroupByName]
+  );
   useEffect(() => {
     setSelectGroup(currentGroup?.group_name);
   }, [currentGroup]);

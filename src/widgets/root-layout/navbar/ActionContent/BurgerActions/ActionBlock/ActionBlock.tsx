@@ -1,5 +1,6 @@
-import { useColor } from '@/shared';
+import { useColor, useMetaThemeColor } from '@/shared';
 import {
+  Box,
   ComponentWithAs,
   Icon,
   IconProps,
@@ -21,35 +22,37 @@ type ActionBlockProps = {
 };
 
 const ActionBlock: React.FC<ActionBlockProps> = ({ item }) => {
-  const { blueVeryLightColor, navIconColor } = useColor();
+  const { blueVeryLightColor, navIconColor, mainColor, themeColor } =
+    useColor();
   const { toggleColorMode, colorMode } = useColorMode();
   const { pathname } = useLocation();
   const isCurrent = pathname.slice(1) === item.path;
   const defaultColor = colorMode === 'light' ? 'Светлая тема' : 'Темная тема';
 
+  useMetaThemeColor(mainColor, true, themeColor);
   if (!item.path) {
     if (defaultColor !== item.label) {
       return (
-        <div onClick={() => toggleColorMode()} className={s.root}>
-          <div
+        <Box onClick={() => toggleColorMode()} className={s.root}>
+          <Box
             className={s.root__icon}
             style={{
               backgroundColor: isCurrent ? navIconColor : blueVeryLightColor,
             }}
           >
             <Icon width={25} height={25} color={navIconColor} as={item.icon} />
-          </div>
-          <div className={s.root__text}>
+          </Box>
+          <Box className={s.root__text}>
             <Text>{item.label}</Text>
-          </div>
-        </div>
+          </Box>
+        </Box>
       );
     } else return;
   }
 
   return (
-    <NavLink to={item.path} className={s.root}>
-      <div
+    <Box as={NavLink} to={item.path} className={s.root}>
+      <Box
         className={s.root__icon}
         style={{
           backgroundColor: isCurrent ? navIconColor : blueVeryLightColor,
@@ -61,11 +64,11 @@ const ActionBlock: React.FC<ActionBlockProps> = ({ item }) => {
           color={isCurrent ? 'white' : navIconColor}
           as={item.icon}
         />
-      </div>
-      <div className={s.root__text}>
-        <Text>{item.label}</Text>
-      </div>
-    </NavLink>
+      </Box>
+      <Box className={s.root__text}>
+        <Text fontSize={14}>{item.label}</Text>
+      </Box>
+    </Box>
   );
 };
 

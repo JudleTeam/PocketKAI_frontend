@@ -23,7 +23,7 @@ import {
 } from '@chakra-ui/react';
 import React, { useCallback, useEffect } from 'react';
 import s from './SelectGroup.module.scss';
-import AddGroupToFavourite from './lib/add-group-to-favourite/AddGroupToFavourite';
+import { AddGroupToFavourite } from '@/features';
 
 export function SelectGroup() {
   const { isOpen, setIsOpen, onClose } = useDisclosure();
@@ -64,7 +64,7 @@ export function SelectGroup() {
               as={Button}
               color={mainColor}
               fontSize={'16px'}
-              fontWeight={'medium'}
+              fontWeight={'regular'}
               paddingY="2px"
               paddingX="40px"
               borderRadius={24}
