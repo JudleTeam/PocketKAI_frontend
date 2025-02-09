@@ -1,6 +1,6 @@
 import { SwiperWeekSchedule, useSchedule, useGroup } from '@/entities';
-import { Tabs } from '@chakra-ui/react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Tabs, useBreakpointValue } from '@chakra-ui/react';
+import { useEffect, useRef, useState } from 'react';
 import { DateTime } from 'luxon';
 import {
   getCurrentDayOfWeek,
@@ -56,25 +56,21 @@ export function WeekDaySchedule() {
     }
   }, [weekScheduleStatus]);
 
-  const handleTabChange = useCallback(
-    (index: number) => {
-      const updateWeekParity = index === 0 ? 'even' : 'odd';
-      setWeekParity(updateWeekParity);
-      setCurrentDay(
-        Object.keys(SHORT_WEEK_DAYS)[currentDayIndex - 1] + updateWeekParity
-      );
-      swiperRef.current?.slideTo(currentDayIndex);
-    },
-    [currentDayIndex]
-  );
+  const handleTabChange = (index: number) => {
+    const updateWeekParity = index === 0 ? 'even' : 'odd';
+    setWeekParity(updateWeekParity);
+    setCurrentDay(
+      Object.keys(SHORT_WEEK_DAYS)[currentDayIndex - 1] + updateWeekParity
+    );
+    swiperRef.current?.slideTo(currentDayIndex);
+  };
 
-  const handleClick = useCallback(
-    (dayKey: string, index: number) => {
-      setCurrentDay(dayKey + weekParity);
-      swiperRef.current?.slideTo(index + 1);
-    },
-    [weekParity]
-  );
+  const handleClick = (dayKey: string, index: number) => {
+    setCurrentDay(dayKey + weekParity);
+    swiperRef.current?.slideTo(index + 1);
+  };
+
+  const isDesktop = useBreakpointValue({ base: false, md: true });
 
   return (
     <Tabs
@@ -87,6 +83,7 @@ export function WeekDaySchedule() {
       onChange={handleTabChange}
     >
       <TabListHeader
+        w={isDesktop ? '40%' : '100%'}
         currentDay={currentDay}
         currentDayOfWeek={currentDayOfWeek}
         currentParity={currentParity}

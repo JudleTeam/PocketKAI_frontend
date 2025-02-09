@@ -73,7 +73,6 @@ const DrawerContent = React.forwardRef<
             <div className="mt-3 min-h-1.5 w-[35%] rounded-full bg-gray-300" />
           </div>
         </DrawerPrimitive.Handle>
-        <DrawerClose className="absolute top-2 right-6">✕</DrawerClose>
         <DrawerDescription />
         <VisuallyHidden.Root>
           <DrawerTitle />

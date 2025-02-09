@@ -12,7 +12,7 @@ import { usePWAState, useSettings } from '@/entities';
 import { Select } from '@chakra-ui/react';
 import { FullScheduleView, ScheduleView } from '@/shared';
 export function Settings() {
-  const { mainColor, mainTextColor } = useColor();
+  const { mainColor, mainTextColor, navIconColor } = useColor();
   const { storeNeedRefresh, updateServiceWorker } = usePWAState();
   const {
     showFadedLessons,
@@ -58,6 +58,9 @@ export function Settings() {
           <Switch
             id="showFadedLessons"
             size={'md'}
+            sx={{
+              '&[data-checked] .chakra-switch__track': { bg: navIconColor },
+            }}
             isChecked={!showFadedLessons}
             onChange={() => toggleShowFadedLessons(!showFadedLessons)}
           />
@@ -80,6 +83,9 @@ export function Settings() {
             id="isScheduleInfinite"
             key={2}
             size={'md'}
+            sx={{
+              '&[data-checked] .chakra-switch__track': { bg: navIconColor },
+            }}
             isChecked={isScheduleInfinite}
             onChange={() => toggleIsScheduleInfinite(!isScheduleInfinite)}
           />
@@ -102,6 +108,9 @@ export function Settings() {
             id="isScheduleInfinite"
             key={3}
             size={'md'}
+            sx={{
+              '&[data-checked] .chakra-switch__track': { bg: navIconColor },
+            }}
             isChecked={isColoredDayDate}
             onChange={() => toggleIsColoredDayDate(!isColoredDayDate)}
           />

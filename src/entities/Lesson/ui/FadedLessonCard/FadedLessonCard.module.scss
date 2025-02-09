@@ -1,4 +1,4 @@
-@import '../../../../app/styles/variables.scss';
+@import "../../../../app/styles/variables.scss";
 
 .lesson-card {
   display: flex;
@@ -7,7 +7,7 @@
   height: 100%;
   width: clamp(200px, 90vw, 600px);
   &::after {
-    content: url('../../../../shared/assets/icons/right-arrow.svg');
+    content: url("../../../../shared/assets/icons/right-arrow.svg");
     width: 10px;
     height: 16px;
     padding-top: 5px;
@@ -21,7 +21,7 @@
     flex-direction: column;
 
     p {
-      font-family: 'Chivo Mono', monospace;
+      font-family: "Chivo Mono", monospace;
       line-height: 1.5rem;
       font-weight: 600;
     }
@@ -43,7 +43,7 @@
   }
   &__info {
     text-align: left;
-    width: 100%;
+    width: 70%;
     font-size: clamp(15px, 4vw, 18px);
     line-height: 1.6rem;
   }

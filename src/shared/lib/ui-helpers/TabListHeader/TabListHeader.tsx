@@ -8,6 +8,7 @@ import { useLocation } from 'react-router-dom';
 type TabListHeaderProps = {
   top?: string;
   pt?: string;
+  w?: string;
   currentDay?: string;
   currentParity?: string;
   currentDayOfWeek?: string;
@@ -25,6 +26,7 @@ export const TabListHeader: React.FC<TabListHeaderProps> = ({
   handleClick,
   top,
   pt,
+  w,
 }) => {
   const {
     mainColor,
@@ -51,6 +53,7 @@ export const TabListHeader: React.FC<TabListHeaderProps> = ({
     <Box
       className={s.root__list}
       top={top && top}
+      w={w && w}
       pt={{ base: pt && pt, md: '35px' }}
       alignItems={{ md: 'center' }}
       bgColor={mainColor}
@@ -79,7 +82,7 @@ export const TabListHeader: React.FC<TabListHeaderProps> = ({
         </Tab>
       </TabList>
       {pathname === '/schedule/full' && currentDayOfWeek && (
-        <HStack w={{ md: '70%', lg: '40%' }} justifyContent="space-between">
+        <HStack justifyContent="space-between">
           {Object.entries(SHORT_WEEK_DAYS).map((day, index) => (
             <Box
               className={s.root__daybar}

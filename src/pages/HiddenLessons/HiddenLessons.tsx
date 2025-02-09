@@ -49,22 +49,12 @@ export function HiddenLessons() {
   }, []);
 
   return (
-    <Box className={s['hidden']} style={isDesktop ? { width: '40%' } : {}}>
+    <Box
+      className={s['hidden']}
+      style={isDesktop ? { width: '40%', paddingTop: '5vh' } : {}}
+    >
       <Box w="100%">
-        {lessonsForCurrentGroup[0].week_days.length <= 0 ? (
-          <Box
-            w="100%"
-            h="60vh"
-            fontSize="18px"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            textAlign="center"
-            color={mainTextColor}
-          >
-            Скрытых пар нет!
-          </Box>
-        ) : (
+        {lessonsForCurrentGroup ? (
           <Tabs
             className={s.tabs}
             alignItems={{ md: 'center' }}
@@ -150,6 +140,68 @@ export function HiddenLessons() {
               ))}
             </Swiper>
           </Tabs>
+        ) : hiddenLessons.length > 0 ? (
+          <Box
+            position={'sticky'}
+            display={'flex'}
+            flexDir={'column'}
+            gap="5px"
+            w={'100%'}
+            top={'0px'}
+            bgColor={mainColor}
+            zIndex={2}
+          >
+            <Box
+              padding="10px 0 0 0"
+              display={'flex'}
+              alignItems={'center'}
+              justifyContent={'space-between'}
+            >
+              <Text
+                color={mainTextColor}
+                fontSize={'18px'}
+                fontWeight={'medium'}
+              >
+                Скрытые пары
+              </Text>
+              <Button
+                onClick={deleteAllHiddenLesson}
+                size="sm"
+                px="0"
+                py="0"
+                variant="ghost"
+                fontSize="16px"
+                color="#3182CE"
+              >
+                Вернуть все пары
+              </Button>
+            </Box>
+            <Box
+              w="100%"
+              h="60vh"
+              fontSize="18px"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              textAlign="center"
+              color={mainTextColor}
+            >
+              В этой группе нет скрытых пар!
+            </Box>
+          </Box>
+        ) : (
+          <Box
+            w="100%"
+            h="60vh"
+            fontSize="18px"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            textAlign="center"
+            color={mainTextColor}
+          >
+            Скрытых пар нет!
+          </Box>
         )}
       </Box>
     </Box>

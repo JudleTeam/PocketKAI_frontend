@@ -11,11 +11,13 @@ import { DateTime } from 'luxon';
 export const getLessonsForGroup = (
   hiddenLessons: IHiddenLessons[],
   currentGroup: Nullable<Group | GroupShort>
-): {
-  week_parity: 'odd' | 'even';
-  week_days: { dayName: string; lessons: HiddenLesson[] }[];
-}[] => {
-  if (!currentGroup) return [];
+):
+  | {
+      week_parity: 'odd' | 'even';
+      week_days: { dayName: string; lessons: HiddenLesson[] }[];
+    }[]
+  | null => {
+  if (!currentGroup) return null;
 
   const groupedLessons: Record<
     'odd' | 'even',
@@ -63,15 +65,19 @@ export const getLessonsForGroup = (
     'Воскресенье',
   ];
 
-  return (['even', 'odd'] as const).map((weekParity) => ({
-    week_parity: weekParity,
-    week_days: daysOrder
-      .filter((day) => groupedLessons[weekParity][day])
-      .map((dayName) => ({
-        dayName,
-        lessons: groupedLessons[weekParity][dayName].sort(
-          (a, b) => a.number_of_day - b.number_of_day
-        ),
-      })),
-  }));
+  const result = (['even', 'odd'] as const)
+    .map((weekParity) => ({
+      week_parity: weekParity,
+      week_days: daysOrder
+        .filter((day) => groupedLessons[weekParity][day])
+        .map((dayName) => ({
+          dayName,
+          lessons: groupedLessons[weekParity][dayName].sort(
+            (a, b) => a.number_of_day - b.number_of_day
+          ),
+        })),
+    }))
+    .filter(({ week_days }) => week_days.length > 0);
+
+  return result.length > 0 ? result : null;
 };

@@ -48,23 +48,17 @@ export function WeekLineSchedule() {
 
   useEffect(() => {
     if (weekScheduleStatus === 'success') {
-      const targetUp = document.getElementById('monday' + weekParity);
       const todayWeekDay = getCurrentDayOfWeek();
-
-      if (todayWeekDay === 'sunday' || !todayWeekDay) {
-        targetUp?.scrollIntoView();
-        return;
-      }
+      if (!todayWeekDay || todayWeekDay === 'sunday') return;
 
       setTimeout(() => {
-        const target = document.getElementById(todayWeekDay + weekParity);
-        if (target && todayWeekDay !== 'sunday') {
-          target.scrollIntoView();
-        }
+        requestAnimationFrame(() => {
+          const target = document.getElementById(todayWeekDay + weekParity);
+          target?.scrollIntoView({ behavior: 'smooth' });
+        });
       }, 100);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [weekScheduleStatus]);
+  }, [weekScheduleStatus, weekParity]);
 
   const handleSwipeChange = useCallback((index: number) => {
     const parity = index === 0 ? 'even' : 'odd';

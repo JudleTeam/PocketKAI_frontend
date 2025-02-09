@@ -1,10 +1,4 @@
-import {
-  Group,
-  GroupShort,
-  Lesson,
-  Nullable,
-
-} from '@/shared';
+import { Group, GroupShort, Lesson, Nullable } from '@/shared';
 import { lessonTypesEmojis } from '../constants/lessonTypesEmojis';
 import { DateTime } from 'luxon';
 
@@ -15,13 +9,13 @@ const weekParityTranslation = {
 };
 
 const daysOfWeek: { [key: string]: string } = {
-  monday: "Понедельник",
-  tuesday: "Вторник",
-  wednesday: "Среда",
-  thursday: "Четверг",
-  friday: "Пятница",
-  saturday: "Суббота",
-  sunday: "Воскресенье"
+  monday: 'Понедельник',
+  tuesday: 'Вторник',
+  wednesday: 'Среда',
+  thursday: 'Четверг',
+  friday: 'Пятница',
+  saturday: 'Суббота',
+  sunday: 'Воскресенье',
 };
 
 export const getFormattedWeekSchedule = (
@@ -29,8 +23,8 @@ export const getFormattedWeekSchedule = (
   weekParity: 'even' | 'odd',
   group: Nullable<Group | GroupShort>
 ) => {
-  const date = weekDay[0]
-  const lessons = weekDay[1]
+  const date = weekDay[0];
+  const lessons = weekDay[1];
   if (!group) return '';
   const header = `${
     weekParity === 'odd' ? 'Четная неделя' : 'Нечетная неделя'
