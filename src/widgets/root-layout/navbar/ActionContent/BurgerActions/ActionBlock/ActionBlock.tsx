@@ -10,6 +10,7 @@ import {
 import { useLocation } from 'react-router-dom';
 import s from './ActionBlock.module.scss';
 import { NavLink } from 'react-router-dom';
+import { useEffect } from 'react';
 
 type ActionItem = {
   label: string;
@@ -28,36 +29,38 @@ const ActionBlock: React.FC<ActionBlockProps> = ({ item }) => {
   const isCurrent = pathname.slice(1) === item.path;
   const defaultColor = colorMode === 'light' ? 'Светлая тема' : 'Темная тема';
 
-  const updateManifestThemeColor = (theme: string) => {
+  const updateManifestLink = (theme: 'light' | 'dark'): void => {
     const link = document.querySelector(
       "link[rel='manifest']"
     ) as HTMLLinkElement | null;
-    if (link) {
-      console.log('Manifest link found:', link); // Логируем элемент link
-      console.log('Manifest href:', link.href); // Логируем href
 
-      fetch(link.href)
+    if (link) {
+      const newManifestLink = `${link.href.split('?')[0]}?v=${new Date().getTime()}`; // Добавляем параметр версии
+
+      fetch(newManifestLink)
         .then((response) => response.json())
-        .then((manifest) => {
+        .then((manifest: { background_color: string }) => {
           manifest.background_color = theme === 'dark' ? '#171923' : '#ffffff';
-          const newLink = document.createElement('link');
-          console.log(manifest.background_color);
-          console.log(manifest);
-          newLink.setAttribute('rel', 'manifest');
-          newLink.setAttribute('href', link.href);
-          document.head.removeChild(link);
-          document.head.appendChild(newLink);
-        });
-    } else {
-      console.log('Manifest link not found');
+
+          link.href = newManifestLink; // Обновляем ссылку на манифест
+          console.log(
+            'Manifest background_color updated to:',
+            manifest.background_color
+          );
+        })
+        .catch((error) => console.error('Error updating manifest:', error));
     }
   };
 
   const handleToggleTheme = () => {
     toggleColorMode();
     // Обновляем манифест после переключения темы
-    updateManifestThemeColor(colorMode === 'light' ? 'dark' : 'light');
+    updateManifestLink(colorMode === 'light' ? 'dark' : 'light');
   };
+
+  useEffect(() => {
+    updateManifestLink(colorMode === 'light' ? 'dark' : 'light');
+  }, [colorMode]);
 
   if (!item.path) {
     if (defaultColor !== item.label) {
