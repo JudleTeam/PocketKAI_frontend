@@ -84,7 +84,6 @@ export default defineConfig({
             type: 'image/jpeg',
           },
         ],
-        start_url: '/?v=' + new Date().getTime(),
       },
 
       workbox: {

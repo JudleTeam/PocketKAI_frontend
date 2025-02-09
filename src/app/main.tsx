@@ -19,9 +19,3 @@ if ('serviceWorker' in navigator) {
     }
   });
 }
-
-if (navigator.serviceWorker) {
-  navigator.serviceWorker.ready.then((registration) => {
-    registration.update();
-  });
-}

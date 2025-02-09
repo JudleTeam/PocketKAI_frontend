@@ -10,7 +10,6 @@ import {
 import { useLocation } from 'react-router-dom';
 import s from './ActionBlock.module.scss';
 import { NavLink } from 'react-router-dom';
-import { useEffect } from 'react';
 
 type ActionItem = {
   label: string;
@@ -29,43 +28,10 @@ const ActionBlock: React.FC<ActionBlockProps> = ({ item }) => {
   const isCurrent = pathname.slice(1) === item.path;
   const defaultColor = colorMode === 'light' ? 'Светлая тема' : 'Темная тема';
 
-  const updateManifestLink = (theme: 'light' | 'dark'): void => {
-    const link = document.querySelector(
-      "link[rel='manifest']"
-    ) as HTMLLinkElement | null;
-
-    if (link) {
-      const newManifestLink = `${link.href.split('?')[0]}?v=${new Date().getTime()}`; // Добавляем параметр версии
-
-      fetch(newManifestLink)
-        .then((response) => response.json())
-        .then((manifest: { background_color: string }) => {
-          manifest.background_color = theme === 'dark' ? '#171923' : '#ffffff';
-
-          link.href = newManifestLink; // Обновляем ссылку на манифест
-          console.log(
-            'Manifest background_color updated to:',
-            manifest.background_color
-          );
-        })
-        .catch((error) => console.error('Error updating manifest:', error));
-    }
-  };
-
-  const handleToggleTheme = () => {
-    toggleColorMode();
-    // Обновляем манифест после переключения темы
-    updateManifestLink(colorMode === 'light' ? 'dark' : 'light');
-  };
-
-  useEffect(() => {
-    updateManifestLink(colorMode === 'light' ? 'dark' : 'light');
-  }, [colorMode]);
-
   if (!item.path) {
     if (defaultColor !== item.label) {
       return (
-        <Box onClick={handleToggleTheme} className={s.root}>
+        <Box onClick={() => toggleColorMode()} className={s.root}>
           <Box
             className={s.root__icon}
             style={{
