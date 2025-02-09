@@ -28,10 +28,41 @@ const ActionBlock: React.FC<ActionBlockProps> = ({ item }) => {
   const isCurrent = pathname.slice(1) === item.path;
   const defaultColor = colorMode === 'light' ? 'Светлая тема' : 'Темная тема';
 
+  const updateManifestThemeColor = (theme: string) => {
+    const link = document.querySelector(
+      "link[rel='manifest']"
+    ) as HTMLLinkElement | null;
+    if (link) {
+      console.log('Manifest link found:', link); // Логируем элемент link
+      console.log('Manifest href:', link.href); // Логируем href
+
+      fetch(link.href)
+        .then((response) => response.json())
+        .then((manifest) => {
+          manifest.background_color = theme === 'dark' ? '#171923' : '#ffffff';
+          const newLink = document.createElement('link');
+          console.log(manifest.background_color);
+          console.log(manifest);
+          newLink.setAttribute('rel', 'manifest');
+          newLink.setAttribute('href', link.href);
+          document.head.removeChild(link);
+          document.head.appendChild(newLink);
+        });
+    } else {
+      console.log('Manifest link not found');
+    }
+  };
+
+  const handleToggleTheme = () => {
+    toggleColorMode();
+    // Обновляем манифест после переключения темы
+    updateManifestThemeColor(colorMode === 'light' ? 'dark' : 'light');
+  };
+
   if (!item.path) {
     if (defaultColor !== item.label) {
       return (
-        <Box onClick={() => toggleColorMode()} className={s.root}>
+        <Box onClick={handleToggleTheme} className={s.root}>
           <Box
             className={s.root__icon}
             style={{
