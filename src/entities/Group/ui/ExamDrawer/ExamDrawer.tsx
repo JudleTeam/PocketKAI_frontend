@@ -5,13 +5,12 @@ import { DateTime } from 'luxon';
 import { getLessonBuilding, useColor } from '@/shared/lib';
 import { HashLink } from 'react-router-hash-link';
 export function ExamDrawer({ exam }: { exam: ExamType }) {
-  const { cardColor, tabTeacher, tabColor, mainTextColor, mainElementColor } =
-    useColor();
+  const { cardColor, primaryColor, mainColor, accentColor } = useColor();
   const toast = useToast();
   return (
     <Box
       padding="25px 0 0 0"
-      color={mainTextColor}
+      color={primaryColor}
       display="flex"
       flexDirection="column"
       gap="5px"
@@ -66,7 +65,6 @@ export function ExamDrawer({ exam }: { exam: ExamType }) {
             ? `/teachers#${exam?.teacher?.id}&${exam.discipline.id}`
             : '/teachers'
         }
-        boxShadow={`0px 0px 5px 0px ${tabColor}`}
         bgColor={cardColor}
         borderRadius="16px"
         padding="14px"
@@ -74,9 +72,9 @@ export function ExamDrawer({ exam }: { exam: ExamType }) {
         alignItems="center"
         gap="15px"
         transition="0.2s"
-        _active={{ bgColor: tabTeacher, transition: '0.2s' }}
+        _active={{ bgColor: mainColor, transition: '0.2s' }}
       >
-        <Avatar bg={mainElementColor} />
+        <Avatar bg={accentColor} />
         <Box>
           <Text fontSize="16px" fontWeight="medium">
             {exam?.teacher?.name ? exam.teacher.name : 'Преподаватель кафедры'}

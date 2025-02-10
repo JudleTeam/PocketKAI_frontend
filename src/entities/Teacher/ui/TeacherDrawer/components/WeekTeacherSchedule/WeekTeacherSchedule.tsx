@@ -15,7 +15,7 @@ const WeekTeacherSchedule: React.FC<WeekTeacherScheduleProps> = ({
     null
   );
   const [openPopoverIdOdd, setOpenPopoverIdOdd] = useState<string | null>(null);
-  const { mainTextColor, blueVeryLightColor } = useColor();
+  const { primaryColor, secondaryColor } = useColor();
   const { teacherSchedule } = useTeachers();
   const { isColoredDayDate } = useSettings();
   const openPopoverId =
@@ -48,7 +48,7 @@ const WeekTeacherSchedule: React.FC<WeekTeacherScheduleProps> = ({
           <Box
             display={'flex'}
             alignItems={'center'}
-            bgColor={isColoredDayDate ? blueVeryLightColor : ''}
+            bgColor={isColoredDayDate ? secondaryColor : ''}
             _active={{ opacity: 0.5, bgColor: 'gray.200' }}
             transition={'0.2s'}
             borderRadius="16px"
@@ -56,7 +56,7 @@ const WeekTeacherSchedule: React.FC<WeekTeacherScheduleProps> = ({
             px={isColoredDayDate ? '15px' : '10px'}
             my={1}
             w={'fit-content'}
-            color={`${mainTextColor}e6`}
+            color={`${primaryColor}e6`}
             fontWeight="medium"
             fontSize="16px"
           >

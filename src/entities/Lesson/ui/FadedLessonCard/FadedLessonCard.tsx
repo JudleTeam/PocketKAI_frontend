@@ -20,7 +20,7 @@ export function FadedLessonCard({
   dayDate: string;
 }) {
   const { isOpen, setIsOpen } = useDisclosure();
-  const { mainTextColor, themeColor, mainColor } = useColor();
+  const { primaryColor, themeColor, mainColor } = useColor();
   const { showFadedLessons } = useSettings();
   const fadedLesson = true;
 
@@ -41,7 +41,7 @@ export function FadedLessonCard({
             <div className={styles['lesson-card__time']}>
               <Text
                 className={styles['lesson-card__time--start']}
-                color={mainTextColor}
+                color={primaryColor}
               >
                 00:00
               </Text>
@@ -56,7 +56,7 @@ export function FadedLessonCard({
             </div>
             <div className={styles['lesson-card__info']}>
               <Text
-                color={mainTextColor}
+                color={primaryColor}
                 fontWeight="bold"
                 lineHeight={1.3}
                 className={styles['lesson-card__name']}

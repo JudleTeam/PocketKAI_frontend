@@ -35,7 +35,7 @@ export function SearchedTeacherDrawer({
     setWeekParity(index === 0 ? 'even' : 'odd');
     swiperRef.current?.slideTo(index);
   };
-  const { mainTextColor } = useColor();
+  const { primaryColor } = useColor();
   useEffect(() => {
     if (teacher) {
       getTeacherScheduleById(teacher.id);
@@ -47,7 +47,7 @@ export function SearchedTeacherDrawer({
       h="100%"
       position="relative"
       pt={3}
-      color={mainTextColor}
+      color={primaryColor}
       display="flex"
       flexDirection="column"
       gap="5px"

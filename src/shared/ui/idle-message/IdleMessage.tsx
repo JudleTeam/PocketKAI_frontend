@@ -6,14 +6,14 @@ import { AddGroupToFavourite } from '@/features';
 
 export function IdleMessage() {
   const { isOpen, setIsOpen, onClose } = useDisclosure();
-  const { mainTextColor, mainColor, themeColor, navIconColor } = useColor();
+  const { primaryColor, mainColor, themeColor, accentColor } = useColor();
 
   useMetaThemeColor(mainColor, isOpen, themeColor);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <Box display="flex" flexDir="column" alignItems="center" gap="10px">
-        <Text color={mainTextColor}>Добро пожаловать!</Text>
+        <Text color={primaryColor}>Добро пожаловать!</Text>
         <Button
           as={DialogTrigger}
           color={mainColor}
@@ -22,16 +22,16 @@ export function IdleMessage() {
           paddingY="5px"
           paddingX="25px"
           borderRadius={24}
-          bg={navIconColor}
-          _hover={{ bg: navIconColor, boxShadow: 'outline' }}
-          _focus={{ bg: navIconColor }}
+          bg={accentColor}
+          _hover={{ bg: accentColor, boxShadow: 'outline' }}
+          _focus={{ bg: accentColor }}
         >
           Выберите группу
         </Button>
         <DialogContent className="sbg-l-main dark:bg-d-main rounded-xl">
           <DialogHeader>
             <Text
-              color={mainTextColor}
+              color={primaryColor}
               fontWeight={'semibold'}
               fontSize={'large'}
               textAlign={'start'}

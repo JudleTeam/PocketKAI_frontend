@@ -14,7 +14,7 @@ import HiddenLessonsList from './components/HiddenLessonsList.tsx/HiddenLessonsL
 export function HiddenLessons() {
   const today = getTodayDate();
   // const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
-  const { mainColor, mainTextColor } = useColor();
+  const { mainColor, primaryColor } = useColor();
 
   const weekNumber = DateTime.now().setZone('Europe/Moscow').weekNumber;
   const currentParity = getWeekParity();
@@ -80,7 +80,7 @@ export function HiddenLessons() {
                 justifyContent={'space-between'}
               >
                 <Text
-                  color={mainTextColor}
+                  color={primaryColor}
                   fontSize={'18px'}
                   fontWeight={'medium'}
                 >
@@ -158,7 +158,7 @@ export function HiddenLessons() {
               justifyContent={'space-between'}
             >
               <Text
-                color={mainTextColor}
+                color={primaryColor}
                 fontSize={'18px'}
                 fontWeight={'medium'}
               >
@@ -184,7 +184,7 @@ export function HiddenLessons() {
               justifyContent="center"
               alignItems="center"
               textAlign="center"
-              color={mainTextColor}
+              color={primaryColor}
             >
               В этой группе нет скрытых пар!
             </Box>
@@ -198,7 +198,7 @@ export function HiddenLessons() {
             justifyContent="center"
             alignItems="center"
             textAlign="center"
-            color={mainTextColor}
+            color={primaryColor}
           >
             Скрытых пар нет!
           </Box>

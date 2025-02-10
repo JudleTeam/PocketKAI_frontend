@@ -6,7 +6,7 @@ import { aggregateTeachers } from './lib/aggregateTeachers';
 import s from './GroupTeachers.module.scss';
 
 export function GroupTeachers() {
-  const { mainTextColor } = useColor();
+  const { primaryColor } = useColor();
   const {
     currentGroup,
     groupDisciplines,
@@ -35,7 +35,7 @@ export function GroupTeachers() {
             <Box key={discipline.id}>
               <Text
                 className={s.root__disciplineName}
-                color={mainTextColor}
+                color={primaryColor}
                 noOfLines={2}
               >
                 {discipline.name}

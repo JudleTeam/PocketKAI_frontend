@@ -30,10 +30,10 @@ export const TabListHeader: React.FC<TabListHeaderProps> = ({
 }) => {
   const {
     mainColor,
-    secondElementColor,
-    blueLightElementColor,
-    secondElementLightColor,
-    blueVeryLightColor,
+    secondaryColor,
+    secondaryIconColor,
+    accentColor,
+    secondaryDayNumberColor,
   } = useColor();
 
   const isCurrentDay = useCallback(
@@ -45,8 +45,8 @@ export const TabListHeader: React.FC<TabListHeaderProps> = ({
 
   const { pathname } = useLocation();
   const weekSelected = {
-    color: secondElementLightColor,
-    bgColor: blueVeryLightColor,
+    color: accentColor,
+    bgColor: secondaryColor,
   };
 
   return (
@@ -63,7 +63,7 @@ export const TabListHeader: React.FC<TabListHeaderProps> = ({
         <Tab
           className={s.root__item}
           _selected={weekSelected}
-          color={blueLightElementColor}
+          color={secondaryIconColor}
           onClick={() => {
             handleTabChange(0);
           }}
@@ -73,7 +73,7 @@ export const TabListHeader: React.FC<TabListHeaderProps> = ({
         <Tab
           className={s.root__item}
           _selected={weekSelected}
-          color={blueLightElementColor}
+          color={secondaryIconColor}
           onClick={() => {
             handleTabChange(1);
           }}
@@ -89,10 +89,10 @@ export const TabListHeader: React.FC<TabListHeaderProps> = ({
               key={day[0] + weekParity}
               color={
                 currentDayOfWeek + currentParity === day[0] + weekParity
-                  ? secondElementLightColor
-                  : secondElementColor
+                  ? accentColor
+                  : secondaryDayNumberColor
               }
-              bgColor={isCurrentDay(day[0]) ? blueVeryLightColor : ''}
+              bgColor={isCurrentDay(day[0]) ? secondaryColor : ''}
             >
               <button onClick={() => handleClick && handleClick(day[0], index)}>
                 {day[1]}

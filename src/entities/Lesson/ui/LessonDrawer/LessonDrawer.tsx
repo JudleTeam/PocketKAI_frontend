@@ -27,7 +27,7 @@ export function LessonDrawer({
   const formattedDate = specificDate
     ? specificDate.toFormat('d MMMM', { locale: 'ru' })
     : '';
-  const { mainTextColor } = useColor();
+  const { primaryColor } = useColor();
   const toast = useToast();
   return (
     <>
@@ -80,7 +80,7 @@ export function LessonDrawer({
           </VStack>
         </Box>
         {lesson.parsed_dates && lesson.parsed_dates_status === 'good' ? (
-          <Text fontWeight="medium" fontSize="18px" color={mainTextColor}>
+          <Text fontWeight="medium" fontSize="18px" color={primaryColor}>
             Даты проведения пары:{' '}
             {lesson.parsed_dates
               .map((date) =>
@@ -109,7 +109,7 @@ export function LessonDrawer({
             <PopoverContent>
               <PopoverArrow />
               <PopoverBody fontSize="14px">
-                <Text fontSize={'14px'} color={mainTextColor}>
+                <Text fontSize={'14px'} color={primaryColor}>
                   {lesson.parsed_dates
                     .map((date) =>
                       DateTime.fromISO(date).setLocale('ru').toFormat('dd MMMM')
@@ -121,7 +121,7 @@ export function LessonDrawer({
           </Popover>
         ) : lesson.original_dates &&
           lesson.parsed_dates_status == 'need_check' ? (
-          <Text fontWeight="medium" fontSize="18px" color={mainTextColor}>
+          <Text fontWeight="medium" fontSize="18px" color={primaryColor}>
             Даты проведения пары: {lesson.original_dates}
           </Text>
         ) : null}
@@ -137,40 +137,6 @@ export function LessonDrawer({
         </Text>
         <DrawerTeacherCard lesson={lesson} />
       </Box>
-      {/* <DrawerBody w="100%">
-        <Tabs w="100%">
-          <TabList w="100%">
-            <Tab w="50%" fontWeight="medium">
-              Домашняя работа
-            </Tab>
-            <Tab w="50%" fontWeight="medium">
-              Важная информация
-            </Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              <Button
-                variant="outline"
-                colorScheme="blue.600"
-                color="blue.600"
-                width="100%"
-              >
-                Добавить домашнюю работу
-              </Button>
-            </TabPanel>
-            <TabPanel>
-              <Button
-                variant="outline"
-                colorScheme="blue.600"
-                color="blue.600"
-                width="100%"
-              >
-                Добавить заметку
-              </Button>
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </DrawerBody> */}
     </>
   );
 }

@@ -1,24 +1,10 @@
-import {
-  Box,
-  useChakra,
-  useColorModeValue,
-  Text,
-  Divider,
-  useBreakpointValue,
-} from '@chakra-ui/react';
-import { AccountTabHeader } from '@/shared/lib';
+import { Box, Text, Divider, useBreakpointValue } from '@chakra-ui/react';
+import { AccountTabHeader, useColor } from '@/shared/lib';
 import styles from './AboutUs.module.scss';
+
 export function AboutUs() {
-  const { theme } = useChakra();
-  const mainColor = useColorModeValue(
-    theme.colors.light.main,
-    theme.colors.dark.main
-  );
-  const mainTextColor = useColorModeValue(
-    theme.colors.light.main_text,
-    theme.colors.dark.main_text
-  );
-  const isDesktop = useBreakpointValue({ base: false, md: true }); 
+  const { mainColor, primaryColor } = useColor();
+  const isDesktop = useBreakpointValue({ base: false, md: true });
   return (
     <Box className={styles['about']} style={isDesktop ? { width: '40%' } : {}}>
       <Box
@@ -29,13 +15,13 @@ export function AboutUs() {
         zIndex={'1'}
         boxShadow={`0px 0px 10px 10px ${mainColor}`}
       >
-        <AccountTabHeader color={mainTextColor}>О нас</AccountTabHeader>
+        <AccountTabHeader color={primaryColor}>О нас</AccountTabHeader>
       </Box>
       <Box
         display="flex"
         flexDirection="column"
         gap="20px"
-        color={mainTextColor}
+        color={primaryColor}
         fontWeight="medium"
         padding="20px 0 30px 0"
       >
@@ -62,17 +48,8 @@ export function AboutUs() {
           доступе.
         </Text>
         <Text>
-          Вход: Авторизация необязательна - расписание для любой группы можно
-          посмотреть здесь и сейчас!
-        </Text>
-        <Text>
           Персонализация: Не можете жить без тёмной темы? Мы сделали настройки
           приложения под ваши личные предпочтения!
-        </Text>
-        <Text>
-          Центр информации: Не помните свой номер в группе? Хотите посмотреть
-          учебный план? Вся информация, доступная на сайте КАИ о вашей группе,
-          специальности и вас, доступна и собрана в одном месте!
         </Text>
         <Divider />
         <Text>

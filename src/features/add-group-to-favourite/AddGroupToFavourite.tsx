@@ -77,8 +77,7 @@ const AddGroupToFavourite: React.FC<AddGroupToFavouriteProps> = ({
     getGroupByName,
     currentGroup,
   } = useGroup();
-  const { mainTextColor, navIconColor, mainColor, blueVeryLightColor } =
-    useColor();
+  const { primaryColor, accentColor, mainColor, secondaryColor } = useColor();
   const { resetScheduleState } = useSchedule();
   const { userAuthStatus } = useUser();
   const { resetField, handleSubmit, control, getValues } =
@@ -162,9 +161,9 @@ const AddGroupToFavourite: React.FC<AddGroupToFavouriteProps> = ({
         <Box w="100%" display="flex" flexWrap={'wrap'} gap="20px">
           <Button
             w="100%"
-            bg={blueVeryLightColor}
+            bg={secondaryColor}
             display={getValues('group') ? 'block' : 'none'}
-            color={navIconColor}
+            color={accentColor}
             onClick={handleAddToFavouriteClick}
             borderRadius={'24px'}
           >
@@ -174,7 +173,7 @@ const AddGroupToFavourite: React.FC<AddGroupToFavouriteProps> = ({
             <Button
               isDisabled={!getValues('group')}
               w="48%"
-              bgColor={navIconColor}
+              bgColor={accentColor}
               type="submit"
               color={mainColor}
               borderRadius={'24px'}
@@ -185,8 +184,8 @@ const AddGroupToFavourite: React.FC<AddGroupToFavouriteProps> = ({
               w="48%"
               variant="outline"
               borderRadius={'24px'}
-              borderColor={navIconColor}
-              color={navIconColor}
+              borderColor={accentColor}
+              color={accentColor}
               onClick={onClose}
             >
               Назад
@@ -196,7 +195,7 @@ const AddGroupToFavourite: React.FC<AddGroupToFavouriteProps> = ({
         <Box>
           <Text
             display={favouriteGroups.length > 0 ? 'block' : 'none'}
-            color={mainTextColor}
+            color={primaryColor}
             fontWeight={'semibold'}
             fontSize={'large'}
             textAlign={'start'}
@@ -208,7 +207,7 @@ const AddGroupToFavourite: React.FC<AddGroupToFavouriteProps> = ({
             py="10px"
             onChange={handleRadioGroupChange}
           >
-            <Stack fontSize={'18px'} fontWeight={'500'} color={mainTextColor}>
+            <Stack fontSize={'18px'} fontWeight={'500'} color={primaryColor}>
               {favouriteGroups.map((group) => (
                 <React.Fragment key={group.id}>
                   <Radio
@@ -217,8 +216,8 @@ const AddGroupToFavourite: React.FC<AddGroupToFavouriteProps> = ({
                     py={'5px'}
                     w={'100%'}
                     _checked={{
-                      bg: navIconColor,
-                      borderColor: navIconColor,
+                      bg: accentColor,
+                      borderColor: accentColor,
                       position: 'relative',
                       _before: {
                         content: '""',
@@ -244,13 +243,13 @@ const AddGroupToFavourite: React.FC<AddGroupToFavouriteProps> = ({
                       </Text>
                       <IconButton
                         borderRadius={'24px'}
-                        bgColor={blueVeryLightColor}
+                        bgColor={secondaryColor}
                         aria-label="Delete"
                         onClick={(e) => {
                           e.stopPropagation();
                           removeGroupFromFavourite(group, userAuthStatus);
                         }}
-                        icon={<DeleteIcon color={navIconColor} />}
+                        icon={<DeleteIcon color={accentColor} />}
                       />
                     </Box>
                   </Radio>

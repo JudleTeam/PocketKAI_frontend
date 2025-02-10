@@ -28,7 +28,7 @@ export function DayNameWithShare({
   day: Day;
   hiddenLessonsExist: boolean;
 }) {
-  const { mainTextColor, blueVeryLightColor } = useColor();
+  const { primaryColor, secondaryColor, accentColor } = useColor();
 
   const isToday = day.date === getTodayDate();
   const toast = useToast();
@@ -45,7 +45,7 @@ export function DayNameWithShare({
           display={'flex'}
           alignItems={'center'}
           gap={isToday ? 2 : 0}
-          bgColor={isColoredDayDate ? blueVeryLightColor : ''}
+          bgColor={isColoredDayDate ? secondaryColor : ''}
           _active={{ opacity: 0.5, bgColor: 'gray.200' }}
           transition={'0.2s'}
           borderRadius="24px"
@@ -53,15 +53,19 @@ export function DayNameWithShare({
           px={isColoredDayDate ? '15px' : '10px'}
           my={1}
           w={'fit-content'}
-          color={`${mainTextColor}e6`}
+          color={`${primaryColor}e6`}
           fontWeight="medium"
           fontSize="18px"
         >
-          <Text fontSize={'18px'}>{isToday && '➤'}</Text>
-          <Text fontSize={'18px '}>{getFormattedDate(day.date)}</Text>
+          <Text fontSize={'18px'} color={isToday ? accentColor : primaryColor}>
+            {isToday && '➤'}
+          </Text>
+          <Text fontSize={'18px '} color={isToday ? accentColor : primaryColor}>
+            {getFormattedDate(day.date)}
+          </Text>
           {hiddenLessonsExist && (
             <Box onClick={() => navigate('/hidden')} pl={2}>
-              <HideIcon opacity={'0.3'} color={mainTextColor} />
+              <HideIcon opacity={'0.3'} color={primaryColor} />
             </Box>
           )}
         </Box>

@@ -23,11 +23,11 @@ type ActionContentProps = {
 
 export const ActionContent: React.FC<ActionContentProps> = ({ action }) => {
   const {
-    blueVeryLightColor,
-    blueLightElementColor,
+    secondaryColor,
     themeColor,
     mainColor,
-    navIconColor,
+    accentColor,
+    secondaryIconColor,
   } = useColor();
   const { pathname } = useLocation();
 
@@ -57,15 +57,15 @@ export const ActionContent: React.FC<ActionContentProps> = ({ action }) => {
           className={`${s.stack} ${isCurrent ? s.active : ''}`}
           initial={{ backgroundColor: 'transparent', width: 40 }}
           animate={{
-            backgroundColor: isCurrent ? blueVeryLightColor : 'transparent',
+            backgroundColor: isCurrent ? secondaryColor : 'transparent',
             width: isCurrent ? 200 : 40,
           }}
           transition={{ duration: 0.1, ease: 'easeOut' }}
           onClick={() => isDrawerAllowed && setIsOpen(true)}
         >
           <Icon
-            fill={isCurrent || isOther ? navIconColor : blueLightElementColor}
-            color={isCurrent || isOther ? navIconColor : blueLightElementColor}
+            fill={isCurrent || isOther ? accentColor : secondaryIconColor}
+            color={isCurrent || isOther ? accentColor : secondaryIconColor}
             className={`${s.icon} ${isCurrent ? s['icon--active'] : ''}`}
           />
           <motion.div
@@ -74,7 +74,7 @@ export const ActionContent: React.FC<ActionContentProps> = ({ action }) => {
             animate={isCurrent ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
             transition={{ duration: 0.1, ease: 'easeOut' }}
             style={{
-              color: navIconColor,
+              color: accentColor,
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               minWidth: isCurrent ? 'auto' : 0,

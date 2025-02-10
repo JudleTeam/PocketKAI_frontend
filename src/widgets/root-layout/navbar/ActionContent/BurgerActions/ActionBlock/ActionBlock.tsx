@@ -22,7 +22,7 @@ type ActionBlockProps = {
 };
 
 const ActionBlock: React.FC<ActionBlockProps> = ({ item }) => {
-  const { blueVeryLightColor, navIconColor } = useColor();
+  const { secondaryColor, accentColor } = useColor();
   const { toggleColorMode, colorMode } = useColorMode();
   const { pathname } = useLocation();
   const isCurrent = pathname.slice(1) === item.path;
@@ -35,10 +35,10 @@ const ActionBlock: React.FC<ActionBlockProps> = ({ item }) => {
           <Box
             className={s.root__icon}
             style={{
-              backgroundColor: isCurrent ? navIconColor : blueVeryLightColor,
+              backgroundColor: isCurrent ? accentColor : secondaryColor,
             }}
           >
-            <Icon width={25} height={25} color={navIconColor} as={item.icon} />
+            <Icon width={25} height={25} color={accentColor} as={item.icon} />
           </Box>
           <Box className={s.root__text}>
             <Text>{item.label}</Text>
@@ -53,13 +53,13 @@ const ActionBlock: React.FC<ActionBlockProps> = ({ item }) => {
       <Box
         className={s.root__icon}
         style={{
-          backgroundColor: isCurrent ? navIconColor : blueVeryLightColor,
+          backgroundColor: isCurrent ? accentColor : secondaryColor,
         }}
       >
         <Icon
           width={25}
           height={25}
-          color={isCurrent ? 'white' : navIconColor}
+          color={isCurrent ? 'white' : accentColor}
           as={item.icon}
         />
       </Box>

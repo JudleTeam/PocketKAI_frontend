@@ -38,7 +38,7 @@ export const TeacherDrawer: React.FC<TeacherDrawerProps> = ({
     getTeacherScheduleById,
     clearTeacherSchedule,
   } = useTeachers();
-  const { mainTextColor } = useColor();
+  const { primaryColor } = useColor();
   const toast = useToast();
   const swiperRef = useRef<SwiperInstance | null>(null);
 
@@ -65,7 +65,7 @@ export const TeacherDrawer: React.FC<TeacherDrawerProps> = ({
   }, []);
 
   return (
-    <Box className={s.root} color={mainTextColor}>
+    <Box className={s.root} color={primaryColor}>
       <Text
         className={s.root__name}
         onClick={() =>
@@ -75,7 +75,7 @@ export const TeacherDrawer: React.FC<TeacherDrawerProps> = ({
         {teacher?.name ? teacher?.name : 'Преподаватель кафедры'}
       </Text>
       <Box className={s.root__types}>
-        <Text color={mainTextColor}>{disciplineName}</Text>
+        <Text color={primaryColor}>{disciplineName}</Text>
         <Text display="flex" flexWrap={'wrap'} gap="0 10px">
           {parsed_types.length > 0
             ? parsed_types.map((parsed_type) => (

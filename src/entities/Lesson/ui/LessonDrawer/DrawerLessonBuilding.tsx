@@ -11,7 +11,6 @@ import {
   PopoverContent,
   PopoverTrigger,
   Text,
-  useColorModeValue,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
@@ -21,9 +20,8 @@ import { useEffect } from 'react';
 export function DrawerLessonBuilding({ lesson }: { lesson: Lesson }) {
   const { onOpen, onClose, isOpen } = useDisclosure();
   const { buildings, buildingsStatus, getBuildings } = useCommon();
-  const { mainTextColor } = useColor();
+  const { primaryColor, mainColor } = useColor();
   const toast = useToast();
-  const popoverColor = useColorModeValue('gray.50', 'gray.700');
   const lessonBuildingAddress = lesson.building_number
     ? buildings[lesson.building_number]
     : 'Неизвестно';
@@ -49,15 +47,11 @@ export function DrawerLessonBuilding({ lesson }: { lesson: Lesson }) {
           </PopoverTrigger>
           <PopoverContent>
             <PopoverArrow />
-            <PopoverBody
-              fontSize="14px"
-              textAlign={'left'}
-              bgColor={popoverColor}
-            >
+            <PopoverBody fontSize="14px" textAlign={'left'} bgColor={mainColor}>
               <Text
                 fontSize={'16px'}
                 fontWeight={'semibold'}
-                color={mainTextColor}
+                color={primaryColor}
               >
                 {lesson.building_number}{' '}
                 {lesson.building_number?.length === 1 ? 'здание' : ''}
@@ -65,7 +59,7 @@ export function DrawerLessonBuilding({ lesson }: { lesson: Lesson }) {
               <Text
                 fontSize={'15px'}
                 fontWeight={'medium'}
-                color={mainTextColor}
+                color={primaryColor}
                 onClick={() => copyToast(lessonBuildingAddress, toast)}
               >
                 {lessonBuildingAddress}

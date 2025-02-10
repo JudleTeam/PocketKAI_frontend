@@ -15,7 +15,7 @@ import { LessonDrawer } from '../LessonDrawer/LessonDrawer';
 const LessonCard = memo(
   ({ lesson, dayDate }: { lesson: Lesson; dayDate: string }) => {
     const { isOpen, setIsOpen } = useDisclosure();
-    const { themeColor, mainTextColor, mainColor } = useColor();
+    const { themeColor, primaryColor, mainColor } = useColor();
 
     useMetaThemeColor(mainColor, isOpen, themeColor);
 
@@ -33,7 +33,7 @@ const LessonCard = memo(
               <div className={styles['lesson-card__time']}>
                 <Text
                   className={styles['lesson-card__time--start']}
-                  color={mainTextColor}
+                  color={primaryColor}
                 >
                   {lesson.start_time
                     ? DateTime.fromISO(lesson.start_time).toFormat('HH:mm')
@@ -52,7 +52,7 @@ const LessonCard = memo(
               </div>
               <div className={styles['lesson-card__info']}>
                 <Text
-                  color={mainTextColor}
+                  color={primaryColor}
                   fontWeight="bold"
                   lineHeight={1.3}
                   className={styles['lesson-card__name']}
@@ -61,7 +61,7 @@ const LessonCard = memo(
                   {/* {sliceLessonName(lesson.discipline.name)} */}
                   {lesson.discipline.name}
                 </Text>
-                <Text color={mainTextColor} fontWeight={'medium'}>
+                <Text color={primaryColor} fontWeight={'medium'}>
                   {getLessonBuilding(
                     lesson.building_number,
                     lesson.audience_number

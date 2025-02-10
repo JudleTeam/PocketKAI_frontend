@@ -8,12 +8,12 @@ export function UiNavbar({
 }: {
   navbarActions: () => ReactNode;
 }) {
-  const { backgroundColor } = useColor();
+  const { mainColor } = useColor();
   return (
     <HStack
       className={s.root}
-      backgroundColor={backgroundColor}
-      style={{ boxShadow: `0 0 10px 10px ${backgroundColor}` }}
+      backgroundColor={mainColor}
+      style={{ boxShadow: `0 0 10px 10px ${mainColor}` }}
     >
       {navbarActions()}
     </HStack>

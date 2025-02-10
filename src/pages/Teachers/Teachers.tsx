@@ -8,17 +8,13 @@ import { Swiper as SwiperInstance } from 'swiper/types';
 import 'swiper/css';
 
 export function Teachers() {
-  const {
-    mainColor,
-    blueLightElementColor,
-    blueVeryLightColor,
-    secondElementLightColor,
-  } = useColor();
+  const { mainColor, secondaryColor, accentColor, secondaryIconColor } =
+    useColor();
   const swiperRef = useRef<SwiperInstance | null>(null);
   const [activeTab, setActiveTab] = useState<number>(0);
   const weekSelected = {
-    color: secondElementLightColor,
-    bgColor: blueVeryLightColor,
+    color: accentColor,
+    bgColor: secondaryColor,
   };
 
   const handleTabChange = useCallback((index: number) => {
@@ -55,7 +51,7 @@ export function Teachers() {
           <Tab
             className={s.root__item}
             _selected={weekSelected}
-            color={blueLightElementColor}
+            color={secondaryIconColor}
             onClick={() => {
               handleTabChange(0);
             }}
@@ -66,7 +62,7 @@ export function Teachers() {
             outlineColor={'none'}
             className={s.root__item}
             _selected={weekSelected}
-            color={blueLightElementColor}
+            color={secondaryIconColor}
             onClick={() => {
               handleTabChange(1);
             }}

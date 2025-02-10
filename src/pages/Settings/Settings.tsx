@@ -12,7 +12,7 @@ import { usePWAState, useSettings } from '@/entities';
 import { Select } from '@chakra-ui/react';
 import { FullScheduleView, ScheduleView } from '@/shared';
 export function Settings() {
-  const { mainColor, mainTextColor, navIconColor } = useColor();
+  const { mainColor, primaryColor, accentColor } = useColor();
   const { storeNeedRefresh, updateServiceWorker } = usePWAState();
   const {
     showFadedLessons,
@@ -38,7 +38,7 @@ export function Settings() {
         zIndex={'1'}
         boxShadow={`0px 0px 10px 10px ${mainColor}`}
       >
-        <AccountTabHeader color={mainTextColor}>Настройки</AccountTabHeader>
+        <AccountTabHeader color={primaryColor}>Настройки</AccountTabHeader>
       </Box>
       <Box display={'flex'} flexDirection={'column'} gap={5}>
         <Box
@@ -50,7 +50,7 @@ export function Settings() {
             as={'label'}
             fontSize="16px"
             fontWeight="semibold"
-            color={mainTextColor}
+            color={primaryColor}
             htmlFor="showFadedLessons"
           >
             Скрыть неактивные занятия
@@ -59,7 +59,7 @@ export function Settings() {
             id="showFadedLessons"
             size={'md'}
             sx={{
-              '&[data-checked] .chakra-switch__track': { bg: navIconColor },
+              '&[data-checked] .chakra-switch__track': { bg: accentColor },
             }}
             isChecked={!showFadedLessons}
             onChange={() => toggleShowFadedLessons(!showFadedLessons)}
@@ -74,7 +74,7 @@ export function Settings() {
             as={'label'}
             fontSize="16px"
             fontWeight="semibold"
-            color={mainTextColor}
+            color={primaryColor}
             htmlFor="isScheduleInfinite"
           >
             Бесконечная лента расписания
@@ -84,7 +84,7 @@ export function Settings() {
             key={2}
             size={'md'}
             sx={{
-              '&[data-checked] .chakra-switch__track': { bg: navIconColor },
+              '&[data-checked] .chakra-switch__track': { bg: accentColor },
             }}
             isChecked={isScheduleInfinite}
             onChange={() => toggleIsScheduleInfinite(!isScheduleInfinite)}
@@ -99,7 +99,7 @@ export function Settings() {
             as={'label'}
             fontSize="16px"
             fontWeight="semibold"
-            color={mainTextColor}
+            color={primaryColor}
             htmlFor="isScheduleInfinite"
           >
             Визуальное выделение дат
@@ -109,7 +109,7 @@ export function Settings() {
             key={3}
             size={'md'}
             sx={{
-              '&[data-checked] .chakra-switch__track': { bg: navIconColor },
+              '&[data-checked] .chakra-switch__track': { bg: accentColor },
             }}
             isChecked={isColoredDayDate}
             onChange={() => toggleIsColoredDayDate(!isColoredDayDate)}
@@ -118,11 +118,11 @@ export function Settings() {
         <Divider />
 
         <Box>
-          <Text fontSize="18px" fontWeight="bold" color={mainTextColor}>
+          <Text fontSize="18px" fontWeight="bold" color={primaryColor}>
             При открытии показывать:
           </Text>
           <Select
-            color={mainTextColor}
+            color={primaryColor}
             defaultValue={preferencedScheduleView}
             padding={'4px'}
             onChange={(event) =>
@@ -135,11 +135,11 @@ export function Settings() {
         </Box>
         <Divider />
         <Box>
-          <Text fontSize="18px" fontWeight="bold" color={mainTextColor}>
+          <Text fontSize="18px" fontWeight="bold" color={primaryColor}>
             Полное расписание:
           </Text>
           <Select
-            color={mainTextColor}
+            color={primaryColor}
             defaultValue={fullScheduleView}
             padding={'4px'}
             onChange={(event) =>
@@ -156,7 +156,7 @@ export function Settings() {
           justifyContent={'space-between'}
           alignItems={'center'}
         >
-          <Text fontSize="16px" fontWeight="semibold" color={mainTextColor}>
+          <Text fontSize="16px" fontWeight="semibold" color={primaryColor}>
             Ручное обновление
           </Text>
           <Button

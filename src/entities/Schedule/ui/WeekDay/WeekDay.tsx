@@ -24,7 +24,7 @@ const WeekDay: React.FC<WeekDayProps> = ({
   hiddenLessons,
   isSwiper,
 }) => {
-  const { cardColor, mainTextColor, mainColor } = useColor();
+  const { cardColor, primaryColor, mainColor } = useColor();
   return (
     <Box id={dayName + weekParity}>
       <Box
@@ -46,7 +46,7 @@ const WeekDay: React.FC<WeekDayProps> = ({
             bgColor={cardColor}
             borderRadius="8px"
             padding="10px 15px"
-            color={mainTextColor}
+            color={primaryColor}
             fontWeight="bold"
             fontSize={'clamp(15px, 4.5vw, 18px)'}
           >

@@ -40,7 +40,7 @@ export function DayNameWithShareFull({
   weekParity: 'even' | 'odd';
   hiddenLessonsExist: boolean;
 }) {
-  const { mainTextColor } = useColor();
+  const { primaryColor } = useColor();
   const toast = useToast();
   const navigate = useNavigate();
   const { weekSchedule } = useSchedule();
@@ -60,7 +60,7 @@ export function DayNameWithShareFull({
           pt={3}
           pb={1}
           w={'fit-content'}
-          color={mainTextColor}
+          color={primaryColor}
           fontWeight="medium"
           fontSize="18px"
           display="flex"
@@ -76,14 +76,14 @@ export function DayNameWithShareFull({
               color={
                 todayDayOfWeek + currentParity === dayName + weekParity
                   ? 'blue.400'
-                  : mainTextColor
+                  : primaryColor
               }
             >
               {dayName && WEEK_DAYS[dayName]}
             </Text>
             {hiddenLessonsExist && (
               <Box onClick={() => navigate('/hidden')} pl={2}>
-                <HideIcon opacity={'0.3'} color={mainTextColor} />
+                <HideIcon opacity={'0.3'} color={primaryColor} />
               </Box>
             )}
           </Box>

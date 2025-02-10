@@ -32,7 +32,7 @@ type HiddenLessonsListProps = {
 
 const HiddenLessonsList: React.FC<HiddenLessonsListProps> = ({ weekDays }) => {
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
-  const { mainColor, mainTextColor, blueVeryLightColor } = useColor();
+  const { mainColor, primaryColor, secondaryTimeColor } = useColor();
   const { addHiddenLesson, deleteHiddenLesson, currentGroup } = useGroup();
   const { isColoredDayDate } = useSettings();
   return (
@@ -44,10 +44,10 @@ const HiddenLessonsList: React.FC<HiddenLessonsListProps> = ({ weekDays }) => {
               as="span"
               my={1}
               w={'fit-content'}
-              color={`${mainTextColor}e6`}
+              color={`${primaryColor}e6`}
               display={'flex'}
               alignItems={'center'}
-              bgColor={isColoredDayDate ? blueVeryLightColor : ''}
+              bgColor={isColoredDayDate ? secondaryTimeColor : ''}
               _active={{ opacity: 0.5, bgColor: 'gray.200' }}
               transition={'0.2s'}
               borderRadius="16px"
@@ -94,7 +94,7 @@ const HiddenLessonsList: React.FC<HiddenLessonsListProps> = ({ weekDays }) => {
                         <Text
                           fontSize="16px"
                           fontWeight={'medium'}
-                          color={mainTextColor}
+                          color={primaryColor}
                           _active={{
                             textDecoration: 'underline',
                           }}
@@ -108,7 +108,7 @@ const HiddenLessonsList: React.FC<HiddenLessonsListProps> = ({ weekDays }) => {
                         <PopoverHeader
                           fontSize="16px"
                           fontWeight={'bold'}
-                          color={mainTextColor}
+                          color={primaryColor}
                         >
                           {lesson.discipline.name}
                         </PopoverHeader>
@@ -121,7 +121,7 @@ const HiddenLessonsList: React.FC<HiddenLessonsListProps> = ({ weekDays }) => {
                     </Box>
                   </Box>
                   <Box w="40%" textAlign="center">
-                    <Text fontWeight="medium" color={mainTextColor}>
+                    <Text fontWeight="medium" color={primaryColor}>
                       {lesson.start_time
                         ? DateTime.fromISO(lesson.start_time).toFormat('HH:mm')
                         : 'Н/Д'}{' '}
@@ -129,14 +129,14 @@ const HiddenLessonsList: React.FC<HiddenLessonsListProps> = ({ weekDays }) => {
                       {lesson.end_time &&
                         DateTime.fromISO(lesson.end_time).toFormat('HH:mm')}
                     </Text>
-                    <Text fontSize="14px" color={mainTextColor}>
+                    <Text fontSize="14px" color={primaryColor}>
                       <HideIcon /> {getTypeHide(lesson.type_hide)}
                     </Text>
                   </Box>
                   <Menu>
                     <MenuButton>
                       <VStack alignItems="center" justifyContent="center">
-                        <ElipsisIcon w="25px" h="25px" color={mainTextColor} />
+                        <ElipsisIcon w="25px" h="25px" color={primaryColor} />
                       </VStack>
                     </MenuButton>
                     <MenuList my="35px">
@@ -169,7 +169,7 @@ const HiddenLessonsList: React.FC<HiddenLessonsListProps> = ({ weekDays }) => {
                             alignItems="center"
                             justifyContent="space-between"
                           >
-                            <Text color={mainTextColor}>
+                            <Text color={primaryColor}>
                               {'odd' === hide
                                 ? 'Скрыть на нечётной неделе'
                                 : 'even' === hide

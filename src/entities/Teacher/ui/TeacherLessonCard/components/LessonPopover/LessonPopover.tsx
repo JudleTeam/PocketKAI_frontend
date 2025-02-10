@@ -9,7 +9,6 @@ import {
   PopoverBody,
   Box,
   Text,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import React from 'react';
 
@@ -24,8 +23,7 @@ export const LessonPopover = ({
   setOpenPopoverId: (lessonId: string | null, week: 'even' | 'odd') => void;
   week: 'even' | 'odd';
 }) => {
-  const popoverColor = useColorModeValue('gray.50', 'gray.700');
-  const { mainTextColor } = useColor();
+  const { primaryColor, mainColor } = useColor();
 
   return (
     <Popover
@@ -43,19 +41,15 @@ export const LessonPopover = ({
           h={'25px'}
         />
       </PopoverTrigger>
-      <PopoverContent bgColor={popoverColor}>
-        <PopoverArrow bg={popoverColor} />
-        <PopoverHeader
-          fontSize="16px"
-          fontWeight={'bold'}
-          color={mainTextColor}
-        >
+      <PopoverContent bgColor={mainColor}>
+        <PopoverArrow bg={mainColor} />
+        <PopoverHeader fontSize="16px" fontWeight={'bold'} color={primaryColor}>
           {lesson.discipline.name}
         </PopoverHeader>
         <PopoverBody
           fontSize={'16px'}
           fontWeight={'medium'}
-          color={mainTextColor}
+          color={primaryColor}
           display="flex"
           flexDirection={'column'}
           justifyContent={'start'}

@@ -27,7 +27,7 @@ import { AddGroupToFavourite } from '@/features';
 
 export function SelectGroup() {
   const { isOpen, setIsOpen, onClose } = useDisclosure();
-  const { mainTextColor, mainColor, navIconColor, themeColor } = useColor();
+  const { primaryColor, mainColor, accentColor, themeColor } = useColor();
   const { userAuthStatus } = useUser();
   const {
     favouriteGroups,
@@ -70,9 +70,9 @@ export function SelectGroup() {
               borderRadius={24}
               rightIcon={<ChevronDownIcon />}
               data-tour="3"
-              bg={navIconColor}
-              _hover={{ bg: navIconColor, boxShadow: 'outline' }}
-              _focus={{ bg: navIconColor }}
+              bg={accentColor}
+              _hover={{ bg: accentColor, boxShadow: 'outline' }}
+              _focus={{ bg: accentColor }}
             >
               {currentGroup ? `${currentGroup.group_name}` : 'Группа'}
             </MenuButton>
@@ -81,15 +81,15 @@ export function SelectGroup() {
               borderRadius={'24px'}
               zIndex={2}
               color={mainColor}
-              bg={navIconColor}
-              _focus={{ bg: navIconColor }}
+              bg={accentColor}
+              _focus={{ bg: accentColor }}
               boxShadow="none"
             >
               <DialogTrigger asChild>
                 <MenuItem
                   className={s.root__item}
-                  bg={navIconColor}
-                  _focus={{ bg: navIconColor }}
+                  bg={accentColor}
+                  _focus={{ bg: accentColor }}
                   borderRadius="24px"
                   py={1}
                 >
@@ -104,14 +104,14 @@ export function SelectGroup() {
                     color={mainColor}
                     title="Группа"
                     type="radio"
-                    bg={navIconColor}
+                    bg={accentColor}
                     value={currentGroup?.id}
                   >
                     {favouriteGroups.map((group) => (
                       <MenuItemOption
                         key={group.id}
                         value={group.id}
-                        bg={navIconColor}
+                        bg={accentColor}
                         borderRadius="24px"
                         onClick={() => handleGroupClick(group)}
                       >
@@ -125,7 +125,7 @@ export function SelectGroup() {
             <DialogContent className="sbg-l-main dark:bg-d-main rounded-xl">
               <DialogHeader>
                 <Text
-                  color={mainTextColor}
+                  color={primaryColor}
                   fontWeight={'semibold'}
                   fontSize={'large'}
                   textAlign={'start'}

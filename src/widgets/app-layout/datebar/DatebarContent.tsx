@@ -21,11 +21,11 @@ export function DatebarContent({
   swiperRef: MutableRefObject<Nullable<SwiperType>>;
 }) {
   const {
-    blueVeryLightColor,
-    secondElementColor,
-    secondElementLightColor,
-    blackLightElementColor,
-    blueLightElementColor,
+    secondaryColor,
+    secondaryDayNumberColor,
+    secondaryDayNameColor,
+    currentDayNameColor,
+    currentDayNumberColor,
   } = useColor();
   const { schedule } = useSchedule();
 
@@ -70,7 +70,7 @@ export function DatebarContent({
                 style={
                   currentDay === day.date
                     ? {
-                        backgroundColor: blueVeryLightColor,
+                        backgroundColor: secondaryColor,
                       }
                     : {}
                 }
@@ -85,8 +85,8 @@ export function DatebarContent({
                   <Text
                     color={changeColor(
                       day,
-                      secondElementLightColor,
-                      secondElementColor
+                      currentDayNumberColor,
+                      secondaryDayNumberColor
                     )}
                   >
                     {day.date.slice(-2)}
@@ -95,8 +95,8 @@ export function DatebarContent({
                     <Text
                       color={changeColor(
                         day,
-                        secondElementLightColor,
-                        secondElementColor
+                        secondaryDayNumberColor,
+                        secondaryDayNumberColor
                       )}
                       fontSize="10px"
                     >
@@ -107,8 +107,8 @@ export function DatebarContent({
                 <Text
                   color={changeColor(
                     day,
-                    blueLightElementColor,
-                    blackLightElementColor
+                    currentDayNameColor,
+                    secondaryDayNameColor
                   )}
                 >
                   {getDayOfWeek(day.date)}

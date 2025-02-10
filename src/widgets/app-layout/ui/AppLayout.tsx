@@ -26,7 +26,7 @@ export function AppLayout() {
   const [currentDay, setCurrentDay] = useState<string>(
     DateTime.now().setZone('Europe/Moscow').toFormat('yyyy-LL-dd')
   );
-  const { mainColor, mainTextColor, themeColor } = useColor();
+  const { mainColor, primaryColor, themeColor } = useColor();
   const { isOpen } = useDisclosure();
   const { currentGroup } = useGroup();
   const {
@@ -101,7 +101,7 @@ export function AppLayout() {
               data-tour="2"
               alignItems={'flex-start'}
               gap={0.4}
-              color={mainTextColor}
+              color={primaryColor}
               onClick={() => scrollToToday(true)}
             >
               <Text fontSize={'clamp(20px, 5vw, 20px)'}>

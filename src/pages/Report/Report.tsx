@@ -1,24 +1,11 @@
-import {
-  Box,
-  useChakra,
-  useColorModeValue,
-  Text,
-  useBreakpointValue,
-  useColorMode,
-} from '@chakra-ui/react';
-import { AccountTabHeader, useMetaThemeColor } from '@/shared/lib';
+import { Box, Text, useBreakpointValue, useColorMode } from '@chakra-ui/react';
+import { AccountTabHeader, useColor, useMetaThemeColor } from '@/shared/lib';
 import styles from './Report.module.scss';
+
 export function Report() {
-  const { theme } = useChakra();
   const { colorMode } = useColorMode();
-  const mainColor = useColorModeValue(
-    theme.colors.light.main,
-    theme.colors.dark.main
-  );
-  const mainTextColor = useColorModeValue(
-    theme.colors.light.main_text,
-    theme.colors.dark.main_text
-  );
+  const { mainColor, primaryColor } = useColor();
+
   useMetaThemeColor(mainColor);
   const isDesktop = useBreakpointValue({ base: false, md: true });
   return (
@@ -31,7 +18,7 @@ export function Report() {
         zIndex={'1'}
         boxShadow={`0px 0px 10px 10px ${mainColor}`}
       >
-        <AccountTabHeader color={mainTextColor}>
+        <AccountTabHeader color={primaryColor}>
           Форма обратной связи
         </AccountTabHeader>
       </Box>
@@ -54,7 +41,7 @@ export function Report() {
             name="ya-form-66b65dab84227c1b171b2fc2"
           ></iframe>
         </Box>
-        <Text pt="10px" fontWeight="bold" color={mainTextColor}>
+        <Text pt="10px" fontWeight="bold" color={primaryColor}>
           Или сразу напишите нам -{' '}
           <a
             style={{ textDecoration: 'underline' }}

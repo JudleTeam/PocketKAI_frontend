@@ -17,7 +17,7 @@ import { useColor } from '@/shared';
 export function SearchTeacher() {
   const { suggestTeacherByName, searchedTeachers, searchedTeachersStatus } =
     useTeachers();
-  const { navIconColor, blueVeryLightColor } = useColor();
+  const { accentColor, secondaryColor } = useColor();
   const inputRef = useRef<HTMLInputElement>(null);
   const debouncedSuggestTeacherByName = debounce((value) => {
     suggestTeacherByName(value);
@@ -60,8 +60,8 @@ export function SearchTeacher() {
               transform={'translate(0, -50%)'}
               size="sm"
               borderRadius={'24px'}
-              backgroundColor={blueVeryLightColor}
-              icon={<DeleteIcon color={navIconColor} />}
+              backgroundColor={secondaryColor}
+              icon={<DeleteIcon color={accentColor} />}
               onClick={handleInputClear}
             />
           </InputRightElement>

@@ -16,7 +16,7 @@ export const TeacherCard = memo(function TeacherCard({
     disciplineInfo;
   const { isOpen, setIsOpen } = useDisclosure();
   const [activeSnapPoint, setActiveSnapPoint] = useState<string | number>(0.8);
-  const { mainTextColor, themeColor, mainColor, mainElementColor } = useColor();
+  const { primaryColor, themeColor, mainColor, accentColor } = useColor();
 
   useMetaThemeColor(mainColor, isOpen, themeColor);
 
@@ -48,17 +48,17 @@ export const TeacherCard = memo(function TeacherCard({
           _active={{ opacity: 0.5, transition: '0.2s' }}
         >
           <div className="flex items-center gap-[10px]">
-            <Avatar bg={mainElementColor} />
+            <Avatar bg={accentColor} />
             <div>
               <Text
-                color={mainTextColor}
+                color={primaryColor}
                 fontWeight="medium"
                 fontSize={'clamp(15px, 4vw, 18px)'}
               >
                 {teacher?.name ?? 'Преподаватель кафедры'}
               </Text>
               <Box
-                color={mainTextColor}
+                color={primaryColor}
                 fontWeight="medium"
                 fontSize="14px"
                 display="flex"
