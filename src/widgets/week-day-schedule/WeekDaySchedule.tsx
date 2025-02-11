@@ -1,10 +1,9 @@
-import { SwiperWeekSchedule, useSchedule, useGroup } from '@/entities';
+import { SwiperWeekSchedule, useSchedule } from '@/entities';
 import { Tabs, useBreakpointValue } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
 import { DateTime } from 'luxon';
 import {
   getCurrentDayOfWeek,
-  getTodayDate,
   getWeekParity,
   TabListHeader,
   SHORT_WEEK_DAYS,
@@ -14,9 +13,7 @@ import 'swiper/css';
 import s from './WeekDaySchedule.module.scss';
 
 export function WeekDaySchedule() {
-  const { getFullWeekScheduleByName, weekSchedule, weekScheduleStatus } =
-    useSchedule();
-  const { currentGroup, updateHiddenLesson } = useGroup();
+  const { weekSchedule, weekScheduleStatus } = useSchedule();
   const swiperRef = useRef<SwiperInstance | null>(null);
   const todayIndex = DateTime.now()
     .setZone('Europe/Moscow')
@@ -29,18 +26,6 @@ export function WeekDaySchedule() {
     currentDayOfWeek + weekParity
   );
   const [currentDayIndex, setCurrentDayIndex] = useState<number>(todayIndex);
-
-  useEffect(() => {
-    updateHiddenLesson(getTodayDate());
-    if (currentGroup && weekScheduleStatus === 'idle') {
-      getFullWeekScheduleByName(currentGroup?.group_name);
-    }
-  }, [
-    currentGroup,
-    weekScheduleStatus,
-    getFullWeekScheduleByName,
-    updateHiddenLesson,
-  ]);
 
   useEffect(() => {
     if (weekScheduleStatus === 'success') {

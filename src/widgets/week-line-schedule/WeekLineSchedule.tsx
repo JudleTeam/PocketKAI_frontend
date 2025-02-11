@@ -1,8 +1,7 @@
-import { useSchedule, useGroup, RenderWeekSchedule } from '@/entities';
+import { useSchedule, RenderWeekSchedule } from '@/entities';
 import { Tabs, Box } from '@chakra-ui/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  getTodayDate,
   getWeekParity,
   SHORT_WEEK_DAYS,
   getCurrentDayOfWeek,
@@ -21,9 +20,7 @@ type WeekParity = 'even' | 'odd';
 const paritys: WeekParity[] = ['even', 'odd'];
 
 export function WeekLineSchedule() {
-  const { getFullWeekScheduleByName, weekSchedule, weekScheduleStatus } =
-    useSchedule();
-  const { currentGroup, updateHiddenLesson } = useGroup();
+  const { weekSchedule, weekScheduleStatus } = useSchedule();
   const currentDayOfWeek = getCurrentDayOfWeek();
   const weekNumber = DateTime.now().setZone('Europe/Moscow').weekNumber;
   const currentParity = getWeekParity();
@@ -33,18 +30,6 @@ export function WeekLineSchedule() {
   const longDaysOfWeek = Object.keys(SHORT_WEEK_DAYS);
 
   useScrollSpyFull(longDaysOfWeek, currentDay, weekParity, setCurrentDay);
-
-  useEffect(() => {
-    updateHiddenLesson(getTodayDate());
-    if (currentGroup && weekScheduleStatus === 'idle') {
-      getFullWeekScheduleByName(currentGroup?.group_name);
-    }
-  }, [
-    currentGroup,
-    weekScheduleStatus,
-    getFullWeekScheduleByName,
-    updateHiddenLesson,
-  ]);
 
   useEffect(() => {
     if (weekScheduleStatus === 'success') {

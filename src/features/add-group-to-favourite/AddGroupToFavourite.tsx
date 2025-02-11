@@ -76,6 +76,7 @@ const AddGroupToFavourite: React.FC<AddGroupToFavouriteProps> = ({
     setCurrentGroup,
     getGroupByName,
     currentGroup,
+    isFavorite,
   } = useGroup();
   const { primaryColor, accentColor, mainColor, secondaryColor } = useColor();
   const { resetScheduleState } = useSchedule();
@@ -146,29 +147,41 @@ const AddGroupToFavourite: React.FC<AddGroupToFavouriteProps> = ({
           render={({ field }) => (
             <Select
               {...field}
+              value={field.value || null}
               placeholder="Введите группу"
               onInputChange={handleInputChange}
+              onChange={(selectedOption) => {
+                field.onChange(selectedOption as SelectItem<GroupShort> | null);
+                if (selectedOption) {
+                  setSelectGroup(
+                    (selectedOption as SelectItem<GroupShort>).label
+                  );
+                }
+              }}
               noOptionsMessage={() => 'Ничего не найдено'}
-              options={searchedGroups.map((group) => ({
-                label: group.group_name,
-                value: group,
-              }))}
+              options={
+                searchedGroups.map((group) => ({
+                  label: group.group_name,
+                  value: group,
+                })) as SelectItem<GroupShort>[]
+              }
               styles={customStyles}
             />
           )}
         />
 
         <Box w="100%" display="flex" flexWrap={'wrap'} gap="20px">
-          <Button
-            w="100%"
-            bg={secondaryColor}
-            display={getValues('group') ? 'block' : 'none'}
-            color={accentColor}
-            onClick={handleAddToFavouriteClick}
-            borderRadius={'24px'}
-          >
-            Добавить в избранное
-          </Button>
+          {getValues('group') && !isFavorite(getValues('group').value) && (
+            <Button
+              w="100%"
+              bg={secondaryColor}
+              color={accentColor}
+              onClick={handleAddToFavouriteClick}
+              borderRadius="24px"
+            >
+              Добавить в избранное
+            </Button>
+          )}
           <Box w="100%" display={'flex'} justifyContent="space-between">
             <Button
               isDisabled={!getValues('group')}

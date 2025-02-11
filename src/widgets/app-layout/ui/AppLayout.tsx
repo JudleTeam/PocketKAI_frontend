@@ -7,6 +7,7 @@ import { useGroup, useSchedule } from '@/entities';
 import logo from '@/shared/assets/images/logo.png';
 import {
   UiDatebar,
+  getTodayDate,
   parityTypes,
   scrollToToday,
   useColor,
@@ -28,17 +29,20 @@ export function AppLayout() {
   );
   const { mainColor, primaryColor, themeColor } = useColor();
   const { isOpen } = useDisclosure();
-  const { currentGroup } = useGroup();
+  const { currentGroup, updateHiddenLesson } = useGroup();
   const {
     schedule,
     parity,
     weekScheduleStatus,
     getSchedule,
-    getFullWeekScheduleByName,
+    getFullWeekScheduleById,
     getWeekParity,
+    backgroundTask,
+    getBackgroundTaskStatus,
   } = useSchedule();
   const swiperRef = useScrollSpy(schedule, setCurrentDay);
   const location = useLocation();
+  const today = getTodayDate();
 
   useMetaThemeColor(mainColor, isOpen, themeColor);
 
@@ -57,7 +61,22 @@ export function AppLayout() {
     const days_count = 21;
 
     if (currentGroup && weekScheduleStatus === 'idle') {
-      getFullWeekScheduleByName(currentGroup.group_name).then(() => {
+      getFullWeekScheduleById(currentGroup.id).then(() => {
+        getSchedule({
+          date_from: weekAgo,
+          days_count,
+        }).then(() => {
+          scrollToToday(false);
+        });
+        5;
+      });
+    }
+    if (
+      currentGroup &&
+      backgroundTask &&
+      backgroundTask?.status === 'SUCCESS'
+    ) {
+      getFullWeekScheduleById(currentGroup.id).then(() => {
         getSchedule({
           date_from: weekAgo,
           days_count,
@@ -72,8 +91,46 @@ export function AppLayout() {
     weekScheduleStatus,
     getSchedule,
     getWeekParity,
-    getFullWeekScheduleByName,
+    getFullWeekScheduleById,
+    backgroundTask,
   ]);
+
+  useEffect(() => {
+    updateHiddenLesson(today);
+  }, [updateHiddenLesson, today, weekScheduleStatus]);
+
+  useEffect(() => {
+    if (!backgroundTask) return;
+    console.log(backgroundTask);
+    const getStatuses = () => {
+      if (
+        backgroundTask.status !== 'SUCCESS' &&
+        backgroundTask.status !== 'FAILED'
+      ) {
+        getBackgroundTaskStatus(backgroundTask.id);
+      }
+    };
+
+    const isSomeNotEnded =
+      backgroundTask.status === 'PENDING' ||
+      backgroundTask.status === 'STARTED' ||
+      backgroundTask.status === 'IDLE';
+
+    //eslint-disable-next-line
+    let intervalId: any;
+
+    if (weekScheduleStatus === 'success' && isSomeNotEnded) {
+      intervalId = setInterval(() => {
+        getStatuses();
+      }, 2000);
+    }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [getBackgroundTaskStatus, backgroundTask, weekScheduleStatus]);
 
   useEffect(() => {
     document.getElementById(currentDay)?.scrollIntoView();

@@ -1,7 +1,7 @@
 import { useGroup } from '@/entities';
-import { getTodayDate, Lesson } from '@/shared';
+import { Lesson } from '@/shared';
 import { Box } from '@chakra-ui/react';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSchedule } from '../../model/schedule.store';
 import { Loader } from '@/shared/ui/loader/Loader';
 import { IdleMessage } from '@/shared';
@@ -14,20 +14,20 @@ export function RenderWeekSchedule({
   weekDays: { [key: string]: Lesson[] };
   weekParity: 'odd' | 'even';
 }) {
-  const { getFullWeekScheduleByName, weekScheduleStatus } = useSchedule();
-  const { currentGroup, hiddenLessons, updateHiddenLesson } = useGroup();
+  const { weekScheduleStatus, backgroundTask } = useSchedule();
+  const { hiddenLessons } = useGroup();
 
-  useEffect(() => {
-    updateHiddenLesson(getTodayDate());
-    if (currentGroup && weekScheduleStatus === 'idle') {
-      getFullWeekScheduleByName(currentGroup?.group_name);
+  const getStatus = () => {
+    if (backgroundTask) {
+      return backgroundTask?.status === 'SUCCESS' &&
+        weekScheduleStatus === 'success'
+        ? 'success'
+        : backgroundTask?.status === 'FAILED' && weekScheduleStatus === 'error'
+          ? 'error'
+          : 'loading';
     }
-  }, [
-    currentGroup,
-    weekScheduleStatus,
-    getFullWeekScheduleByName,
-    updateHiddenLesson,
-  ]);
+    return weekScheduleStatus;
+  };
 
   return (
     <Box
@@ -37,7 +37,7 @@ export function RenderWeekSchedule({
       pb={8}
       px={1}
     >
-      <Loader status={weekScheduleStatus} idleMessage={<IdleMessage />}>
+      <Loader status={getStatus()} idleMessage={<IdleMessage />}>
         {Object.entries(weekDays).map(([dayName, dayLessons]) => {
           if (dayName === 'sunday') return null;
 

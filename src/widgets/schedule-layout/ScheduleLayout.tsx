@@ -15,21 +15,29 @@ import { Loader } from '@/shared/ui/loader/Loader';
 import styles from './ScheduleLayout.module.scss';
 import { DateTime } from 'luxon';
 import { getWeekParityDate } from '@/shared/lib';
-import { useEffect } from 'react';
 
 export function ScheduleLayout() {
-  const today = getTodayDate();
-  const { schedule, weekScheduleStatus } = useSchedule();
+  const { schedule, weekScheduleStatus, backgroundTask } = useSchedule();
   const { upperRef, lowerRef } = useInfiniteScroll();
   const { showButton, position: todayBlockPosition } = useGoUpButton();
   const { secondaryColor, accentColor, mainColor } = useColor();
-  const { hiddenLessons, updateHiddenLesson } = useGroup();
-  useEffect(() => {
-    updateHiddenLesson(today);
-  }, [updateHiddenLesson, today]);
+  const { hiddenLessons } = useGroup();
+  const today = getTodayDate();
+
+  const getStatus = () => {
+    if (backgroundTask) {
+      return backgroundTask?.status === 'SUCCESS' &&
+        weekScheduleStatus === 'success'
+        ? 'success'
+        : backgroundTask?.status === 'FAILED' && weekScheduleStatus === 'error'
+          ? 'error'
+          : 'loading';
+    }
+    return weekScheduleStatus;
+  };
 
   return (
-    <Loader status={weekScheduleStatus} idleMessage={<IdleMessage />}>
+    <Loader status={getStatus()} idleMessage={<IdleMessage />}>
       <Box
         id="schedule"
         className={styles['schedule']}

@@ -13,6 +13,8 @@ import { formWeekSchedule } from '../lib/formWeekSchedule';
 import { DateTime } from 'luxon';
 import { getCurrentSemester } from '../lib/getCurrentSemester';
 import { persist } from 'zustand/middleware';
+import { StoreBackgroundTasks } from './types';
+import { formStoreBackgroundTasks } from '../lib/formStoreBackgroundTasks';
 
 type StoreState = {
   schedule: Schedule;
@@ -23,16 +25,18 @@ type StoreState = {
   parity: Nullable<WeekParity>;
   scheduleStatus: FetchStatus;
   weekScheduleStatus: FetchStatus;
+  backgroundTask: StoreBackgroundTasks | null;
   error: Nullable<unknown>;
 };
 type StoreActions = {
-  getFullWeekScheduleByName: (name: string) => Promise<void>;
+  getFullWeekScheduleById: (id: string) => Promise<void>;
   addToCurrentSchedule: (
     params: ScheduleParams,
     isNextWeek?: boolean
   ) => Promise<void>;
   getSchedule: (params: ScheduleParams) => Promise<void>;
   getWeekParity: (params?: WeekParity) => Promise<void>;
+  getBackgroundTaskStatus: (taskId: string) => Promise<void>;
   setShowFadedLessons: (showFadedLessons: boolean) => void;
   resetScheduleState: () => void;
 };
@@ -43,6 +47,7 @@ const initialState: StoreState = {
   examsSchedule: null,
   semester: getCurrentSemester(),
   showFadedLessons: true,
+  backgroundTask: null,
   parity: {
     date: '',
     parity:
@@ -58,20 +63,21 @@ export const useSchedule = create<StoreState & StoreActions>()(
   persist(
     (set, get) => ({
       ...initialState,
-      getFullWeekScheduleByName: async (name) => {
+      getFullWeekScheduleById: async (id) => {
         set({ weekScheduleStatus: 'loading' });
         try {
-          const response = await scheduleService.getWeekScheduleByGroupName(
-            name,
-            {
-              week_parity: 'any',
-            }
-          );
+          const response = await scheduleService.getWeekScheduleByGroupId(id, {
+            week_parity: 'any',
+          });
           const anyWeek = formWeekSchedule(response.data);
+          const task = formStoreBackgroundTasks(
+            response.data.background_task_id
+          );
 
           set({
             weekSchedule: { odd: anyWeek.odd, even: anyWeek.even },
             weekScheduleStatus: 'success',
+            backgroundTask: task,
           });
         } catch (error) {
           set({ error, weekScheduleStatus: 'error' });
@@ -114,6 +120,17 @@ export const useSchedule = create<StoreState & StoreActions>()(
         set({ parity: response.data });
       },
 
+      getBackgroundTaskStatus: async (taskId) => {
+        if (!taskId) return;
+        const response = await scheduleService.getBackgroundTaskStatus(taskId);
+        const task = get().backgroundTask;
+
+        if (task) {
+          set({
+            backgroundTask: { ...task, status: response.data.status },
+          });
+        }
+      },
       setShowFadedLessons: (value) => {
         set({ showFadedLessons: value });
       },
@@ -124,6 +141,7 @@ export const useSchedule = create<StoreState & StoreActions>()(
       name: 'schedule',
       partialize: (state) => ({
         showFadedLessons: state.showFadedLessons,
+        backgroundTask: state.backgroundTask,
       }),
     }
   )

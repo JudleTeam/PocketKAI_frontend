@@ -1,7 +1,6 @@
 import { useGroup } from '@/entities';
-import { getTodayDate, Lesson } from '@/shared';
+import { Lesson } from '@/shared';
 import { Box } from '@chakra-ui/react';
-import { useEffect } from 'react';
 import { useSchedule } from '../../model/schedule.store';
 import { Loader } from '@/shared/ui/loader/Loader';
 import { IdleMessage } from '@/shared';
@@ -24,19 +23,20 @@ export function SwiperWeekSchedule({
   setCurrentDay: React.Dispatch<React.SetStateAction<string>>;
   setCurrentDayIndex: (value: React.SetStateAction<number>) => void;
 }) {
-  const { getFullWeekScheduleByName, weekScheduleStatus } = useSchedule();
-  const { currentGroup, hiddenLessons, updateHiddenLesson } = useGroup();
-  useEffect(() => {
-    updateHiddenLesson(getTodayDate());
-    if (currentGroup && weekScheduleStatus === 'idle') {
-      getFullWeekScheduleByName(currentGroup?.group_name);
+  const { weekScheduleStatus, backgroundTask } = useSchedule();
+  const { hiddenLessons } = useGroup();
+
+  const getStatus = () => {
+    if (backgroundTask) {
+      return backgroundTask?.status === 'SUCCESS' &&
+        weekScheduleStatus === 'success'
+        ? 'success'
+        : backgroundTask?.status === 'FAILED' && weekScheduleStatus === 'error'
+          ? 'error'
+          : 'loading';
     }
-  }, [
-    currentGroup,
-    weekScheduleStatus,
-    getFullWeekScheduleByName,
-    updateHiddenLesson,
-  ]);
+    return weekScheduleStatus;
+  };
 
   const handleDaySwipeChange = (activeIndex: number) => {
     const dayKeys = Object.keys(SHORT_WEEK_DAYS);
@@ -63,7 +63,7 @@ export function SwiperWeekSchedule({
       height={'80vh'}
       _active={{ cursor: 'grabbing' }}
     >
-      <Loader status={weekScheduleStatus} idleMessage={<IdleMessage />}>
+      <Loader status={getStatus()} idleMessage={<IdleMessage />}>
         <Swiper
           onSwiper={(swiper) => {
             swiperRef.current = swiper;

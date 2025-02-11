@@ -37,6 +37,7 @@ type GroupActions = {
     group: Group | GroupShort | null,
     isAlways?: boolean
   ) => void;
+  isFavorite: (group: GroupShort) => boolean;
   updateHiddenLesson: (today: string) => void;
   deleteHiddenLesson: (id: string, type_hide: string) => void;
   deleteAllHiddenLesson: () => void;
@@ -91,6 +92,8 @@ export const useGroup = create<GroupState & GroupActions>()(
         set({ currentGroup: response.data });
         return response.data;
       },
+      isFavorite: (group) =>
+        !!get().favouriteGroups.find((favourite) => favourite.id === group.id),
       getGroupById: async (id) => {
         set({ homeGroupStatus: 'loading' });
         try {
