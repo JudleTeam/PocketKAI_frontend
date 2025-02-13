@@ -18,7 +18,7 @@ export function IdleMessage() {
           as={DialogTrigger}
           color={mainColor}
           fontSize={'16px'}
-          fontWeight={'regular'}
+          fontWeight={'medium'}
           paddingY="5px"
           paddingX="25px"
           borderRadius={24}

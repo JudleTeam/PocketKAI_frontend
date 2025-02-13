@@ -32,7 +32,7 @@ type HiddenLessonsListProps = {
 
 const HiddenLessonsList: React.FC<HiddenLessonsListProps> = ({ weekDays }) => {
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
-  const { mainColor, primaryColor, secondaryTimeColor } = useColor();
+  const { mainColor, primaryColor, secondaryColor } = useColor();
   const { addHiddenLesson, deleteHiddenLesson, currentGroup } = useGroup();
   const { isColoredDayDate } = useSettings();
   return (
@@ -47,7 +47,7 @@ const HiddenLessonsList: React.FC<HiddenLessonsListProps> = ({ weekDays }) => {
               color={`${primaryColor}e6`}
               display={'flex'}
               alignItems={'center'}
-              bgColor={isColoredDayDate ? secondaryTimeColor : ''}
+              bgColor={isColoredDayDate ? secondaryColor : ''}
               _active={{ opacity: 0.5, bgColor: 'gray.200' }}
               transition={'0.2s'}
               borderRadius="16px"
@@ -161,8 +161,8 @@ const HiddenLessonsList: React.FC<HiddenLessonsListProps> = ({ weekDays }) => {
                             }}
                             display={
                               'even' === hide ||
-                              'odd' === hide ||
-                              'always' === hide
+                                'odd' === hide ||
+                                'always' === hide
                                 ? 'flex'
                                 : 'none'
                             }
@@ -182,8 +182,8 @@ const HiddenLessonsList: React.FC<HiddenLessonsListProps> = ({ weekDays }) => {
                           <MenuDivider
                             display={
                               'even' === hide ||
-                              'odd' === hide ||
-                              'always' === hide
+                                'odd' === hide ||
+                                'always' === hide
                                 ? 'flex'
                                 : 'none'
                             }

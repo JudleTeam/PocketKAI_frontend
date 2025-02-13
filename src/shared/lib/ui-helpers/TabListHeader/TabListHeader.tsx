@@ -54,7 +54,7 @@ export const TabListHeader: React.FC<TabListHeaderProps> = ({
       className={s.root__list}
       top={top && top}
       w={w && w}
-      pt={{ base: pt && pt, md: '35px' }}
+      pt={{ base: pt && pt, md: '5px' }}
       alignItems={{ md: 'center' }}
       bgColor={mainColor}
       boxShadow={`0 5px 5px 5px ${mainColor}`}
@@ -82,7 +82,7 @@ export const TabListHeader: React.FC<TabListHeaderProps> = ({
         </Tab>
       </TabList>
       {pathname === '/schedule/full' && currentDayOfWeek && (
-        <HStack justifyContent="space-between">
+        <HStack w='100%' justifyContent="space-between">
           {Object.entries(SHORT_WEEK_DAYS).map((day, index) => (
             <Box
               className={s.root__daybar}

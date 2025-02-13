@@ -1,7 +1,6 @@
 import { useGroup } from '@/entities';
-import { Lesson } from '@/shared';
+import { getStatus, Lesson } from '@/shared';
 import { Box } from '@chakra-ui/react';
-import { useSchedule } from '../../model/schedule.store';
 import { Loader } from '@/shared/ui/loader/Loader';
 import { IdleMessage } from '@/shared';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -23,20 +22,7 @@ export function SwiperWeekSchedule({
   setCurrentDay: React.Dispatch<React.SetStateAction<string>>;
   setCurrentDayIndex: (value: React.SetStateAction<number>) => void;
 }) {
-  const { weekScheduleStatus, backgroundTask } = useSchedule();
   const { hiddenLessons } = useGroup();
-
-  const getStatus = () => {
-    if (backgroundTask) {
-      return backgroundTask?.status === 'SUCCESS' &&
-        weekScheduleStatus === 'success'
-        ? 'success'
-        : backgroundTask?.status === 'FAILED' && weekScheduleStatus === 'error'
-          ? 'error'
-          : 'loading';
-    }
-    return weekScheduleStatus;
-  };
 
   const handleDaySwipeChange = (activeIndex: number) => {
     const dayKeys = Object.keys(SHORT_WEEK_DAYS);
@@ -60,7 +46,6 @@ export function SwiperWeekSchedule({
     <Box
       cursor={'grab'}
       w={{ md: '70%', lg: '40%' }}
-      height={'80vh'}
       _active={{ cursor: 'grabbing' }}
     >
       <Loader status={getStatus()} idleMessage={<IdleMessage />}>

@@ -79,15 +79,15 @@ export const TeacherDrawer: React.FC<TeacherDrawerProps> = ({
         <Text display="flex" flexWrap={'wrap'} gap="0 10px">
           {parsed_types.length > 0
             ? parsed_types.map((parsed_type) => (
-                <React.Fragment key={parsed_type}>
-                  {LessonTypes && LessonTypes[parsed_type]}{' '}
-                </React.Fragment>
-              ))
+              <React.Fragment key={parsed_type}>
+                {LessonTypes && LessonTypes[parsed_type]}{' '}
+              </React.Fragment>
+            ))
             : original_types.map((original_type) => (
-                <React.Fragment key={original_type}>
-                  {original_type}{' '}
-                </React.Fragment>
-              ))}
+              <React.Fragment key={original_type}>
+                {original_type}{' '}
+              </React.Fragment>
+            ))}
         </Text>
         <Text
           as={Link}
@@ -136,7 +136,7 @@ export const TeacherDrawer: React.FC<TeacherDrawerProps> = ({
                 style={{ width: '100%' }}
               >
                 {Object.keys(weekParityId).map((parity) => (
-                  <SwiperSlide>
+                  <SwiperSlide className={s.root__slide}>
                     <Box>
                       <WeekTeacherSchedule
                         weekParity={parity as 'even' | 'odd'}

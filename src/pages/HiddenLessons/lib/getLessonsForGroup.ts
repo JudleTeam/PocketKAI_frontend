@@ -13,9 +13,9 @@ export const getLessonsForGroup = (
   currentGroup: Nullable<Group | GroupShort>
 ):
   | {
-      week_parity: 'odd' | 'even';
-      week_days: { dayName: string; lessons: HiddenLesson[] }[];
-    }[]
+    week_parity: 'odd' | 'even';
+    week_days: { dayName: string; lessons: HiddenLesson[] }[];
+  }[]
   | null => {
   if (!currentGroup) return null;
 
@@ -66,18 +66,21 @@ export const getLessonsForGroup = (
   ];
 
   const result = (['even', 'odd'] as const)
-    .map((weekParity) => ({
-      week_parity: weekParity,
-      week_days: daysOrder
+    .map((weekParity) => {
+      const weekDays = daysOrder
         .filter((day) => groupedLessons[weekParity][day])
         .map((dayName) => ({
           dayName,
           lessons: groupedLessons[weekParity][dayName].sort(
             (a, b) => a.number_of_day - b.number_of_day
           ),
-        })),
-    }))
-    .filter(({ week_days }) => week_days.length > 0);
+        }));
+
+      return {
+        week_parity: weekParity,
+        week_days: weekDays.length > 0 ? weekDays : [],
+      };
+    });
 
   return result.length > 0 ? result : null;
 };

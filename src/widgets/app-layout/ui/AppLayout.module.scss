@@ -3,7 +3,7 @@
 .root {
   margin: 0 auto;
   width: 92%;
-
+  height: 93dvh;
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: -ms-autohiding-scrollbar;
@@ -46,13 +46,20 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: 8dvh;
+
     @include media(md) {
       justify-content: flex-end;
       gap: 20px;
     }
   }
+
   &__select {
     font-weight: 500;
     font-size: 16px;
+  }
+
+  &__outlet {
+    padding-top: 8dvh;
   }
 }

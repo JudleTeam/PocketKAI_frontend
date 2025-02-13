@@ -82,9 +82,11 @@ const WeekTeacherSchedule: React.FC<WeekTeacherScheduleProps> = ({
       );
     })
   ) : (
-    <Text padding="15px 0" textAlign={'center'}>
-      Пар нет
-    </Text>
+    <Box height={'40vh'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+      <Text padding="15px 0" textAlign={'center'}>
+        Пар нет
+      </Text>
+    </Box>
   );
 };
 

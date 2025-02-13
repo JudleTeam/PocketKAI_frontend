@@ -64,7 +64,7 @@ export function SelectGroup() {
               as={Button}
               color={mainColor}
               fontSize={'16px'}
-              fontWeight={'regular'}
+              fontWeight={'medium'}
               paddingY="2px"
               paddingX="40px"
               borderRadius={24}
@@ -82,6 +82,7 @@ export function SelectGroup() {
               zIndex={2}
               color={mainColor}
               bg={accentColor}
+              border={`1px solid ${accentColor}`}
               _focus={{ bg: accentColor }}
               boxShadow="none"
             >
@@ -92,16 +93,18 @@ export function SelectGroup() {
                   _focus={{ bg: accentColor }}
                   borderRadius="24px"
                   py={1}
+                  fontWeight={'medium'}
                 >
                   Новая группа
                 </MenuItem>
               </DialogTrigger>
               {favouriteGroups.length > 0 && (
                 <React.Fragment>
-                  <MenuDivider backgroundColor={mainColor} />
+                  <MenuDivider h={'1px'} backgroundColor={mainColor} />
                   <MenuOptionGroup
                     className={s.root__group}
                     color={mainColor}
+                    fontWeight={'medium'}
                     title="Группа"
                     type="radio"
                     bg={accentColor}
@@ -113,6 +116,7 @@ export function SelectGroup() {
                         value={group.id}
                         bg={accentColor}
                         borderRadius="24px"
+                        fontWeight={'medium'}
                         onClick={() => handleGroupClick(group)}
                       >
                         {group.group_name}

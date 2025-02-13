@@ -31,7 +31,7 @@ export function Teachers() {
       id="teacher"
       className={s.root}
       alignItems={{ md: 'center' }}
-      pt={{ md: '40px' }}
+      pt={{ md: '5px' }}
       defaultIndex={0}
       variant="unstyled"
       index={activeTab}

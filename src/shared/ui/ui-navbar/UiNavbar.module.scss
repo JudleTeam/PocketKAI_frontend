@@ -8,6 +8,7 @@
   position: fixed;
   justify-content: space-around;
   padding: 10px 22px 15px 22px;
+  height: 7dvh;
 
   @include media(md) {
     width: auto;

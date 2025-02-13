@@ -1,7 +1,7 @@
 .faq {
   width: 90%;
   margin: 0 auto;
-  height: 95vh;
+  height: 95dvh;
   overflow-y: auto;
   scrollbar-width: none;
   display: flex;
@@ -9,6 +9,7 @@
   gap: 20px;
   padding: 0 0 40px 0;
 }
+
 .panel {
   a {
     text-decoration: underline;

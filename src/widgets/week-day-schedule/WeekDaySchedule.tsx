@@ -60,7 +60,7 @@ export function WeekDaySchedule() {
   return (
     <Tabs
       className={s.root}
-      pt={{ md: '40px' }}
+      pt={{ md: '10px' }}
       alignItems={{ md: 'center' }}
       defaultIndex={weekNumber % 2}
       variant="unstyled"

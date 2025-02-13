@@ -47,7 +47,7 @@ export function HiddenLessons() {
     setWeekParity(index === 0 ? 'even' : 'odd');
     swiperRef.current?.slideTo(index);
   }, []);
-
+  console.log(lessonsForCurrentGroup)
   return (
     <Box
       className={s['hidden']}
@@ -124,6 +124,7 @@ export function HiddenLessons() {
               />
             </Box>
             <Swiper
+              autoHeight
               className={s.root__swiper}
               onSwiper={(swiper) => {
                 swiperRef.current = swiper;
@@ -134,8 +135,12 @@ export function HiddenLessons() {
               initialSlide={weekParity === 'even' ? 0 : 1}
             >
               {lessonsForCurrentGroup.map((parity) => (
-                <SwiperSlide className={s.root__slide}>
-                  <HiddenLessonsList weekDays={parity.week_days} />
+                <SwiperSlide className={s.root__slide} key={parity.week_parity}>
+                  {parity.week_days.length > 0 ?
+                    <HiddenLessonsList weekDays={parity.week_days} /> :
+                    <Box h={'40dvh'} display={'flex'} alignItems={'center'} justifyContent={'center'}>
+                      <Text w={'50%'} textAlign={'center'}>На этой неделе нет скрытых пар</Text>
+                    </Box>}
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -178,7 +183,7 @@ export function HiddenLessons() {
             </Box>
             <Box
               w="100%"
-              h="60vh"
+              h="60dvh"
               fontSize="18px"
               display="flex"
               justifyContent="center"
@@ -192,7 +197,7 @@ export function HiddenLessons() {
         ) : (
           <Box
             w="100%"
-            h="60vh"
+            h="60dvh"
             fontSize="18px"
             display="flex"
             justifyContent="center"

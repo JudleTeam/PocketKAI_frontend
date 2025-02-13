@@ -8,7 +8,7 @@ import {
 } from '@/entities';
 import { TopBoundary, BottomBoundary, DayNameWithShare } from '@/features';
 import { useInfiniteScroll, useGoUpButton } from '@/shared/lib';
-import { getTodayDate, IdleMessage } from '@/shared';
+import { getStatus, getTodayDate, IdleMessage } from '@/shared';
 import { ArrowIcon } from '@/shared/assets';
 import { scrollToToday, useColor } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader/Loader';
@@ -17,24 +17,12 @@ import { DateTime } from 'luxon';
 import { getWeekParityDate } from '@/shared/lib';
 
 export function ScheduleLayout() {
-  const { schedule, weekScheduleStatus, backgroundTask } = useSchedule();
+  const { schedule } = useSchedule();
   const { upperRef, lowerRef } = useInfiniteScroll();
   const { showButton, position: todayBlockPosition } = useGoUpButton();
   const { secondaryColor, accentColor, mainColor } = useColor();
   const { hiddenLessons } = useGroup();
   const today = getTodayDate();
-
-  const getStatus = () => {
-    if (backgroundTask) {
-      return backgroundTask?.status === 'SUCCESS' &&
-        weekScheduleStatus === 'success'
-        ? 'success'
-        : backgroundTask?.status === 'FAILED' && weekScheduleStatus === 'error'
-          ? 'error'
-          : 'loading';
-    }
-    return weekScheduleStatus;
-  };
 
   return (
     <Loader status={getStatus()} idleMessage={<IdleMessage />}>
@@ -43,7 +31,7 @@ export function ScheduleLayout() {
         className={styles['schedule']}
         alignItems={{ base: '', md: 'flex-start' }}
         w={{ base: '100%', md: 'fit-content' }}
-        height={'100vh'}
+        height={'100dvh'}
         py={14}
         margin={{ base: '0', md: '0 auto' }}
       >
@@ -61,7 +49,7 @@ export function ScheduleLayout() {
                 hiddenLesson.lesson.id === lesson.id &&
                 (day.date === hiddenLesson.lesson.type_hide ||
                   getWeekParityDate(day.date) ===
-                    hiddenLesson.lesson.type_hide ||
+                  hiddenLesson.lesson.type_hide ||
                   hiddenLesson.lesson.type_hide === 'always')
             );
             return !isLessonHidden;
@@ -73,7 +61,7 @@ export function ScheduleLayout() {
                 hiddenLesson.lesson.id === lesson.id &&
                 (day.date === hiddenLesson.lesson.type_hide ||
                   getWeekParityDate(day.date) ===
-                    hiddenLesson.lesson.type_hide ||
+                  hiddenLesson.lesson.type_hide ||
                   hiddenLesson.lesson.type_hide === 'always')
             );
           });

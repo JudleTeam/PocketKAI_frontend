@@ -1,5 +1,5 @@
 import { useSchedule, RenderWeekSchedule } from '@/entities';
-import { Tabs, Box } from '@chakra-ui/react';
+import { Tabs, Box, useBreakpointValue } from '@chakra-ui/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   getWeekParity,
@@ -65,11 +65,13 @@ export function WeekLineSchedule() {
     },
     [weekParity]
   );
+  const isDesktop = useBreakpointValue({ base: false, md: true });
 
   return (
     <Tabs
       className={s.root}
-      pt={{ md: '40px' }}
+      pt={{ md: '5px' }}
+
       alignItems={{ md: 'center' }}
       defaultIndex={weekNumber % 2}
       variant="unstyled"
@@ -77,6 +79,7 @@ export function WeekLineSchedule() {
       onChange={handleTabChange}
     >
       <TabListHeader
+        w={isDesktop ? '40%' : '100%'}
         currentDay={currentDay}
         currentDayOfWeek={currentDayOfWeek}
         currentParity={currentParity}

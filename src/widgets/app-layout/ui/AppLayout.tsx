@@ -142,7 +142,7 @@ export function AppLayout() {
       className={s.root}
       data-tour="1"
       scrollPaddingTop={
-        location.pathname.includes('schedule/full') ? '240px' : '220px'
+        location.pathname.includes('schedule/full') ? '240px' : '160px'
       }
     >
       <Box
@@ -187,7 +187,7 @@ export function AppLayout() {
           })}
         />
       </Box>
-      <div className="pt-16">
+      <div className={s.root__outlet}>
         <Outlet context={[currentDay, setCurrentDay] satisfies ContextType} />
       </div>
     </Box>

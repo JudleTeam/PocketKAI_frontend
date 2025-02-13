@@ -7,12 +7,12 @@
   flex-direction: column;
   gap: 10px;
   padding: 0 0 20px 0;
+  height: 85dvh;
 }
 
 .tabs {
   display: flex !important;
   flex-direction: column;
-  height: 92%;
 }
 
 .root {
@@ -22,10 +22,8 @@
 
   &__slide {
     width: 100%;
-    height: 80vh;
+    min-height: 65dvh !important;
     overflow: scroll;
     scrollbar-width: none;
-    padding-top: 5px;
-    padding-bottom: 100px;
   }
 }

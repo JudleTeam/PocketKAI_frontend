@@ -1,8 +1,7 @@
 import { useGroup } from '@/entities';
-import { Lesson } from '@/shared';
+import { getStatus, Lesson } from '@/shared';
 import { Box } from '@chakra-ui/react';
 import React from 'react';
-import { useSchedule } from '../../model/schedule.store';
 import { Loader } from '@/shared/ui/loader/Loader';
 import { IdleMessage } from '@/shared';
 import WeekDay from '../WeekDay';
@@ -14,24 +13,11 @@ export function RenderWeekSchedule({
   weekDays: { [key: string]: Lesson[] };
   weekParity: 'odd' | 'even';
 }) {
-  const { weekScheduleStatus, backgroundTask } = useSchedule();
   const { hiddenLessons } = useGroup();
-
-  const getStatus = () => {
-    if (backgroundTask) {
-      return backgroundTask?.status === 'SUCCESS' &&
-        weekScheduleStatus === 'success'
-        ? 'success'
-        : backgroundTask?.status === 'FAILED' && weekScheduleStatus === 'error'
-          ? 'error'
-          : 'loading';
-    }
-    return weekScheduleStatus;
-  };
 
   return (
     <Box
-      h={'75vh'}
+      h={'73dvh'}
       style={{ scrollbarWidth: 'none' }}
       overflowY="auto"
       pb={8}

@@ -67,7 +67,7 @@ export function RootLayout() {
   }, [backgroundTasks, userAuthStatus, getBackgroundTaskStatus]);
 
   return (
-    <Box h={'100vh'}>
+    <Box h={'100dvh'}>
       <Outlet />
       <UiNavbar navbarActions={NavbarActions} />
       <PWABadge />
