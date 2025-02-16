@@ -7,7 +7,7 @@ import { useColor } from '@/shared/lib';
 export function StyledTourProvider({
   children,
 }: React.PropsWithChildren<unknown>) {
-  const { mainElementColor, mainColor } = useColor();
+  const { accentColor, mainColor } = useColor();
   return (
     <TourProvider
       steps={steps}
@@ -20,7 +20,7 @@ export function StyledTourProvider({
         const first = currentStep === 0;
         return (
           <IconButton
-            bgColor={mainElementColor}
+            bgColor={accentColor}
             color={'#fff'}
             borderRadius={5}
             aria-label="Back"
@@ -40,7 +40,7 @@ export function StyledTourProvider({
         if (!steps?.length) return null;
         return (
           <IconButton
-            bgColor={mainElementColor}
+            bgColor={mainColor}
             color={'#fff'}
             borderRadius={5}
             aria-label="Next"
@@ -55,7 +55,7 @@ export function StyledTourProvider({
       styles={{
         popover: (base) => ({
           ...base,
-          '--reactour-accent': mainElementColor,
+          '--reactour-accent': mainColor,
           backgroundColor: mainColor,
           borderRadius: '8px',
           padding: '30px 40px 20px 40px',

@@ -3,46 +3,33 @@ import { ArrowIcon } from '@/shared/assets';
 import { LessonTypes } from '@/shared/constants';
 import { TeacherDrawer } from '../TeacherDrawer/TeacherDrawer';
 import React, { memo, useEffect, useState } from 'react';
-import { TeacherDisciplineType } from '../../model/types';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
 import { useColor, useDisclosure } from '@/shared/lib';
+import { TeachersType, useMetaThemeColor } from '@/shared';
 
 export const TeacherCard = memo(function TeacherCard({
-  disciplineType,
-  disciplineName,
-  disciplineId,
+  disciplineInfo,
 }: {
-  disciplineType: TeacherDisciplineType;
-  disciplineName: string;
-  disciplineId: string[];
+  disciplineInfo: TeachersType;
 }) {
+  const { disciplineId, teacher, parsed_types, original_types } =
+    disciplineInfo;
   const { isOpen, setIsOpen } = useDisclosure();
   const [activeSnapPoint, setActiveSnapPoint] = useState<string | number>(0.8);
+  const { primaryColor, themeColor, mainColor, accentColor } = useColor();
 
-  const { mainTextColor, themeColor, mainColor, mainElementColor } = useColor();
+  useMetaThemeColor(mainColor, isOpen, themeColor);
+
   useEffect(() => {
     const hashValue = location.hash.slice(1);
     const [teacherId, disciplineHashId] = hashValue.split('&');
     disciplineId.map((id) => {
-      if (
-        !isOpen &&
-        teacherId === disciplineType.teacher?.id &&
-        id === disciplineHashId
-      ) {
+      if (!isOpen && teacherId === teacher?.id && id === disciplineHashId) {
         setIsOpen(true);
       }
     });
-  }, [disciplineId, disciplineType.teacher?.id, isOpen, setIsOpen]);
-  useEffect(() => {
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor) {
-      if (isOpen) {
-        metaThemeColor.setAttribute('content', themeColor);
-      } else {
-        metaThemeColor.setAttribute('content', mainColor);
-      }
-    }
-  }, [themeColor, mainColor, isOpen]);
+  }, [disciplineId, teacher?.id, isOpen, setIsOpen]);
+
   return (
     <Drawer
       open={isOpen}
@@ -56,35 +43,35 @@ export const TeacherCard = memo(function TeacherCard({
         <Box
           cursor={'pointer'}
           className="flex justify-between items-center py-[10px]"
-          id={disciplineType.teacher?.id}
+          id={teacher?.id}
           transition="0.2s"
           _active={{ opacity: 0.5, transition: '0.2s' }}
         >
           <div className="flex items-center gap-[10px]">
-            <Avatar bg={mainElementColor} />
+            <Avatar bg={accentColor} />
             <div>
               <Text
-                color={mainTextColor}
+                color={primaryColor}
                 fontWeight="medium"
                 fontSize={'clamp(15px, 4vw, 18px)'}
               >
-                {disciplineType.teacher?.name ?? 'Преподаватель кафедры'}
+                {teacher?.name ?? 'Преподаватель кафедры'}
               </Text>
               <Box
-                color={mainTextColor}
+                color={primaryColor}
                 fontWeight="medium"
                 fontSize="14px"
                 display="flex"
                 flexWrap="wrap"
                 gap="0 10px"
               >
-                {disciplineType.parsed_types
-                  ? disciplineType.parsed_types.map((parsed_type) => (
+                {parsed_types
+                  ? parsed_types.map((parsed_type) => (
                       <React.Fragment key={parsed_type}>
                         {LessonTypes && LessonTypes[parsed_type]}{' '}
                       </React.Fragment>
                     ))
-                  : disciplineType.original_types.map((original_type) => (
+                  : original_types.map((original_type) => (
                       <React.Fragment key={original_type}>
                         {original_type}{' '}
                       </React.Fragment>
@@ -97,8 +84,7 @@ export const TeacherCard = memo(function TeacherCard({
       </DrawerTrigger>
       <DrawerContent>
         <TeacherDrawer
-          disciplineName={disciplineName}
-          disciplineType={disciplineType}
+          disciplineInfo={disciplineInfo}
           activeSnapPoint={activeSnapPoint}
           setActiveSnapPoint={setActiveSnapPoint}
         />

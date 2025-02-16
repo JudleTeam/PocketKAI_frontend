@@ -9,7 +9,8 @@ import { useSettings } from '@/entities';
 
 export function RouterComponent() {
   const { preferencedScheduleView } = useSettings();
-  const defaultPath = preferencedScheduleView === 'timeline' ? 'schedule' : 'schedule/full';
+  const defaultPath =
+    preferencedScheduleView === 'timeline' ? 'schedule' : 'schedule/full';
   const router = createBrowserRouter([
     {
       path: '/',
@@ -41,12 +42,12 @@ export function RouterComponent() {
               },
             },
             {
-              path: 'assignments',
+              path: 'hidden',
               lazy: async () => {
-                const { Assignments } = await import(
-                  '@/pages/Assignments/Assignments'
+                const { HiddenLessons } = await import(
+                  '@/pages/HiddenLessons/HiddenLessons'
                 );
-                return { Component: Assignments };
+                return { Component: HiddenLessons };
               },
             },
             {
@@ -59,67 +60,33 @@ export function RouterComponent() {
           ],
         },
         {
-          path: 'account',
-          children: [
-            {
-              index: true,
-              lazy: async () => {
-                const { Account } = await import('@/pages/Account/Account');
-                return { Component: Account };
-              },
-            },
-            {
-              path: 'settings',
-              lazy: async () => {
-                const { Settings } = await import('@/pages/Settings/Settings');
-                return { Component: Settings };
-              },
-            },
-            {
-              path: 'hidden',
-              lazy: async () => {
-                const { HiddenLessons } = await import('@/pages/HiddenLessons/HiddenLessons')
-                return { Component: HiddenLessons }
-              },
-            },
-            {
-              path: 'group',
-              lazy: async () => {
-                const { Group } = await import('@/pages/Group/Group');
-                return { Component: Group };
-              },
-            },
-            {
-              path: 'speciality',
-              lazy: async () => {
-                const { Speciality } = await import(
-                  '@/pages/Speciality/Speciality'
-                );
-                return { Component: Speciality };
-              },
-            },
-            {
-              path: 'faq',
-              lazy: async () => {
-                const { FrequentQuestions } = await import('@/pages');
-                return { Component: FrequentQuestions };
-              },
-            },
-            {
-              path: 'about',
-              lazy: async () => {
-                const { AboutUs } = await import('@/pages');
-                return { Component: AboutUs };
-              },
-            },
-            {
-              path: 'report',
-              lazy: async () => {
-                const { Report } = await import('@/pages');
-                return { Component: Report };
-              },
-            },
-          ],
+          path: 'settings',
+          lazy: async () => {
+            const { Settings } = await import('@/pages/Settings/Settings');
+            return { Component: Settings };
+          },
+        },
+
+        {
+          path: 'faq',
+          lazy: async () => {
+            const { FrequentQuestions } = await import('@/pages');
+            return { Component: FrequentQuestions };
+          },
+        },
+        {
+          path: 'about',
+          lazy: async () => {
+            const { AboutUs } = await import('@/pages');
+            return { Component: AboutUs };
+          },
+        },
+        {
+          path: 'report',
+          lazy: async () => {
+            const { Report } = await import('@/pages');
+            return { Component: Report };
+          },
         },
       ],
     },

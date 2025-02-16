@@ -1,37 +1,36 @@
 import { ComponentWithAs, IconProps } from '@chakra-ui/react';
-import { AccountIcon } from '../assets/chakraIcons/AccountIcon';
-import { AssignmentIcon } from '../assets/chakraIcons/AssignmentIcon';
 import { ScheduleIcon } from '../assets/chakraIcons/ScheduleIcon';
 import { TeachersIcon } from '../assets/chakraIcons/TeachersIcon';
-type ScheduleView = 'timeline' | 'full'
+import { BurgerIcon } from '../assets/chakraIcons/BurgerIcon';
+type ScheduleView = 'timeline' | 'full';
 
 export type NavbarAction = {
-  label: string;
-  path: string;
+  label?: string;
+  path?: string;
+  action: boolean;
   icon: ComponentWithAs<'svg', IconProps>;
 };
 
-export function getNavbarActions(preferencedScheduleView:ScheduleView): NavbarAction[] {
+export function getNavbarActions(
+  preferencedScheduleView: ScheduleView
+): NavbarAction[] {
   return [
     {
       label: 'Расписание',
-      path: preferencedScheduleView === 'timeline' ? '/schedule' : '/schedule/full',
+      path:
+        preferencedScheduleView === 'timeline' ? '/schedule' : '/schedule/full',
       icon: ScheduleIcon,
+      action: false,
     },
     {
-      label: 'Задания',
-      path: '/assignments',
-      icon: AssignmentIcon,
-    },
-    {
-      label: 'Педагоги',
+      label: 'Преподы',
       path: '/teachers',
       icon: TeachersIcon,
+      action: false,
     },
     {
-      label: 'Аккаунт',
-      path: '/account',
-      icon: AccountIcon,
+      action: true,
+      icon: BurgerIcon,
     },
   ];
 }

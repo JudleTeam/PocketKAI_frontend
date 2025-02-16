@@ -7,23 +7,41 @@ export function useScrollSpyFull(
   setCurrentDay: React.Dispatch<React.SetStateAction<string>>
 ) {
   const observers = useRef<IntersectionObserver[] | undefined>([]);
+  const lastVisibleDay = useRef<string | null>(null);
+  const isUpdating = useRef(false);
 
   useEffect(() => {
     const options = {
       root: null,
-      rootMargin: '-20% 0px -80% 0px',
-      threshold: 0,
+      rootMargin: '-20% 0px 20% 0px',
+      threshold: 0.1,
     };
 
     observers.current = longDaysOfWeek.map((day) => {
       const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setCurrentDay(day+weekParity);
+        const firstVisible = entries.find((entry) => entry.isIntersecting);
+
+        if (firstVisible && !isUpdating.current) {
+          const newDay = day + weekParity;
+
+          // Проверяем, не был ли этот день уже видим
+          if (lastVisibleDay.current === newDay) return;
+
+          // Если новый день, обновляем состояние
+          isUpdating.current = true;
+          if (currentDay !== newDay) {
+            setCurrentDay(newDay);
+            lastVisibleDay.current = newDay; // Обновляем последний видимый день
           }
-        });
+
+          // Разрешаем переключение обратно
+          setTimeout(() => {
+            isUpdating.current = false;
+          }, 100); // Небольшая задержка для предотвращения быстрого переключения
+        }
       }, options);
-      const target = document.getElementById(day+weekParity);
+
+      const target = document.getElementById(day + weekParity);
       if (target) observer.observe(target);
       return observer;
     });
@@ -31,7 +49,7 @@ export function useScrollSpyFull(
     return () => {
       observers.current?.forEach((observer) => observer.disconnect());
     };
-  }, [longDaysOfWeek, setCurrentDay, weekParity]);
+  }, [longDaysOfWeek, setCurrentDay, weekParity, currentDay]);
 
-  return currentDay; // Return current day if needed
+  return currentDay;
 }

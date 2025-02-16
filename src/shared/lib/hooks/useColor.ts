@@ -2,60 +2,73 @@ import { useChakra, useColorModeValue } from '@chakra-ui/react';
 
 export const useColor = () => {
   const { theme } = useChakra();
-  const mainTextColor = useColorModeValue(
-    theme.colors.light.main_text,
-    theme.colors.dark.main_text
+
+  const currentDayNumberColor = useColorModeValue(
+    theme.colors.light.currentDayNumberColor,
+    theme.colors.dark.currentDayNumberColor
   );
-  const mainElementColor = useColorModeValue(
-    theme.colors.light.main_element,
-    theme.colors.dark.main_element
+  const currentDayNameColor = useColorModeValue(
+    theme.colors.light.currentDayNameColor,
+    theme.colors.dark.currentDayNameColor
   );
-  const tabColor = useColorModeValue(
-    theme.colors.light.tab,
-    theme.colors.dark.tab
+  const secondaryDayNumberColor = useColorModeValue(
+    theme.colors.light.secondaryDayNumberColor,
+    theme.colors.dark.secondaryDayNumberColor
   );
-  const accountActionsColor = useColorModeValue(
-    'light.account_actions',
-    'dark.account_actions'
+  const secondaryDayNameColor = useColorModeValue(
+    theme.colors.light.secondaryDayNameColor,
+    theme.colors.dark.secondaryDayNameColor
   );
-  const exitButtonColor = useColorModeValue(
-    'light.exit_button',
-    'dark.exit_button'
+  const accentColor = useColorModeValue(
+    theme.colors.light.accentColor,
+    theme.colors.dark.accentColor
   );
-  const tabTeacher = useColorModeValue(
-    theme.colors.light.tab_teacher,
-    theme.colors.dark.tab_teacher
+  const primaryColor = useColorModeValue(
+    theme.colors.light.primaryColor,
+    theme.colors.dark.primaryColor
+  );
+  const secondaryColor = useColorModeValue(
+    theme.colors.light.secondaryColor,
+    theme.colors.dark.secondaryColor
   );
   const mainColor = useColorModeValue(
-    theme.colors.light.main,
-    theme.colors.dark.main
-  );
-  const secondElementLightColor = useColorModeValue(
-    'light.second_element_light',
-    'dark.second_element_light'
-  );
-  const secondElementColor = useColorModeValue(
-    'light.second_element',
-    'dark.second_element'
+    theme.colors.light.mainColor,
+    theme.colors.dark.mainColor
   );
   const cardColor = useColorModeValue(
-    theme.colors.light.card,
-    theme.colors.dark.card
+    theme.colors.light.cardColor,
+    theme.colors.dark.cardColor
   );
-  const themeColor = useColorModeValue('#999999', '#10131A');
-  const drawerColor = useColorModeValue('#fff', '#171923');
+  const secondaryTimeColor = useColorModeValue(
+    theme.colors.light.secondaryTimeColor,
+    theme.colors.dark.secondaryTimeColor
+  );
+
+  const themeColor = useColorModeValue(
+    theme.colors.light.themeColor,
+    theme.colors.dark.themeColor
+  );
+  const secondaryIconColor = useColorModeValue(
+    theme.colors.light.secondaryIconColor,
+    theme.colors.dark.secondaryIconColor
+  );
+  const infoColor = useColorModeValue(
+    theme.colors.light.infoColor,
+    theme.colors.dark.infoColor
+  );
   return {
-    mainTextColor,
-    mainElementColor,
+    currentDayNumberColor,
+    currentDayNameColor,
+    secondaryDayNumberColor,
+    secondaryDayNameColor,
+    accentColor,
+    primaryColor,
+    secondaryColor,
     mainColor,
-    secondElementColor,
-    secondElementLightColor,
     cardColor,
+    secondaryTimeColor,
     themeColor,
-    drawerColor,
-    tabColor,
-    tabTeacher,
-    exitButtonColor,
-    accountActionsColor,
+    secondaryIconColor,
+    infoColor,
   };
 };

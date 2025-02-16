@@ -1,4 +1,11 @@
-import { apiClient, ApiResponse, Schedule, WeekSchedule, WeekParity } from '@/shared';
+import {
+  apiClient,
+  ApiResponse,
+  Schedule,
+  WeekSchedule,
+  WeekParity,
+  BackgroundTaskStatus,
+} from '@/shared';
 import { ParityParams, ScheduleParams, WeekScheduleParams } from './types';
 
 export const scheduleService = {
@@ -11,10 +18,10 @@ export const scheduleService = {
     });
   },
   getWeekScheduleByGroupId: (
-    id: number,
+    id: string,
     params?: WeekScheduleParams
   ): ApiResponse<WeekSchedule> => {
-    return apiClient.get<WeekSchedule>(`group/by_if/${id}/schedule/week`, {
+    return apiClient.get<WeekSchedule>(`group/by_id/${id}/schedule/week`, {
       params,
     });
   },
@@ -35,11 +42,17 @@ export const scheduleService = {
       params,
     });
   },
-  getWeekParity: (
-    params?: ParityParams
-  ): ApiResponse<WeekParity> => {
+  getWeekParity: (params?: ParityParams): ApiResponse<WeekParity> => {
     return apiClient.get<WeekParity>(`week_parity`, {
       params,
-    })
-  }
+    });
+  },
+
+  getBackgroundTaskStatus: (
+    taskId: string
+  ): ApiResponse<{ id: string; status: BackgroundTaskStatus }> => {
+    return apiClient.get<{ id: string; status: BackgroundTaskStatus }>(
+      `task/${taskId}`
+    );
+  },
 };

@@ -1,5 +1,4 @@
 import { Box, Text, Divider } from '@chakra-ui/react';
-
 import {
   FadedLessonCard,
   LessonCard,
@@ -8,34 +7,32 @@ import {
   useSchedule,
 } from '@/entities';
 import { TopBoundary, BottomBoundary, DayNameWithShare } from '@/features';
-
 import { useInfiniteScroll, useGoUpButton } from '@/shared/lib';
-import { getTodayDate, IdleMessage } from '@/shared';
+import { getStatus, getTodayDate, IdleMessage } from '@/shared';
 import { ArrowIcon } from '@/shared/assets';
 import { scrollToToday, useColor } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader/Loader';
 import styles from './ScheduleLayout.module.scss';
 import { DateTime } from 'luxon';
 import { getWeekParityDate } from '@/shared/lib';
-import { useEffect } from 'react';
+
 export function ScheduleLayout() {
-  const today = getTodayDate();
-  const { schedule, weekScheduleStatus } = useSchedule();
+  const { schedule } = useSchedule();
   const { upperRef, lowerRef } = useInfiniteScroll();
   const { showButton, position: todayBlockPosition } = useGoUpButton();
-  const { mainElementColor } = useColor();
-  const { hiddenLessons, updateHiddenLesson } = useGroup();
-  useEffect(() => {
-    updateHiddenLesson(today);
-  }, [updateHiddenLesson, today]);
+  const { secondaryColor, accentColor, mainColor } = useColor();
+  const { hiddenLessons } = useGroup();
+  const today = getTodayDate();
 
   return (
-    <Loader status={weekScheduleStatus} idleMessage={<IdleMessage/>}>
+    <Loader status={getStatus()} idleMessage={<IdleMessage />}>
       <Box
         id="schedule"
         className={styles['schedule']}
         alignItems={{ base: '', md: 'flex-start' }}
         w={{ base: '100%', md: 'fit-content' }}
+        height={'100dvh'}
+        py={14}
         margin={{ base: '0', md: '0 auto' }}
       >
         <TopBoundary ref={upperRef} />
@@ -52,20 +49,19 @@ export function ScheduleLayout() {
                 hiddenLesson.lesson.id === lesson.id &&
                 (day.date === hiddenLesson.lesson.type_hide ||
                   getWeekParityDate(day.date) ===
-                    hiddenLesson.lesson.type_hide ||
+                  hiddenLesson.lesson.type_hide ||
                   hiddenLesson.lesson.type_hide === 'always')
             );
             return !isLessonHidden;
           });
 
-          // Проверяем, есть ли скрытые занятия
           const hiddenLessonsExist = day.lessons.some((lesson) => {
             return hiddenLessons.some(
               (hiddenLesson) =>
                 hiddenLesson.lesson.id === lesson.id &&
                 (day.date === hiddenLesson.lesson.type_hide ||
                   getWeekParityDate(day.date) ===
-                    hiddenLesson.lesson.type_hide ||
+                  hiddenLesson.lesson.type_hide ||
                   hiddenLesson.lesson.type_hide === 'always')
             );
           });
@@ -101,7 +97,7 @@ export function ScheduleLayout() {
                 </div>
               </div>
               {visibleLessons.length === 0 ? (
-                <RestCard dayDate={day.date} /> // Выводим RestCard, если нет нескрытых занятий
+                <RestCard dayDate={day.date} />
               ) : (
                 visibleLessons.map((lesson) => {
                   return lesson.parsed_dates &&
@@ -131,23 +127,31 @@ export function ScheduleLayout() {
             as="button"
             w="50px"
             h="50px"
-            borderRadius="8px"
+            borderRadius="24px"
             position="fixed"
             bottom="80px"
             right="5%"
-            bgColor={mainElementColor}
             zIndex={'10'}
+            bgColor={mainColor}
           >
-            {todayBlockPosition === 'above' ? (
-              <ArrowIcon color="white" w={'20px'} h={'20px'} />
-            ) : (
-              <ArrowIcon
-                color="white"
-                w={'20px'}
-                h={'20px'}
-                transform="rotate(180deg)"
-              />
-            )}
+            <Box
+              as="button"
+              borderRadius="24px"
+              w="50px"
+              h="50px"
+              bgColor={secondaryColor}
+            >
+              {todayBlockPosition === 'above' ? (
+                <ArrowIcon color={accentColor} w={'20px'} h={'20px'} />
+              ) : (
+                <ArrowIcon
+                  color={accentColor}
+                  w={'20px'}
+                  h={'20px'}
+                  transform="rotate(180deg)"
+                />
+              )}
+            </Box>
           </Box>
         )}
       </Box>

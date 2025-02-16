@@ -1,5 +1,5 @@
-import { ExamType } from '@/shared';
-import { HStack, Text, useChakra, useColorModeValue } from '@chakra-ui/react';
+import { ExamType, useColor } from '@/shared';
+import { HStack, Text } from '@chakra-ui/react';
 import { getLessonBuilding } from '@/shared/lib';
 import { getExamState } from '../../lib/getExamState';
 import { lessonStateIcons } from '@/shared/constants';
@@ -7,31 +7,14 @@ import { examStateLine } from '../../constants/examStateLine';
 import { DateTime } from 'luxon';
 import styles from './ExamCard.module.scss';
 import { ExamDrawer } from '../ExamDrawer/ExamDrawer';
-import { useEffect } from 'react';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
 import { useDisclosure } from '@/shared/lib';
+import { useMetaThemeColor } from '@/shared';
 export function ExamCard({ exam }: { exam: ExamType }) {
   const { isOpen, setIsOpen } = useDisclosure();
-  const { theme } = useChakra();
-  const mainTextColor = useColorModeValue(
-    theme.colors.light.main_text,
-    theme.colors.dark.main_text
-  );
-  const themeColor = useColorModeValue('#858585', '#0E1117');
-  const mainColor = useColorModeValue(
-    theme.colors.light.main,
-    theme.colors.dark.main
-  );
-  useEffect(() => {
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor) {
-      if (isOpen) {
-        metaThemeColor.setAttribute('content', themeColor);
-      } else {
-        metaThemeColor.setAttribute('content', mainColor);
-      }
-    }
-  }, [themeColor, mainColor, isOpen]);
+  const { primaryColor, themeColor, mainColor } = useColor();
+
+  useMetaThemeColor(mainColor, isOpen, themeColor);
 
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
@@ -46,7 +29,7 @@ export function ExamCard({ exam }: { exam: ExamType }) {
           <div className={styles['exam-card__time']}>
             <Text
               className={styles['exam-card__time--start']}
-              color={mainTextColor}
+              color={primaryColor}
             >
               {exam.time
                 ? DateTime.fromISO(exam.time).toFormat('HH:mm')
@@ -59,7 +42,7 @@ export function ExamCard({ exam }: { exam: ExamType }) {
           </div>
           <div className={styles['exam-card__info']}>
             <Text
-              color={mainTextColor}
+              color={primaryColor}
               fontWeight="bold"
               lineHeight={1.3}
               className={styles['exam-card__name']}
@@ -67,7 +50,7 @@ export function ExamCard({ exam }: { exam: ExamType }) {
             >
               {exam.discipline.name}
             </Text>
-            <Text color={mainTextColor} fontWeight={'medium'}>
+            <Text color={primaryColor} fontWeight={'medium'}>
               {getLessonBuilding(exam.building_number, exam.audience_number)}
             </Text>
           </div>

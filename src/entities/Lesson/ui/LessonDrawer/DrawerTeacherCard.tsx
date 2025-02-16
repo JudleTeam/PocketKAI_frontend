@@ -4,7 +4,7 @@ import { Avatar, Box, Text } from '@chakra-ui/react';
 import { HashLink } from 'react-router-hash-link';
 
 export function DrawerTeacherCard({ lesson }: { lesson: Lesson }) {
-  const { cardColor, tabTeacher, tabColor, mainElementColor } = useColor();
+  const { cardColor, mainColor, accentColor } = useColor();
   return (
     <Box
       as={HashLink}
@@ -13,7 +13,6 @@ export function DrawerTeacherCard({ lesson }: { lesson: Lesson }) {
           ? `/teachers#${lesson?.teacher?.id}&${lesson.discipline.id}`
           : '/teachers'
       }
-      boxShadow={`0px 0px 5px 0px ${tabColor}`}
       bgColor={cardColor}
       borderRadius="16px"
       padding="14px"
@@ -21,9 +20,9 @@ export function DrawerTeacherCard({ lesson }: { lesson: Lesson }) {
       alignItems="center"
       gap="15px"
       transition="0.2s"
-      _active={{ bgColor: tabTeacher, transition: '0.2s' }}
+      _active={{ bgColor: mainColor, transition: '0.2s' }}
     >
-      <Avatar bg={mainElementColor} />
+      <Avatar bg={accentColor} />
       <Box>
         <Text fontSize="16px" fontWeight="medium">
           {lesson?.teacher?.name

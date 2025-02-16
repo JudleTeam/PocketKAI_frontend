@@ -1,25 +1,17 @@
 import { Box, Text, Divider, Avatar } from '@chakra-ui/react';
 import { ArrowIcon } from '@/shared/assets';
-import { Teacher } from '@/shared';
+import { Teacher, useMetaThemeColor } from '@/shared';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { SearchedTeacherDrawer } from '../SearchedTeacherDrawer/SearchedTeacherDrawer';
 import { useColor, useDisclosure } from '@/shared/lib';
 
 export function SearchedTeacherCard({ teacher }: { teacher: Teacher }) {
   const { isOpen, setIsOpen } = useDisclosure();
   const [activeSnapPoint, setActiveSnapPoint] = useState<string | number>(0.8);
-  const { mainTextColor, themeColor, mainColor, mainElementColor } = useColor();
-  useEffect(() => {
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor) {
-      if (isOpen) {
-        metaThemeColor.setAttribute('content', themeColor);
-      } else {
-        metaThemeColor.setAttribute('content', mainColor);
-      }
-    }
-  }, [themeColor, mainColor, isOpen]);
+  const { primaryColor, themeColor, mainColor, accentColor } = useColor();
+
+  useMetaThemeColor(mainColor, isOpen, themeColor);
 
   return (
     <Drawer
@@ -44,10 +36,10 @@ export function SearchedTeacherCard({ teacher }: { teacher: Teacher }) {
             padding="10px 0"
           >
             <Box display="flex" gap="10px" alignItems="center">
-              <Avatar bg={mainElementColor} />
+              <Avatar bg={accentColor} />
               <Box>
                 <Text
-                  color={mainTextColor}
+                  color={primaryColor}
                   fontWeight="medium"
                   fontSize={'clamp(14px, 4vw, 18px)'}
                 >

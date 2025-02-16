@@ -4,4 +4,22 @@ $blue-light: #3182ce; //  =blue.500 in chakra
 $blue-light-transparent: #3182ce80; //  =blue.500 + 50% in chakra
 
 $purple-medium: #6b46c1; // =pruple.600 in chakra
-$teal-medium: #2C7A7B; // =teal.600 in chakre
+$teal-medium: #2c7a7b; // =teal.600 in chakre
+
+$breakpoints: (
+  base: 0,
+  sm: 480px,
+  md: 768px,
+  lg: 992px,
+  xl: 1280px,
+  xxl: 1536px,
+);
+
+@mixin media($breakpoint) {
+  $width: map-get($breakpoints, $breakpoint);
+  @if $width != null {
+    @media (min-width: #{$width}) {
+      @content;
+    }
+  }
+}

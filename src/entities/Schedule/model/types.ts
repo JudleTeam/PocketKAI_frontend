@@ -1,3 +1,5 @@
+import { BackgroundTaskStatus } from '@/shared';
+
 export type WeekScheduleParams = {
   week_parity: 'odd' | 'even' | 'any';
 };
@@ -9,4 +11,9 @@ export type ScheduleParams = {
 
 export type ParityParams = {
   date: string;
-}
+};
+
+export type StoreBackgroundTasks = {
+  id: string;
+  status: BackgroundTaskStatus;
+};

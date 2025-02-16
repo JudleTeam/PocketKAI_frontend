@@ -1,31 +1,12 @@
-import {
-  Box,
-  useChakra,
-  useColorModeValue,
-  Text,
-  useColorMode,
-  useBreakpointValue,
-} from '@chakra-ui/react';
-import { AccountTabHeader } from '@/shared/lib';
+import { Box, Text, useBreakpointValue, useColorMode } from '@chakra-ui/react';
+import { AccountTabHeader, useColor, useMetaThemeColor } from '@/shared/lib';
 import styles from './Report.module.scss';
-import { useEffect } from 'react';
+
 export function Report() {
-  const { theme } = useChakra();
   const { colorMode } = useColorMode();
-  const mainColor = useColorModeValue(
-    theme.colors.light.main,
-    theme.colors.dark.main
-  );
-  const mainTextColor = useColorModeValue(
-    theme.colors.light.main_text,
-    theme.colors.dark.main_text
-  );
-  useEffect(() => {
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor) {
-        metaThemeColor.setAttribute('content', mainColor);
-      }
-  }, [mainColor]);
+  const { mainColor, primaryColor } = useColor();
+
+  useMetaThemeColor(mainColor);
   const isDesktop = useBreakpointValue({ base: false, md: true });
   return (
     <Box className={styles['report']} style={isDesktop ? { width: '40%' } : {}}>
@@ -37,7 +18,7 @@ export function Report() {
         zIndex={'1'}
         boxShadow={`0px 0px 10px 10px ${mainColor}`}
       >
-        <AccountTabHeader color={mainTextColor}>
+        <AccountTabHeader color={primaryColor}>
           Форма обратной связи
         </AccountTabHeader>
       </Box>
@@ -51,8 +32,8 @@ export function Report() {
             style={{ borderRadius: '8px', overflowY: 'auto' }}
             src={
               colorMode === 'light'
-                ? 'https://forms.yandex.ru/cloud/66b65dab84227c1b171b2fc2/?iframe=1&version=1.0.3-hotfix'
-                : 'https://forms.yandex.ru/cloud/66b790f384227c34e21b2f91/?iframe=1&version=1.0.3-hotfix'
+                ? 'https://forms.yandex.ru/cloud/66b65dab84227c1b171b2fc2/?iframe=1&version=2.0.0'
+                : 'https://forms.yandex.ru/cloud/66b790f384227c34e21b2f91/?iframe=1&version=2.0.0'
             }
             height="100%"
             frameBorder="0"
@@ -60,7 +41,7 @@ export function Report() {
             name="ya-form-66b65dab84227c1b171b2fc2"
           ></iframe>
         </Box>
-        <Text pt="10px" fontWeight="bold" color={mainTextColor}>
+        <Text pt="10px" fontWeight="bold" color={primaryColor}>
           Или сразу напишите нам -{' '}
           <a
             style={{ textDecoration: 'underline' }}

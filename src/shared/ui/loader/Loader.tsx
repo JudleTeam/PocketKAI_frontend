@@ -7,10 +7,12 @@ export const Loader = ({
   idleMessage,
 }: React.PropsWithChildren<{
   status: FetchStatus | BackgroundTaskStatus;
-  idleMessage: string | ReactNode
+  idleMessage: string | ReactNode;
 }>) => {
   switch (status) {
-    case 'loading' || 'PENDING' || 'STARTED':
+    case 'loading':
+    case 'PENDING':
+    case 'STARTED':
       return (
         <Box
           pos={'absolute'}
@@ -25,7 +27,8 @@ export const Loader = ({
           <Spinner size={'xl'} />
         </Box>
       );
-    case 'error' || 'FAILED':
+    case 'error':
+    case 'FAILED':
       return (
         <Box
           pos={'absolute'}
@@ -40,7 +43,8 @@ export const Loader = ({
           Что-то пошло не так...
         </Box>
       );
-    case 'idle' || 'IDLE':
+    case 'idle':
+    case 'IDLE':
       return (
         <Box
           pos={'absolute'}
@@ -55,7 +59,10 @@ export const Loader = ({
           {idleMessage}
         </Box>
       );
-    case 'success' || 'SUCCESS':
+    case 'success':
+    case 'SUCCESS':
       return children;
+    default:
+      return null;
   }
 };

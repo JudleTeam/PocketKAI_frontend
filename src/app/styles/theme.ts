@@ -1,55 +1,55 @@
-import { extendTheme, type ThemeConfig } from '@chakra-ui/react'
+import { extendTheme, type ThemeConfig } from '@chakra-ui/react';
 
 const config: ThemeConfig = {
   initialColorMode: 'light',
   useSystemColorMode: false,
-}
+};
 
 const theme = extendTheme({
-    colors: {
-        light: {
-            main_text: '#1a365d', // blue.900 - white
-            main_element: '#3182ce', //blue.500 - blue.850
-            second_element: '#1a365d', // blue.900 - gray.500
-            second_element_light: '#3182ce', // blue.500 - white
-            blue_light_element: '#3182ce80', // blue.500 + 80% - gray.500
-            black_light_element: '#1a365d80', // blue.900 + 80% - gray.500 + 80%
-            card: '#EDF2F7', // gray.100 - gray.700
-            main: '#fff', // white - gray.900
-            account_actions: '#ffffff', // white - gray.700
-            exit_button: '#63171B', // red.900 - red.500
-            tab: '#EDF2F7', // gray.100 - gray.800
-            blue_element: '#2B6CB0', // blue.500 - gray.500
-            tab_teacher: '#CBD5E0' // gray.300 - gray.600
-        },
-        dark: {
-            main_text: '#fff', // white
-            main_element: '#223D61', // blue.850
-            second_element: '#718096', // gray.500
-            second_element_light: '#fff', // white
-            blue_light_element: '#718096', // gray.500
-            black_light_element: '#71809680', // gray.500 + 80%
-            card: '#2D3748', // gray.700
-            main: '#171923', // gray.900
-            account_actions: '#2D3748', //gray.700
-            exit_button: '#E53E3E', // red.500
-            tab: '#1A202C', // gray.800
-            blue_element: '#53A6E7', //gray.500
-            tab_teacher: '#4A5568'
-        },
-        infoColor: {
-          200: '#F6AD55',
-          600: '#F6AD55',
-        } 
+  colors: {
+    light: {
+      currentDayNumberColor: '#3182CE',
+      currentDayNameColor: '#6FA8DD',
+      secondaryDayNumberColor: '#1A365D',
+      secondaryDayNameColor: '#A9B3C2',
+      accentColor: '#3182ce',
+      primaryColor: '#1A365D',
+      secondaryColor: '#D6E6F5',
+      secondaryIconColor: '#98C0E6',
+      mainColor: '#FFFFFF',
+      cardColor: '#EDF2F7',
+      secondaryTimeColor: '#D6E6F5',
+      themeColor: '#999999',
+      infoColor: '#FBAC56',
     },
-    styles: {
-        global: (props: { colorMode: string }) => ({
-          body: {
-            bg: props.colorMode === 'dark' ? '#171923' : 'white'
-          },
-        }),
+    dark: {
+      currentDayColor: '#FFFFFF',
+      currentDayNameColor: '#B9BABD',
+      secondaryDayNumberColor: '#646D7D',
+      secondaryDayNameColor: '#4D5462',
+      accentColor: '#3182ce',
+      primaryColor: '#FFFFFF',
+      secondaryColor: '#222835',
+      secondaryIconColor: '#718096',
+      mainColor: '#171A23',
+      cardColor: '#2A2E3A',
+      secondaryTimeColor: '#616E82',
+      themeColor: '#0E0F15',
+      infoColor: '#FA9C36',
+    },
+    infoColor: {
+      200: '#FA9C36',
+      600: '#FBAC56',
+    },
+  },
+  styles: {
+    global: (props: { colorMode: string }) => ({
+      body: {
+        bg: props.colorMode === 'dark' ? '#171923' : 'white',
       },
-    config
-}) 
+    }),
+  },
+  config,
+});
 
-export default theme
+export default theme;

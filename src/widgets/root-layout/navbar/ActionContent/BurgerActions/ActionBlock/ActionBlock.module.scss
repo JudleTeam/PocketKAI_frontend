@@ -1,0 +1,15 @@
+.root {
+  width: 6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+
+  &__icon {
+    padding: 15px;
+    border-radius: 8px;
+  }
+  &__text {
+    text-align: center;
+  }
+}

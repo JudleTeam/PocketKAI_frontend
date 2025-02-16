@@ -1,59 +1,57 @@
-import { Box, Button, Text, useColorModeValue } from '@chakra-ui/react';
-import { UiModal } from '../ui-modal/UiModal';
-import { AddGroupToFavourite } from '@/features';
-import { useColor } from '@/shared/lib';
-import { DrawerTrigger, Drawer, DrawerContent } from '../drawer';
-import { Auth } from '@/features';
+import { Box, Button, Text } from '@chakra-ui/react';
+import { useColor, useMetaThemeColor } from '@/shared/lib';
 import { useDisclosure } from '@/shared/lib';
-import { useDrawerDisclosure } from '../ui-drawer/lib/useDrawerDisclosure';
-import { useEffect } from 'react';
+import { Dialog, DialogHeader, DialogTrigger, DialogContent } from '../modal';
+import { AddGroupToFavourite } from '@/features';
+import { Link } from 'react-router-dom';
+import { useSettings } from '@/entities';
 
 export function IdleMessage() {
-  const drawer = useDisclosure();
-  const {isOpen, onOpen, onClose, onToggle} = useDrawerDisclosure()
-  const { mainTextColor, themeColor, mainColor } = useColor();
-  const modalColor = useColorModeValue('#858585', '#0E1117');
-  useEffect(() => {
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor) {
-      if (drawer.isOpen) {
-        metaThemeColor.setAttribute('content', themeColor);
-      } 
-      if (isOpen){
-        metaThemeColor.setAttribute('content', modalColor)
-      }
-      if(!drawer.isOpen && !isOpen) {
-        metaThemeColor.setAttribute('content', mainColor);
-      }
-    }
-  }, [themeColor, modalColor, mainColor, drawer.isOpen, isOpen]);
+  const { isOpen, setIsOpen, onClose } = useDisclosure();
+  const { fullScheduleView } = useSettings()
+  const { primaryColor, mainColor, themeColor, accentColor, secondaryDayNameColor } = useColor();
+  const isTeacherOrFull = location.pathname === '/teachers' || (fullScheduleView === 'week' && location.pathname === '/schedule/full')
+  useMetaThemeColor(mainColor, isOpen, themeColor);
+  console.log(fullScheduleView)
+
   return (
-    <Box display="flex" flexDir="column" alignItems="center" gap="10px">
-      <Text color={mainTextColor}>Добро пожаловать!</Text>
-      <Box>
-        <Button colorScheme="blue" onClick={onOpen}>
-          Выберите группу
-        </Button>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <Box position={'fixed'} top={isTeacherOrFull ? '24dvh' : '40dvh'} transform={'translate(-50%, 0)'} w={'100%'} display="flex" flexDir="column" alignItems="center" gap="10dvh">
+        <Box display="flex" flexDir="column" alignItems="center" gap="5px">
+          <Text color={primaryColor}>Добро пожаловать!</Text>
+          <Button
+            as={DialogTrigger}
+            color={mainColor}
+            fontSize={'16px'}
+            fontWeight={'medium'}
+            paddingY="5px"
+            paddingX="25px"
+            borderRadius={24}
+            bg={accentColor}
+            _hover={{ bg: accentColor, boxShadow: 'outline' }}
+            _focus={{ bg: accentColor }}
+          >
+            Выберите группу
+          </Button>
+        </Box>
+        <Box display="flex" flexDir="column" alignItems="center" gap="5px">
+          <Text color={secondaryDayNameColor} textAlign={'center'} fontSize={'18px'} w='75%'>Также следите за новостями в Telegram-канале:</Text>
+          <Text as={Link} to='https://t.me/pocket_kai' fontSize={'18px'} color={accentColor} textDecor={'underline'}>PocketKAI</Text>
+        </Box>
+        <DialogContent className="sbg-l-main dark:bg-d-main rounded-xl">
+          <DialogHeader>
+            <Text
+              color={primaryColor}
+              fontWeight={'semibold'}
+              fontSize={'large'}
+              textAlign={'start'}
+            >
+              Выбор группы
+            </Text>
+          </DialogHeader>
+          <AddGroupToFavourite onClose={onClose} />
+        </DialogContent>
       </Box>
-      <Text color={mainTextColor}>или</Text>
-      <Box>
-        <Drawer open={drawer.isOpen} onOpenChange={drawer.setIsOpen}>
-          <DrawerTrigger asChild>
-            <Button variant="outline" colorScheme="blue">
-              Войдите в аккаунт
-            </Button>
-          </DrawerTrigger>
-          <DrawerContent>
-            <Auth onClose={drawer.onClose} />
-          </DrawerContent>
-        </Drawer>
-      </Box>
-      <UiModal
-        isOpen={isOpen}
-        onClose={onClose}
-        setIsOpen={onToggle}
-        modalActions={() => AddGroupToFavourite(onClose)}
-      />
-    </Box>
+    </Dialog>
   );
 }

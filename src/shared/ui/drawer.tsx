@@ -5,7 +5,7 @@ import { cn, useDrawerPopstateClose } from '@/shared/lib';
 import { useBreakpointValue } from '@chakra-ui/react';
 const Drawer = ({
   open = false,
-  onOpenChange = () => {},
+  onOpenChange = () => { },
   activeSnapPoint = 0.8,
   //setActiveSnapPoint = () => {},
 
@@ -62,8 +62,8 @@ const DrawerContent = React.forwardRef<
         ref={ref}
         className={cn(
           'fixed inset-x-0 md:right-0 md:left-auto h-[100%] max-h-[100%] md:max-h-[100%] md:h-[100%] md:max-w-[400px]' +
-            ' px-3 bottom-0 z-50 mt-24 flex flex-col rounded-t-[25px] md:rounded-t-none md:rounded-tl-[15px] md:rounded-bl-[15px]' +
-            ' bg-l-main dark:bg-d-main focus:outline-none border-[0px] md:p-5',
+          ' px-3 bottom-0 z-50 mt-24 flex flex-col rounded-t-[25px] md:rounded-t-none md:rounded-tl-[15px] md:rounded-bl-[15px]' +
+          ' bg-l-main dark:bg-d-main focus:outline-none border-[0px] md:p-5',
           className
         )}
         {...props}
@@ -73,7 +73,6 @@ const DrawerContent = React.forwardRef<
             <div className="mt-3 min-h-1.5 w-[35%] rounded-full bg-gray-300" />
           </div>
         </DrawerPrimitive.Handle>
-        <DrawerClose className="absolute top-2 right-6">✕</DrawerClose>
         <DrawerDescription />
         <VisuallyHidden.Root>
           <DrawerTitle />

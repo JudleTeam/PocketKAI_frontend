@@ -19,7 +19,7 @@ export function HideLesson({
   children: ReactNode;
   lesson: Lesson;
 }) {
-  const { mainTextColor } = useColor();
+  const { primaryColor } = useColor();
   const { currentGroup, hiddenLessons, addHiddenLesson } = useGroup();
   const isHiddenAlways = hiddenLessons.some(
     (hiddenLesson) =>
@@ -46,12 +46,18 @@ export function HideLesson({
     ((lesson.parsed_dates_status === 'need_check' &&
       !lesson.parsed_dates &&
       lesson.parsed_parity === 'any') ||
+      (lesson.parsed_dates_status !== 'need_check' &&
+        !lesson.parsed_dates &&
+        lesson.parsed_parity === 'any') ||
       lesson.parsed_parity === 'odd');
   const hasEven =
     !isHiddenOnEven &&
     ((lesson.parsed_dates_status === 'need_check' &&
       !lesson.parsed_dates &&
       lesson.parsed_parity === 'any') ||
+      (lesson.parsed_dates_status !== 'need_check' &&
+        !lesson.parsed_dates &&
+        lesson.parsed_parity === 'any') ||
       lesson.parsed_parity === 'even');
   const handleClick = (type_hide: string) => {
     const hideLesson: HiddenLesson = {
@@ -79,7 +85,7 @@ export function HideLesson({
           transition={'0.2s'}
           borderRadius={3}
           w={'full'}
-          color={mainTextColor}
+          color={primaryColor}
           fontWeight="medium"
           fontSize="18px"
         >

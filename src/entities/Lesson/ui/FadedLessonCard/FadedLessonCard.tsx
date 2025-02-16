@@ -5,12 +5,12 @@ import { getLessonState } from '../../lib/getLessonState';
 import { lessonStateLine } from '../../constants/lessonStateLine';
 import { LessonTypes } from '@/shared/constants';
 import styles from './FadedLessonCard.module.scss';
-import { useEffect } from 'react';
 import { Drawer, DrawerTrigger, DrawerContent } from '@/shared/ui/drawer';
 import { useColor, useDisclosure } from '@/shared/lib';
 import { useSettings } from '@/entities';
 import { HideLesson } from '@/features';
 import { LessonDrawer } from '../LessonDrawer/LessonDrawer';
+import { useMetaThemeColor } from '@/shared';
 
 export function FadedLessonCard({
   lesson,
@@ -20,19 +20,11 @@ export function FadedLessonCard({
   dayDate: string;
 }) {
   const { isOpen, setIsOpen } = useDisclosure();
-  const { mainTextColor, themeColor, mainColor } = useColor();
+  const { primaryColor, themeColor, mainColor } = useColor();
   const { showFadedLessons } = useSettings();
   const fadedLesson = true;
-  useEffect(() => {
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor) {
-      if (isOpen) {
-        metaThemeColor.setAttribute('content', themeColor);
-      } else {
-        metaThemeColor.setAttribute('content', mainColor);
-      }
-    }
-  }, [themeColor, mainColor, isOpen]);
+
+  useMetaThemeColor(mainColor, isOpen, themeColor);
 
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
@@ -49,18 +41,22 @@ export function FadedLessonCard({
             <div className={styles['lesson-card__time']}>
               <Text
                 className={styles['lesson-card__time--start']}
-                color={mainTextColor}
+                color={primaryColor}
               >
                 00:00
               </Text>
             </div>
             <div className={styles['lesson-card__timeline']}>
-              {lessonStateIcons[getLessonState(lesson, dayDate, fadedLesson).state]}
+              {
+                lessonStateIcons[
+                  getLessonState(lesson, dayDate, fadedLesson).state
+                ]
+              }
               {lessonStateLine(getLessonState(lesson, dayDate).color)}
             </div>
             <div className={styles['lesson-card__info']}>
               <Text
-                color={mainTextColor}
+                color={primaryColor}
                 fontWeight="bold"
                 lineHeight={1.3}
                 className={styles['lesson-card__name']}

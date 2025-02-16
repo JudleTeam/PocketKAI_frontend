@@ -12,16 +12,14 @@ export const getFormattedWeekSchedule = (
     const currentDay = DateTime.fromISO(day.date);
     return currentDay.weekNumber === requiredWeekNumber;
   });
-  const header = `${
-    requiredWeekNumber % 2 === 0 ? 'Четная' : 'Нечётная'
-  } неделя, гр.${groupName}\n\n`;
+  const header = `${requiredWeekNumber % 2 === 0 ? 'Четная' : 'Нечётная'
+    } неделя, гр.${groupName}\n\n`;
   const result = requiredWeekSchedule.map((day, index) => {
     const formattedDate = DateTime.fromISO(day.date)
       .setLocale('ru')
       .toFormat('cccc, dd.MM.yyyy');
-    const header = `${
-      formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1)
-    }\n————————————————————\n`;
+    const header = `${formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1)
+      }\n————————————————————\n`;
     const footer = `————————————————————\n`;
     if (index === 6) return '';
     if (!day.lessons.length) return header + 'Выходной\n' + footer;
@@ -30,6 +28,6 @@ export const getFormattedWeekSchedule = (
   return (
     header +
     result.join('\n') +
-    `Отправлено из Pocket KAI: ${window.location.href}`
+    `Отправлено из PocketKAI: ${window.location.href}`
   );
 };

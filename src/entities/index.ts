@@ -36,9 +36,6 @@ export { default as LessonCard } from './Lesson/ui/LessonCard/LessonCard';
 
 export { FadedLessonCard } from './Lesson/ui/FadedLessonCard/FadedLessonCard';
 
-export { accountActions } from './User/ui/AccountActions';
-
 export { FullLessonCard } from './Lesson/ui/FullLessonCard/FullLessonCard';
 
 export { RestCard } from './Lesson/ui/RestCard/RestCard';
-

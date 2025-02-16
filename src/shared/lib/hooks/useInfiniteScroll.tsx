@@ -22,7 +22,7 @@ export function useInfiniteScroll() {
 
     const options = {
       root: null,
-      rootMargin: '420px 0px 120px 0px',
+      rootMargin: '0px 0px 0px 0px',
       threshold: 0.1,
     };
     observer.current = new IntersectionObserver((entries, observerInstance) => {

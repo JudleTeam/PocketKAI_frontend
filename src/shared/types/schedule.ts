@@ -6,6 +6,8 @@ export type WeekSchedule = {
   week_days: {
     [key: string]: Lesson[];
   };
+  background_task_id: string;
+  is_ready: boolean;
 };
 
 export type FullWeekSchedule = {
@@ -29,6 +31,6 @@ export type WeekParity = {
   int_parity: number;
 };
 
-export type ScheduleView = 'timeline' | 'full'
+export type ScheduleView = 'timeline' | 'full';
 
-export type FullScheduleView = 'week' | 'day'
+export type FullScheduleView = 'week' | 'day';

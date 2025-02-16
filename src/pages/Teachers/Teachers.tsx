@@ -1,79 +1,90 @@
-import { useGroup } from '@/entities';
-import {
-  Box,
-  Button,
-  Menu,
-  MenuButton,
-  MenuItemOption,
-  MenuList,
-  MenuOptionGroup,
-} from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { Box, Tab, TabList, Tabs } from '@chakra-ui/react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useColor } from '@/shared/lib';
-import styles from './Teachers.module.scss';
-import { ChevronDownIcon } from '@chakra-ui/icons';
+import s from './Teachers.module.scss';
 import { GroupTeachers, SearchedTeachers } from '@/widgets';
+import { SwiperSlide, Swiper } from 'swiper/react';
+import { Swiper as SwiperInstance } from 'swiper/types';
+import 'swiper/css';
 
 export function Teachers() {
-  const { mainTextColor, mainColor } = useColor();
-  const { currentGroup } = useGroup();
-  const [layoutType, setLayoutType] = useState<'group' | 'searched'>('group');
+  const { mainColor, secondaryColor, accentColor, secondaryIconColor } =
+    useColor();
+  const swiperRef = useRef<SwiperInstance | null>(null);
+  const [activeTab, setActiveTab] = useState<number>(0);
+  const weekSelected = {
+    color: accentColor,
+    bgColor: secondaryColor,
+  };
+
+  const handleTabChange = useCallback((index: number) => {
+    setActiveTab(index);
+    swiperRef.current?.slideTo(index);
+  }, []);
+
   useEffect(() => {
     document.getElementById('teacher')?.scrollIntoView();
   }, []);
 
   return (
-    <Box id="teacher" className={styles['teachers']}
-    alignItems={{md: 'center'}}
+    <Tabs
+      id="teacher"
+      className={s.root}
+      alignItems={{ md: 'center' }}
+      pt={{ md: '5px' }}
+      defaultIndex={0}
+      variant="unstyled"
+      index={activeTab}
+      onChange={handleTabChange}
     >
-      <Menu>
-        <Box
-          position="fixed"
-          top={['55px', '65px']}
-          textAlign={{base: "left", md: "center"}}
-          w="90%"
-          zIndex="10"
-          pt={{base: '10px', md: '30px'}}
-          boxShadow={`0px 0px 10px 10px ${mainColor}`}
-          bgColor={mainColor}
+      <Box
+        className={s.root__list}
+        pt={{ md: '10px' }}
+        alignItems={{ md: 'center' }}
+        bgColor={mainColor}
+        boxShadow={`0 5px 5px 5px ${mainColor}`}
+      >
+        <TabList
+          className={s.root__center}
+          w={{ base: '100%', md: '70%', lg: '40%' }}
         >
-          <MenuButton
-            as={Button}
-            p={0}
-            rightIcon={<ChevronDownIcon />}
-            fontSize={'clamp(18px, 5vw, 20px)'}
-            fontWeight="bold"
-            color={mainTextColor}
-            bgColor={mainColor}
+          <Tab
+            className={s.root__item}
+            _selected={weekSelected}
+            color={secondaryIconColor}
+            onClick={() => {
+              handleTabChange(0);
+            }}
           >
-            {layoutType === 'group'
-              ? `Преподаватели ${
-                  currentGroup?.group_name
-                    ? `гр. ${currentGroup.group_name}`
-                    : ''
-                }`
-              : 'Поиск преподавателей'}
-          </MenuButton>
-        </Box>
-        <MenuList zIndex="11">
-          <MenuOptionGroup type="radio" value={layoutType}>
-            <MenuItemOption
-              value="group"
-              onClick={() => setLayoutType('group')}
-            >
-              Преподаватели группы
-            </MenuItemOption>
-            <MenuItemOption
-              value="searched"
-              onClick={() => setLayoutType('searched')}
-            >
-              Поиск преподавателей
-            </MenuItemOption>
-          </MenuOptionGroup>
-        </MenuList>
-      </Menu>
-      {layoutType === 'group' && <GroupTeachers />}
-      {layoutType === 'searched' && <SearchedTeachers />}
-    </Box>
+            Ваши преподы
+          </Tab>
+          <Tab
+            outlineColor={'none'}
+            className={s.root__item}
+            _selected={weekSelected}
+            color={secondaryIconColor}
+            onClick={() => {
+              handleTabChange(1);
+            }}
+          >
+            Поиск преподов
+          </Tab>
+        </TabList>
+      </Box>
+      <Swiper
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+        }}
+        className={s.root__swiper}
+        onSlideChange={({ activeIndex }) => setActiveTab(activeIndex)}
+      >
+        <SwiperSlide className={s.root__slide}>
+          <GroupTeachers />
+        </SwiperSlide>
+        <SwiperSlide className={s.root__slide}>
+          <SearchedTeachers />
+        </SwiperSlide>
+      </Swiper>
+    </Tabs>
   );
 }

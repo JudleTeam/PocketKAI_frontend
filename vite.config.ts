@@ -30,9 +30,10 @@ export default defineConfig({
       },
 
       manifest: {
-        name: 'Pocket KAI',
-        short_name: 'Pocket KAI',
+        name: 'PocketKAI',
+        short_name: 'PocketKAI',
         description: 'Веб-приложение для просмотра расписания КНИТУ-КАИ',
+        background_color: '#3182ce',
         icons: [
           {
             src: '/android-chrome-192x192.png',
@@ -115,11 +116,13 @@ export default defineConfig({
                   cacheDidUpdate: async () => {
                     const currentDate = new Date();
                     const year = currentDate.getFullYear();
-                    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Добавляем 1, так как месяцы отсчитываются с 0
+                    const month = String(currentDate.getMonth() + 1).padStart(
+                      2,
+                      '0'
+                    ); // Добавляем 1, так как месяцы отсчитываются с 0
                     const day = String(currentDate.getDate()).padStart(2, '0'); // Добавляем ведущий ноль, если день меньше 10
 
                     const currentTime = `${year}-${month}-${day}`;
-
 
                     // Отправляем сообщение основному скрипту
                     const clients = await self.clients.matchAll();
@@ -230,11 +233,13 @@ export default defineConfig({
                   cacheDidUpdate: async () => {
                     const currentDate = new Date();
                     const year = currentDate.getFullYear();
-                    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Добавляем 1, так как месяцы отсчитываются с 0
+                    const month = String(currentDate.getMonth() + 1).padStart(
+                      2,
+                      '0'
+                    ); // Добавляем 1, так как месяцы отсчитываются с 0
                     const day = String(currentDate.getDate()).padStart(2, '0'); // Добавляем ведущий ноль, если день меньше 10
-                    
+
                     const currentTime = `${year}-${month}-${day}`;
-                    
 
                     // Отправляем сообщение основному скрипту
                     const clients = await self.clients.matchAll();

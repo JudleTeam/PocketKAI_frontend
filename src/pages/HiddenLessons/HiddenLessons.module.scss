@@ -1,11 +1,29 @@
-.hidden{
-    width: 90%;
-    height: 94vh;
-    margin: 0 auto;
-    overflow-y: auto;
+.hidden {
+  width: 95%;
+  margin: 0 auto;
+  overflow-y: auto;
+  scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 0 20px 0;
+  height: 85dvh;
+}
+
+.tabs {
+  display: flex !important;
+  flex-direction: column;
+}
+
+.root {
+  &__swiper {
+    width: 100%;
+  }
+
+  &__slide {
+    width: 100%;
+    min-height: 65dvh !important;
+    overflow: scroll;
     scrollbar-width: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 0 0 20px 0;
+  }
 }

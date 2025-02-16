@@ -1,9 +1,9 @@
-import { Lesson } from '@/shared';
+import { Lesson, useMetaThemeColor } from '@/shared';
 import { Box, VStack, Text } from '@chakra-ui/react';
 import { LessonTypes } from '@/shared/constants';
 import { getLessonBuilding, useColor, useDisclosure } from '@/shared/lib';
 import { ArrowIcon } from '@/shared/assets/chakraIcons/ArrowIcon';
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 import { Drawer, DrawerTrigger, DrawerContent } from '@/shared/ui/drawer';
 import { HideLesson } from '@/features';
 import { LessonDrawer } from '../LessonDrawer/LessonDrawer';
@@ -15,18 +15,9 @@ export const FullLessonCard = memo(function FullLessonCard({
   variant?: 'light' | 'dark';
 }) {
   const { isOpen, setIsOpen } = useDisclosure();
-  const { mainTextColor, themeColor, mainColor, cardColor, tabTeacher } =
-    useColor();
-  useEffect(() => {
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor) {
-      if (isOpen) {
-        metaThemeColor.setAttribute('content', themeColor);
-      } else {
-        metaThemeColor.setAttribute('content', mainColor);
-      }
-    }
-  }, [themeColor, mainColor, isOpen]);
+  const { primaryColor, themeColor, mainColor, cardColor } = useColor();
+
+  useMetaThemeColor(mainColor, isOpen, themeColor);
 
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
@@ -41,11 +32,11 @@ export const FullLessonCard = memo(function FullLessonCard({
             display="flex"
             justifyContent="space-between"
             transition="0.2s"
-            _active={{ bgColor: tabTeacher, transition: '0.2s' }}
+            _active={{ bgColor: mainColor, transition: '0.2s' }}
           >
             <VStack alignItems="start" gap="2px" w="70%">
               <Text
-                color={mainTextColor}
+                color={primaryColor}
                 w="95%"
                 fontWeight="bold"
                 fontSize={'clamp(15px, 4vw, 18px)'}

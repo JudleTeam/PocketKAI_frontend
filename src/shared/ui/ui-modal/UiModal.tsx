@@ -6,14 +6,15 @@ export function UiModal({
   modalActions,
   isOpen,
   onClose,
-  setIsOpen
+  setIsOpen,
 }: {
   modalActions: () => ReactNode;
   isOpen: boolean;
   onClose: () => void;
   setIsOpen: () => void;
 }) {
-  useDrawerPopstateClose(isOpen, setIsOpen)
+  useDrawerPopstateClose(isOpen, setIsOpen);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />

@@ -1,5 +1,8 @@
 import { NavbarAction } from '@/shared/constants';
 
 export const isCurrentLocation = (action: NavbarAction) => {
-  return location.pathname.includes(action.path);
+  if (action.path) {
+    return location.pathname.includes(action.path);
+  }
+  return false;
 };

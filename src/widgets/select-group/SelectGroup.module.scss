@@ -1,0 +1,13 @@
+.root {
+  &__item {
+    font-weight: 400;
+    font-size: 16px;
+    justify-content: center;
+  }
+
+  &__group {
+    font-weight: 500;
+    font-size: 16px;
+    color: #fff;
+  }
+}
