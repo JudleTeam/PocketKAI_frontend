@@ -6,3 +6,4 @@ export * from './lesson';
 export * from './teacher';
 export * from './schedule';
 export * from './user';
+export * from './yametrika.ts'

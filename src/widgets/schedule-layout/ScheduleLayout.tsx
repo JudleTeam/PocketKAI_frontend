@@ -16,6 +16,7 @@ import styles from './ScheduleLayout.module.scss';
 import { DateTime } from 'luxon';
 import { getWeekParityDate } from '@/shared/lib';
 
+
 export function ScheduleLayout() {
   const { schedule } = useSchedule();
   const { upperRef, lowerRef } = useInfiniteScroll();

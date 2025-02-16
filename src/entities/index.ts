@@ -39,3 +39,7 @@ export { FadedLessonCard } from './Lesson/ui/FadedLessonCard/FadedLessonCard';
 export { FullLessonCard } from './Lesson/ui/FullLessonCard/FullLessonCard';
 
 export { RestCard } from './Lesson/ui/RestCard/RestCard';
+
+export { useYaMetrika } from "./YaMetrika/yametrika.store"
+
+export { YaMetrika } from "./YaMetrika"

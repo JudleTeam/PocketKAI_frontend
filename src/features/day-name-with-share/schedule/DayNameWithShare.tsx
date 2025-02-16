@@ -1,13 +1,7 @@
-import {
-  Box,
-  Icon,
-  Text,
-  useBreakpointValue,
-  useToast,
-} from '@chakra-ui/react';
+import { Box, Icon, Text, useBreakpointValue, useToast } from '@chakra-ui/react';
 import { Calendar, CalendarDays } from 'lucide-react';
-import { useGroup, useSchedule, useSettings } from '@/entities';
-import { Day, getFormattedDate, getTodayDate } from '@/shared';
+import { useGroup, useSchedule, useSettings, useYaMetrika } from '@/entities';
+import { AnalyticsEvent, Day, getFormattedDate, getTodayDate } from '@/shared';
 import { shareData, useColor } from '@/shared/lib';
 import { getFormattedDaySchedule } from './lib/getFormattedDaySchedule';
 import {
@@ -36,10 +30,11 @@ export function DayNameWithShare({
   const { isColoredDayDate } = useSettings();
   const { schedule } = useSchedule();
   const { currentGroup } = useGroup();
+  const { sendEvent } = useYaMetrika();
   const isDesktop = useBreakpointValue({ base: false, md: true });
 
   return (
-    <ContextMenu>
+    <ContextMenu onOpenChange={(open) => open && sendEvent(AnalyticsEvent.lessonOpenContext)}>
       <ContextMenuTrigger asChild>
         <Box
           display={'flex'}
