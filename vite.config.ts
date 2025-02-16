@@ -30,8 +30,8 @@ export default defineConfig({
       },
 
       manifest: {
-        name: 'Pocket KAI',
-        short_name: 'Pocket KAI',
+        name: 'PocketKAI',
+        short_name: 'PocketKAI',
         description: 'Веб-приложение для просмотра расписания КНИТУ-КАИ',
         background_color: '#3182ce',
         icons: [

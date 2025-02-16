@@ -26,20 +26,17 @@ export const getFormattedWeekSchedule = (
   const date = weekDay[0];
   const lessons = weekDay[1];
   if (!group) return '';
-  const header = `${
-    weekParity === 'odd' ? 'Четная неделя' : 'Нечетная неделя'
-  }\n${daysOfWeek[date]}, гр. ${group.group_name}\n————————————————\n`;
+  const header = `${weekParity === 'odd' ? 'Четная неделя' : 'Нечетная неделя'
+    }\n${daysOfWeek[date]}, гр. ${group.group_name}\n————————————————\n`;
   const formattedLessons = lessons.map((lesson, index) => {
     const { lessonDuration, lessonLocation, lessonName, teacherName } =
       getLessonInfo(lesson);
 
-    return `${lessonDuration} | ${lessonLocation} | ${
-      weekParityTranslation[lesson.parsed_parity]
-    }\n${lessonName}\n${teacherName} \n${
-      lessons.length === index + 1 ? '' : '\n'
-    }`;
+    return `${lessonDuration} | ${lessonLocation} | ${weekParityTranslation[lesson.parsed_parity]
+      }\n${lessonName}\n${teacherName} \n${lessons.length === index + 1 ? '' : '\n'
+      }`;
   });
-  const footer = `————————————————\n\nОтправлено из Pocket KAI: ${window.location.origin}`;
+  const footer = `————————————————\n\nОтправлено из PocketKAI: ${window.location.origin}`;
   return header + formattedLessons.join('') + footer;
 };
 
@@ -48,22 +45,19 @@ function getLessonInfo(lesson: Lesson) {
     lesson.audience_number === lesson.building_number
       ? lesson.building_number
       : `${lesson.building_number} зд. ${lesson.audience_number} ауд.`;
-  const lessonDuration = `${
-    lesson.start_time && DateTime.fromISO(lesson.start_time).toFormat('HH:mm')
-  }${
-    lesson.end_time
+  const lessonDuration = `${lesson.start_time && DateTime.fromISO(lesson.start_time).toFormat('HH:mm')
+    }${lesson.end_time
       ? ` - ${DateTime.fromISO(lesson.end_time).toFormat('HH:mm')}`
       : ''
-  }`;
-  const lessonName = `${
-    lesson.original_lesson_type &&
+    }`;
+  const lessonName = `${lesson.original_lesson_type &&
     lessonTypesEmojis[lesson.original_lesson_type]
-  } ${lesson.discipline.name}`;
+    } ${lesson.discipline.name}`;
   const teacherNameArr = lesson.teacher?.name.split(' ');
   const teacherName = teacherNameArr?.length
     ? `${teacherNameArr[0]} ${teacherNameArr[1].charAt(
-        0
-      )}.${teacherNameArr[2].charAt(0)}.`
+      0
+    )}.${teacherNameArr[2].charAt(0)}.`
     : 'Преподаватель кафедры';
   const departmentName = lesson.department?.name;
   return {
