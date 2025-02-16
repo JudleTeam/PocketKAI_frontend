@@ -1,10 +1,12 @@
-import { Text, Box, useDisclosure, VStack } from '@chakra-ui/react';
+import { Text, Box, useDisclosure, VStack, useColorModeValue, useColorMode } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { SelectGroup } from '@/features';
-import { useGroup, useSchedule } from '@/entities';
-import logo from '@/shared/assets/images/logo.png';
+import { useGroup, useSchedule, useSettings } from '@/entities';
+
+import logoLight from '@/shared/assets/images/logo_light.png'
+import logoDark from '@/shared/assets/images/logo_dark.png'
 import {
   UiDatebar,
   getTodayDate,
@@ -27,6 +29,7 @@ export function AppLayout() {
   const [currentDay, setCurrentDay] = useState<string>(
     DateTime.now().setZone('Europe/Moscow').toFormat('yyyy-LL-dd')
   );
+  const { colorMode } = useColorMode()
   const { mainColor, primaryColor, themeColor } = useColor();
   const { isOpen } = useDisclosure();
   const { currentGroup, updateHiddenLesson } = useGroup();
@@ -175,7 +178,7 @@ export function AppLayout() {
             <BadgeContent schedule={schedule} />
           </Box>
           <Box display={{ base: 'none', md: 'block' }} w={12}>
-            <img src={logo} />
+            <img src={colorMode === 'light' ? logoLight : logoDark} />
           </Box>
         </Box>
         <UiDatebar

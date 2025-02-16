@@ -82,5 +82,5 @@ export const getLessonsForGroup = (
       };
     });
 
-  return result.length > 0 ? result : null;
+  return result.every(({ week_days }) => week_days.length === 0) ? null : result;
 };
