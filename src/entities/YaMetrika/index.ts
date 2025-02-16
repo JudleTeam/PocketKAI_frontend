@@ -1,3 +1,3 @@
 export * from "./yametrika.store"
 export * from "./types"
-export * from "./YaMetrika"
+export * from "./components/YaMetrikaExecutor"

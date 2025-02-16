@@ -42,4 +42,4 @@ export { RestCard } from './Lesson/ui/RestCard/RestCard';
 
 export { useYaMetrika } from "./YaMetrika/yametrika.store"
 
-export { YaMetrika } from "./YaMetrika"
+export { YaMetrikaExecutor } from "./YaMetrika"

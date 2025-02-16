@@ -4,7 +4,7 @@ import { Box, useToast } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { NavbarActions } from './navbar/NavbarActions';
 import { isScheduleOutdated, PWABadge, useSchedule, useUser } from '@/entities';
-import { isScheduleOutdatedInternet, YaMetrika } from '@/entities';
+import { isScheduleOutdatedInternet, YaMetrikaExecutor } from '@/entities';
 import { useColor, useMetaThemeColor } from '@/shared';
 
 export function RootLayout() {
@@ -70,7 +70,7 @@ export function RootLayout() {
       <Outlet />
       <UiNavbar navbarActions={NavbarActions} />
       <PWABadge />
-      <YaMetrika />
+      <YaMetrikaExecutor/>
     </Box>
   );
 }
