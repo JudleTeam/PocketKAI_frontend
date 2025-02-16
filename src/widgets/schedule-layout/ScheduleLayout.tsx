@@ -8,7 +8,7 @@ import {
 } from '@/entities';
 import { TopBoundary, BottomBoundary, DayNameWithShare } from '@/features';
 import { useInfiniteScroll, useGoUpButton } from '@/shared/lib';
-import { getStatus, getTodayDate, IdleMessage } from '@/shared';
+import { getStatusSchedule, getTodayDate, IdleMessage } from '@/shared';
 import { ArrowIcon } from '@/shared/assets';
 import { scrollToToday, useColor } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader/Loader';
@@ -25,7 +25,7 @@ export function ScheduleLayout() {
   const today = getTodayDate();
 
   return (
-    <Loader status={getStatus()} idleMessage={<IdleMessage />}>
+    <Loader status={getStatusSchedule()} idleMessage={<IdleMessage />}>
       <Box
         id="schedule"
         className={styles['schedule']}

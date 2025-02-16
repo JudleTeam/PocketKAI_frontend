@@ -1,7 +1,7 @@
 import { useSchedule } from "@/entities";
 
-export const getStatus = () => {
-    const { backgroundTask, weekScheduleStatus } = useSchedule()
+export const getStatusSchedule = () => {
+    const { backgroundTask, weekScheduleStatus, isReady } = useSchedule()
     if (backgroundTask) {
         return backgroundTask?.status === 'SUCCESS' &&
             weekScheduleStatus === 'success'
@@ -9,6 +9,9 @@ export const getStatus = () => {
             : backgroundTask?.status === 'FAILED' || weekScheduleStatus === 'error'
                 ? 'error'
                 : 'loading';
+    }
+    if (!backgroundTask && !isReady && weekScheduleStatus === 'success') {
+        return 'error'
     }
     return weekScheduleStatus;
 };

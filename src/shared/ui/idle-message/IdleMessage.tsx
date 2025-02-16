@@ -12,7 +12,6 @@ export function IdleMessage() {
   const { primaryColor, mainColor, themeColor, accentColor, secondaryDayNameColor } = useColor();
   const isTeacherOrFull = location.pathname === '/teachers' || (fullScheduleView === 'week' && location.pathname === '/schedule/full')
   useMetaThemeColor(mainColor, isOpen, themeColor);
-  console.log(fullScheduleView)
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

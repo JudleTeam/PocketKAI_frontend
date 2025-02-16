@@ -6,6 +6,7 @@ import React, { memo, useEffect, useState } from 'react';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
 import { useColor, useDisclosure } from '@/shared/lib';
 import { TeachersType, useMetaThemeColor } from '@/shared';
+import { useTeachers } from '../../model/teacher.store';
 
 export const TeacherCard = memo(function TeacherCard({
   disciplineInfo,
@@ -15,6 +16,7 @@ export const TeacherCard = memo(function TeacherCard({
   const { disciplineId, teacher, parsed_types, original_types } =
     disciplineInfo;
   const { isOpen, setIsOpen } = useDisclosure();
+  const { clearTeacherSchedule } = useTeachers()
   const [activeSnapPoint, setActiveSnapPoint] = useState<string | number>(0.8);
   const { primaryColor, themeColor, mainColor, accentColor } = useColor();
 
@@ -29,6 +31,10 @@ export const TeacherCard = memo(function TeacherCard({
       }
     });
   }, [disciplineId, teacher?.id, isOpen, setIsOpen]);
+
+  useEffect(() => {
+    clearTeacherSchedule()
+  }, [isOpen])
 
   return (
     <Drawer
@@ -67,15 +73,15 @@ export const TeacherCard = memo(function TeacherCard({
               >
                 {parsed_types
                   ? parsed_types.map((parsed_type) => (
-                      <React.Fragment key={parsed_type}>
-                        {LessonTypes && LessonTypes[parsed_type]}{' '}
-                      </React.Fragment>
-                    ))
+                    <React.Fragment key={parsed_type}>
+                      {LessonTypes && LessonTypes[parsed_type]}{' '}
+                    </React.Fragment>
+                  ))
                   : original_types.map((original_type) => (
-                      <React.Fragment key={original_type}>
-                        {original_type}{' '}
-                      </React.Fragment>
-                    ))}
+                    <React.Fragment key={original_type}>
+                      {original_type}{' '}
+                    </React.Fragment>
+                  ))}
               </Box>
             </div>
           </div>

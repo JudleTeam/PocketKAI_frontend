@@ -15,4 +15,5 @@ export { isToday } from './isToday';
 export { getDayOfWeek } from './getDayOfWeek';
 export { getFullDayOfWeek } from './getFullDayOfWeek';
 export { getWeekTypeLessons } from './getWeekTypeLessons';
-export { getStatus } from './getStatus'
+export { getStatusSchedule } from './getStatusSchedule'
+export { getStatusTeacher } from './getStatusTeacher'

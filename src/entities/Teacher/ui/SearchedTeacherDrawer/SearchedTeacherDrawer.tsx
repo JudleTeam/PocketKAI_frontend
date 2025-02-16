@@ -1,6 +1,6 @@
 import { Text, Box, Tabs, useToast } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-import { copyToast, TabListHeader, Teacher, weekParityId } from '@/shared';
+import { copyToast, getStatusTeacher, TabListHeader, Teacher, weekParityId } from '@/shared';
 import { useEffect, useRef, useState } from 'react';
 import { useTeachers } from '../../model/teacher.store';
 import { getWeekParity, useColor } from '@/shared/lib';
@@ -24,9 +24,10 @@ export function SearchedTeacherDrawer({
     even: 0,
     odd: 1,
   };
-  const { teacherScheduleStatus, getTeacherScheduleById } = useTeachers();
+  const { teacherScheduleStatus, getTeacherScheduleById, backgroundTask, getBackgroundTaskStatus } = useTeachers();
   const toast = useToast();
   const swiperRef = useRef<SwiperInstance | null>(null);
+
   const handleSwipeChange = (index: number) => {
     const parity = index === 0 ? 'even' : 'odd';
     setWeekParity(parity);
@@ -37,10 +38,50 @@ export function SearchedTeacherDrawer({
   };
   const { primaryColor } = useColor();
   useEffect(() => {
-    if (teacher) {
+    if (teacher && teacherScheduleStatus === 'idle') {
       getTeacherScheduleById(teacher.id);
     }
-  }, [teacher, getTeacherScheduleById]);
+    if (
+      teacher &&
+      backgroundTask &&
+      backgroundTask?.status === 'SUCCESS' && !teacher.id.includes('default')
+    ) {
+      getTeacherScheduleById(teacher.id);
+    }
+  }, [teacher, getTeacherScheduleById, backgroundTask, teacherScheduleStatus]);
+
+  useEffect(() => {
+    if (!backgroundTask) return;
+    console.log(backgroundTask);
+    const getStatuses = () => {
+      if (
+        backgroundTask.status !== 'SUCCESS' &&
+        backgroundTask.status !== 'FAILED'
+      ) {
+        getBackgroundTaskStatus(backgroundTask.id);
+      }
+    };
+
+    const isSomeNotEnded =
+      backgroundTask.status === 'PENDING' ||
+      backgroundTask.status === 'STARTED' ||
+      backgroundTask.status === 'IDLE';
+
+    //eslint-disable-next-line
+    let intervalId: any;
+
+    if (teacherScheduleStatus === 'success' && isSomeNotEnded) {
+      intervalId = setInterval(() => {
+        getStatuses();
+      }, 2000);
+    }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [getBackgroundTaskStatus, backgroundTask, teacherScheduleStatus]);
 
   return (
     <Box
@@ -95,7 +136,7 @@ export function SearchedTeacherDrawer({
           <TabListHeader top="0" handleTabChange={handleTabChange} />
           <Box
             minH={200}
-            mb={'30px'}
+            mb={'50px'}
             onClick={(e) => e.stopPropagation()}
             display="flex"
             flexDirection="column"
@@ -103,7 +144,7 @@ export function SearchedTeacherDrawer({
             gap="10px"
             position="relative"
           >
-            <Loader status={teacherScheduleStatus} idleMessage="">
+            <Loader status={getStatusTeacher()} idleMessage="">
               <Swiper
                 autoHeight
                 onSwiper={(swiper) => (swiperRef.current = swiper)}
