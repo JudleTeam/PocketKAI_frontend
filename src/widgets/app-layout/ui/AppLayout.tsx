@@ -1,9 +1,9 @@
-import { Text, Box, useDisclosure, VStack, useColorModeValue, useColorMode } from '@chakra-ui/react';
+import { Text, Box, useDisclosure, VStack, useColorMode } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { SelectGroup } from '@/features';
-import { useGroup, useSchedule, useSettings } from '@/entities';
+import { useGroup, useSchedule } from '@/entities';
 
 import logoLight from '@/shared/assets/images/logo_light.png'
 import logoDark from '@/shared/assets/images/logo_dark.png'
