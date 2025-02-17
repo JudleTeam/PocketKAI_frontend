@@ -110,15 +110,14 @@ export function DayNameWithShareFull({
           <Icon as={Calendar} />
         </ContextMenuItem>
         <ContextMenuSeparator
-          className={`bg-gray-300 dark:bg-gray-500  ${
-            dayLessons.length ? '' : 'hidden'
-          }`}
+          className={`bg-gray-300 dark:bg-gray-500  ${dayLessons.length ? '' : 'hidden'
+            }`}
         />
         <ContextMenuItem
           className="space-x-2"
           onClick={() =>
             shareData(
-              getFormattedWeekScheduleFull(weekSchedule, weekParity),
+              getFormattedWeekScheduleFull(weekSchedule, weekParity, currentGroup?.group_name),
               toast,
               isDesktop
             )

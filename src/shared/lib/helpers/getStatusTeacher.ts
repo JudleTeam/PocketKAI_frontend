@@ -1,7 +1,15 @@
-import { useTeachers } from "@/entities";
+import { BackgroundTaskStatus, FetchStatus } from "@/shared/types";
 
-export const getStatusTeacher = () => {
-    const { backgroundTask, teacherScheduleStatus, isReady } = useTeachers()
+type StoreBackgroundTasks = {
+    id: string;
+    status: BackgroundTaskStatus;
+};
+
+export const getStatusTeacher = (
+    backgroundTask: StoreBackgroundTasks | null,
+    teacherScheduleStatus: FetchStatus,
+    isReady: boolean
+): FetchStatus => {
     if (backgroundTask) {
         return backgroundTask?.status === 'SUCCESS' &&
             teacherScheduleStatus === 'success'

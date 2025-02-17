@@ -13,7 +13,7 @@ export const getFormattedWeekSchedule = (
     return currentDay.weekNumber === requiredWeekNumber;
   });
   const header = `${requiredWeekNumber % 2 === 0 ? 'Четная' : 'Нечётная'
-    } неделя, гр.${groupName}\n\n`;
+    } неделя, гр. ${groupName}\n\n`;
   const result = requiredWeekSchedule.map((day, index) => {
     const formattedDate = DateTime.fromISO(day.date)
       .setLocale('ru')
