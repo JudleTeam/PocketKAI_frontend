@@ -49,7 +49,7 @@ const ActionBlock: React.FC<ActionBlockProps> = ({ item }) => {
   }
 
   return (
-    <Box as={NavLink} to={item.path} className={s.root}>
+    <Box as={NavLink} to={item.path} target={item.label === 'Telegram' ? '_blank' : '_self'} className={s.root}>
       <Box
         className={s.root__icon}
         style={{

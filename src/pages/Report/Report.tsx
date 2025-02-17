@@ -46,6 +46,7 @@ export function Report() {
           <a
             style={{ textDecoration: 'underline' }}
             href="https://t.me/pocket_kai_help"
+            target='_blank'
           >
             @pocket_kai_help
           </a>

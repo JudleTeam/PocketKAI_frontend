@@ -35,7 +35,7 @@ export function IdleMessage() {
         </Box>
         <Box display="flex" flexDir="column" alignItems="center" gap="5px">
           <Text color={secondaryDayNameColor} textAlign={'center'} fontSize={'18px'} w='75%'>Также следите за новостями в Telegram-канале:</Text>
-          <Text as={Link} to='https://t.me/pocket_kai' fontSize={'18px'} color={accentColor} textDecor={'underline'}>PocketKAI</Text>
+          <Text as={Link} to='https://t.me/pocket_kai' target='_blank' fontSize={'18px'} color={accentColor} textDecor={'underline'}>PocketKAI</Text>
         </Box>
         <DialogContent className="sbg-l-main dark:bg-d-main rounded-xl">
           <DialogHeader>
