@@ -13,7 +13,7 @@ import { Select } from '@chakra-ui/react';
 import { FullScheduleView, ScheduleView } from '@/shared';
 export function Settings() {
   const { mainColor, primaryColor, accentColor } = useColor();
-  const { storeNeedRefresh, updateServiceWorker } = usePWAState();
+  const { storeNeedRefresh } = usePWAState();
   const {
     showFadedLessons,
     isScheduleInfinite,
