@@ -1,7 +1,7 @@
 import { UiNavbar } from '@/shared/ui/ui-navbar/UiNavbar';
 import { Outlet } from 'react-router-dom';
 import { Box, useToast } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { NavbarActions } from './navbar/NavbarActions';
 import { isScheduleOutdated, PWABadge, useSchedule, useUser } from '@/entities';
 import { isScheduleOutdatedInternet } from '@/entities';
