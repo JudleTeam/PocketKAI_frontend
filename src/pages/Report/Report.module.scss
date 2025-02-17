@@ -1,3 +1,5 @@
+@import "@/app/styles/variables.scss";
+
 .report {
     width: 90%;
     margin: 0 auto;
@@ -7,4 +9,8 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+
+    @include media(md) {
+        height: 100dvh;
+    }
 }

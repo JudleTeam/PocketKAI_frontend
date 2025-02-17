@@ -17,7 +17,7 @@ export function RenderWeekSchedule({
 
   return (
     <Box
-      h={'73dvh'}
+      h={{ base: '73dvh', md: '82dvh' }}
       style={{ scrollbarWidth: 'none' }}
       overflowY="auto"
       pb={8}

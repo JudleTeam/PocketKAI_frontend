@@ -51,7 +51,7 @@ export function HiddenLessons() {
   return (
     <Box
       className={s['hidden']}
-      style={isDesktop ? { width: '40%', paddingTop: '5vh' } : {}}
+      style={isDesktop ? { width: '40%' } : {}}
     >
       <Box w="100%">
         {lessonsForCurrentGroup ? (
