@@ -29,10 +29,18 @@ export type TeacherLesson = Omit<Lesson, 'teacher'> & {
   groups: GroupShort[];
 };
 
+export type TeacherResponse = {
+  parsed_at: string;
+  background_task_id: string;
+  is_ready: boolean;
+  lessons: TeacherLesson[]
+}
+
 export type IHiddenLessons = {
   group: Group | GroupShort | null;
   lesson: HiddenLesson;
 };
+
 export type HiddenLesson = {
   id: string;
   discipline: Discipline;

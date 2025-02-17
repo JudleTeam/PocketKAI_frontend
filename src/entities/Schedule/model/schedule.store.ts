@@ -26,8 +26,10 @@ type StoreState = {
   scheduleStatus: FetchStatus;
   weekScheduleStatus: FetchStatus;
   backgroundTask: StoreBackgroundTasks | null;
+  isReady: boolean;
   error: Nullable<unknown>;
 };
+
 type StoreActions = {
   getFullWeekScheduleById: (id: string) => Promise<void>;
   addToCurrentSchedule: (
@@ -57,6 +59,7 @@ const initialState: StoreState = {
   scheduleStatus: 'idle',
   weekScheduleStatus: 'idle',
   error: null,
+  isReady: false,
 };
 
 export const useSchedule = create<StoreState & StoreActions>()(
@@ -78,6 +81,7 @@ export const useSchedule = create<StoreState & StoreActions>()(
             weekSchedule: { odd: anyWeek.odd, even: anyWeek.even },
             weekScheduleStatus: 'success',
             backgroundTask: task,
+            isReady: response.data.is_ready
           });
         } catch (error) {
           set({ error, weekScheduleStatus: 'error' });

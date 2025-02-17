@@ -17,6 +17,7 @@ import { Pagination } from 'swiper/modules';
 import { Swiper as SwiperInstance } from 'swiper/types';
 import WeekTeacherSchedule from './components/WeekTeacherSchedule';
 import s from './TeacherDrawer.module.scss';
+import { getStatusTeacher } from '@/shared';
 
 type TeacherDrawerProps = {
   disciplineInfo: TeachersType;
@@ -37,22 +38,62 @@ export const TeacherDrawer: React.FC<TeacherDrawerProps> = ({
     teacherScheduleStatus,
     getTeacherScheduleById,
     clearTeacherSchedule,
+    backgroundTask, getBackgroundTaskStatus
   } = useTeachers();
   const { primaryColor } = useColor();
   const toast = useToast();
   const swiperRef = useRef<SwiperInstance | null>(null);
 
   useEffect(() => {
-    clearTeacherSchedule();
-
     const timeoutId = setTimeout(() => {
-      if (teacher && !teacher.id.includes('default')) {
+      if (teacher && !teacher.id.includes('default') && teacherScheduleStatus === 'idle') {
         getTeacherScheduleById(teacher.id);
       }
     }, 200);
 
+    if (
+      teacher &&
+      backgroundTask &&
+      backgroundTask?.status === 'SUCCESS' && !teacher.id.includes('default')
+    ) {
+      getTeacherScheduleById(teacher.id);
+    }
+
     return () => clearTimeout(timeoutId);
-  }, [teacher, getTeacherScheduleById, clearTeacherSchedule]);
+  }, [teacher, teacher?.id, getTeacherScheduleById, clearTeacherSchedule, backgroundTask, teacherScheduleStatus]);
+
+  useEffect(() => {
+    if (!backgroundTask) return;
+    console.log(backgroundTask);
+    const getStatuses = () => {
+      if (
+        backgroundTask.status !== 'SUCCESS' &&
+        backgroundTask.status !== 'FAILED'
+      ) {
+        getBackgroundTaskStatus(backgroundTask.id);
+      }
+    };
+
+    const isSomeNotEnded =
+      backgroundTask.status === 'PENDING' ||
+      backgroundTask.status === 'STARTED' ||
+      backgroundTask.status === 'IDLE';
+
+    //eslint-disable-next-line
+    let intervalId: any;
+
+    if (teacherScheduleStatus === 'success' && isSomeNotEnded) {
+      intervalId = setInterval(() => {
+        getStatuses();
+      }, 2000);
+    }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [getBackgroundTaskStatus, backgroundTask, teacherScheduleStatus]);
 
   const handleSwipeChange = useCallback((index: number) => {
     const parity = index === 0 ? 'even' : 'odd';
@@ -117,14 +158,14 @@ export const TeacherDrawer: React.FC<TeacherDrawerProps> = ({
           <Box
             minH={200}
             pt={'10px'}
-            mb={'30px'}
+            mb={'50px'}
             onClick={(e) => e.stopPropagation()}
             display="flex"
             flexDirection="column"
             gap="10px"
             position="relative"
           >
-            <Loader status={teacherScheduleStatus} idleMessage="">
+            <Loader status={getStatusTeacher()} idleMessage="">
               <Swiper
                 autoHeight
                 onSwiper={(swiper) => (swiperRef.current = swiper)}

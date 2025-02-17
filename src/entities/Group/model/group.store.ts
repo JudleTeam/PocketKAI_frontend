@@ -161,7 +161,7 @@ export const useGroup = create<GroupState & GroupActions>()(
         const isAlreadyFavourite = get().favouriteGroups.some(
           (favGroup) => favGroup.id === group.id
         );
-        if (isAlreadyFavourite || get().favouriteGroups.length >= 10) {
+        if (isAlreadyFavourite || get().favouriteGroups.length >= 5) {
           return;
         }
         set({

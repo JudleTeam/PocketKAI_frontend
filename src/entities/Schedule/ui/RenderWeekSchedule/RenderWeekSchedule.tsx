@@ -1,5 +1,5 @@
 import { useGroup } from '@/entities';
-import { getStatus, Lesson } from '@/shared';
+import { getStatusSchedule, Lesson } from '@/shared';
 import { Box } from '@chakra-ui/react';
 import React from 'react';
 import { Loader } from '@/shared/ui/loader/Loader';
@@ -23,7 +23,7 @@ export function RenderWeekSchedule({
       pb={8}
       px={1}
     >
-      <Loader status={getStatus()} idleMessage={<IdleMessage />}>
+      <Loader status={getStatusSchedule()} idleMessage={<IdleMessage />}>
         {Object.entries(weekDays).map(([dayName, dayLessons]) => {
           if (dayName === 'sunday') return null;
 

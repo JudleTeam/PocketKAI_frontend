@@ -1,4 +1,4 @@
-import { apiClient, ApiResponse, Teacher, TeacherLesson } from '@/shared';
+import { apiClient, ApiResponse, BackgroundTaskStatus, Teacher, TeacherResponse } from '@/shared';
 
 export const teacherService = {
   suggestTeacherByName: (name: string): ApiResponse<Teacher[]> => {
@@ -9,9 +9,17 @@ export const teacherService = {
   getTeacherScheduleById: (
     id: string,
     weekParity: 'odd' | 'even' | 'any'
-  ): ApiResponse<TeacherLesson[]> => {
-    return apiClient.get<TeacherLesson[]>(`/teacher/by_id/${id}/schedule`, {
+  ): ApiResponse<TeacherResponse> => {
+    return apiClient.get<TeacherResponse>(`/v2/teacher/${id}/schedule`, {
       params: { week_parity: weekParity },
     });
+  },
+
+  getBackgroundTaskStatus: (
+    taskId: string
+  ): ApiResponse<{ id: string; status: BackgroundTaskStatus }> => {
+    return apiClient.get<{ id: string; status: BackgroundTaskStatus }>(
+      `task/${taskId}`
+    );
   },
 };
