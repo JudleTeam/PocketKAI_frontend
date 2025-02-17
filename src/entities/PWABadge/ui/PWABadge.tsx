@@ -32,13 +32,21 @@ function PWABadge() {
   const isDesktop = useBreakpointValue({ base: false, md: true });
 
   const handleUpdate = () => {
-    const isUpdated = localStorage.getItem('isUpdated')
-    if (!isUpdated) {
-      localStorage.clear();
+    const isUpdated = localStorage.getItem('isUpdatedV1');
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.ready.then(registration => {
+        if (!isUpdated) {
+          registration.update();
+          localStorage.setItem('isUpdatedV1', 'true');
+        }
+      });
     }
-    updateServiceWorker(true)
-    localStorage.setItem('isUpdated', 'true')
-  }
+
+    setTimeout(() => {
+      localStorage.clear();
+      window.location.reload();
+    }, 500);
+  };
 
   useEffect(() => {
     setIsOpen(needRefresh);
