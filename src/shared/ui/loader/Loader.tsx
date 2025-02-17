@@ -6,9 +6,11 @@ export const Loader = ({
   children,
   status,
   idleMessage,
+  teacherId,
 }: React.PropsWithChildren<{
   status: FetchStatus | BackgroundTaskStatus;
   idleMessage: string | ReactNode;
+  teacherId?: string;
 }>) => {
   switch (status) {
     case 'loading':
@@ -47,7 +49,7 @@ export const Loader = ({
         >
           <Text w='60%'>Что-то пошло не так...</Text>
           <Box>
-            <TryAgainButton />
+            <TryAgainButton teacherId={teacherId} />
           </Box>
           <Text w='60%' fontSize={'14px '}>Или сразу напишите нам -{' '}
             <a
