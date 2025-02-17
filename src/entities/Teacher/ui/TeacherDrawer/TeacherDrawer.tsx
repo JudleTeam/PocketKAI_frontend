@@ -165,7 +165,7 @@ export const TeacherDrawer: React.FC<TeacherDrawerProps> = ({
             gap="10px"
             position="relative"
           >
-            <Loader status={getStatusTeacher()} idleMessage="">
+            <Loader teacherId={teacher.id} status={getStatusTeacher()} idleMessage="">
               <Swiper
                 autoHeight
                 onSwiper={(swiper) => (swiperRef.current = swiper)}

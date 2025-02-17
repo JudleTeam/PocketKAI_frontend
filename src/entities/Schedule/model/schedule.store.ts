@@ -40,6 +40,7 @@ type StoreActions = {
   getWeekParity: (params?: WeekParity) => Promise<void>;
   getBackgroundTaskStatus: (taskId: string) => Promise<void>;
   setShowFadedLessons: (showFadedLessons: boolean) => void;
+  clearSchedule: () => void;
   resetScheduleState: () => void;
 };
 
@@ -137,6 +138,15 @@ export const useSchedule = create<StoreState & StoreActions>()(
       },
       setShowFadedLessons: (value) => {
         set({ showFadedLessons: value });
+      },
+
+      clearSchedule: () => {
+        set({
+          weekSchedule: null,
+          weekScheduleStatus: 'idle',
+          backgroundTask: null,
+          isReady: false
+        })
       },
 
       resetScheduleState: () => set(initialState),
