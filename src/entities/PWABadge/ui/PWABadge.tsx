@@ -35,7 +35,6 @@ function PWABadge() {
     const isUpdated = localStorage.getItem('isUpdated')
     if (!isUpdated) {
       localStorage.clear();
-      window.location.reload();
     }
     updateServiceWorker(true)
     localStorage.setItem('isUpdated', 'true')
