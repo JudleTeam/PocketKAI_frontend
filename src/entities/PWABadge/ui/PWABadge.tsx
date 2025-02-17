@@ -32,20 +32,7 @@ function PWABadge() {
   const isDesktop = useBreakpointValue({ base: false, md: true });
 
   const handleUpdate = () => {
-    const isUpdated = localStorage.getItem('isUpdatedV1');
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.ready.then(registration => {
-        if (!isUpdated) {
-          registration.update();
-          localStorage.setItem('isUpdatedV1', 'true');
-        }
-      });
-    }
-
-    setTimeout(() => {
-      localStorage.clear();
-      window.location.reload();
-    }, 500);
+    updateServiceWorker(true)
   };
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 import { UiNavbar } from '@/shared/ui/ui-navbar/UiNavbar';
 import { Outlet } from 'react-router-dom';
 import { Box, useToast } from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { NavbarActions } from './navbar/NavbarActions';
 import { isScheduleOutdated, PWABadge, useSchedule, useUser } from '@/entities';
 import { isScheduleOutdatedInternet } from '@/entities';
@@ -13,6 +13,15 @@ export function RootLayout() {
   const { schedule } = useSchedule();
   const { mainColor } = useColor();
   const toast = useToast();
+
+  useEffect(() => {
+    const hasCleaned = localStorage.getItem('hasCleaned')
+    if (!hasCleaned) {
+      localStorage.clear()
+      localStorage.setItem('hasCleaned', 'true')
+      window.location.reload()
+    }
+  }, [])
 
   useMetaThemeColor(mainColor);
 
