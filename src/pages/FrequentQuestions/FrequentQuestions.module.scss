@@ -1,3 +1,5 @@
+@import "@/app/styles/variables.scss";
+
 .faq {
   width: 90%;
   margin: 0 auto;
@@ -8,6 +10,10 @@
   flex-direction: column;
   gap: 20px;
   padding: 0 0 40px 0;
+
+  @include media(md) {
+    height: 100dvh;
+  }
 }
 
 .panel {

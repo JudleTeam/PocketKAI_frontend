@@ -34,11 +34,11 @@ function PWABadge() {
   const handleUpdate = () => {
     const isUpdated = localStorage.getItem('isUpdated')
     if (!isUpdated) {
-      window.localStorage.clear();
+      localStorage.clear();
       window.location.reload();
-      localStorage.setItem('isUpdated', 'true')
     }
     updateServiceWorker(true)
+    localStorage.setItem('isUpdated', 'true')
   }
 
   useEffect(() => {

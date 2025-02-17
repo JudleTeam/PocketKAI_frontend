@@ -8,6 +8,10 @@
   scrollbar-width: none;
   -ms-overflow-style: -ms-autohiding-scrollbar;
 
+  @include media(md) {
+    height: 100dvh;
+  }
+
   &__content {
     position: fixed;
     display: flex;

@@ -1,3 +1,5 @@
+@import "@/app/styles/variables.scss";
+
 .root {
   &__list {
     position: sticky;
@@ -26,6 +28,10 @@
 
   &__swiper {
     height: 79dvh;
+
+    @include media(md) {
+      height: 86.2dvh;
+    }
   }
 
   &__slide {
