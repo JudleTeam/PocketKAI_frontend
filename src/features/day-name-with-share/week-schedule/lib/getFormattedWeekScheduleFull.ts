@@ -4,7 +4,8 @@ import { WEEK_DAYS } from '@/shared/constants';
 
 export const getFormattedWeekScheduleFull = (
   weekSchedule: Nullable<FullWeekSchedule>,
-  weekParity: 'even' | 'odd'
+  weekParity: 'even' | 'odd',
+  groupName: string = '',
 ) => {
   if (!weekSchedule) return '';
   const requiredWeekSchedule = weekSchedule[weekParity];
@@ -24,7 +25,7 @@ export const getFormattedWeekScheduleFull = (
     }
   );
   return (
-    `${weekParity === 'even' ? 'Чётная' : 'Нечётная'} неделя\n\n` +
+    `${weekParity === 'even' ? 'Чётная' : 'Нечётная'} неделя, гр. ${groupName}\n\n` +
     result.join('\n') +
     `Отправлено из PocketKAI: ${window.location.origin}`
   );
