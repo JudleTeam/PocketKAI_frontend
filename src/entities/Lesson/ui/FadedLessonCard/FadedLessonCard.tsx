@@ -1,4 +1,4 @@
-import { Lesson } from '@/shared';
+import { AnalyticsEvent, Lesson } from '@/shared';
 import { HStack, Text } from '@chakra-ui/react';
 import { lessonStateIcons } from '@/shared/constants';
 import { getLessonState } from '../../lib/getLessonState';
@@ -7,7 +7,7 @@ import { LessonTypes } from '@/shared/constants';
 import styles from './FadedLessonCard.module.scss';
 import { Drawer, DrawerTrigger, DrawerContent } from '@/shared/ui/drawer';
 import { useColor, useDisclosure } from '@/shared/lib';
-import { useSettings } from '@/entities';
+import { useSettings, useYaMetrika } from '@/entities';
 import { HideLesson } from '@/features';
 import { LessonDrawer } from '../LessonDrawer/LessonDrawer';
 import { useMetaThemeColor } from '@/shared';
@@ -22,6 +22,7 @@ export function FadedLessonCard({
   const { isOpen, setIsOpen } = useDisclosure();
   const { primaryColor, themeColor, mainColor } = useColor();
   const { showFadedLessons } = useSettings();
+  const { sendEvent } = useYaMetrika();
   const fadedLesson = true;
 
   useMetaThemeColor(mainColor, isOpen, themeColor);
@@ -32,7 +33,10 @@ export function FadedLessonCard({
         <DrawerTrigger asChild>
           <HStack
             display={showFadedLessons ? 'flex' : 'none'}
-            onClick={() => setIsOpen(true)}
+            onClick={() => {
+              setIsOpen(true);
+              sendEvent(AnalyticsEvent.lessonOpenDrawer);
+            }}
             className={styles['lesson-card']}
             alignItems="flex-start"
             transition="0.2s"

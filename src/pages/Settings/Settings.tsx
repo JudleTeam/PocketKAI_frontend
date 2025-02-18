@@ -1,16 +1,9 @@
 import { AccountTabHeader, useColor } from '@/shared/lib';
-import {
-  Button,
-  Text,
-  Box,
-  Switch,
-  Divider,
-  useBreakpointValue,
-} from '@chakra-ui/react';
+import { Box, Button, Divider, Select, Switch, Text, useBreakpointValue } from '@chakra-ui/react';
 import styles from './Settings.module.scss';
-import { usePWAState, useSettings } from '@/entities';
-import { Select } from '@chakra-ui/react';
-import { FullScheduleView, ScheduleView } from '@/shared';
+import { usePWAState, useSettings, useYaMetrika } from '@/entities';
+import { AnalyticsEvent, FullScheduleView, ScheduleView } from '@/shared';
+
 export function Settings() {
   const { mainColor, primaryColor, accentColor } = useColor();
   const { storeNeedRefresh, updateServiceWorker } = usePWAState();
@@ -26,7 +19,7 @@ export function Settings() {
     toggleIsColoredDayDate,
     toggleFullScheduleView,
   } = useSettings();
-
+  const { sendEvent } = useYaMetrika();
   const isDesktop = useBreakpointValue({ base: false, md: true });
   return (
     <Box
@@ -127,7 +120,16 @@ export function Settings() {
             defaultValue={preferencedScheduleView}
             padding={'4px'}
             onChange={(event) =>
-              togglePreferencedScheduleView(event.target.value as ScheduleView)
+              {
+                const scheduleType = event.target.value;
+                togglePreferencedScheduleView(scheduleType as ScheduleView)
+                if (scheduleType === 'timeline') {
+                  sendEvent(AnalyticsEvent.scheduleSwitchTimeline)
+                }
+                if (scheduleType === 'full') {
+                  sendEvent(AnalyticsEvent.scheduleSwitchFull)
+                }
+              }
             }
           >
             <option value="timeline">Таймлайн</option>

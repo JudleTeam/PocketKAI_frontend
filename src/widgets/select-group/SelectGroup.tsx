@@ -1,5 +1,20 @@
-import { useGroup, useSchedule, useUser } from '@/entities';
 import {
+  Button,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuItemOption,
+  MenuList,
+  MenuOptionGroup,
+  Text,
+} from '@chakra-ui/react';
+import { ChevronDownIcon } from '@chakra-ui/icons';
+import React, { useCallback, useEffect } from 'react';
+
+import { useGroup, useSchedule, useUser, useYaMetrika } from '@/entities';
+import {
+  AnalyticsEvent, ClickSource,
   Dialog,
   DialogContent,
   DialogHeader,
@@ -9,21 +24,9 @@ import {
   useDisclosure,
   useMetaThemeColor,
 } from '@/shared';
-import { ChevronDownIcon } from '@chakra-ui/icons';
-import {
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuItemOption,
-  MenuOptionGroup,
-  MenuDivider,
-  Button,
-  Text,
-} from '@chakra-ui/react';
-import React, { useCallback, useEffect } from 'react';
-import s from './SelectGroup.module.scss';
 import { AddGroupToFavourite } from '@/features';
+
+import s from './SelectGroup.module.scss';
 
 export function SelectGroup() {
   const { isOpen, setIsOpen, onClose } = useDisclosure();
@@ -37,6 +40,7 @@ export function SelectGroup() {
     getFavouriteGroups,
   } = useGroup();
   const { resetScheduleState } = useSchedule();
+  const { sendEvent } = useYaMetrika();
 
   useEffect(() => {
     if (userAuthStatus === 'success' && favouriteGroupsStatus === 'idle') {
@@ -48,15 +52,16 @@ export function SelectGroup() {
     (group: GroupShort) => {
       setCurrentGroup(group);
       resetScheduleState();
+      sendEvent(AnalyticsEvent.mainChangeGroup);
     },
-    [resetScheduleState, setCurrentGroup]
+    [resetScheduleState, setCurrentGroup],
   );
 
   useMetaThemeColor(mainColor, isOpen, themeColor);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <Menu placement="bottom-end">
+      <Menu placement="bottom-end" onOpen={() => sendEvent(AnalyticsEvent.mainClickGroupPopover)}>
         {() => (
           <>
             <MenuButton
@@ -89,6 +94,7 @@ export function SelectGroup() {
               <DialogTrigger asChild>
                 <MenuItem
                   className={s.root__item}
+                  onClick={() => sendEvent(AnalyticsEvent.mainModalOpen, { click_source: ClickSource.groupPopover })}
                   bg={accentColor}
                   _focus={{ bg: accentColor }}
                   borderRadius="24px"

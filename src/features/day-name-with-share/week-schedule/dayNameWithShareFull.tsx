@@ -6,14 +6,15 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { Calendar, CalendarDays } from 'lucide-react';
-import { useGroup, useSchedule } from '@/entities';
+import { useGroup, useSchedule, useYaMetrika } from '@/entities';
 import {
+  AnalyticsEvent,
   getTodayDate,
-  Lesson,
   getWeekParity,
+  Lesson,
   shareData,
-  useColor,
   SHORT_WEEK_DAYS,
+  useColor,
   WEEK_DAYS,
 } from '@/shared';
 import { getFormattedDayScheduleFull } from './lib/getFormattedDayScheduleFull';
@@ -46,6 +47,7 @@ export function DayNameWithShareFull({
   const { weekSchedule } = useSchedule();
   const { currentGroup } = useGroup();
   const isDesktop = useBreakpointValue({ base: false, md: true });
+  const { sendEvent } = useYaMetrika();
   const today = getTodayDate();
   const currentParity = getWeekParity();
   const todayDayOfWeek = DateTime.fromISO(today)
@@ -53,7 +55,11 @@ export function DayNameWithShareFull({
     .weekdayLong?.toLocaleLowerCase();
 
   return (
-    <ContextMenu>
+    <ContextMenu
+      onOpenChange={(open) =>
+        open && sendEvent(AnalyticsEvent.lessonOpenContext)
+      }
+    >
       <ContextMenuTrigger asChild>
         <Box
           transition={'0.2s'}
@@ -92,19 +98,21 @@ export function DayNameWithShareFull({
       <ContextMenuContent avoidCollisions>
         <ContextMenuItem
           className={`space-x-2 ${dayLessons.length ? '' : 'hidden'}`}
-          onClick={() =>
-            dayLessons.length &&
-            shareData(
-              getFormattedDayScheduleFull(
-                dayName,
-                dayLessons,
-                weekParity,
-                currentGroup?.group_name
-              ),
-              toast,
-              isDesktop
-            )
-          }
+          onClick={() => {
+            if (dayLessons.length) {
+              shareData(
+                getFormattedDayScheduleFull(
+                  dayName,
+                  dayLessons,
+                  weekParity,
+                  currentGroup?.group_name
+                ),
+                toast,
+                isDesktop
+              );
+              sendEvent(AnalyticsEvent.scheduleCopyDay);
+            }
+          }}
         >
           <Text>Поделиться днём</Text>
           <Icon as={Calendar} />
@@ -115,13 +123,14 @@ export function DayNameWithShareFull({
         />
         <ContextMenuItem
           className="space-x-2"
-          onClick={() =>
+          onClick={() => {
             shareData(
               getFormattedWeekScheduleFull(weekSchedule, weekParity, currentGroup?.group_name),
               toast,
               isDesktop
-            )
-          }
+            );
+            sendEvent(AnalyticsEvent.scheduleCopyWeek);
+          }}
         >
           <Text>Поделиться неделей</Text>
           <Icon as={CalendarDays} />

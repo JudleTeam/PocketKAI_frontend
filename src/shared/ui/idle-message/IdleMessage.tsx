@@ -1,16 +1,20 @@
 import { Box, Button, Text } from '@chakra-ui/react';
-import { useColor, useMetaThemeColor } from '@/shared/lib';
-import { useDisclosure } from '@/shared/lib';
-import { Dialog, DialogHeader, DialogTrigger, DialogContent } from '../modal';
+
+import { useColor, useDisclosure, useMetaThemeColor } from '@/shared/lib';
+import { useYaMetrika } from '@/entities';
 import { AddGroupToFavourite } from '@/features';
 import { Link } from 'react-router-dom';
 import { useSettings } from '@/entities';
+import { AnalyticsEvent, ClickSource } from '@/shared';
+
+import { Dialog, DialogContent, DialogHeader, DialogTrigger } from '../modal';
 
 export function IdleMessage() {
   const { isOpen, setIsOpen, onClose } = useDisclosure();
   const { fullScheduleView } = useSettings()
   const { primaryColor, mainColor, themeColor, accentColor, secondaryDayNameColor } = useColor();
   const isTeacherOrFull = location.pathname === '/teachers' || (fullScheduleView === 'week' && location.pathname === '/schedule/full')
+  const { sendEvent } = useYaMetrika();
   useMetaThemeColor(mainColor, isOpen, themeColor);
 
   return (
@@ -20,6 +24,9 @@ export function IdleMessage() {
           <Text color={primaryColor}>Добро пожаловать!</Text>
           <Button
             as={DialogTrigger}
+            onClick={() => {
+            sendEvent(AnalyticsEvent.mainModalOpen, { click_source: ClickSource.mainButton });
+          }}
             color={mainColor}
             fontSize={'16px'}
             fontWeight={'medium'}

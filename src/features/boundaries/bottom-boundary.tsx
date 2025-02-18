@@ -1,11 +1,13 @@
-import { useSchedule, useSettings } from '@/entities';
+import { useSchedule, useSettings, useYaMetrika } from '@/entities';
 import { Button, Skeleton, Stack } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
 import { forwardRef } from 'react';
+import { AnalyticsEvent } from '@/shared';
 
 export const BottomBoundary = forwardRef<HTMLDivElement>((_, lowerRef) => {
   const { isScheduleInfinite } = useSettings();
   const { schedule, addToCurrentSchedule } = useSchedule();
+  const { sendEvent } = useYaMetrika();
   const handleLoadMore = () => {
     const dateFrom = DateTime.fromISO(
       schedule?.days[schedule.days.length - 1].date
@@ -19,6 +21,7 @@ export const BottomBoundary = forwardRef<HTMLDivElement>((_, lowerRef) => {
       },
       true
     );
+    sendEvent(AnalyticsEvent.scheduleView2WeeksForward);
   };
   if (isScheduleInfinite) {
     return (
