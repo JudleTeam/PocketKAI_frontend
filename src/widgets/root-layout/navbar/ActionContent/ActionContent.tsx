@@ -46,9 +46,9 @@ export const ActionContent: React.FC<ActionContentProps> = ({ action }) => {
     }
   }, [isOpen, pathname, setIsOpen, theme]);
 
-  useMetaThemeColor(mainColor, isOpen, themeColor);
   const isDrawerAllowed = action.action;
   const isDrawerOpen = isOpen && isDrawerAllowed;
+  useMetaThemeColor(mainColor, isDrawerOpen, themeColor);
 
   return (
     <Drawer open={isDrawerOpen} onOpenChange={setIsOpen}>
