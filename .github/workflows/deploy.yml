@@ -28,6 +28,7 @@ jobs:
           VITE_ACCESS_TOKEN_KEY: ${{ secrets.VITE_ACCESS_TOKEN_KEY }}
           VITE_SALT_KEY: ${{ secrets.VITE_SALT_KEY }}
           VITE_IV_KEY: ${{ secrets.VITE_IV_KEY }}
+          VITE_YA_METRIKA_COUNTER: ${{ secrets.VITE_YA_METRIKA_COUNTER }}
         run: npm run build
 
       - name: Deploy to VPS
