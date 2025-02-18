@@ -12,10 +12,12 @@ import { AccountTabHeader, useColor } from '@/shared/lib';
 import { getFAQ } from './lib/getFAQ';
 import React from 'react';
 import styles from './FrequentQuestions.module.scss';
+import { useYaMetrika } from '@/entities';
 
 export function FrequentQuestions() {
   const { mainColor, cardColor, primaryColor } = useColor();
   const isDesktop = useBreakpointValue({ base: false, md: true });
+  const { sendEvent } = useYaMetrika();
   return (
     <Box className={styles['faq']} style={isDesktop ? { width: '40%' } : {}}>
       <Box
@@ -37,7 +39,7 @@ export function FrequentQuestions() {
         alignItems="center"
         allowMultiple
       >
-        {getFAQ().map((item, index) => (
+        {getFAQ(sendEvent).map((item, index) => (
           <React.Fragment key={item.label}>
             <AccordionItem w="100%" border="0px">
               <AccordionButton padding="20px">
@@ -62,7 +64,7 @@ export function FrequentQuestions() {
             </AccordionItem>
             <Divider
               w="90%"
-              opacity={index === getFAQ().length - 1 ? '0' : '1'}
+              opacity={index === getFAQ(sendEvent).length - 1 ? '0' : '1'}
             />
           </React.Fragment>
         ))}

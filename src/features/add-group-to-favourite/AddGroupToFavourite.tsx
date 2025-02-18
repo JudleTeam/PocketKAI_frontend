@@ -1,4 +1,14 @@
-import { Box, Button, Divider, IconButton, Radio, RadioGroup, Stack, Text, useColorMode } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  Radio,
+  RadioGroup,
+  Stack,
+  Text,
+  useColorMode,
+} from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -88,7 +98,6 @@ const AddGroupToFavourite: React.FC<AddGroupToFavouriteProps> = ({
           setHasSentMetrics(true);
         }
       }
-
     },
     [hasSentMetrics, suggestGroupByName, setHasSentMetrics]
   );
@@ -106,11 +115,10 @@ const AddGroupToFavourite: React.FC<AddGroupToFavouriteProps> = ({
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const groupValue = data.group;
-    console.log(currentGroup);
     const group = groupValue?.value;
     if (group) {
       if (currentGroup) {
-        sendEvent(AnalyticsEvent.mainChangeGroup)
+        sendEvent(AnalyticsEvent.mainChangeGroup);
       }
       setCurrentGroup(group);
       resetField('group');
@@ -156,7 +164,6 @@ const AddGroupToFavourite: React.FC<AddGroupToFavouriteProps> = ({
                     (selectedOption as SelectItem<GroupShort>).label
                   );
                 }
-
               }}
               noOptionsMessage={() => 'Ничего не найдено'}
               options={

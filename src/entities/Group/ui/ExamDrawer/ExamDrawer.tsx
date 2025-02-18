@@ -1,12 +1,14 @@
 import { Text, Box, Avatar, useToast } from '@chakra-ui/react';
-import { copyToast, ExamType } from '@/shared';
+import { AnalyticsEvent, ClickSource, copyToast, ExamType } from '@/shared';
 import { Link } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import { getLessonBuilding, useColor } from '@/shared/lib';
 import { HashLink } from 'react-router-hash-link';
+import { useYaMetrika } from '@/entities/YaMetrika';
 export function ExamDrawer({ exam }: { exam: ExamType }) {
   const { cardColor, primaryColor, mainColor, accentColor } = useColor();
   const toast = useToast();
+  const { sendEvent } = useYaMetrika();
   return (
     <Box
       padding="25px 0 0 0"
@@ -55,6 +57,11 @@ export function ExamDrawer({ exam }: { exam: ExamType }) {
         fontWeight="medium"
         color="orange.300"
         to="/report"
+        onClick={() =>
+          sendEvent(AnalyticsEvent.lessonReport, {
+            click_source: ClickSource.exam,
+          })
+        }
       >
         Сообщить об ошибке
       </Text>
