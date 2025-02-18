@@ -1,5 +1,4 @@
 export enum AnalyticsEvent {
-  mainClickChooseGroup = 'main_click_choose_group',
   mainClickGroupPopover = 'main_click_group_popover',
   mainSearchGroup = 'main_search_group',
   mainChangeGroup = 'main_change_group',

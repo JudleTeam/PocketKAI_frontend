@@ -1,24 +1,35 @@
-import { Box, Text, Divider } from '@chakra-ui/react';
+import { Box, Divider, Text } from '@chakra-ui/react';
 import {
   FadedLessonCard,
   LessonCard,
   RestCard,
   useGroup,
   useSchedule,
+  useYaMetrika,
 } from '@/entities';
-import { TopBoundary, BottomBoundary, DayNameWithShare } from '@/features';
-import { useInfiniteScroll, useGoUpButton } from '@/shared/lib';
-import { getStatus, getTodayDate, IdleMessage } from '@/shared';
+import { BottomBoundary, DayNameWithShare, TopBoundary } from '@/features';
+import {
+  getWeekParityDate,
+  scrollToToday,
+  useColor,
+  useGoUpButton,
+  useInfiniteScroll,
+} from '@/shared/lib';
+import {
+  AnalyticsEvent,
+  ClickSource,
+  getStatus,
+  getTodayDate,
+  IdleMessage,
+} from '@/shared';
 import { ArrowIcon } from '@/shared/assets';
-import { scrollToToday, useColor } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader/Loader';
 import styles from './ScheduleLayout.module.scss';
 import { DateTime } from 'luxon';
-import { getWeekParityDate } from '@/shared/lib';
-
 
 export function ScheduleLayout() {
   const { schedule } = useSchedule();
+  const { sendEvent } = useYaMetrika();
   const { upperRef, lowerRef } = useInfiniteScroll();
   const { showButton, position: todayBlockPosition } = useGoUpButton();
   const { secondaryColor, accentColor, mainColor } = useColor();
@@ -50,7 +61,7 @@ export function ScheduleLayout() {
                 hiddenLesson.lesson.id === lesson.id &&
                 (day.date === hiddenLesson.lesson.type_hide ||
                   getWeekParityDate(day.date) ===
-                  hiddenLesson.lesson.type_hide ||
+                    hiddenLesson.lesson.type_hide ||
                   hiddenLesson.lesson.type_hide === 'always')
             );
             return !isLessonHidden;
@@ -62,7 +73,7 @@ export function ScheduleLayout() {
                 hiddenLesson.lesson.id === lesson.id &&
                 (day.date === hiddenLesson.lesson.type_hide ||
                   getWeekParityDate(day.date) ===
-                  hiddenLesson.lesson.type_hide ||
+                    hiddenLesson.lesson.type_hide ||
                   hiddenLesson.lesson.type_hide === 'always')
             );
           });
@@ -122,9 +133,14 @@ export function ScheduleLayout() {
         })}
         <BottomBoundary ref={lowerRef} />
 
-        {!!showButton && (
+        {showButton && (
           <Box
-            onClick={() => scrollToToday(true)}
+            onClick={() => {
+              scrollToToday(true);
+              sendEvent(AnalyticsEvent.scheduleViewToday, {
+                click_source: ClickSource.GoUpButton,
+              });
+            }}
             as="button"
             w="50px"
             h="50px"

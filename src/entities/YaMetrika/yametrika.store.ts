@@ -16,11 +16,9 @@ export const useYaMetrika = create<YaMetrikaStore>()((_, get) => ({
   initialized: !!window.ym,
   sendEvent: (event: AnalyticsEvent, payload?: Record<string, any>) => {
     if (!get().initialized) {
-      console.log('no');
-      console.log(window);
       return;
     }
-    console.log('event!')
+    console.log(event, payload);
 
     // https://yandex.ru/support/metrica/objects/reachgoal.html
     window.ym(get().id, 'reachGoal', event, payload);

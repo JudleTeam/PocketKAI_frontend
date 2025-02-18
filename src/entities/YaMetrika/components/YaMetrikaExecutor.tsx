@@ -6,8 +6,8 @@ export const YaMetrikaExecutor = () => {
   const { viewPage } = useYaMetrika();
   const { pathname } = useLocation();
   useEffect(() => {
+    console.log(pathname);
     viewPage(window.location.href);
-    console.log("page view page");
   }, [pathname]);
 
   return null;
