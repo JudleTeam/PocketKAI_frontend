@@ -151,7 +151,12 @@ export const TeacherDrawer: React.FC<TeacherDrawerProps> = ({
       </Box>
       {!isSchedule && teacher && !teacher.id.includes('default') && (
         <Button
-          onClick={() => setIsSchedule(true)}
+          onClick={() => {
+            setIsSchedule(true);
+            sendEvent(AnalyticsEvent.teacherSchedule, {
+              click_source: ClickSource.groupTeachers,
+            });
+          }}
           bgColor={secondaryColor}
           borderRadius="32px"
           paddingY="23px"
