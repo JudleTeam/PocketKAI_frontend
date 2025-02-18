@@ -17,13 +17,13 @@ export function SearchedTeacherCard({ teacher }: { teacher: Teacher }) {
   const { isOpen, setIsOpen } = useDisclosure();
   const [activeSnapPoint, setActiveSnapPoint] = useState<string | number>(0.8);
   const { primaryColor, themeColor, mainColor, accentColor } = useColor();
-  const { clearTeacherSchedule } = useTeachers();
+  const { clearTeacherScheduleStatus } = useTeachers();
   const { sendEvent } = useYaMetrika();
 
   useMetaThemeColor(mainColor, isOpen, themeColor);
 
   useEffect(() => {
-    clearTeacherSchedule();
+    clearTeacherScheduleStatus();
   }, [isOpen]);
 
   return (

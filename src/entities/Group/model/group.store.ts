@@ -62,6 +62,7 @@ type GroupActions = {
   getExamsByGroupId: (group_id: string, params?: ExamParams) => Promise<void>;
   resetGroupState: () => void;
   clearDiciplines: () => void;
+  clearDisciplinesStatus: () => void;
 };
 
 const initialState: GroupState = {
@@ -91,6 +92,9 @@ export const useGroup = create<GroupState & GroupActions>()(
         const response = await groupService.getGroupByName(name);
         set({ currentGroup: response.data });
         return response.data;
+      },
+      clearDisciplinesStatus: () => {
+        set({groupDisciplinesStatus: 'idle'})
       },
       clearDiciplines: () => {
         set({ groupDisciplines: initialState.groupDisciplines, groupDisciplinesStatus: 'idle' })

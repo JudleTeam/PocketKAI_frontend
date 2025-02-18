@@ -60,12 +60,19 @@ export function SearchedTeacherDrawer({
       if (
         teacher &&
         (teacherScheduleStatus === 'idle' ||
-          backgroundTask?.status === 'SUCCESS')
+          (backgroundTask?.status === 'SUCCESS' &&
+            teacherScheduleStatus === 'success'))
       ) {
         getTeacherScheduleById(teacher.id);
       }
     }
-  }, [teacher, getTeacherScheduleById, backgroundTask, isSchedule]);
+  }, [
+    teacher,
+    teacherScheduleStatus,
+    getTeacherScheduleById,
+    backgroundTask,
+    isSchedule,
+  ]);
 
   useEffect(() => {
     if (!backgroundTask) return;

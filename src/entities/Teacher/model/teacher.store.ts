@@ -32,7 +32,7 @@ type TeachersActions = {
   getTeacherScheduleById: (id: string) => Promise<void>;
   setTeacherScheduleStatus: (status: FetchStatus) => void;
   getBackgroundTaskStatus: (taskId: string) => Promise<void>;
-  clearTeacherSchedule: () => void;
+  clearTeacherScheduleStatus: () => void;
   clearTeachersState: () => void;
 };
 
@@ -70,8 +70,8 @@ export const useTeachers = create<TeachersState & TeachersActions>()((set, get) 
       set({ error, searchedTeachersStatus: 'error' });
     }
   },
-  clearTeacherSchedule: () =>
-    set({ teacherSchedule: initialState.teacherSchedule, teacherScheduleStatus: 'idle' }),
+  clearTeacherScheduleStatus: () =>
+    set({ teacherScheduleStatus: 'idle' }),
   getTeacherScheduleById: async (id) => {
     set({ teacherScheduleStatus: 'loading', error: null });
     try {

@@ -75,7 +75,11 @@ export function SearchTeacher() {
           </InputRightElement>
         )}
       </InputGroup>
-      <Loader status={searchedTeachersStatus} idleMessage="Ничего не найдено">
+      <Loader
+        status={searchedTeachersStatus}
+        isSearch
+        idleMessage="Ничего не найдено"
+      >
         {searchedTeachers?.map((teacher) => (
           <SearchedTeacherCard key={teacher.id} teacher={teacher} />
         ))}

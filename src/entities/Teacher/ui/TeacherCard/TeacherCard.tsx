@@ -22,7 +22,7 @@ export const TeacherCard = memo(function TeacherCard({
   const { disciplineId, teacher, parsed_types, original_types } =
     disciplineInfo;
   const { isOpen, setIsOpen } = useDisclosure();
-  const { clearTeacherSchedule } = useTeachers();
+  const { clearTeacherScheduleStatus } = useTeachers();
   const [activeSnapPoint, setActiveSnapPoint] = useState<string | number>(0.8);
   const { primaryColor, themeColor, mainColor, accentColor } = useColor();
   const { sendEvent } = useYaMetrika();
@@ -39,7 +39,7 @@ export const TeacherCard = memo(function TeacherCard({
   }, [disciplineId, teacher?.id, isOpen, setIsOpen]);
 
   useEffect(() => {
-    clearTeacherSchedule();
+    clearTeacherScheduleStatus();
   }, [isOpen]);
 
   return (

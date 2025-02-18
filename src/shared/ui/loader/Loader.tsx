@@ -12,10 +12,12 @@ export const Loader = ({
   children,
   status,
   idleMessage,
+  isSearch,
   teacherId,
 }: React.PropsWithChildren<{
   status: FetchStatus | BackgroundTaskStatus;
   idleMessage: string | ReactNode;
+  isSearch?: boolean;
   teacherId?: string;
 }>) => {
   const { sendEvent } = useYaMetrika();
@@ -44,7 +46,7 @@ export const Loader = ({
           pos={'absolute'}
           zIndex={2}
           left={0}
-          top={'45%'}
+          top={'40%'}
           w={'100%'}
           fontSize={'18px'}
           textAlign={'center'}
@@ -56,7 +58,11 @@ export const Loader = ({
         >
           <Text w="60%">Что-то пошло не так...</Text>
           <Box>
-            <TryAgainButton teacherId={teacherId} />
+            {!isSearch ? (
+              <TryAgainButton teacherId={teacherId} />
+            ) : (
+              <Text>Попробуйте позже</Text>
+            )}
           </Box>
           <Text w="60%" fontSize={'14px '}>
             Или сразу напишите нам -{' '}

@@ -57,12 +57,19 @@ export const TeacherDrawer: React.FC<TeacherDrawerProps> = ({
         teacher &&
         !teacher.id.includes('default') &&
         (teacherScheduleStatus === 'idle' ||
-          backgroundTask?.status === 'SUCCESS')
+          (backgroundTask?.status === 'SUCCESS' &&
+            teacherScheduleStatus === 'success'))
       ) {
         getTeacherScheduleById(teacher.id);
       }
     }
-  }, [teacher, getTeacherScheduleById, backgroundTask, isSchedule]);
+  }, [
+    teacher,
+    getTeacherScheduleById,
+    teacherScheduleStatus,
+    backgroundTask,
+    isSchedule,
+  ]);
 
   useEffect(() => {
     if (!backgroundTask) return;
