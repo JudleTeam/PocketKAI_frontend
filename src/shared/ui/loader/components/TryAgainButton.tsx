@@ -1,16 +1,20 @@
 import { Button } from "@chakra-ui/react"
 import { useColor } from "@/shared"
-import { useSchedule, useTeachers } from "@/entities"
+import { useSchedule, useTeachers, useGroup } from "@/entities"
 
 export const TryAgainButton = ({ teacherId }: { teacherId?: string }) => {
     const { mainColor, accentColor } = useColor()
     const { clearSchedule } = useSchedule()
     const { clearTeacherSchedule } = useTeachers()
+    const { clearDiciplines } = useGroup();
     const pathname = window.location.pathname
 
     const handleClick = () => {
         if (pathname.includes('/teacher') && teacherId) {
             clearTeacherSchedule()
+        }
+        else if (pathname.includes('/teacher')) {
+            clearDiciplines()
         }
         else {
             clearSchedule()

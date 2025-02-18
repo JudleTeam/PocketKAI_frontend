@@ -10,7 +10,6 @@ import { Nullable, GroupShort, ExamType } from '@/shared';
 import { create } from 'zustand';
 import { groupService } from './group.service';
 import { GroupSearchParams } from './types';
-
 import { ExamParams } from './types';
 import { persist } from 'zustand/middleware';
 import { getCurrentSemester } from '../lib/getCurrentSemester';
@@ -62,6 +61,7 @@ type GroupActions = {
   synchronizeFavouriteGroupsOnAuth: () => Promise<void>;
   getExamsByGroupId: (group_id: string, params?: ExamParams) => Promise<void>;
   resetGroupState: () => void;
+  clearDiciplines: () => void;
 };
 
 const initialState: GroupState = {
@@ -91,6 +91,9 @@ export const useGroup = create<GroupState & GroupActions>()(
         const response = await groupService.getGroupByName(name);
         set({ currentGroup: response.data });
         return response.data;
+      },
+      clearDiciplines: () => {
+        set({ groupDisciplines: initialState.groupDisciplines, groupDisciplinesStatus: 'idle' })
       },
       isFavorite: (group) =>
         !!get().favouriteGroups.find((favourite) => favourite.id === group.id),
