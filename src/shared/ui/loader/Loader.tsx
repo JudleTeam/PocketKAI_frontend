@@ -1,7 +1,13 @@
-import { BackgroundTaskStatus, FetchStatus } from '@/shared';
+import {
+  AnalyticsEvent,
+  BackgroundTaskStatus,
+  ClickSource,
+  FetchStatus,
+} from '@/shared';
 import { Box, Spinner, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { TryAgainButton } from './components/TryAgainButton';
+import { useYaMetrika } from '@/entities';
 export const Loader = ({
   children,
   status,
@@ -12,6 +18,7 @@ export const Loader = ({
   idleMessage: string | ReactNode;
   teacherId?: string;
 }>) => {
+  const { sendEvent } = useYaMetrika();
   switch (status) {
     case 'loading':
     case 'PENDING':
@@ -47,18 +54,25 @@ export const Loader = ({
           alignItems={'center'}
           gap={'20px'}
         >
-          <Text w='60%'>Что-то пошло не так...</Text>
+          <Text w="60%">Что-то пошло не так...</Text>
           <Box>
             <TryAgainButton teacherId={teacherId} />
           </Box>
-          <Text w='60%' fontSize={'14px '}>Или сразу напишите нам -{' '}
+          <Text w="60%" fontSize={'14px '}>
+            Или сразу напишите нам -{' '}
             <a
+              onClick={() => {
+                sendEvent(AnalyticsEvent.feedbackGoToTg, {
+                  click_source: ClickSource.mainButton,
+                });
+              }}
               style={{ textDecoration: 'underline' }}
               href="https://t.me/pocket_kai_help"
-              target='_blank'
+              target="_blank"
             >
               @pocket_kai_help
-            </a></Text>
+            </a>
+          </Text>
         </Box>
       );
 
@@ -78,15 +92,22 @@ export const Loader = ({
           alignItems={'center'}
           gap={'20px'}
         >
-          <Text w='60%'>Невозможно получить расписание...</Text>
-          <Text w='60%' fontSize={'14px '}>Напишите нам и мы решим эту проблему -{' '}
+          <Text w="60%">Невозможно получить расписание...</Text>
+          <Text w="60%" fontSize={'14px '}>
+            Напишите нам и мы решим эту проблему -{' '}
             <a
+              onClick={() => {
+                sendEvent(AnalyticsEvent.feedbackGoToTg, {
+                  click_source: ClickSource.mainButton,
+                });
+              }}
               style={{ textDecoration: 'underline' }}
               href="https://t.me/pocket_kai_help"
-              target='_blank'
+              target="_blank"
             >
               @pocket_kai_help
-            </a></Text>
+            </a>
+          </Text>
         </Box>
       );
     case 'idle':

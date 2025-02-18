@@ -1,6 +1,14 @@
 import { Text, Box, Tabs, useToast, Button } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-import { copyToast, getStatusTeacher, TabListHeader, Teacher, weekParityId } from '@/shared';
+import {
+  AnalyticsEvent,
+  ClickSource,
+  copyToast,
+  getStatusTeacher,
+  TabListHeader,
+  Teacher,
+  weekParityId,
+} from '@/shared';
 import { useEffect, useRef, useState } from 'react';
 import { useTeachers } from '../../model/teacher.store';
 import { getWeekParity, useColor } from '@/shared/lib';
@@ -9,6 +17,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import { Swiper as SwiperInstance } from 'swiper/types';
 import WeekTeacherSchedule from '../TeacherDrawer/components/WeekTeacherSchedule';
+import { useYaMetrika } from '@/entities/YaMetrika';
 
 export function SearchedTeacherDrawer({
   teacher,
@@ -24,9 +33,16 @@ export function SearchedTeacherDrawer({
     even: 0,
     odd: 1,
   };
-  const { teacherScheduleStatus, getTeacherScheduleById, backgroundTask, getBackgroundTaskStatus, isReady } = useTeachers();
-  const [isSchedule, setIsSchedule] = useState<boolean>(false)
+  const {
+    teacherScheduleStatus,
+    getTeacherScheduleById,
+    backgroundTask,
+    getBackgroundTaskStatus,
+    isReady,
+  } = useTeachers();
+  const [isSchedule, setIsSchedule] = useState<boolean>(false);
   const toast = useToast();
+  const { sendEvent } = useYaMetrika();
   const swiperRef = useRef<SwiperInstance | null>(null);
 
   const handleSwipeChange = (index: number) => {
@@ -41,7 +57,11 @@ export function SearchedTeacherDrawer({
 
   useEffect(() => {
     if (isSchedule) {
-      if (teacher && (teacherScheduleStatus === 'idle' || backgroundTask?.status === 'SUCCESS')) {
+      if (
+        teacher &&
+        (teacherScheduleStatus === 'idle' ||
+          backgroundTask?.status === 'SUCCESS')
+      ) {
         getTeacherScheduleById(teacher.id);
       }
     }
@@ -92,9 +112,12 @@ export function SearchedTeacherDrawer({
       <Text
         fontSize="24px"
         fontWeight="bold"
-        onClick={() =>
-          copyToast(teacher?.name || 'Преподаватель кафедры', toast)
-        }
+        onClick={() => {
+          copyToast(teacher?.name || 'Преподаватель кафедры', toast);
+          sendEvent(AnalyticsEvent.teacherCopyName, {
+            click_source: ClickSource.foundTeachers,
+          });
+        }}
       >
         {' '}
         {teacher?.name ?? 'Преподаватель кафедры'}
@@ -111,24 +134,31 @@ export function SearchedTeacherDrawer({
           fontWeight="medium"
           color="orange.300"
           to="/report"
+          onClick={() =>
+            sendEvent(AnalyticsEvent.lessonReport, {
+              click_source: ClickSource.foundTeachers,
+            })
+          }
         >
           Сообщить об ошибке
         </Text>
       </Box>
-      {!isSchedule && teacher && !teacher.id.includes('default') && (<Button
-        onClick={() => setIsSchedule(true)}
-        bgColor={secondaryColor}
-        borderRadius="32px"
-        paddingY="23px"
-        display="flex"
-        alignItems="center"
-        justifyContent='center'
-        gap="15px"
-      >
-        <Text fontSize="16px" color={accentColor} fontWeight="medium">
-          Показать расписание
-        </Text>
-      </Button>)}
+      {!isSchedule && teacher && !teacher.id.includes('default') && (
+        <Button
+          onClick={() => setIsSchedule(true)}
+          bgColor={secondaryColor}
+          borderRadius="32px"
+          paddingY="23px"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          gap="15px"
+        >
+          <Text fontSize="16px" color={accentColor} fontWeight="medium">
+            Показать расписание
+          </Text>
+        </Button>
+      )}
       {teacher && (
         <Tabs
           variant="unstyled"
@@ -143,41 +173,52 @@ export function SearchedTeacherDrawer({
             }
           }}
         >
-          {isSchedule && (<><TabListHeader top="0" handleTabChange={handleTabChange} />
-            <Box
-              minH={200}
-              mb={'50px'}
-              onClick={(e) => e.stopPropagation()}
-              display="flex"
-              flexDirection="column"
-              pt={'10px'}
-              gap="10px"
-              position="relative"
-            >
-              <Loader teacherId={teacher.id} status={getStatusTeacher(backgroundTask, teacherScheduleStatus, isReady)} idleMessage="">
-                <Swiper
-                  autoHeight
-                  onSwiper={(swiper) => (swiperRef.current = swiper)}
-                  onSlideChange={({ activeIndex }) =>
-                    handleSwipeChange(activeIndex)
-                  }
-                  initialSlide={weekParity === 'even' ? 0 : 1}
-                  modules={[Pagination]}
-                  style={{ width: '100%' }}
+          {isSchedule && (
+            <>
+              <TabListHeader top="0" handleTabChange={handleTabChange} />
+              <Box
+                minH={200}
+                mb={'50px'}
+                onClick={(e) => e.stopPropagation()}
+                display="flex"
+                flexDirection="column"
+                pt={'10px'}
+                gap="10px"
+                position="relative"
+              >
+                <Loader
+                  teacherId={teacher.id}
+                  status={getStatusTeacher(
+                    backgroundTask,
+                    teacherScheduleStatus,
+                    isReady
+                  )}
+                  idleMessage=""
                 >
-                  {Object.keys(weekParityId).map((parity) => (
-                    <SwiperSlide>
-                      <Box>
-                        <WeekTeacherSchedule
-                          weekParity={parity as 'even' | 'odd'}
-                        />
-                      </Box>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              </Loader>
-            </Box>
-          </>)}
+                  <Swiper
+                    autoHeight
+                    onSwiper={(swiper) => (swiperRef.current = swiper)}
+                    onSlideChange={({ activeIndex }) =>
+                      handleSwipeChange(activeIndex)
+                    }
+                    initialSlide={weekParity === 'even' ? 0 : 1}
+                    modules={[Pagination]}
+                    style={{ width: '100%' }}
+                  >
+                    {Object.keys(weekParityId).map((parity) => (
+                      <SwiperSlide>
+                        <Box>
+                          <WeekTeacherSchedule
+                            weekParity={parity as 'even' | 'odd'}
+                          />
+                        </Box>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                </Loader>
+              </Box>
+            </>
+          )}
         </Tabs>
       )}
     </Box>

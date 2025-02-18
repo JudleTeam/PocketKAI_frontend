@@ -1,14 +1,19 @@
-import { useSchedule } from '@/entities';
+import { useSchedule, useYaMetrika } from '@/entities';
 import { Box, Text } from '@chakra-ui/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import s from './DatebarContent.module.scss';
 import { MutableRefObject, useCallback } from 'react';
 import { Swiper as SwiperType } from 'swiper';
-import { Day, Nullable, useColor } from '@/shared';
+import {
+  AnalyticsEvent,
+  Day,
+  getDayOfWeek,
+  isToday,
+  Nullable,
+  useColor,
+} from '@/shared';
 import { DateTime } from 'luxon';
-import { isToday } from '@/shared';
-import { getDayOfWeek } from '@/shared';
 import cn from 'classnames';
 
 export function DatebarContent({
@@ -28,6 +33,7 @@ export function DatebarContent({
     currentDayNumberColor,
   } = useColor();
   const { schedule } = useSchedule();
+  const { sendEvent } = useYaMetrika();
 
   const handleClick = useCallback(
     (day: Day) => {
@@ -79,7 +85,10 @@ export function DatebarContent({
                   [s.root__current]: currentDay === day.date,
                   [s.root__today]: isToday(day.date),
                 })}
-                onClick={() => handleClick(day)}
+                onClick={() => {
+                  handleClick(day);
+                  sendEvent(AnalyticsEvent.scheduleClickDate);
+                }}
               >
                 <Box display="flex">
                   <Text

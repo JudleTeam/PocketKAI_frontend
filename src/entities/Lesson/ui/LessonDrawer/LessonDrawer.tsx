@@ -1,4 +1,4 @@
-import { copyToast, Lesson } from '@/shared';
+import { AnalyticsEvent, ClickSource, copyToast, Lesson } from '@/shared';
 import { DateTime } from 'luxon';
 import { useColor } from '@/shared/lib';
 import { LessonTypes } from '@/shared/constants';
@@ -16,6 +16,7 @@ import { Text, VStack, Box } from '@chakra-ui/react';
 import { DrawerTitle } from '@/shared/ui/drawer';
 import { DrawerTeacherCard } from './DrawerTeacherCard';
 import { DrawerLessonBuilding } from './DrawerLessonBuilding';
+import { useYaMetrika } from '@/entities/YaMetrika';
 export function LessonDrawer({
   lesson,
   dayDate,
@@ -29,6 +30,7 @@ export function LessonDrawer({
     : '';
   const { primaryColor } = useColor();
   const toast = useToast();
+  const { sendEvent } = useYaMetrika();
   return (
     <>
       <Box
@@ -127,6 +129,11 @@ export function LessonDrawer({
         ) : null}
         <Text
           as={Link}
+          onClick={() =>
+            sendEvent(AnalyticsEvent.lessonReport, {
+              click_source: ClickSource.lessonDrawer,
+            })
+          }
           padding="10px 0"
           fontSize="14px"
           fontWeight="medium"

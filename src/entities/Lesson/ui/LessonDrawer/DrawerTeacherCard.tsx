@@ -1,10 +1,12 @@
-import { Lesson } from '@/shared';
+import { useYaMetrika } from '@/entities/YaMetrika';
+import { AnalyticsEvent, ClickSource, Lesson } from '@/shared';
 import { useColor } from '@/shared/lib';
 import { Avatar, Box, Text } from '@chakra-ui/react';
 import { HashLink } from 'react-router-hash-link';
 
 export function DrawerTeacherCard({ lesson }: { lesson: Lesson }) {
   const { cardColor, mainColor, accentColor } = useColor();
+  const { sendEvent } = useYaMetrika();
   return (
     <Box
       as={HashLink}
@@ -12,6 +14,11 @@ export function DrawerTeacherCard({ lesson }: { lesson: Lesson }) {
         lesson.teacher
           ? `/teachers#${lesson?.teacher?.id}&${lesson.discipline.id}`
           : '/teachers'
+      }
+      onClick={() =>
+        sendEvent(AnalyticsEvent.teacherOpenDrawer, {
+          click_source: ClickSource.lessonDrawer,
+        })
       }
       bgColor={cardColor}
       borderRadius="16px"

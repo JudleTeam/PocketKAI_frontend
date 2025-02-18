@@ -1,20 +1,20 @@
 import {
-  Text,
   Box,
-  Stack,
   Button,
   Divider,
-  RadioGroup,
-  Radio,
   IconButton,
+  Radio,
+  RadioGroup,
+  Stack,
+  Text,
   useColorMode,
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import Select, { StylesConfig } from 'react-select';
-import { useGroup, useSchedule, useUser } from '@/entities';
-import { GroupShort, SelectItem } from '@/shared';
+import { useGroup, useSchedule, useUser, useYaMetrika } from '@/entities';
+import { AnalyticsEvent, GroupShort, SelectItem } from '@/shared';
 import { useColor } from '@/shared/lib';
 
 type AddGroupToFavouriteProps = {
@@ -78,6 +78,8 @@ const AddGroupToFavourite: React.FC<AddGroupToFavouriteProps> = ({
     currentGroup,
     isFavorite,
   } = useGroup();
+  const [hasSentMetrics, setHasSentMetrics] = useState(false);
+  const { sendEvent } = useYaMetrika();
   const { primaryColor, accentColor, mainColor, secondaryColor } = useColor();
   const { resetScheduleState } = useSchedule();
   const { userAuthStatus } = useUser();
@@ -91,10 +93,15 @@ const AddGroupToFavourite: React.FC<AddGroupToFavouriteProps> = ({
     (newValue: string) => {
       if (newValue) {
         suggestGroupByName({ group_name: newValue });
+        if (!hasSentMetrics) {
+          sendEvent(AnalyticsEvent.mainSearchGroup);
+          setHasSentMetrics(true);
+        }
       }
     },
-    [suggestGroupByName]
+    [hasSentMetrics, suggestGroupByName, setHasSentMetrics]
   );
+
   useEffect(() => {
     setSelectGroup(currentGroup?.group_name);
   }, [currentGroup]);
@@ -103,17 +110,16 @@ const AddGroupToFavourite: React.FC<AddGroupToFavouriteProps> = ({
     const selectedGroup = getValues('group');
     if (selectedGroup) {
       addGroupToFavourite(selectedGroup.value, userAuthStatus);
-      //resetField('group');
-      //setSelectGroup(selectedGroup.value.group_name);
-      //setCurrentGroup(selectedGroup.value);
-      //resetScheduleState();
-      //onClose();
     }
   };
+
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const groupValue = data.group;
     const group = groupValue?.value;
     if (group) {
+      if (currentGroup) {
+        sendEvent(AnalyticsEvent.mainChangeGroup);
+      }
       setCurrentGroup(group);
       resetField('group');
     }
@@ -132,6 +138,7 @@ const AddGroupToFavourite: React.FC<AddGroupToFavouriteProps> = ({
     );
     if (group) {
       setCurrentGroup(group);
+      sendEvent(AnalyticsEvent.mainChangeGroup);
       resetScheduleState();
       onClose();
       resetField('group');

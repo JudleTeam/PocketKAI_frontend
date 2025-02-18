@@ -4,7 +4,7 @@ import { Box, useToast } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { NavbarActions } from './navbar/NavbarActions';
 import { isScheduleOutdated, PWABadge, useSchedule, useUser } from '@/entities';
-import { isScheduleOutdatedInternet } from '@/entities';
+import { isScheduleOutdatedInternet, YaMetrikaExecutor } from '@/entities';
 import { useColor, useMetaThemeColor } from '@/shared';
 
 export function RootLayout() {
@@ -59,8 +59,7 @@ export function RootLayout() {
         task.status === 'IDLE'
     );
 
-    //eslint-disable-next-line
-    let intervalId: any;
+    let intervalId: ReturnType<typeof setInterval>;
 
     if (userAuthStatus === 'success' && isSomeNotEnded) {
       intervalId = setInterval(() => {
@@ -80,6 +79,7 @@ export function RootLayout() {
       <Outlet />
       <UiNavbar navbarActions={NavbarActions} />
       <PWABadge />
+      <YaMetrikaExecutor/>
     </Box>
   );
 }
