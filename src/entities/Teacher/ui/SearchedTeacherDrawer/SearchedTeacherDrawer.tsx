@@ -145,7 +145,12 @@ export function SearchedTeacherDrawer({
       </Box>
       {!isSchedule && teacher && !teacher.id.includes('default') && (
         <Button
-          onClick={() => setIsSchedule(true)}
+          onClick={() => {
+            setIsSchedule(true);
+            sendEvent(AnalyticsEvent.teacherSchedule, {
+              click_source: ClickSource.foundTeachers,
+            });
+          }}
           bgColor={secondaryColor}
           borderRadius="32px"
           paddingY="23px"

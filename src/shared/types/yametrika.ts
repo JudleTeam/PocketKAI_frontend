@@ -28,6 +28,7 @@ export enum AnalyticsEvent {
   teacherSwitchToSearch = 'teacher_switch_to_search',
   teacherSearch = 'teacher_search',
   teacherCopyName = 'teacher_copy_name',
+  teacherSchedule = 'teacher_schedule',
 
   feedbackGoToTg = 'feedback_go_to_tg',
 }
