@@ -1,4 +1,4 @@
-import { Lesson, useMetaThemeColor } from '@/shared';
+import { AnalyticsEvent, Lesson, useMetaThemeColor } from '@/shared';
 import { Box, VStack, Text } from '@chakra-ui/react';
 import { LessonTypes } from '@/shared/constants';
 import { getLessonBuilding, useColor, useDisclosure } from '@/shared/lib';
@@ -7,6 +7,7 @@ import { memo } from 'react';
 import { Drawer, DrawerTrigger, DrawerContent } from '@/shared/ui/drawer';
 import { HideLesson } from '@/features';
 import { LessonDrawer } from '../LessonDrawer/LessonDrawer';
+import { useYaMetrika } from '@/entities';
 export const FullLessonCard = memo(function FullLessonCard({
   lesson,
   variant = 'dark',
@@ -16,6 +17,7 @@ export const FullLessonCard = memo(function FullLessonCard({
 }) {
   const { isOpen, setIsOpen } = useDisclosure();
   const { primaryColor, themeColor, mainColor, cardColor } = useColor();
+  const { sendEvent } = useYaMetrika();
 
   useMetaThemeColor(mainColor, isOpen, themeColor);
 
@@ -24,6 +26,7 @@ export const FullLessonCard = memo(function FullLessonCard({
       <HideLesson lesson={lesson}>
         <DrawerTrigger asChild>
           <Box
+            onClick={() => sendEvent(AnalyticsEvent.lessonOpenDrawer)}
             w="100%"
             bgColor={variant === 'dark' ? cardColor : 'none'}
             cursor={'pointer'}

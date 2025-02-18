@@ -1,17 +1,24 @@
 import { Box, Text, Divider, Avatar } from '@chakra-ui/react';
 import { ArrowIcon } from '@/shared/assets';
-import { Teacher, useMetaThemeColor } from '@/shared';
+import {
+  AnalyticsEvent,
+  ClickSource,
+  Teacher,
+  useMetaThemeColor,
+} from '@/shared';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
 import { useEffect, useState } from 'react';
 import { SearchedTeacherDrawer } from '../SearchedTeacherDrawer/SearchedTeacherDrawer';
 import { useColor, useDisclosure } from '@/shared/lib';
 import { useTeachers } from '../../model/teacher.store';
+import { useYaMetrika } from '@/entities/YaMetrika';
 
 export function SearchedTeacherCard({ teacher }: { teacher: Teacher }) {
   const { isOpen, setIsOpen } = useDisclosure();
   const [activeSnapPoint, setActiveSnapPoint] = useState<string | number>(0.8);
   const { primaryColor, themeColor, mainColor, accentColor } = useColor();
   const { clearTeacherScheduleStatus } = useTeachers();
+  const { sendEvent } = useYaMetrika();
 
   useMetaThemeColor(mainColor, isOpen, themeColor);
 
@@ -28,7 +35,14 @@ export function SearchedTeacherCard({ teacher }: { teacher: Teacher }) {
         setActiveSnapPoint(newSnapPoint ?? 0.8)
       }
     >
-      <DrawerTrigger asChild>
+      <DrawerTrigger
+        asChild
+        onClick={() =>
+          sendEvent(AnalyticsEvent.teacherOpenDrawer, {
+            click_source: ClickSource.foundTeachers,
+          })
+        }
+      >
         <Box
           cursor={'pointer'}
           onClick={() => setIsOpen(true)}

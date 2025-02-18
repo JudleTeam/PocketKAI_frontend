@@ -6,17 +6,20 @@ import {
   InputRightElement,
 } from '@chakra-ui/react';
 
-import { useTeachers } from '@/entities';
+import { useTeachers, useYaMetrika } from '@/entities';
 import { debounce } from 'lodash';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { SearchedTeacherCard } from '@/entities';
 import { DeleteIcon } from '@chakra-ui/icons';
 import { Loader } from '@/shared/ui/loader/Loader';
-import { useColor } from '@/shared';
+import { AnalyticsEvent, useColor } from '@/shared';
 
 export function SearchTeacher() {
   const { suggestTeacherByName, searchedTeachers, searchedTeachersStatus } =
     useTeachers();
+  const [hasSentMetrics, setHasSentMetrics] = useState(false);
+  const { sendEvent } = useYaMetrika();
+
   const { accentColor, secondaryColor } = useColor();
   const inputRef = useRef<HTMLInputElement>(null);
   const debouncedSuggestTeacherByName = debounce((value) => {
@@ -32,13 +35,18 @@ export function SearchTeacher() {
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       debouncedSuggestTeacherByName(event.target.value);
+      if (!hasSentMetrics) {
+        sendEvent(AnalyticsEvent.teacherSearch);
+        setHasSentMetrics(true);
+      }
     },
-    [debouncedSuggestTeacherByName]
+    [hasSentMetrics, debouncedSuggestTeacherByName]
   );
 
   const handleInputClear = useCallback(() => {
     if (inputRef.current) {
       inputRef.current.value = '';
+      setHasSentMetrics(false);
     }
     debouncedSuggestTeacherByName('');
   }, [debouncedSuggestTeacherByName]);

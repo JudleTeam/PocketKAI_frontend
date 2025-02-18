@@ -1,5 +1,5 @@
-import { useCommon } from '@/entities';
-import { copyToast, Lesson } from '@/shared';
+import { useCommon, useYaMetrika } from '@/entities';
+import { AnalyticsEvent, copyToast, Lesson } from '@/shared';
 import { getLessonBuilding, useColor } from '@/shared/lib';
 import { CopyIcon } from '@chakra-ui/icons';
 import {
@@ -21,6 +21,7 @@ export function DrawerLessonBuilding({ lesson }: { lesson: Lesson }) {
   const { onOpen, onClose, isOpen } = useDisclosure();
   const { buildings, buildingsStatus, getBuildings } = useCommon();
   const { primaryColor, mainColor } = useColor();
+  const { sendEvent } = useYaMetrika();
   const toast = useToast();
   const lessonBuildingAddress = lesson.building_number
     ? buildings[lesson.building_number]
@@ -35,7 +36,12 @@ export function DrawerLessonBuilding({ lesson }: { lesson: Lesson }) {
       {lesson.building_number && buildings[lesson.building_number] ? (
         <Popover isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
           <PopoverTrigger>
-            <Box display={'flex'} alignItems="center" gap={1}>
+            <Box
+              display={'flex'}
+              onClick={() => sendEvent(AnalyticsEvent.lessonViewBuildingInfo)}
+              alignItems="center"
+              gap={1}
+            >
               <Text>
                 {getLessonBuilding(
                   lesson.building_number,

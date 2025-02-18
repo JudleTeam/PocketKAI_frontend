@@ -1,6 +1,8 @@
 import { Text, Box, Tabs, useToast, Button } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import {
+  AnalyticsEvent,
+  ClickSource,
   copyToast,
   getStatusTeacher,
   TabListHeader,
@@ -15,6 +17,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import { Swiper as SwiperInstance } from 'swiper/types';
 import WeekTeacherSchedule from '../TeacherDrawer/components/WeekTeacherSchedule';
+import { useYaMetrika } from '@/entities/YaMetrika';
 
 export function SearchedTeacherDrawer({
   teacher,
@@ -39,6 +42,7 @@ export function SearchedTeacherDrawer({
   } = useTeachers();
   const [isSchedule, setIsSchedule] = useState<boolean>(false);
   const toast = useToast();
+  const { sendEvent } = useYaMetrika();
   const swiperRef = useRef<SwiperInstance | null>(null);
 
   const handleSwipeChange = (index: number) => {
@@ -115,9 +119,12 @@ export function SearchedTeacherDrawer({
       <Text
         fontSize="24px"
         fontWeight="bold"
-        onClick={() =>
-          copyToast(teacher?.name || 'Преподаватель кафедры', toast)
-        }
+        onClick={() => {
+          copyToast(teacher?.name || 'Преподаватель кафедры', toast);
+          sendEvent(AnalyticsEvent.teacherCopyName, {
+            click_source: ClickSource.foundTeachers,
+          });
+        }}
       >
         {' '}
         {teacher?.name ?? 'Преподаватель кафедры'}
@@ -134,13 +141,23 @@ export function SearchedTeacherDrawer({
           fontWeight="medium"
           color="orange.300"
           to="/report"
+          onClick={() =>
+            sendEvent(AnalyticsEvent.lessonReport, {
+              click_source: ClickSource.foundTeachers,
+            })
+          }
         >
           Сообщить об ошибке
         </Text>
       </Box>
       {!isSchedule && teacher && !teacher.id.includes('default') && (
         <Button
-          onClick={() => setIsSchedule(true)}
+          onClick={() => {
+            setIsSchedule(true);
+            sendEvent(AnalyticsEvent.teacherSchedule, {
+              click_source: ClickSource.foundTeachers,
+            });
+          }}
           bgColor={secondaryColor}
           borderRadius="32px"
           paddingY="23px"

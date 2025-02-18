@@ -1,10 +1,13 @@
 import { Box, Text, Divider, useBreakpointValue } from '@chakra-ui/react';
 import { AccountTabHeader, useColor } from '@/shared/lib';
 import styles from './AboutUs.module.scss';
+import { useYaMetrika } from '@/entities';
+import { AnalyticsEvent, ClickSource } from '@/shared';
 
 export function AboutUs() {
   const { mainColor, primaryColor, accentColor } = useColor();
   const isDesktop = useBreakpointValue({ base: false, md: true });
+  const { sendEvent } = useYaMetrika();
   return (
     <Box className={styles['about']} style={isDesktop ? { width: '40%' } : {}}>
       <Box
@@ -59,9 +62,21 @@ export function AboutUs() {
         </Text>
         <Divider />
         <Text>
-          Следите за нашими обновлениями и новыми проектами в нашем <a href="https://t.me/pocket_kai" style={{ textDecoration: 'underline', color: accentColor }} target='_blank'>Telegram-канале PocketKAI</a>. Мы всегда открыты
-          для ваших предложений и комментариев, которые помогают нам становиться
-          лучше!
+          Следите за нашими обновлениями и новыми проектами в нашем{' '}
+          <a
+            onClick={() => {
+              sendEvent(AnalyticsEvent.feedbackGoToTg, {
+                click_source: ClickSource.aboutUs,
+              });
+            }}
+            href="https://t.me/pocket_kai"
+            target="_blank"
+            style={{ textDecoration: 'underline', color: accentColor }}
+          >
+            Telegram-канале PocketKAI
+          </a>
+          . Мы всегда открыты для ваших предложений и комментариев, которые
+          помогают нам становиться лучше!
         </Text>
       </Box>
     </Box>

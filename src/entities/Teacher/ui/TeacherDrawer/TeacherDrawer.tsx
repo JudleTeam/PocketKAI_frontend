@@ -9,6 +9,8 @@ import {
   weekParityId,
   TabListHeader,
   getStatusTeacher,
+  AnalyticsEvent,
+  ClickSource,
 } from '@/shared';
 import { Link } from 'react-router-dom';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -18,6 +20,7 @@ import { Pagination } from 'swiper/modules';
 import { Swiper as SwiperInstance } from 'swiper/types';
 import WeekTeacherSchedule from './components/WeekTeacherSchedule';
 import s from './TeacherDrawer.module.scss';
+import { useYaMetrika } from '@/entities/YaMetrika';
 
 type TeacherDrawerProps = {
   disciplineInfo: TeachersType;
@@ -35,6 +38,7 @@ export const TeacherDrawer: React.FC<TeacherDrawerProps> = ({
 
   const [weekParity, setWeekParity] = useState<'even' | 'odd'>(getWeekParity());
   const [isSchedule, setIsSchedule] = useState<boolean>(false);
+  const { sendEvent } = useYaMetrika();
 
   const {
     teacherScheduleStatus,
@@ -113,9 +117,12 @@ export const TeacherDrawer: React.FC<TeacherDrawerProps> = ({
     <Box className={s.root} color={primaryColor}>
       <Text
         className={s.root__name}
-        onClick={() =>
-          copyToast(teacher?.name || 'Преподаватель кафедры', toast)
-        }
+        onClick={() => {
+          copyToast(teacher?.name || 'Преподаватель кафедры', toast);
+          sendEvent(AnalyticsEvent.teacherCopyName, {
+            click_source: ClickSource.groupTeachers,
+          });
+        }}
       >
         {teacher?.name ? teacher?.name : 'Преподаватель кафедры'}
       </Text>
@@ -140,13 +147,23 @@ export const TeacherDrawer: React.FC<TeacherDrawerProps> = ({
           fontWeight="medium"
           color="orange.300"
           to="/report"
+          onClick={() =>
+            sendEvent(AnalyticsEvent.lessonReport, {
+              click_source: ClickSource.groupTeachers,
+            })
+          }
         >
           Сообщить об ошибке
         </Text>
       </Box>
       {!isSchedule && teacher && !teacher.id.includes('default') && (
         <Button
-          onClick={() => setIsSchedule(true)}
+          onClick={() => {
+            setIsSchedule(true);
+            sendEvent(AnalyticsEvent.teacherSchedule, {
+              click_source: ClickSource.groupTeachers,
+            });
+          }}
           bgColor={secondaryColor}
           borderRadius="32px"
           paddingY="23px"

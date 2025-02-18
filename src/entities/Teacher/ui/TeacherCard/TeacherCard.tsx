@@ -5,8 +5,14 @@ import { TeacherDrawer } from '../TeacherDrawer/TeacherDrawer';
 import React, { memo, useEffect, useState } from 'react';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
 import { useColor, useDisclosure } from '@/shared/lib';
-import { TeachersType, useMetaThemeColor } from '@/shared';
+import {
+  AnalyticsEvent,
+  ClickSource,
+  TeachersType,
+  useMetaThemeColor,
+} from '@/shared';
 import { useTeachers } from '../../model/teacher.store';
+import { useYaMetrika } from '@/entities/YaMetrika';
 
 export const TeacherCard = memo(function TeacherCard({
   disciplineInfo,
@@ -19,7 +25,7 @@ export const TeacherCard = memo(function TeacherCard({
   const { clearTeacherScheduleStatus } = useTeachers();
   const [activeSnapPoint, setActiveSnapPoint] = useState<string | number>(0.8);
   const { primaryColor, themeColor, mainColor, accentColor } = useColor();
-
+  const { sendEvent } = useYaMetrika();
   useMetaThemeColor(mainColor, isOpen, themeColor);
 
   useEffect(() => {
@@ -45,7 +51,14 @@ export const TeacherCard = memo(function TeacherCard({
         setActiveSnapPoint(newSnapPoint ?? 0.8)
       }
     >
-      <DrawerTrigger asChild>
+      <DrawerTrigger
+        asChild
+        onClick={() =>
+          sendEvent(AnalyticsEvent.teacherOpenDrawer, {
+            click_source: ClickSource.groupTeachers,
+          })
+        }
+      >
         <Box
           cursor={'pointer'}
           className="flex justify-between items-center py-[10px]"

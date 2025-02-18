@@ -1,7 +1,12 @@
 import { Box, Text, Button, useBreakpointValue, Tabs } from '@chakra-ui/react';
-import { useGroup } from '@/entities';
+import { useGroup, useYaMetrika } from '@/entities';
 import { DateTime } from 'luxon';
-import { getTodayDate, getWeekParity, TabListHeader } from '@/shared';
+import {
+  AnalyticsEvent,
+  getTodayDate,
+  getWeekParity,
+  TabListHeader,
+} from '@/shared';
 import s from './HiddenLessons.module.scss';
 import { useColor } from '@/shared/lib';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -20,6 +25,7 @@ export function HiddenLessons() {
   const currentParity = getWeekParity();
   const swiperRef = useRef<SwiperInstance | null>(null);
   const [weekParity, setWeekParity] = useState<'odd' | 'even'>(currentParity);
+  const { sendEvent } = useYaMetrika();
 
   const {
     hiddenLessons,
@@ -49,10 +55,7 @@ export function HiddenLessons() {
   }, []);
 
   return (
-    <Box
-      className={s['hidden']}
-      style={isDesktop ? { width: '40%' } : {}}
-    >
+    <Box className={s['hidden']} style={isDesktop ? { width: '40%' } : {}}>
       <Box w="100%">
         {lessonsForCurrentGroup ? (
           <Tabs
@@ -88,7 +91,10 @@ export function HiddenLessons() {
                 </Text>
                 {hiddenLessons.length > 0 && (
                   <Button
-                    onClick={deleteAllHiddenLesson}
+                    onClick={() => {
+                      deleteAllHiddenLesson();
+                      sendEvent(AnalyticsEvent.lessonDeleteHidden);
+                    }}
                     size="sm"
                     px="0"
                     py="0"
@@ -103,9 +109,10 @@ export function HiddenLessons() {
               {currentGroup && (
                 <Button
                   alignSelf={'end'}
-                  onClick={() =>
-                    deleteGroupHiddenLesson(currentGroup?.group_name)
-                  }
+                  onClick={() => {
+                    deleteGroupHiddenLesson(currentGroup?.group_name);
+                    sendEvent(AnalyticsEvent.lessonDeleteHidden);
+                  }}
                   size="sm"
                   px="0"
                   variant="ghost"
@@ -136,11 +143,20 @@ export function HiddenLessons() {
             >
               {lessonsForCurrentGroup.map((parity) => (
                 <SwiperSlide className={s.root__slide} key={parity.week_parity}>
-                  {parity.week_days.length > 0 ?
-                    <HiddenLessonsList weekDays={parity.week_days} /> :
-                    <Box h={'40dvh'} display={'flex'} alignItems={'center'} justifyContent={'center'}>
-                      <Text w={'50%'} textAlign={'center'}>На этой неделе нет скрытых пар</Text>
-                    </Box>}
+                  {parity.week_days.length > 0 ? (
+                    <HiddenLessonsList weekDays={parity.week_days} />
+                  ) : (
+                    <Box
+                      h={'40dvh'}
+                      display={'flex'}
+                      alignItems={'center'}
+                      justifyContent={'center'}
+                    >
+                      <Text w={'50%'} textAlign={'center'}>
+                        На этой неделе нет скрытых пар
+                      </Text>
+                    </Box>
+                  )}
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -170,7 +186,10 @@ export function HiddenLessons() {
                 Скрытые пары
               </Text>
               <Button
-                onClick={deleteAllHiddenLesson}
+                onClick={() => {
+                  deleteAllHiddenLesson();
+                  sendEvent(AnalyticsEvent.lessonDeleteHidden);
+                }}
                 size="sm"
                 px="0"
                 py="0"

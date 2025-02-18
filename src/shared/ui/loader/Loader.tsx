@@ -1,7 +1,13 @@
-import { BackgroundTaskStatus, FetchStatus } from '@/shared';
+import {
+  AnalyticsEvent,
+  BackgroundTaskStatus,
+  ClickSource,
+  FetchStatus,
+} from '@/shared';
 import { Box, Spinner, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { TryAgainButton } from './components/TryAgainButton';
+import { useYaMetrika } from '@/entities';
 export const Loader = ({
   children,
   status,
@@ -14,6 +20,7 @@ export const Loader = ({
   isSearch?: boolean;
   teacherId?: string;
 }>) => {
+  const { sendEvent } = useYaMetrika();
   switch (status) {
     case 'loading':
     case 'PENDING':
@@ -60,6 +67,11 @@ export const Loader = ({
           <Text w="60%" fontSize={'14px '}>
             Или сразу напишите нам -{' '}
             <a
+              onClick={() => {
+                sendEvent(AnalyticsEvent.feedbackGoToTg, {
+                  click_source: ClickSource.mainButton,
+                });
+              }}
               style={{ textDecoration: 'underline' }}
               href="https://t.me/pocket_kai_help"
               target="_blank"
@@ -90,6 +102,11 @@ export const Loader = ({
           <Text w="60%" fontSize={'14px '}>
             Напишите нам и мы решим эту проблему -{' '}
             <a
+              onClick={() => {
+                sendEvent(AnalyticsEvent.feedbackGoToTg, {
+                  click_source: ClickSource.mainButton,
+                });
+              }}
               style={{ textDecoration: 'underline' }}
               href="https://t.me/pocket_kai_help"
               target="_blank"

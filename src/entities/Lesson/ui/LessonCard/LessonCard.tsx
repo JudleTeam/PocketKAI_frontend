@@ -1,21 +1,22 @@
 import { memo } from 'react';
 import { HStack, Text } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
-import { Lesson, useMetaThemeColor } from '@/shared';
-import { lessonStateIcons } from '@/shared/constants';
+import { AnalyticsEvent, Lesson, useMetaThemeColor } from '@/shared';
+import { lessonStateIcons, LessonTypes } from '@/shared/constants';
 import { lessonStateLine } from '../../constants/lessonStateLine';
-import { LessonTypes } from '@/shared/constants';
 import { getLessonState } from '../../lib/getLessonState';
 import { getLessonBuilding, useColor, useDisclosure } from '@/shared/lib';
 import styles from './LessonCard.module.scss';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
 import { HideLesson } from '@/features';
 import { LessonDrawer } from '../LessonDrawer/LessonDrawer';
+import { useYaMetrika } from '@/entities';
 
 const LessonCard = memo(
   ({ lesson, dayDate }: { lesson: Lesson; dayDate: string }) => {
     const { isOpen, setIsOpen } = useDisclosure();
     const { themeColor, primaryColor, mainColor } = useColor();
+    const { sendEvent } = useYaMetrika();
 
     useMetaThemeColor(mainColor, isOpen, themeColor);
 
@@ -24,6 +25,7 @@ const LessonCard = memo(
         <HideLesson lesson={lesson} dayDate={dayDate}>
           <DrawerTrigger asChild>
             <HStack
+              onClick={() => sendEvent(AnalyticsEvent.lessonOpenDrawer)}
               className={styles['lesson-card']}
               alignItems="flex-start"
               transition="0.2s"

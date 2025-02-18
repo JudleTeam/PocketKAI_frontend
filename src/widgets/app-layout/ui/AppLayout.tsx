@@ -9,15 +9,16 @@ import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { SelectGroup } from '@/features';
-import { useGroup, useSchedule } from '@/entities';
-
 import logoLight from '@/shared/assets/images/logo_light.png';
 import logoDark from '@/shared/assets/images/logo_dark.png';
+import { useGroup, useSchedule, useYaMetrika } from '@/entities';
 import {
-  UiDatebar,
+  AnalyticsEvent,
+  ClickSource,
   getTodayDate,
   parityTypes,
   scrollToToday,
+  UiDatebar,
   useColor,
   useMetaThemeColor,
 } from '@/shared';
@@ -39,6 +40,7 @@ export function AppLayout() {
   const { mainColor, primaryColor, themeColor } = useColor();
   const { isOpen } = useDisclosure();
   const { currentGroup, updateHiddenLesson } = useGroup();
+  const { sendEvent } = useYaMetrika();
   const {
     schedule,
     parity,
@@ -156,7 +158,12 @@ export function AppLayout() {
               alignItems={'flex-start'}
               gap={0.4}
               color={primaryColor}
-              onClick={() => scrollToToday(true)}
+              onClick={() => {
+                scrollToToday(true);
+                sendEvent(AnalyticsEvent.scheduleViewToday, {
+                  click_source: ClickSource.TodayDate,
+                });
+              }}
             >
               <Text fontSize={'clamp(20px, 5vw, 20px)'}>
                 {DateTime.now()

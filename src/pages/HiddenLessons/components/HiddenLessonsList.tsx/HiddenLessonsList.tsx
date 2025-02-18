@@ -1,4 +1,4 @@
-import { HiddenLesson, LessonTypes, useColor } from '@/shared';
+import { AnalyticsEvent, HiddenLesson, LessonTypes, useColor } from '@/shared';
 import { DateTime } from 'luxon';
 import { possiblyHide } from '../../lib/possiblyHide';
 import {
@@ -20,7 +20,7 @@ import { HideIcon } from '@/shared/assets/chakraIcons/HideIcon';
 import { ElipsisIcon } from '@/shared/assets/chakraIcons/ElipsisIcon';
 import { ShowIcon } from '@/shared/assets/chakraIcons/ShowIcon';
 import { useState } from 'react';
-import { useGroup, useSettings } from '@/entities';
+import { useGroup, useSettings, useYaMetrika } from '@/entities';
 import { getTypeHide } from '../../lib/getTypeHide';
 
 type HiddenLessonsListProps = {
@@ -31,6 +31,7 @@ type HiddenLessonsListProps = {
 };
 
 const HiddenLessonsList: React.FC<HiddenLessonsListProps> = ({ weekDays }) => {
+  const { sendEvent } = useYaMetrika();
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
   const { mainColor, primaryColor, secondaryColor } = useColor();
   const { addHiddenLesson, deleteHiddenLesson, currentGroup } = useGroup();
@@ -161,8 +162,8 @@ const HiddenLessonsList: React.FC<HiddenLessonsListProps> = ({ weekDays }) => {
                             }}
                             display={
                               'even' === hide ||
-                                'odd' === hide ||
-                                'always' === hide
+                              'odd' === hide ||
+                              'always' === hide
                                 ? 'flex'
                                 : 'none'
                             }
@@ -182,8 +183,8 @@ const HiddenLessonsList: React.FC<HiddenLessonsListProps> = ({ weekDays }) => {
                           <MenuDivider
                             display={
                               'even' === hide ||
-                                'odd' === hide ||
-                                'always' === hide
+                              'odd' === hide ||
+                              'always' === hide
                                 ? 'flex'
                                 : 'none'
                             }
@@ -193,6 +194,7 @@ const HiddenLessonsList: React.FC<HiddenLessonsListProps> = ({ weekDays }) => {
                       <MenuItem
                         onClick={() => {
                           deleteHiddenLesson(lesson.id, lesson.type_hide);
+                          sendEvent(AnalyticsEvent.lessonDeleteHidden);
                         }}
                         display={'flex'}
                         alignItems={'center'}

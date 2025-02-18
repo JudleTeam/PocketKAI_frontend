@@ -1,5 +1,5 @@
-import { Box, Text, Divider } from '@chakra-ui/react';
-import { HiddenLesson, Lesson } from '@/shared';
+import { Box, Divider, Text } from '@chakra-ui/react';
+import { AnalyticsEvent, HiddenLesson, Lesson } from '@/shared';
 import { useColor } from '@/shared/lib';
 import React, { ReactNode } from 'react';
 import {
@@ -8,7 +8,7 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from '@/shared/ui/context-menu';
-import { useGroup } from '@/entities';
+import { useGroup, useYaMetrika } from '@/entities';
 
 export function HideLesson({
   dayDate,
@@ -21,6 +21,7 @@ export function HideLesson({
 }) {
   const { primaryColor } = useColor();
   const { currentGroup, hiddenLessons, addHiddenLesson } = useGroup();
+  const { sendEvent } = useYaMetrika();
   const isHiddenAlways = hiddenLessons.some(
     (hiddenLesson) =>
       hiddenLesson.lesson.id === lesson.id &&
@@ -79,7 +80,11 @@ export function HideLesson({
     }
   };
   return (
-    <ContextMenu>
+    <ContextMenu
+      onOpenChange={(open) =>
+        open && sendEvent(AnalyticsEvent.lessonOpenContext)
+      }
+    >
       <ContextMenuTrigger asChild>
         <Box
           transition={'0.2s'}

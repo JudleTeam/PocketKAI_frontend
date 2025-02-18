@@ -6,8 +6,8 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { Calendar, CalendarDays } from 'lucide-react';
-import { useGroup, useSchedule, useSettings } from '@/entities';
-import { Day, getFormattedDate, getTodayDate } from '@/shared';
+import { useGroup, useSchedule, useSettings, useYaMetrika } from '@/entities';
+import { AnalyticsEvent, Day, getFormattedDate, getTodayDate } from '@/shared';
 import { shareData, useColor } from '@/shared/lib';
 import { getFormattedDaySchedule } from './lib/getFormattedDaySchedule';
 import {
@@ -36,10 +36,15 @@ export function DayNameWithShare({
   const { isColoredDayDate } = useSettings();
   const { schedule } = useSchedule();
   const { currentGroup } = useGroup();
+  const { sendEvent } = useYaMetrika();
   const isDesktop = useBreakpointValue({ base: false, md: true });
 
   return (
-    <ContextMenu>
+    <ContextMenu
+      onOpenChange={(open) =>
+        open && sendEvent(AnalyticsEvent.lessonOpenContext)
+      }
+    >
       <ContextMenuTrigger asChild>
         <Box
           display={'flex'}
@@ -73,14 +78,16 @@ export function DayNameWithShare({
       <ContextMenuContent avoidCollisions>
         <ContextMenuItem
           className={`space-x-2 ${day.lessons.length ? '' : 'hidden'}`}
-          onClick={() =>
-            day.lessons.length &&
-            shareData(
-              getFormattedDaySchedule(day, currentGroup?.group_name),
-              toast,
-              isDesktop
-            )
-          }
+          onClick={() => {
+            if (day.lessons.length) {
+              shareData(
+                getFormattedDaySchedule(day, currentGroup?.group_name),
+                toast,
+                isDesktop
+              );
+            }
+            sendEvent(AnalyticsEvent.scheduleCopyDay);
+          }}
         >
           <Text>Поделиться днём</Text>
           <Icon as={Calendar} />
@@ -92,13 +99,14 @@ export function DayNameWithShare({
         />
         <ContextMenuItem
           className="space-x-2"
-          onClick={() =>
+          onClick={() => {
             shareData(
               getFormattedWeekSchedule(day, schedule, currentGroup?.group_name),
               toast,
               isDesktop
-            )
-          }
+            );
+            sendEvent(AnalyticsEvent.scheduleCopyWeek);
+          }}
         >
           <Text>Поделиться неделей</Text>
           <Icon as={CalendarDays} />
