@@ -56,7 +56,7 @@ export function Teachers() {
               handleTabChange(0);
             }}
           >
-            Ваши педагоги
+            Ваши преподы
           </Tab>
           <Tab
             outlineColor={'none'}
@@ -67,7 +67,7 @@ export function Teachers() {
               handleTabChange(1);
             }}
           >
-            Поиск педагога
+            Поиск преподов
           </Tab>
         </TabList>
       </Box>

@@ -3,10 +3,10 @@ import { usePWAState } from '../PWABadge.store';
 import './PWABadge.css';
 
 import { useRegisterSW } from 'virtual:pwa-register/react';
+import { useBreakpointValue } from '@chakra-ui/react';
 
 function PWABadge() {
   const { setStoreNeedRefresh, setUpdateServiceWorker } = usePWAState();
-
   // check for updates every hour
 
   const period = 60 * 60 * 1000;
@@ -29,6 +29,12 @@ function PWABadge() {
   });
   const [isOpen, setIsOpen] = useState(needRefresh);
 
+  const isDesktop = useBreakpointValue({ base: false, md: true });
+
+  const handleUpdate = () => {
+    updateServiceWorker(true)
+  };
+
   useEffect(() => {
     setIsOpen(needRefresh);
   }, [needRefresh]);
@@ -48,7 +54,7 @@ function PWABadge() {
   return (
     <div className="PWABadge" role="alert" aria-labelledby="toast-message">
       {isOpen && (
-        <div className="PWABadge-toast border-1 space-y-3 bg-l-account-actions w-9/12 h-fit dark:bg-d-account-actions">
+        <div className={`PWABadge-toast w-${isDesktop ? '[40%]' : '[70%]'} border-1 space-y-3 bg-l-main w-9/12 h-fit dark:bg-d-main`}>
           <div className="PWABadge-message">
             <span id="toast-message" className="text-[16px]">
               Доступно обновление!
@@ -57,14 +63,14 @@ function PWABadge() {
           <div className="PWABadge-buttons">
             {needRefresh && (
               <button
-                className="PWABadge-toast-button rounded px-4 py-1.5 text-white bg-l-blue-element dark:bg-d-blue-element"
-                onClick={() => updateServiceWorker(true)}
+                className="PWABadge-toast-button rounded-3xl px-4 py-1.5 text-white dark:text-l-main-text font-medium bg-l-main-element"
+                onClick={() => handleUpdate()}
               >
                 Обновить
               </button>
             )}
             <button
-              className="PWABadge-toast-button rounded px-4 py-1.5  bg-transparent dark:bg-transparent dark:text-white"
+              className="PWABadge-toast-button rounded-3xl px-4 py-1.5  bg-transparent dark:bg-transparent dark:text-white"
               onClick={() => close()}
             >
               Закрыть

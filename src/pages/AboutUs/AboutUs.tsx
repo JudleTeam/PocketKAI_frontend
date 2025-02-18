@@ -3,7 +3,7 @@ import { AccountTabHeader, useColor } from '@/shared/lib';
 import styles from './AboutUs.module.scss';
 
 export function AboutUs() {
-  const { mainColor, primaryColor } = useColor();
+  const { mainColor, primaryColor, accentColor } = useColor();
   const isDesktop = useBreakpointValue({ base: false, md: true });
   return (
     <Box className={styles['about']} style={isDesktop ? { width: '40%' } : {}}>
@@ -59,7 +59,7 @@ export function AboutUs() {
         </Text>
         <Divider />
         <Text>
-          Следите за нашими обновлениями и новыми проектами. Мы всегда открыты
+          Следите за нашими обновлениями и новыми проектами в нашем <a href="https://t.me/pocket_kai" style={{ textDecoration: 'underline', color: accentColor }} target='_blank'>Telegram-канале PocketKAI</a>. Мы всегда открыты
           для ваших предложений и комментариев, которые помогают нам становиться
           лучше!
         </Text>

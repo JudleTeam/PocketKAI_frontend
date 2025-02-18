@@ -1,5 +1,5 @@
 import { useGroup } from '@/entities';
-import { getStatus, Lesson } from '@/shared';
+import { getStatusSchedule, Lesson } from '@/shared';
 import { Box } from '@chakra-ui/react';
 import { Loader } from '@/shared/ui/loader/Loader';
 import { IdleMessage } from '@/shared';
@@ -48,7 +48,7 @@ export function SwiperWeekSchedule({
       w={{ md: '70%', lg: '40%' }}
       _active={{ cursor: 'grabbing' }}
     >
-      <Loader status={getStatus()} idleMessage={<IdleMessage />}>
+      <Loader status={getStatusSchedule()} idleMessage={<IdleMessage />}>
         <Swiper
           onSwiper={(swiper) => {
             swiperRef.current = swiper;

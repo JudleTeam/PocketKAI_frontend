@@ -1,3 +1,5 @@
+@import "@/app/styles/variables.scss";
+
 .about {
   width: 90%;
   margin: 0 auto;
@@ -8,4 +10,8 @@
   flex-direction: column;
   gap: 10px;
   padding: 0 0 20px 0;
+
+  @include media(md) {
+    height: 100dvh;
+  }
 }

@@ -23,7 +23,7 @@ export function getNavbarActions(
       action: false,
     },
     {
-      label: 'Педагоги',
+      label: 'Преподы',
       path: '/teachers',
       icon: TeachersIcon,
       action: false,

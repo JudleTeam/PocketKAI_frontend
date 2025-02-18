@@ -32,8 +32,8 @@ export function Report() {
             style={{ borderRadius: '8px', overflowY: 'auto' }}
             src={
               colorMode === 'light'
-                ? 'https://forms.yandex.ru/cloud/66b65dab84227c1b171b2fc2/?iframe=1&version=1.0.3-hotfix'
-                : 'https://forms.yandex.ru/cloud/66b790f384227c34e21b2f91/?iframe=1&version=1.0.3-hotfix'
+                ? 'https://forms.yandex.ru/cloud/66b65dab84227c1b171b2fc2/?iframe=1&version=2.0.0'
+                : 'https://forms.yandex.ru/cloud/66b790f384227c34e21b2f91/?iframe=1&version=2.0.0'
             }
             height="100%"
             frameBorder="0"
@@ -46,6 +46,7 @@ export function Report() {
           <a
             style={{ textDecoration: 'underline' }}
             href="https://t.me/pocket_kai_help"
+            target='_blank'
           >
             @pocket_kai_help
           </a>

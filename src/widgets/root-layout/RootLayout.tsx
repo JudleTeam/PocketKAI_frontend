@@ -14,6 +14,15 @@ export function RootLayout() {
   const { mainColor } = useColor();
   const toast = useToast();
 
+  useEffect(() => {
+    const hasCleaned = localStorage.getItem('hasCleaned')
+    if (!hasCleaned) {
+      localStorage.clear()
+      localStorage.setItem('hasCleaned', 'true')
+      window.location.reload()
+    }
+  }, [])
+
   useMetaThemeColor(mainColor);
 
   useEffect(() => {

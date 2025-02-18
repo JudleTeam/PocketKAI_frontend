@@ -26,8 +26,10 @@ type StoreState = {
   scheduleStatus: FetchStatus;
   weekScheduleStatus: FetchStatus;
   backgroundTask: StoreBackgroundTasks | null;
+  isReady: boolean;
   error: Nullable<unknown>;
 };
+
 type StoreActions = {
   getFullWeekScheduleById: (id: string) => Promise<void>;
   addToCurrentSchedule: (
@@ -38,6 +40,7 @@ type StoreActions = {
   getWeekParity: (params?: WeekParity) => Promise<void>;
   getBackgroundTaskStatus: (taskId: string) => Promise<void>;
   setShowFadedLessons: (showFadedLessons: boolean) => void;
+  clearSchedule: () => void;
   resetScheduleState: () => void;
 };
 
@@ -57,6 +60,7 @@ const initialState: StoreState = {
   scheduleStatus: 'idle',
   weekScheduleStatus: 'idle',
   error: null,
+  isReady: false,
 };
 
 export const useSchedule = create<StoreState & StoreActions>()(
@@ -78,6 +82,7 @@ export const useSchedule = create<StoreState & StoreActions>()(
             weekSchedule: { odd: anyWeek.odd, even: anyWeek.even },
             weekScheduleStatus: 'success',
             backgroundTask: task,
+            isReady: response.data.is_ready
           });
         } catch (error) {
           set({ error, weekScheduleStatus: 'error' });
@@ -133,6 +138,15 @@ export const useSchedule = create<StoreState & StoreActions>()(
       },
       setShowFadedLessons: (value) => {
         set({ showFadedLessons: value });
+      },
+
+      clearSchedule: () => {
+        set({
+          weekSchedule: null,
+          weekScheduleStatus: 'idle',
+          backgroundTask: null,
+          isReady: false
+        })
       },
 
       resetScheduleState: () => set(initialState),

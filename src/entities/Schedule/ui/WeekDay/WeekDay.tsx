@@ -40,7 +40,7 @@ const WeekDay: React.FC<WeekDayProps> = ({
         />
       </Box>
       {allLessonsHidden ? (
-        <VStack px={1} pt={4} h={isSwiper ? '68dvh' : 'auto'}>
+        <VStack px={1} pt={4} h={isSwiper ? { base: '68dvh', md: '76.8dvh' } : 'auto'}>
           <Box
             w="100%"
             bgColor={cardColor}
@@ -61,7 +61,7 @@ const WeekDay: React.FC<WeekDayProps> = ({
           gap="10px"
           overflowY={isSwiper ? 'scroll' : 'initial'}
           overflowX={'hidden'}
-          h={isSwiper ? '68dvh' : 'auto'}
+          h={isSwiper ? { base: '68dvh', md: '76.8dvh' } : 'auto'}
           style={{ scrollbarWidth: 'none' }}
         >
           {dayLessons.map((lesson) => {

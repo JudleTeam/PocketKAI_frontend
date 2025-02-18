@@ -47,11 +47,11 @@ export function HiddenLessons() {
     setWeekParity(index === 0 ? 'even' : 'odd');
     swiperRef.current?.slideTo(index);
   }, []);
-  console.log(lessonsForCurrentGroup)
+
   return (
     <Box
       className={s['hidden']}
-      style={isDesktop ? { width: '40%', paddingTop: '5vh' } : {}}
+      style={isDesktop ? { width: '40%' } : {}}
     >
       <Box w="100%">
         {lessonsForCurrentGroup ? (

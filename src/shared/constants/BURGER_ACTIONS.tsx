@@ -6,6 +6,7 @@ import { HideIcon } from '../assets/chakraIcons/HideIcon';
 import { ExamsIcon } from '../assets/chakraIcons/ExamsIcon';
 import { CalendarIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { TimeLineIcon } from '../assets/chakraIcons/TimeLineIcon';
+import { TelegramIcon } from '../assets/chakraIcons/TelegramIcon';
 
 export const scheduleActions = [
   {
@@ -44,7 +45,6 @@ export const settingsActions = [
     path: 'settings',
     icon: SettingsIcon,
   },
-
   {
     label: 'Частые вопросы',
     path: 'faq',
@@ -54,6 +54,11 @@ export const settingsActions = [
     label: 'О нас',
     path: 'about',
     icon: AboutUsIcon,
+  },
+  {
+    label: 'Telegram',
+    path: 'https://t.me/pocket_kai',
+    icon: TelegramIcon,
   },
   {
     label: 'Обратная связь',

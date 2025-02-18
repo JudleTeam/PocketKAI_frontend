@@ -3,7 +3,7 @@ import { StepType } from '@reactour/tour';
 export const steps: StepType[] = [
   {
     selector: '[data-tour="1"]',
-    content: 'Добро пожаловать в Pocket KAI! Проведём краткий курс?',
+    content: 'Добро пожаловать в PocketKAI! Проведём краткий курс?',
   },
   {
     selector: '[data-tour="2"]',

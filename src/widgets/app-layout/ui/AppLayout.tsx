@@ -1,10 +1,11 @@
-import { Box, Text, useDisclosure, VStack } from '@chakra-ui/react';
+import { Text, Box, useDisclosure, VStack, useColorMode } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { SelectGroup } from '@/features';
+import logoLight from '@/shared/assets/images/logo_light.png'
+import logoDark from '@/shared/assets/images/logo_dark.png'
 import { useGroup, useSchedule, useYaMetrika } from '@/entities';
-import logo from '@/shared/assets/images/logo.png';
 import {
   AnalyticsEvent,
   ClickSource,
@@ -29,6 +30,7 @@ export function AppLayout() {
   const [currentDay, setCurrentDay] = useState<string>(
     DateTime.now().setZone('Europe/Moscow').toFormat('yyyy-LL-dd')
   );
+  const { colorMode } = useColorMode()
   const { mainColor, primaryColor, themeColor } = useColor();
   const { isOpen } = useDisclosure();
   const { currentGroup, updateHiddenLesson } = useGroup();
@@ -56,29 +58,17 @@ export function AppLayout() {
     location.pathname.includes('hidden');
 
   useEffect(() => {
-    const weekAgo = DateTime.now()
-      .setZone('Europe/Moscow')
-      .startOf('week')
-      .minus({ days: 7 })
-      .toFormat('yyyy-LL-dd');
-    const days_count = 21;
-
-    if (currentGroup && weekScheduleStatus === 'idle') {
-      getFullWeekScheduleById(currentGroup.id).then(() => {
-        getSchedule({
-          date_from: weekAgo,
-          days_count,
-        }).then(() => {
-          scrollToToday(false);
-        });
-        5;
-      });
-    }
     if (
       currentGroup &&
-      backgroundTask &&
-      backgroundTask?.status === 'SUCCESS'
+      (weekScheduleStatus === 'idle' || backgroundTask?.status === 'SUCCESS')
     ) {
+      const weekAgo = DateTime.now()
+        .setZone('Europe/Moscow')
+        .startOf('week')
+        .minus({ days: 7 })
+        .toFormat('yyyy-LL-dd');
+      const days_count = 21;
+
       getFullWeekScheduleById(currentGroup.id).then(() => {
         getSchedule({
           date_from: weekAgo,
@@ -86,12 +76,10 @@ export function AppLayout() {
         }).then(() => {
           scrollToToday(false);
         });
-        5;
       });
     }
   }, [
     currentGroup,
-    weekScheduleStatus,
     getSchedule,
     getWeekParity,
     getFullWeekScheduleById,
@@ -104,7 +92,6 @@ export function AppLayout() {
 
   useEffect(() => {
     if (!backgroundTask) return;
-    console.log(backgroundTask);
     const getStatuses = () => {
       if (
         backgroundTask.status !== 'SUCCESS' &&
@@ -183,7 +170,7 @@ export function AppLayout() {
             <BadgeContent schedule={schedule} />
           </Box>
           <Box display={{ base: 'none', md: 'block' }} w={12}>
-            <img src={logo} />
+            <img src={colorMode === 'light' ? logoLight : logoDark} />
           </Box>
         </Box>
         <UiDatebar

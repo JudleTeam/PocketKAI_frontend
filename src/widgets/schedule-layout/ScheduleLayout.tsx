@@ -7,7 +7,7 @@ import {
   useSchedule,
   useYaMetrika,
 } from '@/entities';
-import { BottomBoundary, DayNameWithShare, TopBoundary } from '@/features';
+import { TopBoundary, BottomBoundary, DayNameWithShare } from '@/features';
 import {
   getWeekParityDate,
   scrollToToday,
@@ -18,7 +18,7 @@ import {
 import {
   AnalyticsEvent,
   ClickSource,
-  getStatus,
+  getStatusSchedule,
   getTodayDate,
   IdleMessage,
 } from '@/shared';
@@ -37,7 +37,7 @@ export function ScheduleLayout() {
   const today = getTodayDate();
 
   return (
-    <Loader status={getStatus()} idleMessage={<IdleMessage />}>
+    <Loader status={getStatusSchedule()} idleMessage={<IdleMessage />}>
       <Box
         id="schedule"
         className={styles['schedule']}

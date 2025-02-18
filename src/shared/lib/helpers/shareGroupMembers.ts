@@ -8,12 +8,11 @@ export const shareGroupMembers = (
   groupName?: string,
   isDesktop?: boolean
 ) => {
-  const footer = `\n\n————————————————\n\nОтправлено из Pocket KAI: ${window.location.origin}`;
+  const footer = `\n\n————————————————\n\nОтправлено из PocketKAI: ${window.location.origin}`;
   const formattedData = `Группа ${groupName}\n\n${data
     .map(
       (member) =>
-        `${member.position}. ${member.full_name} ${
-          member.is_leader ? '(Староста)' : ''
+        `${member.position}. ${member.full_name} ${member.is_leader ? '(Староста)' : ''
         }`
     )
     .join('\n')}${footer}`;

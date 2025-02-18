@@ -79,7 +79,7 @@ export function WeekLineSchedule() {
       onChange={handleTabChange}
     >
       <TabListHeader
-        w={isDesktop ? '40%' : '100%'}
+        w={isDesktop ? '70%' : '100%'}
         currentDay={currentDay}
         currentDayOfWeek={currentDayOfWeek}
         currentParity={currentParity}

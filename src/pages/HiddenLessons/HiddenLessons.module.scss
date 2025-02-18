@@ -1,3 +1,5 @@
+@import "@/app/styles/variables.scss";
+
 .hidden {
   width: 95%;
   margin: 0 auto;
@@ -8,6 +10,10 @@
   gap: 10px;
   padding: 0 0 20px 0;
   height: 85dvh;
+
+  @include media(md) {
+    height: 92dvh;
+  }
 }
 
 .tabs {
@@ -25,5 +31,6 @@
     min-height: 65dvh !important;
     overflow: scroll;
     scrollbar-width: none;
+    cursor: grab;
   }
 }

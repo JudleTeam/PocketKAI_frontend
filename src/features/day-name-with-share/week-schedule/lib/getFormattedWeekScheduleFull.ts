@@ -4,7 +4,8 @@ import { WEEK_DAYS } from '@/shared/constants';
 
 export const getFormattedWeekScheduleFull = (
   weekSchedule: Nullable<FullWeekSchedule>,
-  weekParity: 'even' | 'odd'
+  weekParity: 'even' | 'odd',
+  groupName: string = '',
 ) => {
   if (!weekSchedule) return '';
   const requiredWeekSchedule = weekSchedule[weekParity];
@@ -12,9 +13,8 @@ export const getFormattedWeekScheduleFull = (
     ([dayName, dayLessons], index) => {
       if (index === 6) return '';
       const formattedDayName = WEEK_DAYS[dayName as keyof typeof WEEK_DAYS];
-      const header = `${
-        formattedDayName.charAt(0).toUpperCase() + formattedDayName.slice(1)
-      }\n————————————————————\n`;
+      const header = `${formattedDayName.charAt(0).toUpperCase() + formattedDayName.slice(1)
+        }\n————————————————————\n`;
       const footer = `————————————————————\n`;
       if (!dayLessons.length) return header + 'Выходной\n' + footer;
       return (
@@ -25,8 +25,8 @@ export const getFormattedWeekScheduleFull = (
     }
   );
   return (
-    `${weekParity === 'even' ? 'Чётная' : 'Нечётная'} неделя\n\n` +
+    `${weekParity === 'even' ? 'Чётная' : 'Нечётная'} неделя, гр. ${groupName}\n\n` +
     result.join('\n') +
-    `Отправлено из Pocket KAI: ${window.location.origin}`
+    `Отправлено из PocketKAI: ${window.location.origin}`
   );
 };

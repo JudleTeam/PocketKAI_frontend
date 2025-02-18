@@ -2,16 +2,22 @@ import { Box, Text, Divider, Avatar } from '@chakra-ui/react';
 import { ArrowIcon } from '@/shared/assets';
 import { Teacher, useMetaThemeColor } from '@/shared';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/shared/ui/drawer';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SearchedTeacherDrawer } from '../SearchedTeacherDrawer/SearchedTeacherDrawer';
 import { useColor, useDisclosure } from '@/shared/lib';
+import { useTeachers } from '../../model/teacher.store';
 
 export function SearchedTeacherCard({ teacher }: { teacher: Teacher }) {
   const { isOpen, setIsOpen } = useDisclosure();
   const [activeSnapPoint, setActiveSnapPoint] = useState<string | number>(0.8);
   const { primaryColor, themeColor, mainColor, accentColor } = useColor();
+  const { clearTeacherSchedule } = useTeachers()
 
   useMetaThemeColor(mainColor, isOpen, themeColor);
+
+  useEffect(() => {
+    clearTeacherSchedule()
+  }, [isOpen])
 
   return (
     <Drawer

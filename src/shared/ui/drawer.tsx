@@ -5,7 +5,7 @@ import { cn, useDrawerPopstateClose } from '@/shared/lib';
 import { useBreakpointValue } from '@chakra-ui/react';
 const Drawer = ({
   open = false,
-  onOpenChange = () => {},
+  onOpenChange = () => { },
   activeSnapPoint = 0.8,
   //setActiveSnapPoint = () => {},
 
@@ -14,7 +14,7 @@ const Drawer = ({
   useDrawerPopstateClose(open, onOpenChange);
   const drawerDirection = useBreakpointValue<
     'bottom' | 'right' | 'left' | 'top' | undefined
-  >({ base: 'bottom', md: 'right' });
+  >({ base: 'bottom', md: 'left' });
 
   return (
     <DrawerPrimitive.Root
@@ -61,9 +61,9 @@ const DrawerContent = React.forwardRef<
       <DrawerPrimitive.Content
         ref={ref}
         className={cn(
-          'fixed inset-x-0 md:right-0 md:left-auto h-[100%] max-h-[100%] md:max-h-[100%] md:h-[100%] md:max-w-[400px]' +
-            ' px-3 bottom-0 z-50 mt-24 flex flex-col rounded-t-[25px] md:rounded-t-none md:rounded-tl-[15px] md:rounded-bl-[15px]' +
-            ' bg-l-main dark:bg-d-main focus:outline-none border-[0px] md:p-5',
+          'fixed inset-x-0 md:left-0 md:right-auto h-[100%] max-h-[100%] md:max-h-[100%] md:h-[100%] md:max-w-[400px]' +
+          ' px-3 bottom-0 z-50 mt-24 flex flex-col rounded-t-[25px] md:rounded-t-none md:rounded-tr-[15px] md:rounded-br-[15px]' +
+          ' bg-l-main dark:bg-d-main focus:outline-none border-[0px] md:p-5',
           className
         )}
         {...props}
