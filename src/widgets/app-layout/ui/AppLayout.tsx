@@ -1,12 +1,18 @@
-import { Text, Box, useDisclosure, VStack, useColorMode } from '@chakra-ui/react';
+import {
+  Text,
+  Box,
+  useDisclosure,
+  VStack,
+  useColorMode,
+} from '@chakra-ui/react';
 import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { SelectGroup } from '@/features';
 import { useGroup, useSchedule } from '@/entities';
 
-import logoLight from '@/shared/assets/images/logo_light.png'
-import logoDark from '@/shared/assets/images/logo_dark.png'
+import logoLight from '@/shared/assets/images/logo_light.png';
+import logoDark from '@/shared/assets/images/logo_dark.png';
 import {
   UiDatebar,
   getTodayDate,
@@ -29,7 +35,7 @@ export function AppLayout() {
   const [currentDay, setCurrentDay] = useState<string>(
     DateTime.now().setZone('Europe/Moscow').toFormat('yyyy-LL-dd')
   );
-  const { colorMode } = useColorMode()
+  const { colorMode } = useColorMode();
   const { mainColor, primaryColor, themeColor } = useColor();
   const { isOpen } = useDisclosure();
   const { currentGroup, updateHiddenLesson } = useGroup();
@@ -58,7 +64,9 @@ export function AppLayout() {
   useEffect(() => {
     if (
       currentGroup &&
-      (weekScheduleStatus === 'idle' || backgroundTask?.status === 'SUCCESS')
+      (weekScheduleStatus === 'idle' ||
+        (backgroundTask?.status === 'SUCCESS' &&
+          weekScheduleStatus === 'success'))
     ) {
       const weekAgo = DateTime.now()
         .setZone('Europe/Moscow')
@@ -78,6 +86,7 @@ export function AppLayout() {
     }
   }, [
     currentGroup,
+    weekScheduleStatus,
     getSchedule,
     getWeekParity,
     getFullWeekScheduleById,

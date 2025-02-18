@@ -11,13 +11,13 @@ export function SearchedTeacherCard({ teacher }: { teacher: Teacher }) {
   const { isOpen, setIsOpen } = useDisclosure();
   const [activeSnapPoint, setActiveSnapPoint] = useState<string | number>(0.8);
   const { primaryColor, themeColor, mainColor, accentColor } = useColor();
-  const { clearTeacherSchedule } = useTeachers()
+  const { clearTeacherScheduleStatus } = useTeachers();
 
   useMetaThemeColor(mainColor, isOpen, themeColor);
 
   useEffect(() => {
-    clearTeacherSchedule()
-  }, [isOpen])
+    clearTeacherScheduleStatus();
+  }, [isOpen]);
 
   return (
     <Drawer

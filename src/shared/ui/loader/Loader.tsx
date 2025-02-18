@@ -6,10 +6,12 @@ export const Loader = ({
   children,
   status,
   idleMessage,
+  isSearch,
   teacherId,
 }: React.PropsWithChildren<{
   status: FetchStatus | BackgroundTaskStatus;
   idleMessage: string | ReactNode;
+  isSearch?: boolean;
   teacherId?: string;
 }>) => {
   switch (status) {
@@ -37,7 +39,7 @@ export const Loader = ({
           pos={'absolute'}
           zIndex={2}
           left={0}
-          top={'45%'}
+          top={'40%'}
           w={'100%'}
           fontSize={'18px'}
           textAlign={'center'}
@@ -47,18 +49,24 @@ export const Loader = ({
           alignItems={'center'}
           gap={'20px'}
         >
-          <Text w='60%'>Что-то пошло не так...</Text>
+          <Text w="60%">Что-то пошло не так...</Text>
           <Box>
-            <TryAgainButton teacherId={teacherId} />
+            {!isSearch ? (
+              <TryAgainButton teacherId={teacherId} />
+            ) : (
+              <Text>Попробуйте позже</Text>
+            )}
           </Box>
-          <Text w='60%' fontSize={'14px '}>Или сразу напишите нам -{' '}
+          <Text w="60%" fontSize={'14px '}>
+            Или сразу напишите нам -{' '}
             <a
               style={{ textDecoration: 'underline' }}
               href="https://t.me/pocket_kai_help"
-              target='_blank'
+              target="_blank"
             >
               @pocket_kai_help
-            </a></Text>
+            </a>
+          </Text>
         </Box>
       );
 
@@ -78,15 +86,17 @@ export const Loader = ({
           alignItems={'center'}
           gap={'20px'}
         >
-          <Text w='60%'>Невозможно получить расписание...</Text>
-          <Text w='60%' fontSize={'14px '}>Напишите нам и мы решим эту проблему -{' '}
+          <Text w="60%">Невозможно получить расписание...</Text>
+          <Text w="60%" fontSize={'14px '}>
+            Напишите нам и мы решим эту проблему -{' '}
             <a
               style={{ textDecoration: 'underline' }}
               href="https://t.me/pocket_kai_help"
-              target='_blank'
+              target="_blank"
             >
               @pocket_kai_help
-            </a></Text>
+            </a>
+          </Text>
         </Box>
       );
     case 'idle':

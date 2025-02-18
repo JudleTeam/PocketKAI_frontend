@@ -34,13 +34,14 @@ export const TeacherDrawer: React.FC<TeacherDrawerProps> = ({
     disciplineInfo;
 
   const [weekParity, setWeekParity] = useState<'even' | 'odd'>(getWeekParity());
-  const [isSchedule, setIsSchedule] = useState<boolean>(false)
+  const [isSchedule, setIsSchedule] = useState<boolean>(false);
 
   const {
     teacherScheduleStatus,
     getTeacherScheduleById,
-    backgroundTask, getBackgroundTaskStatus,
-    isReady
+    backgroundTask,
+    getBackgroundTaskStatus,
+    isReady,
   } = useTeachers();
   const { primaryColor, secondaryColor, accentColor } = useColor();
   const toast = useToast();
@@ -48,11 +49,23 @@ export const TeacherDrawer: React.FC<TeacherDrawerProps> = ({
 
   useEffect(() => {
     if (isSchedule) {
-      if (teacher && !teacher.id.includes('default') && (teacherScheduleStatus === 'idle' || backgroundTask?.status === 'SUCCESS')) {
+      if (
+        teacher &&
+        !teacher.id.includes('default') &&
+        (teacherScheduleStatus === 'idle' ||
+          (backgroundTask?.status === 'SUCCESS' &&
+            teacherScheduleStatus === 'success'))
+      ) {
         getTeacherScheduleById(teacher.id);
       }
     }
-  }, [teacher, getTeacherScheduleById, backgroundTask, isSchedule]);
+  }, [
+    teacher,
+    getTeacherScheduleById,
+    teacherScheduleStatus,
+    backgroundTask,
+    isSchedule,
+  ]);
 
   useEffect(() => {
     if (!backgroundTask) return;
@@ -111,15 +124,15 @@ export const TeacherDrawer: React.FC<TeacherDrawerProps> = ({
         <Text display="flex" flexWrap={'wrap'} gap="0 10px">
           {parsed_types.length > 0
             ? parsed_types.map((parsed_type) => (
-              <React.Fragment key={parsed_type}>
-                {LessonTypes && LessonTypes[parsed_type]}{' '}
-              </React.Fragment>
-            ))
+                <React.Fragment key={parsed_type}>
+                  {LessonTypes && LessonTypes[parsed_type]}{' '}
+                </React.Fragment>
+              ))
             : original_types.map((original_type) => (
-              <React.Fragment key={original_type}>
-                {original_type}{' '}
-              </React.Fragment>
-            ))}
+                <React.Fragment key={original_type}>
+                  {original_type}{' '}
+                </React.Fragment>
+              ))}
         </Text>
         <Text
           as={Link}
@@ -131,20 +144,22 @@ export const TeacherDrawer: React.FC<TeacherDrawerProps> = ({
           Сообщить об ошибке
         </Text>
       </Box>
-      {!isSchedule && teacher && !teacher.id.includes('default') && (<Button
-        onClick={() => setIsSchedule(true)}
-        bgColor={secondaryColor}
-        borderRadius="32px"
-        paddingY="23px"
-        display="flex"
-        alignItems="center"
-        justifyContent='center'
-        gap="15px"
-      >
-        <Text fontSize="16px" color={accentColor} fontWeight="medium">
-          Показать расписание
-        </Text>
-      </Button>)}
+      {!isSchedule && teacher && !teacher.id.includes('default') && (
+        <Button
+          onClick={() => setIsSchedule(true)}
+          bgColor={secondaryColor}
+          borderRadius="32px"
+          paddingY="23px"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          gap="15px"
+        >
+          <Text fontSize="16px" color={accentColor} fontWeight="medium">
+            Показать расписание
+          </Text>
+        </Button>
+      )}
       {teacher && !teacher.id.includes('default') && (
         <Tabs
           variant="unstyled"
@@ -159,42 +174,52 @@ export const TeacherDrawer: React.FC<TeacherDrawerProps> = ({
             }
           }}
         >
-          {isSchedule && (<>
-            <TabListHeader top="0" handleTabChange={handleTabChange} />
-            <Box
-              minH={200}
-              pt={'10px'}
-              mb={'50px'}
-              onClick={(e) => e.stopPropagation()}
-              display="flex"
-              flexDirection="column"
-              gap="10px"
-              position="relative"
-            >
-              <Loader teacherId={teacher.id} status={getStatusTeacher(backgroundTask, teacherScheduleStatus, isReady)} idleMessage="">
-                <Swiper
-                  autoHeight
-                  onSwiper={(swiper) => (swiperRef.current = swiper)}
-                  onSlideChange={({ activeIndex }) =>
-                    handleSwipeChange(activeIndex)
-                  }
-                  initialSlide={weekParityId[weekParity]}
-                  modules={[Pagination]}
-                  style={{ width: '100%' }}
+          {isSchedule && (
+            <>
+              <TabListHeader top="0" handleTabChange={handleTabChange} />
+              <Box
+                minH={200}
+                pt={'10px'}
+                mb={'50px'}
+                onClick={(e) => e.stopPropagation()}
+                display="flex"
+                flexDirection="column"
+                gap="10px"
+                position="relative"
+              >
+                <Loader
+                  teacherId={teacher.id}
+                  status={getStatusTeacher(
+                    backgroundTask,
+                    teacherScheduleStatus,
+                    isReady
+                  )}
+                  idleMessage=""
                 >
-                  {Object.keys(weekParityId).map((parity) => (
-                    <SwiperSlide className={s.root__slide}>
-                      <Box>
-                        <WeekTeacherSchedule
-                          weekParity={parity as 'even' | 'odd'}
-                        />
-                      </Box>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              </Loader>
-            </Box>
-          </>)}
+                  <Swiper
+                    autoHeight
+                    onSwiper={(swiper) => (swiperRef.current = swiper)}
+                    onSlideChange={({ activeIndex }) =>
+                      handleSwipeChange(activeIndex)
+                    }
+                    initialSlide={weekParityId[weekParity]}
+                    modules={[Pagination]}
+                    style={{ width: '100%' }}
+                  >
+                    {Object.keys(weekParityId).map((parity) => (
+                      <SwiperSlide className={s.root__slide}>
+                        <Box>
+                          <WeekTeacherSchedule
+                            weekParity={parity as 'even' | 'odd'}
+                          />
+                        </Box>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                </Loader>
+              </Box>
+            </>
+          )}
         </Tabs>
       )}
     </Box>
