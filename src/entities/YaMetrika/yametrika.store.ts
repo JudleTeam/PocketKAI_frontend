@@ -18,7 +18,6 @@ export const useYaMetrika = create<YaMetrikaStore>()((_, get) => ({
     if (!get().initialized) {
       return;
     }
-    console.log(event, payload);
 
     // https://yandex.ru/support/metrica/objects/reachgoal.html
     window.ym(get().id, 'reachGoal', event, payload);
