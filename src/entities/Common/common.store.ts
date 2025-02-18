@@ -25,7 +25,7 @@ export const useCommon = create<CommonStore>()(
       },
     }),
     {
-      name: 'common',
+      name: 'common-new',
       partialize: (state) => ({
         buildings: state.buildings,
         buildingsStatus: state.buildingsStatus,

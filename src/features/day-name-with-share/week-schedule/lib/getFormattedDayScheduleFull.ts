@@ -30,7 +30,7 @@ export const getFormattedDayScheduleFull = (
       }\n${lessonName}\n${teacherName} \n${lessons.length === index + 1 ? '' : '\n'
       }`;
   });
-  const footer = `————————————————\n\nОтправлено из PocketKAI: ${window.location.origin}`;
+  const footer = `————————————————\n\nОтправлено из PocketKAI: https://pocket-kai.ru`;
   if (forWeekSchedule) return formattedLessons.join('');
   return header + formattedLessons.join('') + footer;
 };

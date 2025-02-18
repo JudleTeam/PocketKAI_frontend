@@ -8,7 +8,7 @@ export const shareGroupMembers = (
   groupName?: string,
   isDesktop?: boolean
 ) => {
-  const footer = `\n\n————————————————\n\nОтправлено из PocketKAI: ${window.location.origin}`;
+  const footer = `\n\n————————————————\n\nОтправлено из PocketKAI: https://pocket-kai.ru`;
   const formattedData = `Группа ${groupName}\n\n${data
     .map(
       (member) =>

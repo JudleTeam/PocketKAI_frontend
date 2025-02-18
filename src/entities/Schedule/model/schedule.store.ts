@@ -155,7 +155,7 @@ export const useSchedule = create<StoreState & StoreActions>()(
       resetScheduleState: () => set(initialState),
     }),
     {
-      name: 'schedule',
+      name: 'schedule-new',
       partialize: (state) => ({
         showFadedLessons: state.showFadedLessons,
         backgroundTask: state.backgroundTask,

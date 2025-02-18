@@ -42,7 +42,7 @@ export const getFormattedWeekSchedule = (
       }\n${lessonName}\n${teacherName} \n${lessons.length === index + 1 ? '' : '\n'
       }`;
   });
-  const footer = `————————————————\n\nОтправлено из PocketKAI: ${window.location.origin}`;
+  const footer = `————————————————\n\nОтправлено из PocketKAI: https://pocket-kai.ru`;
   return header + formattedLessons.join('') + footer;
 };
 
