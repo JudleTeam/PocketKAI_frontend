@@ -22,4 +22,4 @@ export const getStatusTeacher = (
         return 'error'
     }
     return teacherScheduleStatus;
-};
+};  

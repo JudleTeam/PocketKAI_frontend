@@ -103,7 +103,7 @@ export default defineConfig({
           },
           {
             urlPattern:
-              /^https:\/\/pocket-kai-frontend\.vercel\.app\/.*\.(js|css|html|svg|png|ico|ttf)$/,
+              /^https:\/\/test\.pocket-kai\.ru\/.*\.(js|css|html|svg|png|ico|ttf)$/,
             handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'pocket-kai-dev-cache',
@@ -186,7 +186,7 @@ export default defineConfig({
           // API DEV CACHE
           {
             urlPattern:
-              /^https:\/\/api\.pocket-kai\.judle\.ru\/user\/me\/favorite_groups$/,
+              /^https:\/\/test\.api\.pocket-kai\.ru\/user\/me\/favorite_groups$/,
             handler: 'NetworkFirst', // Используем NetworkFirst для этого эндпоинта
             options: {
               cacheName: 'pocket-kai-api-dev-cache--favourite_groups', // Название кэша для этого эндпоинта
@@ -198,7 +198,7 @@ export default defineConfig({
           },
           {
             urlPattern:
-              /^https:\/\/api\.pocket-kai\.judle\.ru\/auth\/check_login$/,
+              /^https:\/\/test\.api\.pocket-kai\.ru\/auth\/check_login$/,
             handler: 'NetworkFirst', // Используем NetworkFirst для этого эндпоинта
             options: {
               cacheName: 'pocket-kai-api-dev-cache--check_login', // Название кэша для этого эндпоинта
@@ -209,7 +209,7 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: /^https:\/\/api\.pocket-kai\.ru\/user\/me\/student$/,
+            urlPattern: /^https:\/\/test\.api\.pocket-kai\.ru\/user\/me\/student$/,
             handler: 'NetworkFirst', // Используем NetworkFirst для этого эндпоинта
             options: {
               cacheName: 'pocket-kai-api-dev-cache--me', // Название кэша для этого эндпоинта
@@ -220,7 +220,7 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: /^https:\/\/api\.pocket-kai\.judle\.ru\/.*$/,
+            urlPattern: /^https:\/\/test\.api\.pocket-kai\.ru\/.*$/,
             handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'pocket-kai-api-dev-cache',
