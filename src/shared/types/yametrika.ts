@@ -45,6 +45,7 @@ export enum ClickSource {
   feedbackForm = 'Форма обратной связи',
   aboutUs = 'О нас',
   faq = 'Частые вопросы',
+  exam = 'Экзамены'
 }
 
 export enum HideType {

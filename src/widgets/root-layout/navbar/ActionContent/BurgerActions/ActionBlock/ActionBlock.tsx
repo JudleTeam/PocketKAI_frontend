@@ -1,5 +1,12 @@
-import { AnalyticsEvent, useColor } from '@/shared';
-import { Box, ComponentWithAs, Icon, IconProps, Text, useColorMode } from '@chakra-ui/react';
+import { AnalyticsEvent, ClickSource, useColor } from '@/shared';
+import {
+  Box,
+  ComponentWithAs,
+  Icon,
+  IconProps,
+  Text,
+  useColorMode,
+} from '@chakra-ui/react';
 import { NavLink, useLocation } from 'react-router-dom';
 import s from './ActionBlock.module.scss';
 import { useYaMetrika } from '@/entities';
@@ -25,10 +32,13 @@ const ActionBlock: React.FC<ActionBlockProps> = ({ item }) => {
   if (!item.path) {
     if (defaultColor !== item.label) {
       return (
-        <Box onClick={() => {
-          toggleColorMode();
-          sendEvent(AnalyticsEvent.mainSwitchTheme)
-        }} className={s.root}>
+        <Box
+          onClick={() => {
+            toggleColorMode();
+            sendEvent(AnalyticsEvent.mainSwitchTheme);
+          }}
+          className={s.root}
+        >
           <Box
             className={s.root__icon}
             style={{
@@ -46,7 +56,22 @@ const ActionBlock: React.FC<ActionBlockProps> = ({ item }) => {
   }
 
   return (
-    <Box as={NavLink} to={item.path} target={item.label === 'Telegram' ? '_blank' : '_self'} className={s.root}>
+    <Box
+      as={NavLink}
+      onClick={() => {
+        if (item.label === 'Telegram') {
+          sendEvent(AnalyticsEvent.feedbackGoToTg, {
+            click_source: ClickSource.settingsDrawer,
+          });
+        }
+        if (item.label === 'Скрытые пары') {
+          sendEvent(AnalyticsEvent.lessonViewHidden);
+        }
+      }}
+      to={item.path}
+      target={item.label === 'Telegram' ? '_blank' : '_self'}
+      className={s.root}
+    >
       <Box
         className={s.root__icon}
         style={{

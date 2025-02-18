@@ -6,6 +6,8 @@ import { GroupTeachers, SearchedTeachers } from '@/widgets';
 import { SwiperSlide, Swiper } from 'swiper/react';
 import { Swiper as SwiperInstance } from 'swiper/types';
 import 'swiper/css';
+import { useYaMetrika } from '@/entities';
+import { AnalyticsEvent } from '@/shared';
 
 export function Teachers() {
   const { mainColor, secondaryColor, accentColor, secondaryIconColor } =
@@ -16,7 +18,13 @@ export function Teachers() {
     color: accentColor,
     bgColor: secondaryColor,
   };
+  const { sendEvent } = useYaMetrika();
 
+  useEffect(() => {
+    if (activeTab === 1) {
+      sendEvent(AnalyticsEvent.teacherSwitchToSearch);
+    }
+  }, [activeTab]);
   const handleTabChange = useCallback((index: number) => {
     setActiveTab(index);
     swiperRef.current?.slideTo(index);
