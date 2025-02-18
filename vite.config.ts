@@ -60,29 +60,34 @@ export default defineConfig({
         ],
         screenshots: [
           {
-            src: '/screenshots/1.jpg',
+            src: '/screenshots/1.png',
+            sizes: '1080x1920',
+            type: 'image/png',
+          },
+          {
+            src: '/screenshots/2.png',
+            sizes: '1080x1920',
+            type: 'image/png',
+          },
+          {
+            src: '/screenshots/3.png',
+            sizes: '1080x1920',
+            type: 'image/png',
+          },
+          {
+            src: '/screenshots/4.png',
             sizes: '1080x1920',
             type: 'image/jpeg',
           },
           {
-            src: '/screenshots/2.jpg',
+            src: '/screenshots/5.png',
             sizes: '1080x1920',
-            type: 'image/jpeg',
+            type: 'image/png',
           },
           {
-            src: '/screenshots/3.jpg',
+            src: '/screenshots/6.png',
             sizes: '1080x1920',
-            type: 'image/jpeg',
-          },
-          {
-            src: '/screenshots/4.jpg',
-            sizes: '1080x1920',
-            type: 'image/jpeg',
-          },
-          {
-            src: '/screenshots/5.jpg',
-            sizes: '1080x1920',
-            type: 'image/jpeg',
+            type: 'image/png',
           },
         ],
       },
