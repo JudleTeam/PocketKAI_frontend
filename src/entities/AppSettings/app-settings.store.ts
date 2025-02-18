@@ -43,7 +43,7 @@ export const useSettings = create<SettingsState & SettingsActions>()(
       }
     }),
     {
-      name: 'settings',
+      name: 'settings-new',
       partialize: (state) => ({
         showFadedLessons: state.showFadedLessons,
         isScheduleInfinite: state.isScheduleInfinite,

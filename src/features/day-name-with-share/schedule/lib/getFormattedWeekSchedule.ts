@@ -28,6 +28,6 @@ export const getFormattedWeekSchedule = (
   return (
     header +
     result.join('\n') +
-    `Отправлено из PocketKAI: ${window.location.href}`
+    `Отправлено из PocketKAI: https://pocket-kai.ru`
   );
 };

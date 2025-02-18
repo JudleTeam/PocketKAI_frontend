@@ -306,7 +306,7 @@ export const useGroup = create<GroupState & GroupActions>()(
         }),
     }),
     {
-      name: 'group',
+      name: 'group-new',
       partialize: (state) => ({
         homeGroup: state.homeGroup,
         currentGroup: state.currentGroup,

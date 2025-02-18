@@ -126,7 +126,7 @@ export const useUser = create<UserType>()(
       },
     }),
     {
-      name: 'user',
+      name: 'user-new',
       partialize: (state) => ({
         user: state.user,
         userGroupMembers: state.userGroupMembers,
