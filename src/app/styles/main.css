@@ -48,11 +48,6 @@ body * {
   user-select: none;
 }
 
-body {
-  padding-bottom: env(safe-area-inset-bottom, 400px);
-  padding-top: env(safe-area-inset-top, 400px);
-}
-
 input,
 input:before,
 input:after {
