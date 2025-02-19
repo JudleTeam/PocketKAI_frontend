@@ -15,6 +15,7 @@ import { getCurrentSemester } from '../lib/getCurrentSemester';
 import { persist } from 'zustand/middleware';
 import { StoreBackgroundTasks } from './types';
 import { formStoreBackgroundTasks } from '../lib/formStoreBackgroundTasks';
+import axios from 'axios';
 
 type StoreState = {
   schedule: Schedule;
@@ -28,6 +29,7 @@ type StoreState = {
   backgroundTask: StoreBackgroundTasks | null;
   isReady: boolean;
   error: Nullable<unknown>;
+  errorStatus: Nullable<number>;
 };
 
 type StoreActions = {
@@ -62,6 +64,7 @@ const initialState: StoreState = {
   weekScheduleStatus: 'idle',
   error: null,
   isReady: false,
+  errorStatus: null
 };
 
 export const useSchedule = create<StoreState & StoreActions>()(
@@ -86,7 +89,19 @@ export const useSchedule = create<StoreState & StoreActions>()(
             isReady: response.data.is_ready
           });
         } catch (error) {
-          set({ error, weekScheduleStatus: 'error' });
+          if (axios.isAxiosError(error)) {
+            if(error.response?.status === 404){
+              localStorage.removeItem('group')
+              localStorage.removeItem('schedule')
+              localStorage.removeItem('settings')
+              localStorage.removeItem('user')
+              localStorage.removeItem('common')
+              set({errorStatus: error.response.status})
+            }
+            set({ error: error.response?.data || 'Неизвестная ошибка', weekScheduleStatus: 'error' });
+          } else {
+            set({ error: 'Неизвестная ошибка', weekScheduleStatus: 'error' });
+          }
         }
       },
       addToCurrentSchedule: async (
