@@ -45,7 +45,7 @@ export function AppLayout() {
     removeGroupFromFavourite,
     removeCurrentGroup,
     isFavorite,
-    deleteAllHiddenLesson,
+    deleteGroupHiddenLesson,
   } = useGroup();
   const { sendEvent } = useYaMetrika();
   const {
@@ -70,7 +70,9 @@ export function AppLayout() {
       if (currentGroup && isFavorite(currentGroup)) {
         removeGroupFromFavourite(currentGroup);
       }
-      deleteAllHiddenLesson();
+      if (currentGroup) {
+        deleteGroupHiddenLesson(currentGroup.group_name);
+      }
       removeCurrentGroup();
     }
   }, [errorStatus]);
