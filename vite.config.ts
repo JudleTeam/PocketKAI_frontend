@@ -33,7 +33,6 @@ export default defineConfig({
         short_name: 'PocketKAI',
         description: 'Веб-приложение для просмотра расписания КНИТУ-КАИ',
         background_color: '#3182ce',
-        display: 'fullscreen',
         icons: [
           {
             src: '/android-chrome-192x192.png',
