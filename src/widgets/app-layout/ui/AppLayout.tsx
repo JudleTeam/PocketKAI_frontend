@@ -39,7 +39,14 @@ export function AppLayout() {
   const { colorMode } = useColorMode();
   const { mainColor, primaryColor, themeColor } = useColor();
   const { isOpen } = useDisclosure();
-  const { currentGroup, updateHiddenLesson } = useGroup();
+  const {
+    currentGroup,
+    updateHiddenLesson,
+    removeGroupFromFavourite,
+    removeCurrentGroup,
+    isFavorite,
+    deleteAllHiddenLesson,
+  } = useGroup();
   const { sendEvent } = useYaMetrika();
   const {
     schedule,
@@ -50,12 +57,23 @@ export function AppLayout() {
     getWeekParity,
     backgroundTask,
     getBackgroundTaskStatus,
+    errorStatus,
   } = useSchedule();
   const swiperRef = useScrollSpy(schedule, setCurrentDay);
   const location = useLocation();
   const today = getTodayDate();
 
   useMetaThemeColor(mainColor, isOpen, themeColor);
+
+  useEffect(() => {
+    if (errorStatus && errorStatus === 404) {
+      if (currentGroup && isFavorite(currentGroup)) {
+        removeGroupFromFavourite(currentGroup);
+      }
+      deleteAllHiddenLesson();
+      removeCurrentGroup();
+    }
+  }, [errorStatus]);
 
   const isNotDatebar =
     location.pathname.includes('teachers') ||

@@ -56,7 +56,7 @@ type GroupActions = {
   ) => void;
   removeGroupFromFavourite: (
     group: GroupShort,
-    authStatus: FetchStatus
+    authStatus?: FetchStatus
   ) => void;
   synchronizeFavouriteGroupsOnAuth: () => Promise<void>;
   getExamsByGroupId: (group_id: string, params?: ExamParams) => Promise<void>;
