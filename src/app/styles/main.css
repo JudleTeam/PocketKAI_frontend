@@ -46,8 +46,8 @@ body * {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  padding-bottom: env(safe-area-inset-bottom, 50px);
-  padding-top: env(safe-area-inset-top, 50px);
+  padding-bottom: env(safe-area-inset-bottom, 400px);
+  padding-top: env(safe-area-inset-top, 400px);
 }
 
 input,
