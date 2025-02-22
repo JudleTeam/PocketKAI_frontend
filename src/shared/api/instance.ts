@@ -35,8 +35,6 @@ apiClient.interceptors.response.use(
         return apiClient(originalRequest);
       } catch (refreshError) {
         console.error('Не удалось обновить токены:', refreshError);
-        localStorage.clear();
-        window.location.reload();
         return Promise.reject(refreshError);
       }
     }
