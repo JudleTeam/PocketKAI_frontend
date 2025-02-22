@@ -24,9 +24,8 @@ function PWABadge() {
   });
 
   const handleUpdate = () => {
-    window.localStorage.clear();
-    updateServiceWorker(true)
-  }
+    updateServiceWorker(true);
+  };
 
   function close() {
     setOfflineReady(false);

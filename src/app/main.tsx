@@ -20,4 +20,3 @@ if ('serviceWorker' in navigator) {
   });
 }
 window.YA_METRIKA_COUNTER = import.meta.env.VITE_YA_METRIKA_COUNTER;
-

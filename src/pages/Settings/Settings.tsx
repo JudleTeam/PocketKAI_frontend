@@ -1,5 +1,13 @@
 import { AccountTabHeader, useColor } from '@/shared/lib';
-import { Box, Button, Divider, Select, Switch, Text, useBreakpointValue } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Divider,
+  Select,
+  Switch,
+  Text,
+  useBreakpointValue,
+} from '@chakra-ui/react';
 import styles from './Settings.module.scss';
 import { usePWAState, useSettings, useYaMetrika } from '@/entities';
 import { AnalyticsEvent, FullScheduleView, ScheduleView } from '@/shared';
@@ -119,18 +127,16 @@ export function Settings() {
             color={primaryColor}
             defaultValue={preferencedScheduleView}
             padding={'4px'}
-            onChange={(event) =>
-              {
-                const scheduleType = event.target.value;
-                togglePreferencedScheduleView(scheduleType as ScheduleView)
-                if (scheduleType === 'timeline') {
-                  sendEvent(AnalyticsEvent.scheduleSwitchTimeline)
-                }
-                if (scheduleType === 'full') {
-                  sendEvent(AnalyticsEvent.scheduleSwitchFull)
-                }
+            onChange={(event) => {
+              const scheduleType = event.target.value;
+              togglePreferencedScheduleView(scheduleType as ScheduleView);
+              if (scheduleType === 'timeline') {
+                sendEvent(AnalyticsEvent.scheduleSwitchTimeline);
               }
-            }
+              if (scheduleType === 'full') {
+                sendEvent(AnalyticsEvent.scheduleSwitchFull);
+              }
+            }}
           >
             <option value="timeline">Таймлайн</option>
             <option value="full">Полное расписание</option>
@@ -174,7 +180,7 @@ export function Settings() {
         <Text textAlign={'right'}>
           Версия:{' '}
           <Text as={'span'} fontWeight={'bold'}>
-            2.0.0
+            2.0.0-hotfix
           </Text>
         </Text>
       </Box>
