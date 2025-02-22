@@ -77,11 +77,7 @@ export function AppLayout() {
     }
   }, [errorStatus]);
 
-  const isNotDatebar =
-    location.pathname.includes('teachers') ||
-    location.pathname.includes('schedule/full') ||
-    location.pathname.includes('schedule/exams') ||
-    location.pathname.includes('hidden');
+  const isNotDatebar = location.pathname !== '/schedule';
 
   useEffect(() => {
     if (

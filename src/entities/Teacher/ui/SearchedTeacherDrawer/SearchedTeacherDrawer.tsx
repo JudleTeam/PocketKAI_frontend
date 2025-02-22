@@ -17,7 +17,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import { Swiper as SwiperInstance } from 'swiper/types';
 import WeekTeacherSchedule from '../TeacherDrawer/components/WeekTeacherSchedule';
-import { useYaMetrika } from '@/entities/YaMetrika';
+import { useYaMetrika } from '@/entities';
 
 export function SearchedTeacherDrawer({
   teacher,

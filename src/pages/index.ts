@@ -13,3 +13,5 @@ export { FrequentQuestions } from './FrequentQuestions/FrequentQuestions';
 export { AboutUs } from './AboutUs/AboutUs';
 
 export { Exams } from './Exams/Exams';
+
+export { Notes } from './Notes/Notes';

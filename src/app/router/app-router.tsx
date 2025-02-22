@@ -51,6 +51,13 @@ export function RouterComponent() {
               },
             },
             {
+              path: 'notes',
+              lazy: async () => {
+                const { Notes } = await import('@/pages/Notes/Notes');
+                return { Component: Notes };
+              },
+            },
+            {
               path: 'teachers',
               lazy: async () => {
                 const { Teachers } = await import('@/pages/Teachers/Teachers');

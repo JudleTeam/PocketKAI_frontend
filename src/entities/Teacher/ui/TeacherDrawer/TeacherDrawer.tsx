@@ -20,7 +20,7 @@ import { Pagination } from 'swiper/modules';
 import { Swiper as SwiperInstance } from 'swiper/types';
 import WeekTeacherSchedule from './components/WeekTeacherSchedule';
 import s from './TeacherDrawer.module.scss';
-import { useYaMetrika } from '@/entities/YaMetrika';
+import { useYaMetrika } from '@/entities';
 
 type TeacherDrawerProps = {
   disciplineInfo: TeachersType;

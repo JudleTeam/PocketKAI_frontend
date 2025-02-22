@@ -16,7 +16,10 @@ import { Text, VStack, Box } from '@chakra-ui/react';
 import { DrawerTitle } from '@/shared/ui/drawer';
 import { DrawerTeacherCard } from './DrawerTeacherCard';
 import { DrawerLessonBuilding } from './DrawerLessonBuilding';
-import { useYaMetrika } from '@/entities/YaMetrika';
+import { useNotes, useYaMetrika } from '@/entities';
+import { AddNote } from '@/features';
+import { NotesList } from '@/widgets';
+
 export function LessonDrawer({
   lesson,
   dayDate,
@@ -25,18 +28,33 @@ export function LessonDrawer({
   dayDate?: string;
 }) {
   const specificDate = dayDate ? DateTime.fromISO(dayDate) : '';
+  const { notes } = useNotes();
   const formattedDate = specificDate
     ? specificDate.toFormat('d MMMM', { locale: 'ru' })
     : '';
   const { primaryColor } = useColor();
   const toast = useToast();
   const { sendEvent } = useYaMetrika();
+
+  const formattedNotes = notes.filter(
+    (item) =>
+      item.lessonId === lesson.id ||
+      (!item.lessonId && item.disciplineId === lesson.discipline.id)
+  );
+
+  const isTimeline = window.location.pathname === '/schedule';
+
   return (
     <>
       <Box
+        h="100%"
+        position="relative"
+        pt={3}
+        color={primaryColor}
         display="flex"
+        gap="5px"
         flexDirection="column"
-        className="gap-2 pt-5 text-l-main-text dark:text-d-main-text"
+        className="text-l-main-text dark:text-d-main-text"
       >
         <DrawerTitle asChild>
           <Text
@@ -143,6 +161,29 @@ export function LessonDrawer({
           Сообщить об ошибке
         </Text>
         <DrawerTeacherCard lesson={lesson} />
+        <Text fontSize={'clamp(22px, 4vw, 24px)'} fontWeight="bold">
+          Ваши заметки
+        </Text>
+        <AddNote
+          lesson={lesson}
+          dayDate={formattedDate}
+          isTimeline={isTimeline}
+        />
+        <Box
+          minH={200}
+          mb={'30px'}
+          onClick={(e) => e.stopPropagation()}
+          display="flex"
+          flexDirection="column"
+          position="relative"
+        >
+          <NotesList
+            notes={formattedNotes}
+            lesson={lesson}
+            dayDate={formattedDate}
+            isTimeline={isTimeline}
+          />
+        </Box>
       </Box>
     </>
   );

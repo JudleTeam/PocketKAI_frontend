@@ -12,3 +12,5 @@ export { TopBoundary } from './boundaries/top-boundary';
 export { SearchTeacher } from './search-teacher/SearchTeacher';
 
 export { SelectGroup } from '../widgets/select-group/SelectGroup';
+
+export {default as AddNote} from './add-note/AddNote';

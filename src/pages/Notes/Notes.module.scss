@@ -1,0 +1,14 @@
+.root {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+    position: relative;
+    
+    
+    &__disciplineName {
+      font-weight: 700;
+      font-size: 16px;
+    }
+  }
+  

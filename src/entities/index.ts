@@ -40,6 +40,10 @@ export { FullLessonCard } from './Lesson/ui/FullLessonCard/FullLessonCard';
 
 export { RestCard } from './Lesson/ui/RestCard/RestCard';
 
-export { useYaMetrika } from "./YaMetrika/yametrika.store"
+export { useYaMetrika } from './YaMetrika/yametrika.store';
 
-export { YaMetrikaExecutor } from "./YaMetrika"
+export { YaMetrikaExecutor } from './YaMetrika';
+
+export { useNotes } from './Notes/model/notes.store';
+
+export { default as NoteCard } from './Notes/ui/NoteCard';

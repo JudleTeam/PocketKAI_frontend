@@ -15,13 +15,13 @@ export function RootLayout() {
   const toast = useToast();
 
   useEffect(() => {
-    const hasCleaned = localStorage.getItem('hasCleaned')
+    const hasCleaned = localStorage.getItem('hasCleaned');
     if (!hasCleaned) {
-      localStorage.clear()
-      localStorage.setItem('hasCleaned', 'true')
-      window.location.reload()
+      localStorage.clear();
+      localStorage.setItem('hasCleaned', 'true');
+      window.location.reload();
     }
-  }, [])
+  }, []);
 
   useMetaThemeColor(mainColor);
 
@@ -79,7 +79,7 @@ export function RootLayout() {
       <Outlet />
       <UiNavbar navbarActions={NavbarActions} />
       <PWABadge />
-      <YaMetrikaExecutor/>
+      <YaMetrikaExecutor />
     </Box>
   );
 }
