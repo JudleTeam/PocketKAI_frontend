@@ -8,6 +8,7 @@ export const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use((config) => {
+  config.headers['X-Version'] = '2.0.0-hotfix';
   const token = localStorage.getItem(ACCESS_KEY);
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
