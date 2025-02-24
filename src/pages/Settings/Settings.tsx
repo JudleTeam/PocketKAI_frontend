@@ -206,7 +206,7 @@ export function Settings() {
         <Text textAlign={'right'}>
           Версия:{' '}
           <Text as={'span'} fontWeight={'bold'}>
-            2.0.0
+            2.0.0-hotfix
           </Text>
         </Text>
       </Box>
