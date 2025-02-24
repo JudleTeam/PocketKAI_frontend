@@ -78,10 +78,12 @@ export function AppLayout() {
   }, [errorStatus]);
 
   const isNotDatebar = location.pathname !== '/schedule';
+  const isNotes = location.pathname === '/notes';
 
   useEffect(() => {
     if (
       currentGroup &&
+      !isNotes &&
       (weekScheduleStatus === 'idle' ||
         (backgroundTask?.status === 'SUCCESS' &&
           weekScheduleStatus === 'success'))
@@ -109,6 +111,7 @@ export function AppLayout() {
     getWeekParity,
     getFullWeekScheduleById,
     backgroundTask,
+    isNotes,
   ]);
 
   useEffect(() => {
@@ -149,6 +152,9 @@ export function AppLayout() {
 
   useEffect(() => {
     document.getElementById(currentDay)?.scrollIntoView();
+    if (isNotDatebar) {
+      document.getElementById('rootOutlet')?.scrollIntoView();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
@@ -207,7 +213,7 @@ export function AppLayout() {
           })}
         />
       </Box>
-      <div className={s.root__outlet}>
+      <div className={s.root__outlet} id="rootOutlet">
         <Outlet context={[currentDay, setCurrentDay] satisfies ContextType} />
       </div>
     </Box>

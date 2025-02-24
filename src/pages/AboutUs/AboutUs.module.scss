@@ -11,6 +11,11 @@
   gap: 10px;
   padding: 0 0 20px 0;
 
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
   @include media(md) {
     height: 100dvh;
   }

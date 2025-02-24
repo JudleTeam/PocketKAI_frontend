@@ -1,4 +1,4 @@
-import { useGroup, useNotes } from '@/entities';
+import { useGroup, useNotes, useYaMetrika } from '@/entities';
 import {
   Dialog,
   useColor,
@@ -7,6 +7,7 @@ import {
   DialogTrigger,
   Lesson,
   NoteFormData,
+  AnalyticsEvent,
 } from '@/shared';
 import { NoteForm } from '@/widgets';
 import { Box, Button } from '@chakra-ui/react';
@@ -26,10 +27,10 @@ const AddNote: React.FC<AddNoteProps> = ({ isTimeline, lesson, dayDate }) => {
     formState: { errors },
   } = useForm<NoteFormData>();
   const { accentColor, secondaryColor, mainColor } = useColor();
-
   const { currentGroup } = useGroup();
   const { addNote } = useNotes();
   const { isOpen, setIsOpen } = useDisclosure();
+  const { sendEvent } = useYaMetrika();
 
   const handleAddNote = (data: NoteFormData) => {
     const noteData = {
@@ -41,9 +42,13 @@ const AddNote: React.FC<AddNoteProps> = ({ isTimeline, lesson, dayDate }) => {
       isTimeline,
       group: currentGroup,
     };
-    addNote(noteData);
-    reset();
-    setIsOpen(false);
+
+    const result = addNote(noteData);
+    if (result) {
+      sendEvent(AnalyticsEvent.noteCreate);
+      reset();
+      setIsOpen(false);
+    }
   };
 
   return (

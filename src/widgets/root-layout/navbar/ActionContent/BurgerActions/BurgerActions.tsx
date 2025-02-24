@@ -7,7 +7,7 @@ import { useSettings } from '@/entities';
 import { useLocation } from 'react-router-dom';
 
 const BurgerActions: React.FC = () => {
-  const { preferencedScheduleView } = useSettings();
+  const { preferencedScheduleView, isNotesOn } = useSettings();
   const defaultPath =
     preferencedScheduleView === 'timeline' ? 'schedule' : 'schedule/full';
 
@@ -30,9 +30,13 @@ const BurgerActions: React.FC = () => {
       </div>
       <Text className={s.root__title}>Дополнительно</Text>
       <div className={s.root__items}>
-        {settingsActions.map((item) => (
-          <ActionBlock key={item.label} item={item} />
-        ))}
+        {settingsActions.map((item) => {
+          if (item.path === 'notes' && !isNotesOn) {
+            return;
+          } else {
+            return <ActionBlock key={item.label} item={item} />;
+          }
+        })}
       </div>
     </div>
   );

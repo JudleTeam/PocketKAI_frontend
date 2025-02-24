@@ -1,4 +1,14 @@
-import { Box, Text, Button, useBreakpointValue, Tabs } from '@chakra-ui/react';
+import {
+  Box,
+  Text,
+  Button,
+  useBreakpointValue,
+  Tabs,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+} from '@chakra-ui/react';
 import { useGroup, useYaMetrika } from '@/entities';
 import { DateTime } from 'luxon';
 import {
@@ -15,11 +25,12 @@ import 'swiper/css';
 import { getLessonsForGroup } from './lib/getLessonsForGroup';
 import { SwiperSlide, Swiper } from 'swiper/react';
 import HiddenLessonsList from './components/HiddenLessonsList.tsx/HiddenLessonsList';
+import { ElipsisIcon } from '@/shared/assets/chakraIcons/ElipsisIcon';
 
 export function HiddenLessons() {
   const today = getTodayDate();
   // const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
-  const { mainColor, primaryColor } = useColor();
+  const { mainColor, primaryColor, accentColor, secondaryColor } = useColor();
 
   const weekNumber = DateTime.now().setZone('Europe/Moscow').weekNumber;
   const currentParity = getWeekParity();
@@ -35,6 +46,7 @@ export function HiddenLessons() {
     currentGroup,
   } = useGroup();
   const isDesktop = useBreakpointValue({ base: false, md: true });
+
   useEffect(() => {
     updateHiddenLesson(today);
   }, [updateHiddenLesson, today]);
@@ -77,7 +89,7 @@ export function HiddenLessons() {
               zIndex={2}
             >
               <Box
-                padding="10px 0 0 0"
+                padding="10px 0"
                 display={'flex'}
                 alignItems={'center'}
                 justifyContent={'space-between'}
@@ -89,39 +101,54 @@ export function HiddenLessons() {
                 >
                   Скрытые пары
                 </Text>
-                {hiddenLessons.length > 0 && (
-                  <Button
-                    onClick={() => {
-                      deleteAllHiddenLesson();
-                      sendEvent(AnalyticsEvent.lessonDeleteHidden);
-                    }}
-                    size="sm"
-                    px="0"
-                    py="0"
-                    variant="ghost"
-                    fontSize="16px"
-                    color="#3182CE"
+                <Menu>
+                  <MenuButton>
+                    <ElipsisIcon />
+                  </MenuButton>
+                  <MenuList
+                    fontSize={'14px'}
+                    backgroundColor={mainColor}
+                    borderRadius={'16px '}
+                    padding={0}
+                    zIndex={50}
                   >
-                    Вернуть все пары
-                  </Button>
-                )}
+                    {currentGroup && (
+                      <MenuItem
+                        onClick={() => {
+                          deleteGroupHiddenLesson(currentGroup?.group_name);
+                          sendEvent(AnalyticsEvent.lessonDeleteHidden);
+                        }}
+                        backgroundColor={mainColor}
+                        color={accentColor}
+                        py={'15px'}
+                        borderRadius={'16px 16px 0 0'}
+                        fontWeight="600"
+                        _hover={{ backgroundColor: secondaryColor }}
+                        _focus={{ backgroundColor: secondaryColor }}
+                      >
+                        Вернуть пары группы
+                      </MenuItem>
+                    )}
+                    {hiddenLessons.length > 0 && (
+                      <MenuItem
+                        onClick={() => {
+                          deleteAllHiddenLesson();
+                          sendEvent(AnalyticsEvent.lessonDeleteHidden);
+                        }}
+                        backgroundColor={mainColor}
+                        color={accentColor}
+                        py={'15px'}
+                        fontWeight="600"
+                        borderRadius={'0 0 16px 16px'}
+                        _hover={{ backgroundColor: secondaryColor }}
+                        _focus={{ backgroundColor: secondaryColor }}
+                      >
+                        Вернуть все пары
+                      </MenuItem>
+                    )}
+                  </MenuList>
+                </Menu>
               </Box>
-              {currentGroup && (
-                <Button
-                  alignSelf={'end'}
-                  onClick={() => {
-                    deleteGroupHiddenLesson(currentGroup?.group_name);
-                    sendEvent(AnalyticsEvent.lessonDeleteHidden);
-                  }}
-                  size="sm"
-                  px="0"
-                  variant="ghost"
-                  fontSize="16px"
-                  color="#3182CE"
-                >
-                  Вернуть пары группы
-                </Button>
-              )}
               <TabListHeader
                 top="0"
                 pt="0"

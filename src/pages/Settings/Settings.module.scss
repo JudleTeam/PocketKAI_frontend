@@ -1,16 +1,21 @@
 @import "@/app/styles/variables.scss";
 
 .settings {
-    width: 90%;
-    margin: 0 auto;
-    height: 90dvh;
-    overflow-y: auto;
-    scrollbar-width: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  width: 90%;
+  margin: 0 auto;
+  height: 90dvh;
+  overflow-y: auto;
+  scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 
-    @include media(md) {
-        height: 100dvh;
-    }
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  @include media(md) {
+    height: 100dvh;
+  }
 }

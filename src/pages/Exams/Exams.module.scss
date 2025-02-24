@@ -6,6 +6,11 @@
   scrollbar-width: none;
   scroll-padding-top: 15px;
   padding: 20px 0 35px 0;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
 }
 
 .exam {

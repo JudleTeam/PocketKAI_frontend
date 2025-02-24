@@ -33,7 +33,7 @@ type HiddenLessonsListProps = {
 const HiddenLessonsList: React.FC<HiddenLessonsListProps> = ({ weekDays }) => {
   const { sendEvent } = useYaMetrika();
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
-  const { mainColor, primaryColor, secondaryColor } = useColor();
+  const { mainColor, primaryColor, secondaryColor, accentColor } = useColor();
   const { addHiddenLesson, deleteHiddenLesson, currentGroup } = useGroup();
   const { isColoredDayDate } = useSettings();
   return (
@@ -140,8 +140,13 @@ const HiddenLessonsList: React.FC<HiddenLessonsListProps> = ({ weekDays }) => {
                         <ElipsisIcon w="25px" h="25px" color={primaryColor} />
                       </VStack>
                     </MenuButton>
-                    <MenuList my="35px">
-                      {trueArray.map((hide) => (
+                    <MenuList
+                      my="35px"
+                      borderRadius={'16px'}
+                      padding={0}
+                      backgroundColor={mainColor}
+                    >
+                      {trueArray.map((hide, index) => (
                         <>
                           <MenuItem
                             onClick={() => {
@@ -169,6 +174,13 @@ const HiddenLessonsList: React.FC<HiddenLessonsListProps> = ({ weekDays }) => {
                             }
                             alignItems="center"
                             justifyContent="space-between"
+                            backgroundColor={mainColor}
+                            color={accentColor}
+                            py={'15px'}
+                            borderRadius={index === 0 ? '16px 16px 0 0' : '0'}
+                            fontWeight="600"
+                            _hover={{ backgroundColor: secondaryColor }}
+                            _focus={{ backgroundColor: secondaryColor }}
                           >
                             <Text color={primaryColor}>
                               {'odd' === hide
@@ -181,6 +193,8 @@ const HiddenLessonsList: React.FC<HiddenLessonsListProps> = ({ weekDays }) => {
                             </Text>
                           </MenuItem>
                           <MenuDivider
+                            padding={0}
+                            margin={0}
                             display={
                               'even' === hide ||
                               'odd' === hide ||
@@ -199,7 +213,15 @@ const HiddenLessonsList: React.FC<HiddenLessonsListProps> = ({ weekDays }) => {
                         display={'flex'}
                         alignItems={'center'}
                         justifyContent={'space-between'}
-                        color={'blue.400'}
+                        backgroundColor={mainColor}
+                        color={accentColor}
+                        py={'15px'}
+                        borderRadius={
+                          trueArray.length > 0 ? '0 0 16px 16px' : '16px'
+                        }
+                        fontWeight="600"
+                        _hover={{ backgroundColor: secondaryColor }}
+                        _focus={{ backgroundColor: secondaryColor }}
                       >
                         <Box>Показать</Box> <ShowIcon />
                       </MenuItem>

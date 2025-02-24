@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { SearchedTeacherDrawer } from '../SearchedTeacherDrawer/SearchedTeacherDrawer';
 import { useColor, useDisclosure } from '@/shared/lib';
 import { useTeachers } from '../../model/teacher.store';
-import { useYaMetrika } from '@/entities/YaMetrika';
+import { useYaMetrika } from '@/entities';
 
 export function SearchedTeacherCard({ teacher }: { teacher: Teacher }) {
   const { isOpen, setIsOpen } = useDisclosure();

@@ -31,6 +31,11 @@ export enum AnalyticsEvent {
   teacherSchedule = 'teacher_schedule',
 
   feedbackGoToTg = 'feedback_go_to_tg',
+
+  noteCreate = 'note_create',
+  noteEdit = 'note_edit',
+  noteDelete = 'note_delete',
+  noteDeleteAll = 'note_delete_all',
 }
 
 export enum ClickSource {
@@ -43,13 +48,14 @@ export enum ClickSource {
   groupTeachers = 'Преподы группы',
   foundTeachers = 'Найденные преподы',
   lessonDrawer = 'Дравер пары',
+  notes = 'Заметки',
   feedbackForm = 'Форма обратной связи',
   aboutUs = 'О нас',
   faq = 'Частые вопросы',
-  exam = 'Экзамены'
+  exam = 'Экзамены',
 }
 
 export enum HideType {
   today = 'На сегодня',
-  week = 'На неделю'
+  week = 'На неделю',
 }

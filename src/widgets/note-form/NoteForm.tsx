@@ -1,3 +1,4 @@
+import { useNotes } from '@/entities';
 import {
   DialogDescription,
   DialogHeader,
@@ -26,7 +27,9 @@ const NoteForm: React.FC<NoteFormProps> = ({
   watch,
   onDiscipline,
 }) => {
+  const { error } = useNotes();
   const { primaryColor, accentColor, secondaryColor, noteColor } = useColor();
+
   return (
     <>
       <DialogHeader>
@@ -71,14 +74,31 @@ const NoteForm: React.FC<NoteFormProps> = ({
                 </Text>
               )}
             </Box>
-            <Textarea
-              style={{ scrollbarWidth: 'none' }}
-              whiteSpace="pre-wrap"
-              borderRadius="16px"
-              color={primaryColor}
-              placeholder="Введите описание"
-              {...register('description')}
-            />
+            <Box>
+              <Textarea
+                style={{ scrollbarWidth: 'none' }}
+                whiteSpace="pre-wrap"
+                borderRadius="16px"
+                color={primaryColor}
+                placeholder="Введите описание"
+                {...register('description', {
+                  maxLength: {
+                    value: 1000,
+                    message: 'Максимум 1.000 символов',
+                  },
+                })}
+              />
+              {errors.description && (
+                <Text
+                  color="red.500"
+                  fontSize="12px"
+                  fontWeight="medium"
+                  paddingLeft={4}
+                >
+                  {errors.description.message}
+                </Text>
+              )}
+            </Box>
           </Box>
           {(isTimeline ||
             (isEdit && isTimeline) ||
@@ -126,6 +146,16 @@ const NoteForm: React.FC<NoteFormProps> = ({
           >
             {isEdit ? 'Сохранить' : 'Создать заметку'}
           </Button>
+          {error && (
+            <Text
+              color="red.500"
+              fontSize="12px"
+              fontWeight="medium"
+              paddingLeft={4}
+            >
+              {error}
+            </Text>
+          )}
         </Box>
       </DialogDescription>
     </>

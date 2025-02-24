@@ -9,7 +9,8 @@ type NoteListProps = {
   lesson?: Lesson;
   isTimeline: boolean;
   dayDate?: string;
-  isNotePage?: boolean;
+  isNotesPage?: boolean;
+  isOther?: boolean;
 };
 
 const NotesList: React.FC<NoteListProps> = ({
@@ -17,7 +18,8 @@ const NotesList: React.FC<NoteListProps> = ({
   lesson,
   isTimeline,
   dayDate,
-  isNotePage,
+  isNotesPage,
+  isOther,
 }) => {
   const [activeCardId, setActiveCardId] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -41,7 +43,7 @@ const NotesList: React.FC<NoteListProps> = ({
   return (
     <Box
       ref={containerRef}
-      h={isNotePage ? 'auto' : '55dvh'}
+      h={isNotesPage ? 'auto' : '55dvh'}
       overflowY={'auto'}
       pt={'10px'}
       mb="10px"
@@ -65,12 +67,14 @@ const NotesList: React.FC<NoteListProps> = ({
               data-note-id={note.id}
             >
               <NoteCard
+                isOther={isOther}
                 note={note}
                 isActive={isActive}
                 onClick={() => handleCardClick(note.id)}
                 lesson={lesson}
                 isTimeline={isTimeline}
                 dayDate={dayDate}
+                isNotesPage={isNotesPage}
               />
             </GridItem>
           );

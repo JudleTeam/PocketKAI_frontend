@@ -1,13 +1,12 @@
-import { Group, GroupShort } from './group';
-
 export type Note = {
   id: string;
   disciplineId: string;
+  disciplineName: string;
   lessonId?: string;
   title: string;
   description?: string;
   date?: string;
-  group: Group | GroupShort | null;
+  groupName: string;
 };
 
 export type Notes = Note[];

@@ -1,5 +1,13 @@
 import { AccountTabHeader, useColor } from '@/shared/lib';
-import { Box, Button, Divider, Select, Switch, Text, useBreakpointValue } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Divider,
+  Select,
+  Switch,
+  Text,
+  useBreakpointValue,
+} from '@chakra-ui/react';
 import styles from './Settings.module.scss';
 import { usePWAState, useSettings, useYaMetrika } from '@/entities';
 import { AnalyticsEvent, FullScheduleView, ScheduleView } from '@/shared';
@@ -13,11 +21,13 @@ export function Settings() {
     preferencedScheduleView,
     fullScheduleView,
     isColoredDayDate,
+    isNotesOn,
     toggleShowFadedLessons,
     toggleIsScheduleInfinite,
     togglePreferencedScheduleView,
     toggleIsColoredDayDate,
     toggleFullScheduleView,
+    toggleIsNotesOn,
   } = useSettings();
   const { sendEvent } = useYaMetrika();
   const isDesktop = useBreakpointValue({ base: false, md: true });
@@ -35,6 +45,30 @@ export function Settings() {
         <AccountTabHeader color={primaryColor}>Настройки</AccountTabHeader>
       </Box>
       <Box display={'flex'} flexDirection={'column'} gap={5}>
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+        >
+          <Text
+            as={'label'}
+            fontSize="16px"
+            fontWeight="semibold"
+            color={primaryColor}
+            htmlFor="showFadedLessons"
+          >
+            Заметки
+          </Text>
+          <Switch
+            id="showFadedLessons"
+            size={'md'}
+            sx={{
+              '&[data-checked] .chakra-switch__track': { bg: accentColor },
+            }}
+            isChecked={isNotesOn}
+            onChange={() => toggleIsNotesOn(!isNotesOn)}
+          />
+        </Box>
         <Box
           display={'flex'}
           alignItems={'center'}
@@ -119,18 +153,16 @@ export function Settings() {
             color={primaryColor}
             defaultValue={preferencedScheduleView}
             padding={'4px'}
-            onChange={(event) =>
-              {
-                const scheduleType = event.target.value;
-                togglePreferencedScheduleView(scheduleType as ScheduleView)
-                if (scheduleType === 'timeline') {
-                  sendEvent(AnalyticsEvent.scheduleSwitchTimeline)
-                }
-                if (scheduleType === 'full') {
-                  sendEvent(AnalyticsEvent.scheduleSwitchFull)
-                }
+            onChange={(event) => {
+              const scheduleType = event.target.value;
+              togglePreferencedScheduleView(scheduleType as ScheduleView);
+              if (scheduleType === 'timeline') {
+                sendEvent(AnalyticsEvent.scheduleSwitchTimeline);
               }
-            }
+              if (scheduleType === 'full') {
+                sendEvent(AnalyticsEvent.scheduleSwitchFull);
+              }
+            }}
           >
             <option value="timeline">Таймлайн</option>
             <option value="full">Полное расписание</option>

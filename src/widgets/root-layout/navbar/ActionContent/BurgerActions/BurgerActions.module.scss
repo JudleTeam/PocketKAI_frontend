@@ -4,6 +4,14 @@
   gap: 20px;
   align-items: center;
   cursor: pointer;
+  overflow-y: auto;
+  padding-bottom: 10dvh;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
 
   &__title {
     font-size: 18px;
