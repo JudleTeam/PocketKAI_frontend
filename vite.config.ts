@@ -110,7 +110,7 @@ export default defineConfig({
               /^https:\/\/test\.pocket-kai\.ru\/.*\.(js|css|html|svg|png|ico|ttf)$/,
             handler: 'StaleWhileRevalidate',
             options: {
-              cacheName: 'pocket-kai-dev-cache',
+              cacheName: 'pocket-kai-cache',
               expiration: {
                 maxEntries: 50,
                 maxAgeSeconds: 30 * 24 * 60 * 60,
@@ -213,7 +213,8 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: /^https:\/\/test\.api\.pocket-kai\.ru\/user\/me\/student$/,
+            urlPattern:
+              /^https:\/\/test\.api\.pocket-kai\.ru\/user\/me\/student$/,
             handler: 'NetworkFirst', // Используем NetworkFirst для этого эндпоинта
             options: {
               cacheName: 'pocket-kai-api-dev-cache--me', // Название кэша для этого эндпоинта
@@ -224,10 +225,10 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: /^https:\/\/test\.api\.pocket-kai\.ru\/.*$/,
+            urlPattern: /^https:\/\/api\.pocket-kai\.ru\/.*$/,
             handler: 'StaleWhileRevalidate',
             options: {
-              cacheName: 'pocket-kai-api-dev-cache',
+              cacheName: 'pocket-kai-api-cache',
               expiration: {
                 maxEntries: 50,
                 maxAgeSeconds: 7 * 24 * 60 * 60,
