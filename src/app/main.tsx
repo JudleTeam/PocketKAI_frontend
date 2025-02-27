@@ -15,7 +15,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('message', (event) => {
     if (event.data.type === 'UPDATE_TIME') {
-      localStorage.setItem('cacheUpdateDate', event.data.time);
+      localStorage.setItem('cacheUpdated', event.data.time);
     }
   });
 }
