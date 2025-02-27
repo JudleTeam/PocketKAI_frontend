@@ -259,6 +259,41 @@ export default defineConfig({
               ],
             },
           },
+          {
+            urlPattern: /^http:\/\/dev\.pocket-kai\.judle\.ru\/.*$/,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'pocket-kai-api-cache',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 7 * 24 * 60 * 60,
+              },
+              plugins: [
+                {
+                  cacheDidUpdate: async () => {
+                    const currentDate = new Date();
+                    const year = currentDate.getFullYear();
+                    const month = String(currentDate.getMonth() + 1).padStart(
+                      2,
+                      '0'
+                    ); // Добавляем 1, так как месяцы отсчитываются с 0
+                    const day = String(currentDate.getDate()).padStart(2, '0'); // Добавляем ведущий ноль, если день меньше 10
+
+                    const currentTime = `${year}-${month}-${day}`;
+                    console.log('updated', currentTime);
+                    // Отправляем сообщение основному скрипту
+                    const clients = await self.clients.matchAll();
+                    clients.forEach((client) => {
+                      client.postMessage({
+                        type: 'UPDATE_TIME',
+                        time: currentTime,
+                      });
+                    });
+                  },
+                },
+              ],
+            },
+          },
         ],
         globPatterns: ['**/*.{js,css,html,svg,png,ico, ttf}'],
         cleanupOutdatedCaches: true,
