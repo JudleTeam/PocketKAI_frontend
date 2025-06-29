@@ -12,7 +12,7 @@ import {
   useMetaThemeColor,
 } from '@/shared';
 import { useTeachers } from '../../model/teacher.store';
-import { useYaMetrika } from '@/entities/YaMetrika';
+import { useYaMetrika } from '@/entities';
 
 export const TeacherCard = memo(function TeacherCard({
   disciplineInfo,

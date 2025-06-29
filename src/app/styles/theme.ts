@@ -21,6 +21,7 @@ const theme = extendTheme({
       secondaryTimeColor: '#D6E6F5',
       themeColor: '#999999',
       infoColor: '#FBAC56',
+      noteColor: '#92A4C0'
     },
     dark: {
       currentDayColor: '#FFFFFF',
@@ -36,6 +37,7 @@ const theme = extendTheme({
       secondaryTimeColor: '#616E82',
       themeColor: '#0E0F15',
       infoColor: '#FA9C36',
+      noteColor: '#92A4C0'
     },
     infoColor: {
       200: '#FA9C36',

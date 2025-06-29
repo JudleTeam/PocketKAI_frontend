@@ -5,9 +5,10 @@ import { FullScheduleView, ScheduleView } from '@/shared';
 type SettingsState = {
   showFadedLessons: boolean;
   isScheduleInfinite: boolean;
+  isNotesOn: boolean;
   preferencedScheduleView: ScheduleView;
   isColoredDayDate: boolean;
-  fullScheduleView: FullScheduleView
+  fullScheduleView: FullScheduleView;
 };
 
 type SettingsActions = {
@@ -16,6 +17,7 @@ type SettingsActions = {
   togglePreferencedScheduleView: (value: ScheduleView) => void;
   toggleIsColoredDayDate: (value: boolean) => void;
   toggleFullScheduleView: (value: FullScheduleView) => void;
+  toggleIsNotesOn: (value: boolean) => void;
 };
 
 export const useSettings = create<SettingsState & SettingsActions>()(
@@ -24,6 +26,7 @@ export const useSettings = create<SettingsState & SettingsActions>()(
       showFadedLessons: true,
       isScheduleInfinite: true,
       isColoredDayDate: true,
+      isNotesOn: true,
       preferencedScheduleView: 'timeline',
       fullScheduleView: 'day',
       toggleShowFadedLessons: (value) => {
@@ -40,13 +43,17 @@ export const useSettings = create<SettingsState & SettingsActions>()(
       },
       toggleFullScheduleView(value) {
         set({ fullScheduleView: value });
-      }
+      },
+      toggleIsNotesOn(value) {
+        set({ isNotesOn: value });
+      },
     }),
     {
       name: 'settings-new',
       partialize: (state) => ({
         showFadedLessons: state.showFadedLessons,
         isScheduleInfinite: state.isScheduleInfinite,
+        isNotesOn: state.isNotesOn,
         preferencedScheduleView: state.preferencedScheduleView,
         isColoredDayDate: state.isColoredDayDate,
         fullScheduleView: state.fullScheduleView,

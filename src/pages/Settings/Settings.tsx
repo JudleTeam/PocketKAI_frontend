@@ -21,11 +21,13 @@ export function Settings() {
     preferencedScheduleView,
     fullScheduleView,
     isColoredDayDate,
+    isNotesOn,
     toggleShowFadedLessons,
     toggleIsScheduleInfinite,
     togglePreferencedScheduleView,
     toggleIsColoredDayDate,
     toggleFullScheduleView,
+    toggleIsNotesOn,
   } = useSettings();
   const { sendEvent } = useYaMetrika();
   const isDesktop = useBreakpointValue({ base: false, md: true });
@@ -43,6 +45,30 @@ export function Settings() {
         <AccountTabHeader color={primaryColor}>Настройки</AccountTabHeader>
       </Box>
       <Box display={'flex'} flexDirection={'column'} gap={5}>
+        <Box
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+        >
+          <Text
+            as={'label'}
+            fontSize="16px"
+            fontWeight="semibold"
+            color={primaryColor}
+            htmlFor="showFadedLessons"
+          >
+            Заметки
+          </Text>
+          <Switch
+            id="showFadedLessons"
+            size={'md'}
+            sx={{
+              '&[data-checked] .chakra-switch__track': { bg: accentColor },
+            }}
+            isChecked={isNotesOn}
+            onChange={() => toggleIsNotesOn(!isNotesOn)}
+          />
+        </Box>
         <Box
           display={'flex'}
           alignItems={'center'}

@@ -15,6 +15,10 @@ export const useColor = () => {
     theme.colors.light.secondaryDayNumberColor,
     theme.colors.dark.secondaryDayNumberColor
   );
+  const noteColor = useColorModeValue(
+    theme.colors.light.noteColor,
+    theme.colors.dark.noteColor
+  );
   const secondaryDayNameColor = useColorModeValue(
     theme.colors.light.secondaryDayNameColor,
     theme.colors.dark.secondaryDayNameColor
@@ -70,5 +74,6 @@ export const useColor = () => {
     themeColor,
     secondaryIconColor,
     infoColor,
+    noteColor
   };
 };

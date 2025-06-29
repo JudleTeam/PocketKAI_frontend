@@ -1,8 +1,9 @@
-import { AnalyticsEvent, ClickSource, copyToast, Lesson } from '@/shared';
+import { AnalyticsEvent, ClickSource, copyToast, Lesson, Note } from '@/shared';
 import { DateTime } from 'luxon';
 import { useColor } from '@/shared/lib';
 import { LessonTypes } from '@/shared/constants';
 import {
+  Button,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -16,7 +17,10 @@ import { Text, VStack, Box } from '@chakra-ui/react';
 import { DrawerTitle } from '@/shared/ui/drawer';
 import { DrawerTeacherCard } from './DrawerTeacherCard';
 import { DrawerLessonBuilding } from './DrawerLessonBuilding';
-import { useYaMetrika } from '@/entities/YaMetrika';
+import { useNotes, useSettings, useYaMetrika } from '@/entities';
+import { AddNote } from '@/features';
+import { NotesList } from '@/widgets';
+
 export function LessonDrawer({
   lesson,
   dayDate,
@@ -25,18 +29,29 @@ export function LessonDrawer({
   dayDate?: string;
 }) {
   const specificDate = dayDate ? DateTime.fromISO(dayDate) : '';
+  const { getNotesForLesson } = useNotes();
+  const { isNotesOn } = useSettings();
   const formattedDate = specificDate
     ? specificDate.toFormat('d MMMM', { locale: 'ru' })
     : '';
-  const { primaryColor } = useColor();
+  const { primaryColor, accentColor } = useColor();
   const toast = useToast();
   const { sendEvent } = useYaMetrika();
+  const notes: Note[] = getNotesForLesson(lesson);
+
+  const isTimeline = window.location.pathname === '/schedule';
+
   return (
     <>
       <Box
+        h="100%"
+        position="relative"
+        pt={3}
+        color={primaryColor}
         display="flex"
+        gap="5px"
         flexDirection="column"
-        className="gap-2 pt-5 text-l-main-text dark:text-d-main-text"
+        className="text-l-main-text dark:text-d-main-text"
       >
         <DrawerTitle asChild>
           <Text
@@ -143,6 +158,48 @@ export function LessonDrawer({
           Сообщить об ошибке
         </Text>
         <DrawerTeacherCard lesson={lesson} />
+        {isNotesOn && (
+          <>
+            <Box
+              display="flex"
+              justifyContent={'space-between'}
+              alignItems={'center'}
+              py={'10px'}
+            >
+              <Text fontSize={'clamp(22px, 4vw, 24px)'} fontWeight="bold">
+                Ваши заметки
+              </Text>
+              <Button
+                as={Link}
+                to="/notes"
+                variant={'unstyle'}
+                color={accentColor}
+              >
+                Все заметки
+              </Button>
+            </Box>
+            <AddNote
+              lesson={lesson}
+              dayDate={formattedDate}
+              isTimeline={isTimeline}
+            />
+            <Box
+              minH={200}
+              mb={'30px'}
+              onClick={(e) => e.stopPropagation()}
+              display="flex"
+              flexDirection="column"
+              position="relative"
+            >
+              <NotesList
+                notes={notes}
+                lesson={lesson}
+                dayDate={formattedDate}
+                isTimeline={isTimeline}
+              />
+            </Box>
+          </>
+        )}
       </Box>
     </>
   );

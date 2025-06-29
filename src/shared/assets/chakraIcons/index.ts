@@ -18,3 +18,5 @@ export * from './QuestionIcon';
 export * from './ScheduleIcon';
 export * from './SettingsIcon';
 export * from './TeachersIcon';
+export * from './EditIcon';
+export * from './NotesIcon';

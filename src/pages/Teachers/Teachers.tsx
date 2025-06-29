@@ -24,7 +24,8 @@ export function Teachers() {
     if (activeTab === 1) {
       sendEvent(AnalyticsEvent.teacherSwitchToSearch);
     }
-  }, [activeTab]);
+  }, [activeTab, sendEvent]);
+
   const handleTabChange = useCallback((index: number) => {
     setActiveTab(index);
     swiperRef.current?.slideTo(index);

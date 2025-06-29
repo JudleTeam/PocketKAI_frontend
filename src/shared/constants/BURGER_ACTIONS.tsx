@@ -7,6 +7,7 @@ import { ExamsIcon } from '../assets/chakraIcons/ExamsIcon';
 import { CalendarIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { TimeLineIcon } from '../assets/chakraIcons/TimeLineIcon';
 import { TelegramIcon } from '../assets/chakraIcons/TelegramIcon';
+import { NotesIcon } from '../assets';
 
 export const scheduleActions = [
   {
@@ -40,11 +41,13 @@ export const settingsActions = [
     label: 'Темная тема',
     icon: MoonIcon,
   },
+
   {
     label: 'Настройки',
     path: 'settings',
     icon: SettingsIcon,
   },
+  { label: 'Заметки', path: 'notes', icon: NotesIcon },
   {
     label: 'Частые вопросы',
     path: 'faq',
